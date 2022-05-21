@@ -40,4 +40,5 @@ User login information including address and encrypted password will be saved as
 - Search product API, Sort product API (newest/ price, ascending/descending)
 - Add to cart feature 
 
-
+### Sketch 
+![sketch.jpg](./doc/sketch.jpg) 
