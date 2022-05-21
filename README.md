@@ -30,6 +30,7 @@ User login information including address and encrypted password will be saved as
 3. Databases schema 
 4. REST API Endpoints for create(sign up), update(forgot my password) 
 5. JWT caches
+
 **Editable Presentation Page**:
 - Icon and API for add textbox
 - Design template(s) for adding text and pictures with preset size and font 
