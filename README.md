@@ -8,11 +8,11 @@ User login information including address and encrypted password will be saved as
 ### Project Requirements
 **Minimal Requirements**:
 - 3-5 minimal requirements (will definitely complete)
-- 3-7 "standard" requirements (will most likely complete)
+- 3-7 standard requirements (will most likely complete)
 - 2-3 stretch requirements (plan to complete at least 1!)
 
 **Standard Requirements**:
-- Login
+-[] Login
 - Basic CRUD operation on user profile includes remove/update/add to cart/wishlist 
 - Editable and expandable product presentation page 
 - Track order status with according buttons for shipped
