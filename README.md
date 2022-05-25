@@ -44,4 +44,4 @@ User login information including address and encrypted password will be saved as
 - Add to cart feature 
 
 ### Sketch 
-![Rough Sketch Prototype.jpg](Rough Sketch Prototype.jpg)
+![Rough Sketch Prototype.jpg](./Rough Sketch Prototype.jpg)
