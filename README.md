@@ -1,7 +1,7 @@
 # Project
 
 ### Project Description
-We designed a business startup framework which supports various role-based activity through our interactive dashboard UI for small business and their corresponding targeted customers. Seller activity spans from designing presentation page to tracking order status where logged-in user can browse page, add/delete item to/from carts/wishlist, receive email notification for restocking of wanted item and guests are limited to only browsing.
+We designed a business startup framework which supports various role-based activity through our interactive dashboard UI for small business and their corresponding targeted customers. Seller activity spans from designing presentation page to tracking order status where logged-in user can browse page, add/delete item to/from carts/wishlist, receive email notification for restocking of wanted item, adn guests are limited to only browsing.
 
 User login information including address and encrypted password will be saved as JSON into our database along with product and cart information where as uploaded product picture will be stores as schemas with Mongoose/ GridFS. Most data will support editing, retrieving features while email are used for authentication and registration. Additional functionalities may include monthly data visualization of sales, live chat or recommendation. 
 
@@ -10,7 +10,7 @@ User login information including address and encrypted password will be saved as
 - Login
 - Basic CRUD operation on user profile includes remove/update/add to cart/wishlist 
 - Editable and expandable product presentation page 
-- Track order status with according buttons for shipped
+- Track order status for shipped items
 - View product page 
 
 **Standard Requirements**:
@@ -40,7 +40,7 @@ User login information including address and encrypted password will be saved as
 
 
 **Viewing Presentation Page**: 
-- Search product API, Sort product API (newest/ price, ascending/descending)
+- Search product API, Sort product API (newest/class, price ascending/descending)
 - Add to cart feature 
 
 ### Sketch 
