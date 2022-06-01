@@ -1,10 +1,10 @@
 import React from "react";
-import SignIn from "./SignIn";
+import SignInPage from "./SignInPage";
 
 function Login() {
   return (
     <>
-      <SignIn />
+      <SignInPage />
     </>
   );
 }
