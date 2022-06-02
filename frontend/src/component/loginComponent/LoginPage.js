@@ -1,6 +1,9 @@
 import React from "react";
 import LoginForm from "./LoginForm";
 import styled from "styled-components";
+import SignInForm from "./SignUpForm";
+
+
 const AppContainer = styled.div`
   width: 100%;
   height: 100%;
@@ -10,7 +13,7 @@ const AppContainer = styled.div`
   justify-content: center;
 `;
 const BoxContainer = styled.div`
-  margin-top:20vh;
+  margin-top: 20vh;
   width: 35vw;
   min-height: 550px;
   display: flex;
@@ -69,6 +72,7 @@ function LoginPage() {
         </TopContainer>
         <InnerContainer>
           <LoginForm />
+          {/* <SignInForm /> */}
         </InnerContainer>
       </BoxContainer>
     </AppContainer>
