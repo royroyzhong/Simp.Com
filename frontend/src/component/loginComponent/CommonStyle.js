@@ -26,7 +26,8 @@ export const BoldSpan = styled.span`
   color: #23a7e8;
   font-weight: 500;
   text-decoration: none;
-  margin: 0 4px;
+  margin-top: 2px;
+  cursor: pointer;
 `;
 
 export const Input = styled.input`
@@ -64,17 +65,13 @@ export const SubmitButton = styled.button`
   border-radius: 100px 100px 100px 100px;
   cursor: pointer;
   transition: all, 240ms ease-in-out;
-  background: #2196F3;
-  background: linear-gradient(
-    80deg,
-    rgba #E3F2FD 20%,
-    rgba #1976D2 80%
-  );
-
+  background: #2196f3;
+  background: linear-gradient(80deg, rgba #e3f2fd 20%, rgba #1976d2 80%);
   &:hover {
     filter: brightness(1.03);
   }
 `;
+
 const HorizontalMargin = styled.span`
   display: flex;
   width: ${({ margin }) =>
@@ -94,3 +91,20 @@ export function Marginer(props) {
     return <VerticalMargin {...props} />;
   }
 }
+
+export const BreakLine = styled.hr`
+  border: none;
+  border-top: 1px solid #333;
+  color: #333;
+  overflow: visible;
+  text-align: center;
+  height: 10px;
+  &:after {
+    background: #fff;
+    color: rgba(150,150,150,1);
+    content: "or Sign in with Google";
+    padding: 0 4px;
+    position: relative;
+    top: -8px;
+//   }
+`;
