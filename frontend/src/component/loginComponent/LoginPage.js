@@ -1,8 +1,10 @@
 import React from "react";
 import LoginForm from "./LoginForm";
 import styled from "styled-components";
-import SignInForm from "./SignUpForm";
-
+import { createContext } from "react";
+import SignUpForm from "./SignUpForm";
+import { useState } from "react";
+import { SmallSpan, Marginer } from "./CommonStyle";
 
 const AppContainer = styled.div`
   width: 100%;
@@ -26,7 +28,7 @@ const BoxContainer = styled.div`
 `;
 const TopContainer = styled.div`
   // width: 100%;
-  height: 150px;
+  height: 120px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -59,23 +61,42 @@ const InnerContainer = styled.div`
   flex-direction: column;
   padding: 0 0.5vw;
 `;
-
+export const SwitcherContext = createContext();
 function LoginPage() {
+  const [isSignIn, setSwitch] = useState(true);
+  const handleSwitch = () => {
+    setSwitch(!isSignIn);
+  };
   return (
-    <AppContainer>
-      <BoxContainer>
-        <TopContainer>
-          <HeaderContainer>
-            <HeaderText>Welcome Back</HeaderText>
-            <SmallText>Please sign-in to continue!</SmallText>
-          </HeaderContainer>
-        </TopContainer>
-        <InnerContainer>
-          <LoginForm />
-          {/* <SignInForm /> */}
-        </InnerContainer>
-      </BoxContainer>
-    </AppContainer>
+    <SwitcherContext.Provider value={handleSwitch}>
+      <AppContainer>
+        <BoxContainer>
+          <TopContainer>
+            {isSignIn === true && (
+              <HeaderContainer>
+                <HeaderText>Welcome Back</HeaderText>
+                <SmallText>Please sign-in to continue!</SmallText>
+              </HeaderContainer>
+            )}
+            {isSignIn === false && (
+              <HeaderContainer>
+                <HeaderText>Sign Up</HeaderText>
+                <Marginer direction="vertical" margin="2vh" />
+                <SmallSpan>
+                  Let's get you all set up so you can verify your personal
+                  account
+                </SmallSpan>
+              </HeaderContainer>
+            )}
+          </TopContainer>
+
+          <InnerContainer>
+            {isSignIn === true && <LoginForm />}
+            {isSignIn === false && <SignUpForm />}
+          </InnerContainer>
+        </BoxContainer>
+      </AppContainer>
+    </SwitcherContext.Provider>
   );
 }
 

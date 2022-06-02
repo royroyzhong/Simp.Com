@@ -1,33 +1,87 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   BoldSpan,
   BoxContainer,
-  FormContainer,
-  Input,
   SmallSpan,
   SubmitButton,
   Marginer,
 } from "./CommonStyle";
-function SignInForm() {
+import { CssTextField } from "./CommonMuiStyle";
+import { useState } from "react";
+import { SwitcherContext } from "./LoginPage";
+import Box from "@mui/material/Box";
+import BottomNavigation from "@mui/material/BottomNavigation";
+import BottomNavigationAction from "@mui/material/BottomNavigationAction";
+import BusinessIcon from "@mui/icons-material/Business";
+import PersonIcon from "@mui/icons-material/Person";
+function SignUpForm() {
+  const handerSwitch = useContext(SwitcherContext);
+  const [isCustomer, setSwitchCustomerRole] = useState(true);
+  const handleSwitchCustomerRole = () => {
+    setSwitchCustomerRole(!isCustomer);
+  };
+  const [value, setValue] = React.useState(0);
+
   return (
     <BoxContainer>
-      <Marginer direction="vertical" margin="3vh" />
-      <FormContainer>
-        <Input type="fName" placeholder="First Name" />
-        <Input type="lName" placeholder="Last Name" />
-        <Input type="email" placeholder="Email" />
-        <Input type="password" placeholder="Password" />
-        <Input type="cpassword" placeholder="Confirm Password" />
-      </FormContainer>
+      <Box sx={{ width: 500 }}>
+        <BottomNavigation
+          showLabels
+          value={value}
+          onChange={(event, newValue) => {
+            setValue(newValue);
+          }}
+        >
+          <BottomNavigationAction
+            label="Customer"
+            icon={<PersonIcon />}
+            onClick={handleSwitchCustomerRole}
+          />
+          <BottomNavigationAction
+            label="Business"
+            icon={<BusinessIcon />}
+            onClick={handleSwitchCustomerRole}
+          />
+        </BottomNavigation>
+        <Marginer direction="vertical" margin="1vh" />
+      </Box>
+      {isCustomer === true && (
+        <CssTextField
+          id="outlined-email-input"
+          label="Company Name"
+          type="Name"
+        />
+      )}
+      {isCustomer === true && <Marginer direction="vertical" margin="1vh" />}
+      <CssTextField id="outlined-email-input" label="First Name" type="Name" />
+      <Marginer direction="vertical" margin="1vh" />
+      <CssTextField id="outlined-email-input" label="Last Name" type="Name" />
+      <Marginer direction="vertical" margin="1vh" />
+      <CssTextField id="outlined-email-input" label="Email" type="email" />{" "}
+      <Marginer direction="vertical" margin="1vh" />
+      <CssTextField
+        id="outlined-password-input"
+        label="Password"
+        type="password"
+      />
+      <Marginer direction="vertical" margin="1vh" />
+      <CssTextField
+        id="outlined-password-input"
+        label="Confirm Password"
+        type="password"
+      />
       <Marginer direction="vertical" margin="3vh" />
       <SubmitButton type="submit">Create</SubmitButton>
-      <Marginer direction="vertical" margin="1.5vh" />
+      <Marginer direction="vertical" margin="2vh" />
       <SmallSpan href="#">
-        Already have an account? <BoldSpan href="#">Sign in</BoldSpan>
+        Already have an account?{" "}
+        <BoldSpan href="#" onClick={handerSwitch}>
+          Sign in
+        </BoldSpan>
       </SmallSpan>
-
+      <Marginer direction="vertical" margin="2vh" />
     </BoxContainer>
   );
 }
 
-export default SignInForm;
+export default SignUpForm;
