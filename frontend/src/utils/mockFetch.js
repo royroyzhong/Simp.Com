@@ -15,3 +15,4 @@ export const quinn = {
         bestSeller: "想吃锅贴"
     }
 }
+

@@ -1,4 +1,19 @@
-#orders-title {
+.dashboard {
+    background-color: #f8f8ff;
+    height: 100vh;
+}
+
+.status-line-wrapper {
+    text-align: left;
+}
+
+.status-line-wrapper h3, .status-line-wrapper h4, .status-line-wrapper p {
+    margin: 0px;
+    padding-top: 10px;
+    color: grey;
+}
+
+.section-title {
     text-align: left;
     color: grey;
 }
