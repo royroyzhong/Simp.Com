@@ -6,8 +6,8 @@ import Login from "./component/loginComponent/LoginPage";
 function App() {
   return (
     <div className="App">
-      <Dashboard></Dashboard>
-      <Login />
+      {/* <Login /> */}
+      <DashBoard />
     </div>
   );
 }
