@@ -14,13 +14,10 @@ export default function Dashboard(props) {
     let orders = useSelector(getOrders);
 
     return (
-        <Container maxWidth="bg" className="dashboard">
+        <Container maxWidth="xl" className="dashboard">
             
             <Box sx={{ flexGrow: 1 }}> 
-                <Box sx={{flexGrow: 1}} className="status-line-wrapper">
-                    <h3 className="section-title">
-                        Welcome Message 
-                    </h3>
+                <Box sx={{flexGrow: 1}} className="status-line-wrapper" >
                     <Grid container spacing={3}>
                         <Grid item xs>
                             <Box>
@@ -42,9 +39,6 @@ export default function Dashboard(props) {
                 </Box>
             </Box>
             <Box sx={{ flexGrow: 1 }}>
-                <Box sx={{flexGrow: 1}}>
-                    <h3 id="orders-title" className="section-title">Orders</h3>
-                </Box>
                 <Grid spacing={{xs:4}} container columns={{ xs: 4, md: 4, lg: 12 }}>
                     {Object.entries(orders).map(([key,val], index) => (
                     <Grid item xs={4} md={2} lg={3} key={index}>
