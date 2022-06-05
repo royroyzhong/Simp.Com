@@ -1,13 +1,14 @@
-import { Card, Avatar, TextField } from "@mui/material";
+// MUI Components
+import { Card, Grid } from "@mui/material";
 import { Box, Container} from "@mui/system";
-import { Grid } from "@mui/material";
-import {useDispatch, useSelector} from "react-redux";
+
+// Other Imports 
+import {useSelector} from "react-redux";
 import { getOrders } from "../../controller/userSlice";
-import SearchIcon from '@mui/icons-material/Search';
+import Header from "../common/Header";
 import "../../css/dashboard.css";
 
-import {quinn} from '../../utils/mockFetch';            // mock user
-import quinnAvatar from '../../assets/avatar.jpg';   // mock avatar
+// Fake resources...
 
 export default function Dashboard(props) {
 
@@ -18,24 +19,7 @@ export default function Dashboard(props) {
             
             <Box sx={{ flexGrow: 1 }}> 
                 <Box sx={{flexGrow: 1}} className="status-line-wrapper" >
-                    <Grid container spacing={3}>
-                        <Grid item xs>
-                            <Box>
-                                <p>Hello {quinn.name}</p>
-                            </Box>
-                        </Grid>
-                        <Grid item xs={"auto"}>
-                            <SearchBar />
-                        </Grid>
-                        <Grid item xs={"auto"}>
-                            <Box>
-                                <h4>{quinn.name}</h4>
-                            </Box> 
-                        </Grid>
-                        <Grid item xs={"auto"}>
-                            <Avatar alt="Remy Sharp" src={quinnAvatar} />
-                        </Grid>
-                    </Grid>
+                    <Header></Header>
                 </Box>
             </Box>
             <Box sx={{ flexGrow: 1 }}>
@@ -48,16 +32,6 @@ export default function Dashboard(props) {
                 </Grid>
             </Box>
         </Container>
-    )
-}
-
-function SearchBar(props) {
-
-    return (
-        <Box>
-            <SearchIcon sx={{fontSize: 40, color: "grey"}}></SearchIcon>
-            <TextField variant="outlined" label="Search" size="small"></TextField>
-        </Box>
     )
 }
 
