@@ -45,7 +45,7 @@ export default function Dashboard(props) {
                 <Box sx={{flexGrow: 1}}>
                     <h3 id="orders-title" className="section-title">Orders</h3>
                 </Box>
-                <Grid spacing={{xs:2}} container columns={{ xs: 4, md: 4, lg: 12 }}>
+                <Grid spacing={{xs:4}} container columns={{ xs: 4, md: 4, lg: 12 }}>
                     {Object.entries(orders).map(([key,val], index) => (
                     <Grid item xs={4} md={2} lg={3} key={index}>
                         <OrderStatus title={key} data={val}/>
