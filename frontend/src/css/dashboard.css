@@ -7,10 +7,13 @@
     text-align: left;
 }
 
+.status-line-wrapper input {
+    background-color: white;
+}
+
 .status-line-wrapper h3, .status-line-wrapper h4, .status-line-wrapper p {
     margin: 0px;
     padding-top: 10px;
-    color: grey;
 }
 
 .section-title {

@@ -1,11 +1,13 @@
-import { Card, Input, TextField } from "@mui/material";
+import { Card, Avatar, TextField } from "@mui/material";
 import { Box, Container} from "@mui/system";
 import { Grid } from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import { getOrders } from "../../controller/userSlice";
 import SearchIcon from '@mui/icons-material/Search';
 import "../../css/dashboard.css";
-import {quinn} from '../../utils/mockFetch';
+
+import {quinn} from '../../utils/mockFetch';            // mock user
+import quinnAvatar from '../../assets/avatar.jpg';   // mock avatar
 
 export default function Dashboard(props) {
 
@@ -32,6 +34,9 @@ export default function Dashboard(props) {
                             <Box>
                                 <h4>{quinn.name}</h4>
                             </Box> 
+                        </Grid>
+                        <Grid item xs={"auto"}>
+                            <Avatar alt="Remy Sharp" src={quinnAvatar} />
                         </Grid>
                     </Grid>
                 </Box>
