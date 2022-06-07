@@ -1,12 +1,14 @@
 // MUI Components
 import { Card, Grid } from "@mui/material";
 import { Box, Container} from "@mui/system";
-
+// Recahrt Components 
+import { LineChart, XAxis, YAxis, Line, CartesianGrid, Tooltip, Area, AreaChart }from 'recharts';
 // Other Imports 
 import {useSelector} from "react-redux";
 import { getOrders } from "../../controller/userSlice";
 import Header from "../common/Header";
 import "../../css/dashboard.css";
+import { Marginer } from "../../css/CommonStyle";
 
 // Fake resources...
 
@@ -29,9 +31,15 @@ export default function Dashboard(props) {
                     ))}
                 </Grid>
             </Box>
-            <Box>
+            <Marginer />
+            <Card className="infograph-wrapper" variant="outlined" sx={
+                {
+                    padding: 2,
+                    marginTop: 4 
+                }
+            }>
                 <InfoGraph />
-            </Box>
+            </Card>
         </Container>
     )
 }
@@ -50,14 +58,56 @@ function OrderStatus(props) {
 }
 
 function InfoGraph(props) {
+
+    let data = [
+        {
+            day: "Monday",
+            numorders: 1000,
+        },
+        {
+            day: "Tuesday", 
+            numorders: 1299
+        },
+        {
+            day: "Wednesday",
+            numorders: 1023
+        },
+        {
+            day: "Thursday",
+            numorders: 889
+        },
+        {
+            day: "Friday",
+            numorders: 1120
+        },
+        {
+            day: "Saturday",
+            numorders: 996
+        },
+        {
+            day: "Sunday",
+            numorders: 667
+        }
+    ]
     return (
-        <Grid spacing={{xs: 0}} container columns={{xs: 12, md: 12}}>
-            <Grid item xs={11} md={8}>
-                <div>graph stub</div>
+        <Grid spacing={{xs: 0}} container columns={{xs: 12, md: 12}} className="infograph-board">
+            <Grid item xs={"auto"} >
+                    <LineChart
+                    width={800}
+                    height={400}
+                    data={data}
+                    margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
+                    >
+                    <XAxis dataKey="day" />
+                    <YAxis></YAxis>
+                    <Tooltip />
+                    <CartesianGrid stroke="#f5f5f5" />
+                    <Line type="monotone" dataKey="numorders" stroke="#3751FF" yAxisId={0} />
+                    </LineChart>
+                </Grid> 
+                <Grid item xs >
+                    <div> stack stub </div> 
+                </Grid>
             </Grid>
-            <Grid item xs={1} md={4}>
-                <div> stack stub </div> 
-            </Grid>
-        </Grid>
-    )
-}
+        )
+    }
