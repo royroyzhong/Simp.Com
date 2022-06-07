@@ -12,7 +12,7 @@ import Typography from "@mui/material/Typography";
 import ClearIcon from "@mui/icons-material/Clear";
 import CheckIcon from "@mui/icons-material/Check";
 import { Button } from "@mui/material";
-import { Marginer } from "../loginComponent/CommonStyle";
+import { Marginer } from "../../css/CommonStyle";
 // import { Marginer } from "../loginComponent/CommonStyle";
 function ChangePasswordContent() {
   const [btnOldPwd, setBtnOldPwd] = useState(true);

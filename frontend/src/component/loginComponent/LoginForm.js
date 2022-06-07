@@ -6,7 +6,7 @@ import {
   SubmitButton,
   Marginer,
   BreakLine,
-} from "./CommonStyle";
+} from "../../css/CommonStyle";
 import { CssTextField } from "./CommonMuiStyle";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";

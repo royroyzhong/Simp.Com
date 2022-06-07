@@ -8,7 +8,7 @@ import IconButton from "@mui/material/IconButton";
 import { useState } from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import CheckIcon from "@mui/icons-material/Check";
-import { Marginer } from "../loginComponent/CommonStyle";
+import { Marginer } from "../../css/CommonStyle";
 import Typography from "@mui/material/Typography";
 
 function ProfileContent() {
