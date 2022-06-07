@@ -1,0 +1,40 @@
+.dashboard {
+    background-color: #f8f8ff;
+    height: 100vh;
+}
+
+.status-line-wrapper {
+    margin: 0px 0px 50px 0px;
+    padding-top: 50px;
+    text-align: left;
+}
+
+.status-line-wrapper input {
+    background-color: white;
+}
+
+.status-line-wrapper h3, .status-line-wrapper h4, .status-line-wrapper p {
+    margin: 0px;
+    padding-top: 10px;
+}
+
+.card-wrapper {
+    position: relative;
+    height: 200px;
+}
+.card-title {
+    position: absolute;
+    margin: 0;
+    top: 10px; 
+    left: 10px; 
+    color: grey;
+}
+.card-display {
+    position: relative;
+    top: calc(50% - 30px);
+    margin:auto;
+    text-align: center;
+    font-size: 60px;
+    font-weight: 800;
+    vertical-align: middle;
+}
