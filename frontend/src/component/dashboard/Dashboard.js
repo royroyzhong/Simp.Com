@@ -15,12 +15,10 @@ export default function Dashboard(props) {
     let orders = useSelector(getOrders);
 
     return (
-        <Container maxWidth="xl" className="dashboard">
+        <Container maxWidth="lg" className="dashboard">
             
-            <Box sx={{ flexGrow: 1 }}> 
-                <Box sx={{flexGrow: 1}} className="status-line-wrapper" >
-                    <Header></Header>
-                </Box>
+            <Box sx={{flexGrow: 1}} className="status-line-wrapper" >
+                <Header></Header>
             </Box>
             <Box sx={{ flexGrow: 1 }}>
                 <Grid spacing={{xs:4}} container columns={{ xs: 4, md: 4, lg: 12 }}>
@@ -30,6 +28,9 @@ export default function Dashboard(props) {
                     </Grid>
                     ))}
                 </Grid>
+            </Box>
+            <Box>
+                <InfoGraph />
             </Box>
         </Container>
     )
@@ -44,5 +45,19 @@ function OrderStatus(props) {
                 <p className="card-display">{props.data}</p>
             </div>
         </Card>
+    )
+
+}
+
+function InfoGraph(props) {
+    return (
+        <Grid spacing={{xs: 0}} container columns={{xs: 12, md: 12}}>
+            <Grid item xs={11} md={8}>
+                <div>graph stub</div>
+            </Grid>
+            <Grid item xs={1} md={4}>
+                <div> stack stub </div> 
+            </Grid>
+        </Grid>
     )
 }
