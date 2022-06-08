@@ -6,11 +6,16 @@ const userSlice = createSlice({
     initialState: {
         name: quinn.name,
         orders: quinn.orders,
-        stats: quinn.stats
+        stats: quinn.stats,
+        recentAwaitingActions: quinn.recentAwaitingActions,
+        topProducts: quinn.topProducts
     }
 })
 
 // ------------------ Getters ------------------- // 
 export const getOrders = (state) => state.user.orders;
+export const getStats = (state) => state.user.stats;
+export const getRecentAwaitingActions = (state) => state.user.recentAwaitingActions;
+export const getTopProducts = (state) => state.user.topProducts;
 
 export default userSlice.reducer;
