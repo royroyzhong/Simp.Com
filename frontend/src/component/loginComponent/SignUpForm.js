@@ -5,7 +5,7 @@ import {
   SmallSpan,
   SubmitButton,
   Marginer,
-} from "./CommonStyle";
+} from "../../css/CommonStyle";
 import { CssTextField } from "./CommonMuiStyle";
 import { useState } from "react";
 import { SwitcherContext } from "./LoginPage";
