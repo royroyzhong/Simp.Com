@@ -13,6 +13,8 @@ import ClearIcon from "@mui/icons-material/Clear";
 import CheckIcon from "@mui/icons-material/Check";
 import { Button } from "@mui/material";
 import { Marginer } from "../loginComponent/CommonStyle";
+import { red } from "@mui/material/colors";
+
 // import { Marginer } from "../loginComponent/CommonStyle";
 function ChangePasswordContent() {
   const [btnOldPwd, setBtnOldPwd] = useState(true);
@@ -21,13 +23,49 @@ function ChangePasswordContent() {
   const handleOldPwd = () => setBtnOldPwd(!btnOldPwd);
   const handleNewPwd = () => setBtnNewPwd(!btnNewPwd);
   const handleCNewPwd = () => setBtnCNewPwd(!btnCNewPwd);
+  const [OldPwd, setOldPwd] = useState("nothing");
+  const [NewPwd, setNewPwd] = useState("");
+  const [CNewPwd, setCNewPwd] = useState("");
+  const [ruleOne, setRuleOne] = useState(false);
+  const [ruleTwo, setRuleTwo] = useState(false);
+  const [ruleThree, setRuleThree] = useState(false);
+  const [ruleFour, setRuleFour] = useState(false);
+  const [ruleFive, setRuleFive] = useState(false);
 
-  const ruleItem = (text) => (
+  const passwordValidation = (password) => {
+    const specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+    if (password.length >= 8) {
+      setRuleOne(true);
+    } else {
+      setRuleOne(false);
+    }
+    if (/[a-z]/.test(password)) {
+      setRuleTwo(true);
+    } else {
+      setRuleTwo(false);
+    }
+    if (/[A-Z]/.test(password)) {
+      setRuleThree(true);
+    } else {
+      setRuleThree(false);
+    }
+    if (/\d/.test(password)) {
+      setRuleFour(true);
+    } else {
+      setRuleFour(false);
+    }
+    if (specialChars.test(password)) {
+      setRuleFive(true);
+    } else {
+      setRuleFive(false);
+    }
+  };
+  const ruleItem = (text, visiable) => (
     <Box sx={{ borderBottom: 0.5, marginBottom: "4vh" }}>
       <Grid container>
         <Grid item xs={2}>
-          <ClearIcon />
-          {/* <CheckIcon /> */}
+          {!visiable && <ClearIcon sx={{ color: red[500] }} />}
+          {visiable && <CheckIcon color="success" />}
         </Grid>
         <Grid item xs={10}>
           <Typography variant="body1" gutterBottom align="left">
@@ -78,8 +116,11 @@ function ChangePasswordContent() {
                 <TextField
                   fullWidth
                   label="Old Password"
+                  error={OldPwd === ""}
+                  helperText={OldPwd === "" ? "Passwords Empty!" : " "}
                   variant="standard"
                   type={btnOldPwd ? "password" : "text"}
+                  onChange={(event) => setOldPwd(event.target.value)}
                   InputProps={{
                     endAdornment: (
                       <IconButton aria-label="edit" onClick={handleOldPwd}>
@@ -97,6 +138,10 @@ function ChangePasswordContent() {
                   fullWidth
                   label="New Password"
                   variant="standard"
+                  onChange={(event) => {
+                    passwordValidation(event.target.value);
+                    setNewPwd(event.target.value);
+                  }}
                   type={btnNewPwd ? "password" : "text"}
                   InputProps={{
                     endAdornment: (
@@ -116,7 +161,12 @@ function ChangePasswordContent() {
                   id="standard"
                   label="Confirm Password"
                   variant="standard"
+                  error={NewPwd !== CNewPwd}
                   type={btnCNewPwd ? "password" : "text"}
+                  helperText={
+                    NewPwd !== CNewPwd ? "Passwords don't match!" : " "
+                  }
+                  onChange={(event) => setCNewPwd(event.target.value)}
                   InputProps={{
                     endAdornment: (
                       <IconButton aria-label="edit" onClick={handleCNewPwd}>
@@ -142,19 +192,19 @@ function ChangePasswordContent() {
               <Marginer direction="vertical" margin="4vh" />
 
               <Grid item xs={10}>
-                {ruleItem("At least 8 characters")}
+                {ruleItem("At least 8 characters", ruleOne)}
               </Grid>
               <Grid item xs={10}>
-                {ruleItem("At least 1 lower letter (a-z)")}
+                {ruleItem("At least 1 lower letter (a-z)", ruleTwo)}
               </Grid>
               <Grid item xs={10}>
-                {ruleItem("At least 1 uppercase letter (A-Z)")}
+                {ruleItem("At least 1 uppercase letter (A-Z)", ruleThree)}
               </Grid>
               <Grid item xs={10}>
-                {ruleItem("At least 1 number (0-9)")}
+                {ruleItem("At least 1 number (0-9)", ruleFour)}
               </Grid>
               <Grid item xs={10}>
-                {ruleItem("At least 1 special characters")}
+                {ruleItem("At least 1 special characters", ruleFive)}
               </Grid>
               <Grid item xs={10} sx={{ marginTop: "10vh", marginLeft: "10vw" }}>
                 <Button variant="contained">Save</Button>
