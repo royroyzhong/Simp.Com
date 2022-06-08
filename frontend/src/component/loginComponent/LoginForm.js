@@ -16,6 +16,9 @@ import MuiStyle from "./MuiStyle";
 import GoogleIcon from "@mui/icons-material/Google";
 import { SwitcherContext } from "./LoginPage";
 import Tooltip from "@mui/material/Tooltip";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import IconButton from "@mui/material/IconButton";
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.h7,
@@ -27,6 +30,8 @@ function LoginForm() {
   const handerSwitch = useContext(SwitcherContext);
   const [emailValue, setEmail] = React.useState("");
   const [pwdValue, setPwd] = React.useState("");
+  const [visible, setVisible] = React.useState(true);
+  const handleVisible = () => setVisible(!visible);
   const validateEmail = (event) => {
     const value = event.target.value;
     setEmail(value);
@@ -61,9 +66,17 @@ function LoginForm() {
       <CssTextField
         id="outlined-password-input"
         label="Password"
-        type="password"
+        type={visible ? "password" : "text"}
         autoComplete="current-password"
         onChange={validatePwd}
+        InputProps={{
+          endAdornment: (
+            <IconButton aria-label="edit" onClick={handleVisible}>
+              {visible && <VisibilityIcon />}
+              {!visible && <VisibilityOffIcon />}
+            </IconButton>
+          ),
+        }}
       />
 
       <Marginer direction="vertical" margin="3vh" />

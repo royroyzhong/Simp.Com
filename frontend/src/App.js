@@ -7,8 +7,8 @@ import ProfilePage from "./component/profileComponent/ProfilePage";
 function App() {
   return (
     <div className="App">
-      {/* <Login /> */}
-      <ProfilePage />
+      <Login />
+      {/* <ProfilePage /> */}
       {/* <Dashboard /> */}
     </div>
   );
