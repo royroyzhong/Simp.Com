@@ -19,6 +19,8 @@ import Tooltip from "@mui/material/Tooltip";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import IconButton from "@mui/material/IconButton";
+import Dashboard from "../dashboard/Dashboard";
+import { useNavigate } from "react-router-dom";
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.h7,
@@ -27,6 +29,7 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 function LoginForm() {
+  let navigate = useNavigate();
   const handerSwitch = useContext(SwitcherContext);
   const [emailValue, setEmail] = React.useState("");
   const [pwdValue, setPwd] = React.useState("");
@@ -42,8 +45,11 @@ function LoginForm() {
   };
   const handlerValidation = (event) => {
     event.preventDefault();
+
     if (emailValue === "123@gmail.com" && pwdValue === "123123") {
-      console.log("correct");
+      console.log("Dashboard");
+      let path = "../dashboard";
+      navigate(path);
     } else {
       console.log("fail");
     }
