@@ -2,7 +2,9 @@ import * as React from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Navigator from '../navigator/Navigator';
-import CustomerPageRigheContent from "./CustomerPageRightContent";
+import CustomerPageRigheContent from "../customerPageComponent/CustomerPageRightContent";
+import ProductBoard from '../sellerDashboard/ProductCompactView';
+import Dashboard from '../sellerDashboard/Dashboard';
 
 let theme = createTheme({});
 theme = {
@@ -49,7 +51,7 @@ theme = {
 
 const drawerWidth = 256;
 
-export default function Paperbase() {
+export default function Paperbase(props) {
 
   return (
     <ThemeProvider theme={theme}>
@@ -65,10 +67,13 @@ export default function Paperbase() {
         </Box>
         <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', bgcolor: '#F7F8FC'}}>
 
-            <CustomerPageRigheContent />
-          
+            {/* <CustomerPageRigheContent /> */}
+          {/* <ProductBoard />  */}
+          {/* <Dashboard />  */}
+          {props.children}
         </Box>
       </Box>
     </ThemeProvider>
   );
 }
+
