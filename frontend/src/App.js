@@ -20,29 +20,19 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
+          <Route path="/" element={wrapper(<CustomerPageRightContent />)} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/userX/profile" element={wrapper(<ProfilePage />)} />
+          <Route path="/dashboard" element={wrapper(<Dashboard />)} />
           <Route
-            exact
-            path="/"
-            element={wrapper(<CustomerPageRightContent />)}
-          />
-          <Route exact path="/login" element={<Login />} />
-          <Route exact path="/userX/profile" element={wrapper(<ProfilePage />)} />
-          <Route exact path="/dashboard" element={wrapper(<Dashboard />)} />
-          <Route
-            exact
             path="/sellerX/products/"
             element={wrapper(<ProductBoard />)}
           />
           <Route
-            exact
             path="/userX/order_tracking/"
             element={wrapper(<OrderTracking />)}
           />
-          <Route
-            exact
-            path="/userX/cart/"
-            element={wrapper(<Cart />)}
-          />
+          <Route path="/userX/cart/" element={wrapper(<Cart />)} />
         </Routes>
       </BrowserRouter>
 
