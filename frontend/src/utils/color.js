@@ -1,4 +1,4 @@
 export default Color = {
-    "primary": "#000",
+    "primary": "#3751FF",
     "secondary": "#333",
 }

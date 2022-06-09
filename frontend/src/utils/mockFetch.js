@@ -21,6 +21,8 @@ export const quinn = {
     },
     stats: {
         bestSeller: "想吃锅贴"
-    }
+    },
+    recentAwaitingActions: [231,434,556],
+    topProducts: ["item1", "item2", "item3"]
 }
 

@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { createContext } from "react";
 import SignUpForm from "./SignUpForm";
 import { useState } from "react";
-import { SmallSpan, Marginer } from "./CommonStyle";
+import { SmallSpan, Marginer } from "../../css/CommonStyle";
 
 const AppContainer = styled.div`
   width: 100%;
@@ -15,7 +15,7 @@ const AppContainer = styled.div`
   justify-content: center;
 `;
 const BoxContainer = styled.div`
-  margin-top: 20vh;
+  margin-top: 11vh;
   width: 35vw;
   min-height: 550px;
   display: flex;
