@@ -1,15 +1,13 @@
 /**
- * A mock resource utility. It only provide some dummy data, thus cannot 
- * mimic a real REST resource. 
+ * Mock user for prototyping.
  */
-
-export const quinn = {
-    name: "Quinn Doge", 
+export default mockUser = {
+    username: "Doge Commerce", 
     orders: {
         processed: 10086,
-        shipped: 10000,
-        recieved: 1,
-        restore: 2048
+        shipped: 9999,
+        arrived: 1,
+        restock: 1024
     },
     orders_detail: {
         Unprocessed: [{Order_Number: 1234, Products: [{id:1111, productName: "Sandwitch"}], Status: "Unprocessed"},
@@ -19,10 +17,7 @@ export const quinn = {
         Delivered: [{Order_Number: 1020, Products: [{id:1111, productName: "Sandwitch"}], Status: "Delivered"},
         {Order_Number: 1021, Products: [{id:1101, productName: "Orange Juice"}], Status: "Delivered"}],
     },
-    stats: {
-        bestSeller: "想吃锅贴"
-    },
-    recentAwaitingActions: [231,434,556],
-    topProducts: ["item1", "item2", "item3"]
+    status: {
+        bestSeller: "茴香臭豆腐 榴莲小笼包 孟婆汤 套餐"
+    }
 }
-
