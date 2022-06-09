@@ -15,7 +15,7 @@ const AppContainer = styled.div`
   justify-content: center;
 `;
 const BoxContainer = styled.div`
-  margin-top: 20vh;
+  margin-top: 11vh;
   width: 35vw;
   min-height: 550px;
   display: flex;
