@@ -47,7 +47,6 @@ function LoginForm() {
     event.preventDefault();
 
     if (emailValue === "123@gmail.com" && pwdValue === "123123") {
-      console.log("Dashboard");
       let path = "../dashboard";
       navigate(path);
     } else {
