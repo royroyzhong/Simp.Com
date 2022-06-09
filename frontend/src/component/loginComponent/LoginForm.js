@@ -47,7 +47,7 @@ function LoginForm() {
     event.preventDefault();
 
     if (emailValue === "123@gmail.com" && pwdValue === "123123") {
-      let path = "../dashboard";
+      let path = "../sellerX/dashboard";
       navigate(path);
     } else {
       console.log("fail");
