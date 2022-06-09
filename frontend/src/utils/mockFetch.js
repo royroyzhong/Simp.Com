@@ -23,7 +23,7 @@ export const quinn = {
         bestSeller: "想吃锅贴"
     },
     recentAwaitingActions: [231,434,556],
-    topProducts: ["item1", "item2", "item3"]
+    topProducts: ["item1", "item2", "item3"],
 }
 
 export const gavin = {
