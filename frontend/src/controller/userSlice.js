@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import {quinn} from "../utils/mockFetch";
+import {quinn, gavin} from "../utils/mockFetch";
 
 const userSlice = createSlice({
     name: "user", 
@@ -8,7 +8,8 @@ const userSlice = createSlice({
         orders: quinn.orders,
         stats: quinn.stats,
         recentAwaitingActions: quinn.recentAwaitingActions,
-        topProducts: quinn.topProducts
+        topProducts: quinn.topProducts,
+        products: gavin.products
     }
 })
 
@@ -17,5 +18,6 @@ export const getOrders = (state) => state.user.orders;
 export const getStats = (state) => state.user.stats;
 export const getRecentAwaitingActions = (state) => state.user.recentAwaitingActions;
 export const getTopProducts = (state) => state.user.topProducts;
+export const getProducts = (state) => state.user.products;
 
 export default userSlice.reducer;

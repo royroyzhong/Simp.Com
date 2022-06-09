@@ -18,3 +18,24 @@ export const quinn = {
     topProducts: ["item1", "item2", "item3"]
 }
 
+export const gavin = {
+    name: "Gavin doge", 
+    products: [
+        "B.O.1",
+        "B.O.2",
+        "B.O.3",
+        "B.O.4",
+        "B.O.1",
+        "B.O.2",
+        "B.O.3",
+        "B.O.4",
+        "B.O.1",
+        "B.O.2",
+        "B.O.3",
+        "B.O.4",
+        "B.O.1",
+        "B.O.2",
+        "B.O.3",
+        "B.O.4",
+    ]
+}
