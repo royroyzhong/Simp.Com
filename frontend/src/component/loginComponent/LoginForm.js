@@ -19,7 +19,6 @@ import Tooltip from "@mui/material/Tooltip";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import IconButton from "@mui/material/IconButton";
-import Dashboard from "../dashboard/Dashboard";
 import { useNavigate } from "react-router-dom";
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -47,7 +46,6 @@ function LoginForm() {
     event.preventDefault();
 
     if (emailValue === "123@gmail.com" && pwdValue === "123123") {
-      console.log("Dashboard");
       let path = "../dashboard";
       navigate(path);
     } else {
