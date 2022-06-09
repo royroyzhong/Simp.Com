@@ -23,13 +23,13 @@ function App() {
           <Route path="/" element={wrapper(<CustomerPageRightContent />)} />
           <Route path="/login" element={<Login />} />
           <Route path="/userX/profile" element={wrapper(<ProfilePage />)} />
-          <Route path="/dashboard" element={wrapper(<Dashboard />)} />
+          <Route path="/sellerX/dashboard" element={wrapper(<Dashboard />)} />
           <Route
             path="/sellerX/products/"
             element={wrapper(<ProductBoard />)}
           />
           <Route
-            path="/userX/order_tracking/"
+            path="/sellerX/order_tracking/"
             element={wrapper(<OrderTracking />)}
           />
           <Route path="/userX/cart/" element={wrapper(<Cart />)} />
