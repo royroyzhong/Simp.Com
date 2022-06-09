@@ -20,9 +20,7 @@ export default function Dashboard(props) {
     return (
         <Container maxWidth="md" className="dashboard">
 
-            <Box sx={{ flexGrow: 1 }} className="status-line-wrapper" >
-                <Header></Header>
-            </Box>
+            <Header></Header>
             <Box sx={{ flexGrow: 1 }}>
                 <Grid spacing={{ xs: 4 }} container columns={{ xs: 4, md: 4, lg: 12 }}>
                     {Object.entries(orders).map(([key, val], index) => (

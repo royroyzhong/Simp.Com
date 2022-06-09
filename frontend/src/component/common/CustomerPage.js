@@ -2,8 +2,9 @@ import * as React from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Navigator from "../navigator/Navigator";
-import CustomerPageRigheContent from "./CustomerPageRightContent";
-import ProfilePage from "../profileComponent/ProfilePage";
+import CustomerPageRigheContent from "../customerPageComponent/CustomerPageRightContent";
+import ProductBoard from "../sellerDashboard/ProductCompactView";
+import Dashboard from "../sellerDashboard/Dashboard";
 
 let theme = createTheme({});
 theme = {
