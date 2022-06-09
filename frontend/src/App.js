@@ -4,9 +4,13 @@ import "./App.css";
 import Cart from "./component/cart/Cart";
 import Dashboard from "./component/dashboard/Dashboard";
 import Login from "./component/loginComponent/LoginPage";
-import ProfilePage from "./component/profileComponent/ProfilePage";
+
+//import ProfilePage from "./component/profileComponent/ProfilePage";
+
 import ItemInCart from './component/cart/ItemInCart';
+
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+//import CustomerPage from "./component/customerPageComponent/CustomerPage";
 
 // import ChangePassword from "./component/profileComponent/ChangePasswordPage";
 
@@ -24,8 +28,9 @@ function App() {
 
       {/* <ProfilePage /> */}
       {/* <Dashboard /> */}
-      {/* <Cart /> */}
-      {/* <OrderTracking /> */}
+
+      {/* <CustomerPage /> */}
+
     </div>
   );
 }
