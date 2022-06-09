@@ -14,18 +14,18 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 function App() {
   return (
     <div className="App">
-      <BrowserRouter>
+      {/* <BrowserRouter>
         <Routes>
           <Route exact path="/" element={<Login />} />
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/dashboard" element={<Dashboard />} />
         </Routes>
-      </BrowserRouter>
+      </BrowserRouter> */}
 
       {/* <ProfilePage /> */}
       {/* <Dashboard /> */}
       {/* <Cart /> */}
-      {/* <OrderTracking /> */}
+      <OrderTracking />
     </div>
   );
 }
