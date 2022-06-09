@@ -3,7 +3,7 @@ import React, { useContext } from "react";
 import {
   BoxContainer,
   Marginer,
-} from "../loginComponent/CommonStyle";
+} from "../../css/CommonStyle";
 import Box from "@mui/material/Box";
 import "../../css/cart.css";
 
@@ -16,7 +16,6 @@ function ItemInCart(props) {
     }
     return (
         <BoxContainer>
-            <img ></img>
         <Box sx={{ flexGrow: 1 }}  className="itemInCart">
             <h3> Product: {props.item.productName}</h3>
             <Marginer direction="vertical" margin="1vh" />
