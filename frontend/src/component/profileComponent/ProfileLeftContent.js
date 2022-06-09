@@ -47,7 +47,7 @@ function ProfileLeftContent(props) {
           Personal Information
         </Typography>
       </Button>,
-      <Marginer direction="vertical" margin="1vh" />,
+      <Marginer key="1" direction="vertical" margin="1vh" />,
       <Button
         sx={CSSButtonStyle}
         key="Payment"
@@ -66,7 +66,7 @@ function ProfileLeftContent(props) {
           Payment
         </Typography>
       </Button>,
-      <Marginer direction="vertical" margin="1vh" />,
+      <Marginer key="2" direction="vertical" margin="1vh" />,
       <Button
         sx={CSSButtonStyle}
         key="ChangePassword"
