@@ -36,7 +36,7 @@ const itemCategory = {
   px: 3,
 };
 
-export default function Navigator(props) {
+export default function BuyerNavigator(props) {
   let navigate = useNavigate();
 
   const { ...other } = props;
