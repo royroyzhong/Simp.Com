@@ -10,7 +10,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import CheckIcon from "@mui/icons-material/Check";
 import { Marginer } from "../../css/CommonStyle";
 import Typography from "@mui/material/Typography";
-
+import { CssBoxStyle } from "./ChangePasswordContent";
 function ProfileContent() {
   const [btnDisabledFName, setBtnDisabledFName] = useState(true);
   const [btnDisabledLName, setBtnDisabledLName] = useState(true);
@@ -38,16 +38,7 @@ function ProfileContent() {
     <React.Fragment>
       <CssBaseline />
       <Container maxWidth="md">
-        <Box
-          sx={{
-            flexGrow: 1,
-            border: "1px solid black",
-            width: "55vw",
-            height: "80vh",
-            margin: "5vw",
-            zIndex: "-1",
-          }}
-        >
+        <Box sx={CssBoxStyle}>
           <Grid item xs={12}>
             <Box sx={{ borderBottom: 0.1, marginBottom: "4vh" }}>
               <Marginer direction="vertical" margin="4vh" />

@@ -14,7 +14,15 @@ import CheckIcon from "@mui/icons-material/Check";
 import { Button } from "@mui/material";
 import { Marginer } from "../../css/CommonStyle";
 import { red } from "@mui/material/colors";
-
+export const CssBoxStyle = {
+  flexGrow: 1,
+  width: "43vw",
+  height: "70vh",
+  margin: "5vw",
+  borderRadius: "19px",
+  backgroundColor: "white",
+  boxShadow: "0 0 2px rgb(20 20 20 / 50%)",
+};
 // import { Marginer } from "../loginComponent/CommonStyle";
 function ChangePasswordContent() {
   const [btnOldPwd, setBtnOldPwd] = useState(true);
@@ -61,7 +69,7 @@ function ChangePasswordContent() {
     }
   };
   const ruleItem = (text, visiable) => (
-    <Box sx={{ borderBottom: 0.5, marginBottom: "4vh" }}>
+    <Box sx={{ borderBottom: 0.5, marginBottom: "3vh" }}>
       <Grid container>
         <Grid item xs={2}>
           {!visiable && <ClearIcon sx={{ color: red[500] }} />}
@@ -79,16 +87,7 @@ function ChangePasswordContent() {
     <React.Fragment>
       <CssBaseline />
       <Container maxWidth="md">
-        <Box
-          sx={{
-            flexGrow: 1,
-            border: "1px solid black",
-            width: "55vw",
-            height: "80vh",
-            margin: "5vw",
-            zIndex: "-1",
-          }}
-        >
+        <Box sx={CssBoxStyle}>
           <Grid item xs={12}>
             <Box sx={{ borderBottom: 0.1, marginBottom: "4vh" }}>
               <Marginer direction="vertical" margin="4vh" />
@@ -111,8 +110,8 @@ function ChangePasswordContent() {
             }}
           >
             <Grid item xs={6}>
-              <Marginer direction="vertical" margin="6vh" />
-              <Grid item xs={7}>
+              <Marginer direction="vertical" margin="4vh" />
+              <Grid item xs={8}>
                 <TextField
                   fullWidth
                   label="Old Password"
@@ -131,9 +130,8 @@ function ChangePasswordContent() {
                   }}
                 />
               </Grid>
-              <Marginer direction="vertical" margin="4vh" />
 
-              <Grid item xs={7}>
+              <Grid item xs={8}>
                 <TextField
                   fullWidth
                   label="New Password"
@@ -153,9 +151,9 @@ function ChangePasswordContent() {
                   }}
                 />
               </Grid>
-              <Marginer direction="vertical" margin="4vh" />
+              <Marginer direction="vertical" margin="2vh" />
 
-              <Grid item xs={7}>
+              <Grid item xs={8}>
                 <TextField
                   fullWidth
                   id="standard"
@@ -189,7 +187,7 @@ function ChangePasswordContent() {
                   New password Rule:
                 </Typography>
               </Grid>
-              <Marginer direction="vertical" margin="4vh" />
+              <Marginer direction="vertical" margin="2vh" />
 
               <Grid item xs={10}>
                 {ruleItem("At least 8 characters", ruleOne)}
@@ -206,7 +204,7 @@ function ChangePasswordContent() {
               <Grid item xs={10}>
                 {ruleItem("At least 1 special characters", ruleFive)}
               </Grid>
-              <Grid item xs={10} sx={{ marginTop: "10vh", marginLeft: "10vw" }}>
+              <Grid item xs={10} sx={{ marginTop: "1vh", marginLeft: "10vw" }}>
                 <Button variant="contained">Save</Button>
               </Grid>
             </Grid>

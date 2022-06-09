@@ -8,17 +8,28 @@ import PersonIcon from "@mui/icons-material/Person";
 import Typography from "@mui/material/Typography";
 import PaymentsIcon from "@mui/icons-material/Payments";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import quinnAvatar from "../../assets/avatar.jpg"; // mock avatar
+import { Marginer } from "../../css/CommonStyle";
+const containerBoxStyle = {
+  flexGrow: 1,
+  borderRadius: "19px",
+  backgroundColor: "white",
+  width: "15vw",
+  height: "70vh",
+  margin: "5vw",
+  boxShadow: "0 0 2px rgb(20 20 20 / 50%)",
+};
 function ProfileLeftContent(props) {
   const [pageName, setPageName] = useState("");
-  // let pageName = "";
+  let CSSButtonStyle = {
+    textTransform: "capitalize",
+    justifyContent: "flex-start",
+    border: "none",
+  };
   const buttons = (props) => {
     return [
       <Button
-        sx={{
-          textTransform: "capitalize",
-          justifyContent: "flex-start",
-          border: "none",
-        }}
+        sx={CSSButtonStyle}
         key="personalInformation"
         onClick={() => {
           setPageName("personalInformation");
@@ -27,21 +38,18 @@ function ProfileLeftContent(props) {
       >
         <PersonIcon />
         <Typography
-          variant="body1"
+          variant="body2"
           gutterBottom
           sx={{
-            marginLeft: "20px",
+            marginLeft: "1vw",
           }}
         >
           Personal Information
         </Typography>
       </Button>,
+      <Marginer direction="vertical" margin="1vh" />,
       <Button
-        sx={{
-          textTransform: "capitalize",
-          justifyContent: "flex-start",
-          border: "none",
-        }}
+        sx={CSSButtonStyle}
         key="Payment"
         onClick={() => {
           setPageName("Payment");
@@ -49,21 +57,18 @@ function ProfileLeftContent(props) {
       >
         <PaymentsIcon />
         <Typography
-          variant="body1"
+          variant="body2"
           gutterBottom
           sx={{
-            marginLeft: "20px",
+            marginLeft: "3vw",
           }}
         >
           Payment
         </Typography>
       </Button>,
+      <Marginer direction="vertical" margin="1vh" />,
       <Button
-        sx={{
-          textTransform: "capitalize",
-          justifyContent: "flex-start",
-          border: "none",
-        }}
+        sx={CSSButtonStyle}
         key="ChangePassword"
         onClick={() => {
           setPageName("ChangePassword");
@@ -71,10 +76,10 @@ function ProfileLeftContent(props) {
       >
         <LockOutlinedIcon />
         <Typography
-          variant="body1"
+          variant="body2"
           gutterBottom
           sx={{
-            marginLeft: "20px",
+            marginLeft: "1vw",
           }}
         >
           Change Password
@@ -85,22 +90,14 @@ function ProfileLeftContent(props) {
   useEffect(() => {
     props.ControllerFunction(pageName);
   }, [pageName]);
+
   return (
-    <Box
-      sx={{
-        flexGrow: 1,
-        border: "1px solid black",
-        width: "20vw",
-        height: "80vh",
-        margin: "5vw",
-        zIndex: "-1",
-      }}
-    >
+    <Box sx={containerBoxStyle}>
+      <Marginer direction="vertical" margin="10vh" />
       <Avatar
-        sx={{ width: 100, height: 100, marginLeft: "6vw", marginTop: "10vh" }}
-      >
-        N
-      </Avatar>
+        src={quinnAvatar}
+        sx={{ width: 100, height: 100, marginLeft: "4vw" }}
+      />
       <Box
         sx={{
           display: "flex",
@@ -112,7 +109,7 @@ function ProfileLeftContent(props) {
         <ButtonGroup
           orientation="vertical"
           aria-label="vertical outlined button group"
-          sx={{ marginLeft: "1vw", marginTop: "18vh", width: "20vw" }}
+          sx={{ marginLeft: "1vw", marginTop: "10vh", width: "20vw" }}
         >
           {buttons(props)}
         </ButtonGroup>
