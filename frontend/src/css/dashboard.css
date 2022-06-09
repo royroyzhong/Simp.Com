@@ -20,7 +20,7 @@
 
 .card-wrapper {
     position: relative;
-    height: 200px;
+    height: 160px;
 }
 .card-title {
     position: absolute;
@@ -31,10 +31,11 @@
 }
 .card-display {
     position: relative;
-    top: calc(50% - 30px);
+    top: calc(50% - 20px);
     margin:auto;
     text-align: center;
-    font-size: 60px;
+    font-size: 40px;
     font-weight: 800;
     vertical-align: middle;
 }
+

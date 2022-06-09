@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { createContext } from "react";
 import SignUpForm from "./SignUpForm";
 import { useState } from "react";
-import { SmallSpan, Marginer } from "./CommonStyle";
+import { SmallSpan, Marginer } from "../../css/CommonStyle";
 
 const AppContainer = styled.div`
   width: 100%;
