@@ -15,24 +15,37 @@ import CustomerPageRightContent from "./component/customerPageComponent/Customer
 // import ChangePassword from "./component/profileComponent/ChangePasswordPage";
 
 function App() {
-  const wrapper = (component) => <NavWrapper>{component}</NavWrapper>;
+  const wrapper = (component, role) => (
+    <NavWrapper role={role}>{component}</NavWrapper>
+  );
+  let buyer = "buyer";
+  let seller = "seller";
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={wrapper(<CustomerPageRightContent />)} />
+          <Route
+            path="/"
+            element={wrapper(<CustomerPageRightContent />, buyer)}
+          />
           <Route path="/login" element={<Login />} />
-          <Route path="/userX/profile" element={wrapper(<ProfilePage />)} />
-          <Route path="/sellerX/dashboard" element={wrapper(<Dashboard />)} />
+          <Route
+            path="/userX/profile"
+            element={wrapper(<ProfilePage />, buyer)}
+          />
+          <Route
+            path="/sellerX/dashboard"
+            element={wrapper(<Dashboard />, seller)}
+          />
           <Route
             path="/sellerX/products/"
-            element={wrapper(<ProductBoard />)}
+            element={wrapper(<ProductBoard />, seller)}
           />
           <Route
             path="/sellerX/order_tracking/"
-            element={wrapper(<OrderTracking />)}
+            element={wrapper(<OrderTracking />, seller)}
           />
-          <Route path="/userX/cart/" element={wrapper(<Cart />)} />
+          <Route path="/userX/cart/" element={wrapper(<Cart />, buyer)} />
         </Routes>
       </BrowserRouter>
 

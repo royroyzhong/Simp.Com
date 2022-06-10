@@ -6,7 +6,6 @@ import ProfileLeftContent from "./ProfileLeftContent";
 import { useState } from "react";
 import ChangePasswordContent from "./ChangePasswordContent";
 import Header from "../common/Header";
-import Navigator from "../navigator/Navigator";
 function ProfilePage() {
   const [Controller, setController] = useState("personalInformation");
   return (
@@ -22,11 +21,6 @@ function ProfilePage() {
             <Header display="no"></Header>
           </Box>
         </Grid>
-
-        {/* <Navigator
-          PaperProps={{ style: { width: 256 } }}
-          sx={{ display: { sm: "block", xs: "none" } }}
-        /> */}
 
         <Grid item xs={3} sx={{ marginLeft: "-5vw", marginTop: "-12vh" }}>
           <ProfileLeftContent
