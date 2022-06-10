@@ -1,7 +1,8 @@
 import * as React from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import Navigator from "../navigator/Navigator";
+import SellerNavigator from "../navigator/SellerNavigator";
+import BuyerNavigator from "../navigator/BuyerNavigator";
 import CustomerPageRigheContent from "../customerPageComponent/CustomerPageRightContent";
 import ProductBoard from "../sellerDashboard/ProductCompactView";
 import Dashboard from "../sellerDashboard/Dashboard";
@@ -59,10 +60,18 @@ export default function Paperbase(props) {
           component="nav"
           sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
         >
-          <Navigator
-            PaperProps={{ style: { width: drawerWidth } }}
-            sx={{ display: { sm: "block", xs: "none" } }}
-          />
+          {props.role === "seller" && (
+            <SellerNavigator
+              PaperProps={{ style: { width: drawerWidth } }}
+              sx={{ display: { sm: "block", xs: "none" } }}
+            />
+          )}
+          {props.role === "buyer" && (
+            <BuyerNavigator
+              PaperProps={{ style: { width: drawerWidth } }}
+              sx={{ display: { sm: "block", xs: "none" } }}
+            />
+          )}
         </Box>
 
         <Box

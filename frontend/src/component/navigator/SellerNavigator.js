@@ -7,18 +7,19 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import HomeIcon from "@mui/icons-material/Home";
-import InventoryIcon from '@mui/icons-material/Inventory';
+import InventoryIcon from "@mui/icons-material/Inventory";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import EqualizerIcon from '@mui/icons-material/Equalizer';
-import PeopleIcon from '@mui/icons-material/People';
+import LightbulbIcon from "@mui/icons-material/Lightbulb";
+import EqualizerIcon from "@mui/icons-material/Equalizer";
+import PeopleIcon from "@mui/icons-material/People";
 import { useNavigate } from "react-router-dom";
 
 const categories = [
-  { id: "Home", icon: <HomeIcon />, path: "/" },
+  { id: "Home", icon: <HomeIcon />, path: "/sellerX/dashboard" },
   { id: "Products", icon: <InventoryIcon />, path: "/userX/profile" },
-  { id: "Orders", icon: <LightbulbIcon />, path: "/userX/order_tracking/" },
-  { id: "Analysis", icon: <EqualizerIcon />, path: "/userX/cart/" },
-  { id: "Collabration", icon: <PeopleIcon />, path: "/login" },
+  { id: "Orders", icon: <LightbulbIcon />, path: "/sellerX/order_tracking/" },
+  { id: "Analysis", icon: <EqualizerIcon />, path: "/" },
+  { id: "Collabration", icon: <PeopleIcon />, path: "/" },
 ];
 
 const item = {
