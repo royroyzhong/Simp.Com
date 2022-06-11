@@ -13,7 +13,7 @@ function ProfilePage() {
       {/* <Box sx={{ flexGrow: 1 }}> */}
 
       <Grid container spacing={1} sx={{ marginTop: "-10vh" }}>
-        <Grid item xs={12}>
+        <Grid item lg={12} md={12} xs={12}>
           <Box
             sx={{ flexGrow: 1, marginTop: "5vh" }}
             className="status-line-wrapper"
@@ -22,13 +22,19 @@ function ProfilePage() {
           </Box>
         </Grid>
 
-        <Grid item xs={3} sx={{ marginLeft: "-5vw", marginTop: "-12vh" }}>
+        <Grid
+          item
+          lg={4}
+          md={12}
+          sx={{ marginLeft: "-5vw", marginTop: "-12vh" }}
+        >
           <ProfileLeftContent
             ControllerName={Controller}
             ControllerFunction={setController}
           />
         </Grid>
-        <Grid item xs={7} sx={{ marginTop: "-12vh" }}>
+
+        <Grid item lg={8} md={12} sx={{ marginTop: "-12vh" }}>
           {Controller === "" && <ProfileContent />}
           {Controller === "personalInformation" && <ProfileContent />}
           {/* {Controller === "Payment" && <PaymentContent />} */}

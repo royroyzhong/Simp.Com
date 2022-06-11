@@ -14,17 +14,33 @@ import CheckIcon from "@mui/icons-material/Check";
 import { Button } from "@mui/material";
 import { Marginer } from "../../css/CommonStyle";
 import { red } from "@mui/material/colors";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material";
 export const CssBoxStyle = {
   flexGrow: 1,
   width: "43vw",
-  height: "70vh",
+  height: "auto",
   margin: "5vw",
+  paddingBottom: "2vw",
   borderRadius: "19px",
   backgroundColor: "white",
   boxShadow: "0 0 2px rgb(20 20 20 / 50%)",
 };
+export const CssBoxStyle2 = {
+  margin: "5vw 12vw",
+
+  flexGrow: 1,
+  height: "auto",
+  paddingBottom: "2vw",
+  borderRadius: "19px",
+  backgroundColor: "white",
+  boxShadow: "0 0 2px rgb(20 20 20 / 50%)",
+  width: "30vw",
+};
 // import { Marginer } from "../loginComponent/CommonStyle";
 function ChangePasswordContent() {
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up("md"));
   const [btnOldPwd, setBtnOldPwd] = useState(true);
   const [btnNewPwd, setBtnNewPwd] = useState(true);
   const [btnCNewPwd, setBtnCNewPwd] = useState(true);
@@ -87,7 +103,7 @@ function ChangePasswordContent() {
     <React.Fragment>
       <CssBaseline />
       <Container maxWidth="md">
-        <Box sx={CssBoxStyle}>
+        <Box sx={matches ? CssBoxStyle : CssBoxStyle2}>
           <Grid item xs={12}>
             <Box sx={{ borderBottom: 0.1, marginBottom: "4vh" }}>
               <Marginer direction="vertical" margin="4vh" />
@@ -111,7 +127,7 @@ function ChangePasswordContent() {
           >
             <Grid item xs={6}>
               <Marginer direction="vertical" margin="4vh" />
-              <Grid item xs={8}>
+              <Grid item lg={10} xs={12}>
                 <TextField
                   fullWidth
                   label="Old Password"
@@ -123,15 +139,19 @@ function ChangePasswordContent() {
                   InputProps={{
                     endAdornment: (
                       <IconButton aria-label="edit" onClick={handleOldPwd}>
-                        {btnOldPwd && <VisibilityIcon />}
-                        {!btnOldPwd && <VisibilityOffIcon />}
+                        {btnOldPwd && (
+                          <VisibilityIcon sx={{ marginLeft: "12vw" }} />
+                        )}
+                        {!btnOldPwd && (
+                          <VisibilityOffIcon sx={{ marginLeft: "12vw" }} />
+                        )}
                       </IconButton>
                     ),
                   }}
                 />
               </Grid>
 
-              <Grid item xs={8}>
+              <Grid item lg={10} xs={12}>
                 <TextField
                   fullWidth
                   label="New Password"
@@ -144,8 +164,12 @@ function ChangePasswordContent() {
                   InputProps={{
                     endAdornment: (
                       <IconButton aria-label="edit" onClick={handleNewPwd}>
-                        {btnNewPwd && <VisibilityIcon />}
-                        {!btnNewPwd && <VisibilityOffIcon />}
+                        {btnNewPwd && (
+                          <VisibilityIcon sx={{ marginLeft: "12vw" }} />
+                        )}
+                        {!btnNewPwd && (
+                          <VisibilityOffIcon sx={{ marginLeft: "12vw" }} />
+                        )}
                       </IconButton>
                     ),
                   }}
@@ -153,7 +177,7 @@ function ChangePasswordContent() {
               </Grid>
               <Marginer direction="vertical" margin="2vh" />
 
-              <Grid item xs={8}>
+              <Grid item lg={10} xs={12}>
                 <TextField
                   fullWidth
                   id="standard"
@@ -168,15 +192,19 @@ function ChangePasswordContent() {
                   InputProps={{
                     endAdornment: (
                       <IconButton aria-label="edit" onClick={handleCNewPwd}>
-                        {btnCNewPwd && <VisibilityIcon />}
-                        {!btnCNewPwd && <VisibilityOffIcon />}
+                        {btnCNewPwd && (
+                          <VisibilityIcon sx={{ marginLeft: "12vw" }} />
+                        )}
+                        {!btnCNewPwd && (
+                          <VisibilityOffIcon sx={{ marginLeft: "12vw" }} />
+                        )}
                       </IconButton>
                     ),
                   }}
                 />
               </Grid>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item lg={6} xs={12}>
               <Grid item xs={12}>
                 <Typography
                   variant="h6"
