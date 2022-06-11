@@ -21,6 +21,7 @@ function ProfilePage() {
             <Header display="no"></Header>
           </Box>
         </Grid>
+
         <Grid item xs={3} sx={{ marginLeft: "-5vw", marginTop: "-12vh" }}>
           <ProfileLeftContent
             ControllerName={Controller}
