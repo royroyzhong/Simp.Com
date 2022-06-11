@@ -25,7 +25,7 @@ function ProfilePage() {
         <Grid
           item
           lg={4}
-          md={12}
+          md={3}
           sx={{ marginLeft: "-5vw", marginTop: "-12vh" }}
         >
           <ProfileLeftContent
@@ -34,7 +34,7 @@ function ProfilePage() {
           />
         </Grid>
 
-        <Grid item lg={8} md={12} sx={{ marginTop: "-12vh" }}>
+        <Grid item lg={8} md={3} sx={{ marginTop: "-12vh" }}>
           {Controller === "" && <ProfileContent />}
           {Controller === "personalInformation" && <ProfileContent />}
           {/* {Controller === "Payment" && <PaymentContent />} */}
