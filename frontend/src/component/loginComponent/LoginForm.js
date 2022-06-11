@@ -21,6 +21,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import IconButton from "@mui/material/IconButton";
 import Dashboard from "../sellerDashboard/Dashboard";
 import { useNavigate } from "react-router-dom";
+import { Typography } from "@mui/material";
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.h7,
@@ -87,15 +88,21 @@ function LoginForm() {
       <Marginer direction="vertical" margin="3vh" />
 
       <Box sx={{ flexGrow: 1 }}>
-        <Grid container spacing={10}>
-          <Grid item xs={8}>
+        <Grid container spacing={1}>
+          <Grid item xs={12} md={8} sm={12}>
             <Item>
               <MuiStyle />
             </Item>
           </Grid>
-          <Grid item xs={4}>
+
+          <Grid item xs={12} md={4} sm={12}>
             <Item>
-              <BoldSpan href="#">Forget your password? </BoldSpan>
+              <BoldSpan href="#">
+                <Typography variant="body2" gutterBottom>
+                  Forget your password?{" "}
+                </Typography>{" "}
+              </BoldSpan>
+              {/* <BoldSpan href="#">Forget your password? </BoldSpan> */}
             </Item>
           </Grid>
         </Grid>

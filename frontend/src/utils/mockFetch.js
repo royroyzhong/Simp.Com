@@ -12,12 +12,12 @@ export const quinn = {
         restore: 2048
     },
     orders_detail: {
-        Unprocessed: [{Order_Number: 1234, Products: [{id:1111, productName: "Sandwitch"}], Status: "Unprocessed"},
-        {Order_Number: 1235, Products: [{id:1101, productName: "Orange Juice"}], Status: "Unprocessed"}],
-        Shipped:[{Order_Number: 1034, Products: [{id:1111, productName: "Sandwitch"}], Status: "Shipped"},
-        {Order_Number: 1035, Products: [{id:1101, productName: "Orange Juice"}], Status: "Shipped"}],
-        Delivered: [{Order_Number: 1020, Products: [{id:1111, productName: "Sandwitch"}], Status: "Delivered"},
-        {Order_Number: 1021, Products: [{id:1101, productName: "Orange Juice"}], Status: "Delivered"}],
+        Unprocessed: [{id:1,orderNumber: 1234, products: [{id:1111, productName: "Sandwitch"},{id:1111, productName: "Sandwitch"}], status: "Unprocessed"},
+        {id:2,orderNumber: 1235, products: [{id:1101, productName: "Orange Juice"}], status: "Unprocessed"}],
+        Shipped:[{id:1,orderNumber: 1034, products: [{id:1111, productName: "Sandwitch"}], status: "Shipped"},
+        {id:2,orderNumber: 1035, products: [{id:1101, productName: "Orange Juice"}], status: "Shipped"}],
+        Delivered:[{id:1,orderNumber: 1020, products: [{id:1111, productName: "Sandwitch"}], status: "Delivered"},
+        {id:2,orderNumber: 1021, products: [{id:1101, productName: "Orange Juice"}], status: "Delivered"}]
     },
     stats: {
         bestSeller: "想吃锅贴"

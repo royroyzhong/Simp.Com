@@ -24,9 +24,9 @@ const categories = [
 const item = {
   py: "4px",
   px: 2,
-  color: "rgba(255, 255, 255, 0.7)",
+  color: "#F7F8FC",
   "&:hover, &:focus": {
-    bgcolor: "rgba(255, 255, 255, 0.08)",
+    bgcolor: "rgba(208, 210, 214, 0.4)",
   },
 };
 

@@ -1,38 +1,53 @@
 .sellingStore {
-    background-color: rgba(252,241,218,0.5) ;
-    color:#a95409;
+    color:#404373;
+    background-color: white;
+    border: 1px solid #310E68;
+    border-radius: 25px;
 }
 
 .itemInCart {
-    background-color: rgba(255,241,218,0.9) ;
-    height: 20vh;
-    width: 80vh;
-    text-align: left;
-    color:#af611e;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    border: 1px solid #9498A6;
+    /* #7A8CBF; */
+    color:#58595B;
 }
 
-#Price{
-    position: relative;
-    left: 50%;
-    top: -70px;
-}
-
-#Quantity{
-    position: relative;
-    left: 50%;
-    top: -70px;
-}
 
 .cart{
-    color:#a95409;
+    color:#310E68;
 }
 
 #Sum {
     position: relative;
     left: 40%;
 }
-#checkoutIcon{
+
+#checkoutIcon {
     position: relative;
     left: 40%;
-    color:#a95409;
+    background-color: white;
+    border-radius: 10px;
+    color:#404373;
 }
+
+#storeName {
+    text-align: left;
+    font-size: 30px;
+    position: relative;
+    left: 5%;
+}
+
+#quantityInputBox {
+    background-color: #9498A6;
+    border-radius: 25px;
+    width: 10vh;
+    color: #F2EBDC;
+    text-align: center;
+}
+
+.verticalLine {
+    border-left: 6px solid #7A8CBF;
+}
+
+

@@ -14,7 +14,10 @@ theme = {
     MuiDrawer: {
       styleOverrides: {
         paper: {
-          backgroundColor: "#363740",
+          // background: "linear-gradient(125deg, rgba(171,214,153,1) 0%, rgba(117,201,183,1) 100%)",
+          // background: "linear-gradient(250deg, rgba(230,222,173,1) 0%, rgba(198,208,194,1) 9%, rgba(98,156,142,1) 32%, rgba(41,96,82,1) 56%, rgba(24,40,31,1) 86%)"
+          background: "linear-gradient(316deg, #310e68 0%, #5f0f40 74%)",
+          // Nav-bar background
         },
       },
     },
@@ -22,7 +25,7 @@ theme = {
       styleOverrides: {
         root: {
           "&.Mui-selected": {
-            color: "#4fc3f7",
+            color: "#ffffff",
           },
         },
       },
@@ -79,7 +82,7 @@ export default function Paperbase(props) {
             flex: 1,
             display: "flex",
             flexDirection: "column",
-            bgcolor: "#F7F8FC",
+            bgcolor: "#F7F8FC",  // wrapper for right
           }}
         >
           {props.children}

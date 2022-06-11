@@ -72,13 +72,13 @@ export const SubmitButton = styled.button`
   }
 `;
 
-const HorizontalMargin = styled.span`
+export const HorizontalMargin = styled.span`
   display: flex;
   width: ${({ margin }) =>
     typeof margin === "string" ? margin : `${margin}px`};
 `;
 
-const VerticalMargin = styled.span`
+export const VerticalMargin = styled.span`
   display: flex;
   height: ${({ margin }) =>
     typeof margin === "string" ? margin : `${margin}px`};

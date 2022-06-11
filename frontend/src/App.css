@@ -37,3 +37,8 @@
     transform: rotate(360deg);
   }
 }
+
+.test{
+  background: rgb(255,226,106);
+background: linear-gradient(90deg, rgba(255,226,106,1) 0%, rgba(199,221,204,1) 35%, rgba(171,214,153,1) 100%);
+}

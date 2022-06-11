@@ -6,19 +6,19 @@ import "../../css/cart.css";
 
 
 function SellingStore(props) {
-    const renderedProducts = props.products?.map((product,index) => {
-        return <ItemInCart key={index}  item = {product} />
+    const renderedProducts = props.products?.map((product, index) => {
+        return <ItemInCart key={index} item={product} />
     })
 
     return (
-        <Container className="sellingStore">
-            <Box sx={{ flexGrow: 1 }}>
-                <Grid item xs={3} sx={{ marginLeft: "8vw" }}>
-                    <h2> {props.StoreName} </h2>
-                    {renderedProducts}
-                </Grid>
-            </Box>
-        </Container>
+        <Grid container className="sellingStore" sx={{ marginBottom: "2vw" }} >
+            <Grid item xs={10} sx={{ marginBottom: "2vw" }} id="storeName">
+                {props.StoreName}
+            </Grid>
+            <Grid item xs={10}>
+                {renderedProducts}
+            </Grid>
+        </Grid>
     )
 }
 
