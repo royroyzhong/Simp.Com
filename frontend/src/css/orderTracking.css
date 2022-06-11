@@ -1,5 +1,6 @@
-.orderTracking {
-    color:#a95409;
+.orderTrackingHeader {
+    font-size: 2pc;
+    color: #404373;
 }
 
 .unprocess,.inShipment{

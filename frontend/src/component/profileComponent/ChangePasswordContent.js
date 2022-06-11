@@ -24,6 +24,7 @@ export const CssBoxStyle = {
   paddingBottom: "2vw",
   borderRadius: "19px",
   backgroundColor: "white",
+  color:"#58595B",
   boxShadow: "0 0 2px rgb(20 20 20 / 50%)",
 };
 export const CssBoxStyle2 = {
@@ -232,8 +233,9 @@ function ChangePasswordContent() {
               <Grid item xs={10}>
                 {ruleItem("At least 1 special characters", ruleFive)}
               </Grid>
-              <Grid item xs={10} sx={{ marginTop: "1vh", marginLeft: "10vw" }}>
-                <Button variant="contained">Save</Button>
+              <Grid item xs={10} sx={{ marginTop: "2vh", marginLeft: "10vw" }}>
+                <Button variant="contained">Save</Button> 
+                {/* TODO */}
               </Grid>
             </Grid>
           </Grid>
