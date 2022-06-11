@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { getProductList } from "../../controller/productSlice";
 import avatar from "../../assets/avatar.jpg";
 import snowman from "../../assets/snowman.svg";
-import food from "../../assets/food.svg";
+//import food from "../../assets/food.svg";
 import bomb from "../../assets/bomb.svg";
 import book from "../../assets/book.svg";
 import upload from "../../assets/upload.svg";

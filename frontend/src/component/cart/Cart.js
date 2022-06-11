@@ -6,6 +6,7 @@ import { getCart } from '../../controller/cartSlice';
 import SellingStore from './SellingStore';
 import ShoppingCartCheckoutOutlinedIcon from '@mui/icons-material/ShoppingCartCheckoutOutlined';
 import "../../css/cart.css";
+import { Container } from "@mui/system";
 
 
 function Cart() {
@@ -27,6 +28,7 @@ function Cart() {
   function handleCheckout() { }
 
   return (
+    <Container maxWidth="md" className="dashboard" sx={{bgcolor: '#F7F8FC'}} >
     <Box className="cart">
       <h1> Cart</h1>
       <Grid container rowSpacing={5} sx={{ marginLeft: "8vw", marginBottom: "2vw" }}>
@@ -39,6 +41,7 @@ function Cart() {
       <h2 id="Sum"> Sum: {sum}</h2>
       <button className="Btn" id="checkoutIcon" onClick={handleCheckout}> <ShoppingCartCheckoutOutlinedIcon> </ShoppingCartCheckoutOutlinedIcon></button>
     </Box>
+    </Container>
   );
 
 }
