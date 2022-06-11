@@ -2,7 +2,7 @@ import React from "react";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import { useSelector } from 'react-redux';
-import { getCart } from '../../controller/CartSlice';
+import { getCart } from '../../controller/cartSlice';
 import SellingStore from './SellingStore';
 import ShoppingCartCheckoutOutlinedIcon from '@mui/icons-material/ShoppingCartCheckoutOutlined';
 import "../../css/cart.css";
