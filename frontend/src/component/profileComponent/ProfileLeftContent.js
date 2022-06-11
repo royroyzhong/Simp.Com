@@ -41,7 +41,6 @@ function ProfileLeftContent(props) {
     textTransform: "capitalize",
     justifyContent: "flex-start",
     border: "none",
-    color: "#195300",
     marginTop: "-5vh",
   };
   const buttons = (props) => {
