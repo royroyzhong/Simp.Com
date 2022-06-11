@@ -53,7 +53,6 @@ function OrderTracking(props) {
                         columns={columns}
                         pageSize={5}
                         rowsPerPageOptions={[5]}
-                        checkboxSelection
                     />
             </Grid>
             <Grid item xs={10} className="orderTrackingHeader"> Delievered Orders</Grid>
@@ -63,7 +62,6 @@ function OrderTracking(props) {
                         columns={columns}
                         pageSize={5}
                         rowsPerPageOptions={[5]}
-                        checkboxSelection
                     />
             </Grid>
         </Grid>
