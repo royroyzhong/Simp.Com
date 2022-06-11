@@ -52,7 +52,12 @@ export default function Header(prop) {
     setAnchorEl(null);
   };
   return (
-    <Grid>
+    <Grid container spacing={3}>
+      <Grid item xs>
+        <Box>
+          <p>Hello {quinn.name}</p>
+        </Box>
+      </Grid>
       <Grid item xs={"auto"}>
         {prop.display == null && <SearchBar />}
       </Grid>
@@ -111,7 +116,7 @@ export default function Header(prop) {
         </Menu>
       </Grid>
     </Grid>
-  
+  );
 }
 
 function SearchBar(props) {
