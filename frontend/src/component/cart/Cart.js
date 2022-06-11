@@ -14,7 +14,7 @@ function Cart() {
   const renderedSellingStores = []
   for (let i in storeNames) {
     var storeName = storeNames[i]
-    let tempArray = cart.products.filter(p => p.soldBy == storeName)
+    let tempArray = cart.products.filter(p => p.soldBy === storeName)
     renderedSellingStores.push(<SellingStore key={i} StoreName={storeName} products={tempArray} ></SellingStore>)
     i++;
   }
