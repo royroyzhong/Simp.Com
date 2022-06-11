@@ -11,7 +11,7 @@ import Cart from "./component/cart/Cart";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NavWrapper from "./component/common/NavWrapper";
 import ProductBoard from "./component/sellerDashboard/ProductCompactView";
-import ProductPage from './component/sellerDashboard/ProductDetailView';
+import ProductPage from "./component/sellerDashboard/ProductDetailView";
 
 import CustomerPageRightContent from "./component/customerPageComponent/CustomerPageRightContent";
 import Header from "./component/common/Header";
@@ -47,6 +47,10 @@ function App() {
           <Route
             path="/sellerX/order_tracking/"
             element={wrapper(<OrderTracking />, seller)}
+          />
+          <Route
+            path="/sellerX/product_page/"
+            element={wrapper(<ProductPage />, seller)}
           />
           <Route path="/userX/cart/" element={wrapper(<Cart />, buyer)} />
         </Routes>

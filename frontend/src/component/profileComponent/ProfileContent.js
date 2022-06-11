@@ -61,7 +61,7 @@ function ProfileContent() {
               paddingLeft: "50px",
             }}
           >
-            <Grid item xs={7}>
+            <Grid item md={7} xs={10} >
               <TextField
                 fullWidth
                 id="standard"
