@@ -8,24 +8,26 @@ import quinnAvatar from "../../assets/avatar.jpg"; // mock avatar
 
 export default function Header(prop) {
   return (
-    <Grid container spacing={3}>
-      <Grid item xs>
-        <Box>
-          <p>Hello {quinn.name}</p>
-        </Box>
+    <Box className="status-line-wrapper">
+      <Grid container spacing={3}>
+        <Grid item xs>
+          <Box>
+            <p>Hello {quinn.name}</p>
+          </Box>
+        </Grid>
+        <Grid item xs={"auto"}>
+          {prop.display == null && <SearchBar />}
+        </Grid>
+        <Grid item xs={"auto"}>
+          <Box>
+            <h4>{quinn.name}</h4>
+          </Box>
+        </Grid>
+        <Grid item xs={"auto"}>
+          <Avatar alt="Remy Sharp" src={quinnAvatar} />
+        </Grid>
       </Grid>
-      <Grid item xs={"auto"}>
-        {prop.display == null && <SearchBar />}
-      </Grid>
-      <Grid item xs={"auto"}>
-        <Box>
-          <h4>{quinn.name}</h4>
-        </Box>
-      </Grid>
-      <Grid item xs={"auto"}>
-        <Avatar alt="Remy Sharp" src={quinnAvatar} />
-      </Grid>
-    </Grid>
+    </Box>
   );
 }
 

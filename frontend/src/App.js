@@ -11,6 +11,7 @@ import ItemInCart from './component/cart/ItemInCart';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import CustomerPage from "./component/common/CustomerPage";
 import ProductBoard from "./component/sellerDashboard/ProductCompactView";
+import ProductPage from './component/sellerDashboard/ProductDetailView';
 
 // import ChangePassword from "./component/profileComponent/ChangePasswordPage";
 
@@ -22,6 +23,13 @@ function App() {
         <Dashboard /> 
       </CustomerPage>
   )
+
+  let test = (
+    <CustomerPage>
+      <ProductPage />
+    </CustomerPage>
+  );
+
   return (
     <div className="App">
       <BrowserRouter>
@@ -30,6 +38,7 @@ function App() {
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/dashboard" element={<Dashboard />} />
           <Route exact path="/dashboard/products/" element={<ProductBoard />} /> 
+          <Route exact path="/product" element={test} />
         </Routes>
       </BrowserRouter>
 

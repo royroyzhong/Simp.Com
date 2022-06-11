@@ -1,4 +1,4 @@
-import {configureStore} from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
 import CartSlice from "./CartSlice";
 import productSlice from "./productSlice";
 import userSlice from "./userSlice";
@@ -8,5 +8,12 @@ export default configureStore({
         user: userSlice,
         cart: CartSlice,
         products: productSlice
-    }
+    },
+    middleware: (middleware) =>
+        middleware({
+            serializableCheck: {
+                ignoreState: true
+            }
+        })
+
 })
