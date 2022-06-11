@@ -11,6 +11,8 @@ import Cart from "./component/cart/Cart";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NavWrapper from "./component/common/NavWrapper";
 import ProductBoard from "./component/sellerDashboard/ProductCompactView";
+import ProductPage from './component/sellerDashboard/ProductDetailView';
+
 import CustomerPageRightContent from "./component/customerPageComponent/CustomerPageRightContent";
 import Header from "./component/common/Header";
 // import ChangePassword from "./component/profileComponent/ChangePasswordPage";
