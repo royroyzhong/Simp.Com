@@ -24,7 +24,7 @@ export const CssBoxStyle = {
   paddingBottom: "2vw",
   borderRadius: "19px",
   backgroundColor: "white",
-  color:"#58595B",
+  color: "#58595B",
   boxShadow: "0 0 2px rgb(20 20 20 / 50%)",
 };
 export const CssBoxStyle2 = {
@@ -140,12 +140,8 @@ function ChangePasswordContent() {
                   InputProps={{
                     endAdornment: (
                       <IconButton aria-label="edit" onClick={handleOldPwd}>
-                        {btnOldPwd && (
-                          <VisibilityIcon sx={{ marginLeft: "12vw" }} />
-                        )}
-                        {!btnOldPwd && (
-                          <VisibilityOffIcon sx={{ marginLeft: "12vw" }} />
-                        )}
+                        {btnOldPwd && <VisibilityIcon />}
+                        {!btnOldPwd && <VisibilityOffIcon />}
                       </IconButton>
                     ),
                   }}
@@ -165,12 +161,8 @@ function ChangePasswordContent() {
                   InputProps={{
                     endAdornment: (
                       <IconButton aria-label="edit" onClick={handleNewPwd}>
-                        {btnNewPwd && (
-                          <VisibilityIcon sx={{ marginLeft: "12vw" }} />
-                        )}
-                        {!btnNewPwd && (
-                          <VisibilityOffIcon sx={{ marginLeft: "12vw" }} />
-                        )}
+                        {btnNewPwd && <VisibilityIcon />}
+                        {!btnNewPwd && <VisibilityOffIcon />}
                       </IconButton>
                     ),
                   }}
@@ -193,12 +185,8 @@ function ChangePasswordContent() {
                   InputProps={{
                     endAdornment: (
                       <IconButton aria-label="edit" onClick={handleCNewPwd}>
-                        {btnCNewPwd && (
-                          <VisibilityIcon sx={{ marginLeft: "12vw" }} />
-                        )}
-                        {!btnCNewPwd && (
-                          <VisibilityOffIcon sx={{ marginLeft: "12vw" }} />
-                        )}
+                        {btnCNewPwd && <VisibilityIcon />}
+                        {!btnCNewPwd && <VisibilityOffIcon />}
                       </IconButton>
                     ),
                   }}
@@ -234,7 +222,7 @@ function ChangePasswordContent() {
                 {ruleItem("At least 1 special characters", ruleFive)}
               </Grid>
               <Grid item xs={10} sx={{ marginTop: "2vh", marginLeft: "10vw" }}>
-                <Button variant="contained">Save</Button> 
+                <Button variant="contained">Save</Button>
                 {/* TODO */}
               </Grid>
             </Grid>
