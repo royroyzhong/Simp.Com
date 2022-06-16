@@ -11,6 +11,8 @@ import CheckIcon from "@mui/icons-material/Check";
 import { Marginer } from "../../css/CommonStyle";
 import Typography from "@mui/material/Typography";
 import { CssBoxStyle } from "./ChangePasswordContent";
+import { getProfile } from "../../controller/userSlice";
+import { useSelector } from "react-redux";
 function ProfileContent() {
   const [btnDisabledFName, setBtnDisabledFName] = useState(true);
   const [btnDisabledLName, setBtnDisabledLName] = useState(true);
@@ -34,6 +36,9 @@ function ProfileContent() {
       split.slice(6, 10)
     );
   };
+  let userProfile = useSelector(getProfile);
+  console.log(userProfile);
+
   return (
     <React.Fragment>
       <CssBaseline />
@@ -61,12 +66,12 @@ function ProfileContent() {
               paddingLeft: "50px",
             }}
           >
-            <Grid item md={7} xs={10} >
+            <Grid item md={7} xs={10}>
               <TextField
                 fullWidth
                 id="standard"
                 label="First Name"
-                defaultValue="Peter"
+                value={userProfile.firstName}
                 variant="standard"
                 disabled={btnDisabledFName}
                 InputProps={{
@@ -84,7 +89,7 @@ function ProfileContent() {
                 fullWidth
                 id="standard"
                 label="Last Name"
-                defaultValue="Chen"
+                value={userProfile.lastName}
                 variant="standard"
                 disabled={btnDisabledLName}
                 InputProps={{
@@ -102,7 +107,7 @@ function ProfileContent() {
                 fullWidth
                 id="standard-read-only-input"
                 label="Email"
-                defaultValue="123@gmail.com"
+                value={userProfile.email}
                 InputProps={{
                   disabled: true,
                 }}
@@ -114,7 +119,7 @@ function ProfileContent() {
                 fullWidth
                 id="standard"
                 label="Address"
-                defaultValue="1163 Maple Ave"
+                value={userProfile.address}
                 variant="standard"
                 disabled={btnDisabledAddress}
                 InputProps={{
@@ -132,7 +137,7 @@ function ProfileContent() {
                 fullWidth
                 id="standard"
                 label="Phone"
-                defaultValue={formatPhoneNumber("7781234561")}
+                value={formatPhoneNumber(userProfile.phone)}
                 variant="standard"
                 disabled={btnDisabledPhone}
                 InputProps={{
