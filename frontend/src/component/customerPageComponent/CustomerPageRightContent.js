@@ -6,7 +6,7 @@ import { Box, Container} from "@mui/system";
 import {useSelector} from "react-redux";
 import Header from "../common/Header";
 import Product from "./Product";
-import { getProducts } from "../../controller/userSlice";
+import { getProducts } from "../../controller/productSlice";
 import "../../css/dashboard.css";
 
 export default function CustomerPageRightContent(props) {
