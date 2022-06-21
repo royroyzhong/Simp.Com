@@ -45,14 +45,14 @@ function SignUpForm() {
         </BottomNavigation>
         <Marginer direction="vertical" margin="1vh" />
       </Box>
-      {isCustomer === true && (
+      {isCustomer === false && (
         <CssTextField
           id="outlined-email-input"
           label="Company Name"
           type="Name"
         />
       )}
-      {isCustomer === true && <Marginer direction="vertical" margin="1vh" />}
+      {isCustomer === false && <Marginer direction="vertical" margin="1vh" />}
       <CssTextField id="outlined-email-input" label="First Name" type="Name" />
       <Marginer direction="vertical" margin="1vh" />
       <CssTextField id="outlined-email-input" label="Last Name" type="Name" />
