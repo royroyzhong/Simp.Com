@@ -27,9 +27,8 @@ export const CssBoxStyle = {
   color: "#58595B",
   boxShadow: "0 0 2px rgb(20 20 20 / 50%)",
 };
-export const CssBoxStyle2 = {
+export const CssBoxStyle_smaller = {
   margin: "5vw 12vw",
-
   flexGrow: 1,
   height: "auto",
   paddingBottom: "2vw",
@@ -38,6 +37,7 @@ export const CssBoxStyle2 = {
   boxShadow: "0 0 2px rgb(20 20 20 / 50%)",
   width: "30vw",
 };
+
 // import { Marginer } from "../loginComponent/CommonStyle";
 function ChangePasswordContent() {
   const theme = useTheme();
@@ -104,7 +104,7 @@ function ChangePasswordContent() {
     <React.Fragment>
       <CssBaseline />
       <Container maxWidth="md">
-        <Box sx={matches ? CssBoxStyle : CssBoxStyle2}>
+        <Box sx={matches ? CssBoxStyle : CssBoxStyle_smaller}>
           <Grid item xs={12}>
             <Box sx={{ borderBottom: 0.1, marginBottom: "4vh" }}>
               <Marginer direction="vertical" margin="4vh" />

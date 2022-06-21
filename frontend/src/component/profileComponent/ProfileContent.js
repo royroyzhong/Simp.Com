@@ -10,7 +10,8 @@ import EditIcon from "@mui/icons-material/Edit";
 import CheckIcon from "@mui/icons-material/Check";
 import { Marginer } from "../../css/CommonStyle";
 import Typography from "@mui/material/Typography";
-import { CssBoxStyle } from "./ChangePasswordContent";
+import { CssBoxStyle, CssBoxStyle_smaller } from "./ChangePasswordContent";
+import { Button } from "@mui/material";
 import {
   getFirstName,
   getLastName,
@@ -19,7 +20,11 @@ import {
   getPhone,
 } from "../../controller/buyerSlice";
 import { useSelector } from "react-redux";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material";
 function ProfileContent() {
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up("md"));
   const [btnDisabledFName, setBtnDisabledFName] = useState(true);
   const [btnDisabledLName, setBtnDisabledLName] = useState(true);
   const [btnDisabledAddress, setBtnDisabledAddress] = useState(true);
@@ -52,7 +57,7 @@ function ProfileContent() {
     <React.Fragment>
       <CssBaseline />
       <Container maxWidth="md">
-        <Box sx={CssBoxStyle}>
+        <Box sx={matches ? CssBoxStyle : CssBoxStyle_smaller}>
           <Grid item xs={12}>
             <Box sx={{ borderBottom: 0.1, marginBottom: "4vh" }}>
               <Marginer direction="vertical" margin="4vh" />
@@ -93,7 +98,7 @@ function ProfileContent() {
                 }}
               />
             </Grid>
-            <Grid item xs={7}>
+            <Grid item md={7} xs={10}>
               <TextField
                 fullWidth
                 id="standard"
@@ -111,7 +116,7 @@ function ProfileContent() {
                 }}
               />
             </Grid>
-            <Grid item xs={7}>
+            <Grid item md={7} xs={10}>
               <TextField
                 fullWidth
                 id="standard-read-only-input"
@@ -123,7 +128,7 @@ function ProfileContent() {
                 variant="standard"
               />
             </Grid>
-            <Grid item xs={7}>
+            <Grid item md={7} xs={10}>
               <TextField
                 fullWidth
                 id="standard"
@@ -141,7 +146,7 @@ function ProfileContent() {
                 }}
               />
             </Grid>
-            <Grid item xs={7}>
+            <Grid item md={7} xs={10}>
               <TextField
                 fullWidth
                 id="standard"
@@ -158,6 +163,9 @@ function ProfileContent() {
                   ),
                 }}
               />
+            </Grid>
+            <Grid item md={4}xs={2} sx={{ marginTop: "2vh", marginLeft: "2vw" }}>
+              <Button variant="contained">Save</Button>
             </Grid>
           </Grid>
         </Box>

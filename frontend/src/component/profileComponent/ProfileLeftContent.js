@@ -22,12 +22,11 @@ const containerBoxStyle = {
   paddingBottom: "20vh",
   boxShadow: "0 0 2px rgb(20 20 20 / 50%)",
 };
-const containerBoxStyle2 = {
+const containerBoxStyle_smaller = {
   flexGrow: 1,
   borderRadius: "19px",
   backgroundColor: "white",
   width: "30vw",
-  height: "auto",
   margin: "5vw 20vw",
   paddingLeft: "1vw",
   boxShadow: "0 0 2px rgb(20 20 20 / 50%)",
@@ -168,7 +167,7 @@ function ProfileLeftContent(props) {
   }, [pageName]);
 
   return (
-    <Box sx={matches ? containerBoxStyle : containerBoxStyle2}>
+    <Box sx={matches ? containerBoxStyle : containerBoxStyle_smaller}>
       <Marginer direction="vertical" margin="10vh" />
 
       {matches ? (
