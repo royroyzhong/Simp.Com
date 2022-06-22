@@ -55,7 +55,7 @@ export const Input = styled.input`
 `;
 
 export const SubmitButton = styled.button`
-  width: 18vw;
+  width: 23vw;
   padding: 12px 10vh;
   text-align: center;
   color: #fff;

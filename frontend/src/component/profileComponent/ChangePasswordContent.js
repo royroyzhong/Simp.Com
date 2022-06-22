@@ -223,7 +223,7 @@ function ChangePasswordContent() {
               </Grid>
               <Grid item xs={10} sx={{ marginTop: "2vh", marginLeft: "10vw" }}>
                 <Button variant="contained">Save</Button>
-                {/* TODO */}
+
               </Grid>
             </Grid>
           </Grid>

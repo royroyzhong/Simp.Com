@@ -22,21 +22,44 @@ import IconButton from "@mui/material/IconButton";
 import Dashboard from "../sellerDashboard/Dashboard";
 import { useNavigate } from "react-router-dom";
 import { Typography } from "@mui/material";
-import GoogleLogin from "react-google-login";
-import GoogleButton from "react-google-button";
+import { useEffect } from "react";
+import jwt_decode from "jwt-decode";
+import { useState } from "react";
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.h7,
   color: theme.palette.text.primary,
   boxShadow: "none",
 }));
-
+function handleCallBackResponse(res) {
+  console.log("JWT:" + res.credential);
+  console.log(res);
+  var userObj = jwt_decode(res.credential);
+  console.log(userObj);
+}
 function LoginForm() {
+  const [user, setUser] = useState({});
+  useEffect(() => {
+    // global google
+    window.google.accounts.id.initialize({
+      client_id:
+        "1089072716137-04fc5dho1ovglbmmpoagr24t83pqrjic.apps.googleusercontent.com",
+      callback: handleCallBackResponse,
+    });
+    window.google.accounts.id.renderButton(
+      document.getElementById("googleSignIn"),
+      {
+        theme: "filled_blue",
+        shape: "pill",
+        size: "large",
+      }
+    );
+  }, []);
+
   let navigate = useNavigate();
   const handerSwitch = useContext(SwitcherContext);
   const [emailValue, setEmail] = React.useState("");
   const [pwdValue, setPwd] = React.useState("");
   const [visible, setVisible] = React.useState(true);
-  const buttonGoogle = {};
   const handleVisible = () => setVisible(!visible);
 
   const validateEmail = (event) => {
@@ -131,9 +154,9 @@ function LoginForm() {
         <Marginer direction="vertical" margin="2vh" />
         <BreakLine />
         {/* <Tooltip title="Login with Google"> */}
-        {/* <SubmitButton type="submit"> */}
-        {/* <GoogleIcon /> */}
-        <GoogleLogin
+        <div id="googleSignIn">
+          {/* <GoogleIcon /> */}
+          {/* <GoogleLogin
           clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
           render={(renderProps) => (
             <GoogleButton
@@ -143,13 +166,20 @@ function LoginForm() {
               Sign in with Google
             </GoogleButton>
           )}
-          buttonText="Sign in with Google"
           onSuccess={handleLoginGoogleSucess}
           onFailure={handleLoginGoogleFailure}
           cookiePolicy={"single_host_origin"}
-        ></GoogleLogin>
-        {/* </SubmitButton> */}
+        ></GoogleLogin> */}
+        </div>
         {/* </Tooltip> */}
+        {/* <GoogleOneTapLogin
+          onSuccess={handleLoginGoogleSucess}
+          onError={handleLoginGoogleFailure}
+          googleAccountConfigs={{
+            client_id:
+              "362749935465-2v6s18g1pi8kev1fmkr2c3t8irhjb3uv.apps.googleusercontent.com",
+          }}
+        /> */}
         <Marginer direction="vertical" margin="2vh" />
       </SmallSpan>
     </BoxContainer>
