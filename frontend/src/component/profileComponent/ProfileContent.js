@@ -164,7 +164,12 @@ function ProfileContent() {
                 }}
               />
             </Grid>
-            <Grid item md={4}xs={2} sx={{ marginTop: "2vh", marginLeft: "2vw" }}>
+            <Grid
+              item
+              md={4}
+              xs={2}
+              sx={{ marginTop: "2vh", marginLeft: "2vw" }}
+            >
               <Button variant="contained">Save</Button>
             </Grid>
           </Grid>
