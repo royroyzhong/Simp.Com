@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { quinn, gavin } from "../utils/mockFetch";
 
-const userSlice = createSlice({
+const sellerSlice = createSlice({
   name: "seller",
   initialState: {
     firstName: quinn.firstName,
@@ -29,4 +29,4 @@ export const getAddress = (state) => state.seller.address;
 export const getEmail = (state) => state.seller.email;
 export const getPhone = (state) => state.seller.phone;
 export const getCompanyName = (state) => state.seller.compangName;
-export default userSlice.reducer;
+export default sellerSlice.reducer;
