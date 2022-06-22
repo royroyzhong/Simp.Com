@@ -22,7 +22,8 @@ import IconButton from "@mui/material/IconButton";
 import Dashboard from "../sellerDashboard/Dashboard";
 import { useNavigate } from "react-router-dom";
 import { Typography } from "@mui/material";
-
+import GoogleLogin from "react-google-login";
+import GoogleButton from "react-google-button";
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.h7,
   color: theme.palette.text.primary,
@@ -35,7 +36,9 @@ function LoginForm() {
   const [emailValue, setEmail] = React.useState("");
   const [pwdValue, setPwd] = React.useState("");
   const [visible, setVisible] = React.useState(true);
+  const buttonGoogle = {};
   const handleVisible = () => setVisible(!visible);
+
   const validateEmail = (event) => {
     const value = event.target.value;
     setEmail(value);
@@ -54,6 +57,14 @@ function LoginForm() {
       console.log("fail");
     }
   };
+
+  const handleLoginGoogleFailure = (data) => {
+    console.log(data);
+  };
+  const handleLoginGoogleSucess = (data) => {
+    console.log(data);
+  };
+
   return (
     <BoxContainer
       onKeyPress={(event) => {
@@ -119,11 +130,26 @@ function LoginForm() {
         </BoldSpan>
         <Marginer direction="vertical" margin="2vh" />
         <BreakLine />
-        <Tooltip title="Login with Google">
-          <SubmitButton type="submit">
-            <GoogleIcon />
-          </SubmitButton>
-        </Tooltip>
+        {/* <Tooltip title="Login with Google"> */}
+        {/* <SubmitButton type="submit"> */}
+        {/* <GoogleIcon /> */}
+        <GoogleLogin
+          clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+          render={(renderProps) => (
+            <GoogleButton
+              onClick={renderProps.onClick}
+              disabled={renderProps.disabled}
+            >
+              Sign in with Google
+            </GoogleButton>
+          )}
+          buttonText="Sign in with Google"
+          onSuccess={handleLoginGoogleSucess}
+          onFailure={handleLoginGoogleFailure}
+          cookiePolicy={"single_host_origin"}
+        ></GoogleLogin>
+        {/* </SubmitButton> */}
+        {/* </Tooltip> */}
         <Marginer direction="vertical" margin="2vh" />
       </SmallSpan>
     </BoxContainer>

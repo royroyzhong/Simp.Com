@@ -55,8 +55,8 @@ export const Input = styled.input`
 `;
 
 export const SubmitButton = styled.button`
-  width: 25vw;
-  padding: 12px 10vw;
+  width: 18vw;
+  padding: 12px 10vh;
   text-align: center;
   color: #fff;
   font-size: 18px;
@@ -102,7 +102,7 @@ export const BreakLine = styled.hr`
   &:after {
     background: #fff;
     color: rgba(150,150,150,1);
-    content: "or Sign in with Google";
+    content: "or";
     padding: 0 4px;
     position: relative;
     top: -8px;
