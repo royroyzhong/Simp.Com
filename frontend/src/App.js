@@ -1,5 +1,5 @@
 // import logo from "./logo.svg";
-import OrderTracking from "./component/orders/OrderTracking";
+import OrderTracking from "./component/orders/SellerOrderTracking";
 import "./App.css";
 import Dashboard from "./component/sellerDashboard/Dashboard";
 import Login from "./component/loginComponent/LoginPage";
@@ -10,6 +10,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NavWrapper from "./component/common/NavWrapper";
 import ProductBoard from "./component/sellerDashboard/ProductCompactView";
 import ProductPage from "./component/sellerDashboard/ProductDetailView";
+import BuyerOrderTracking from "./component/orders/BuyerOrderTracking";
 
 import CustomerPageRightContent from "./component/customerPageComponent/CustomerPageRightContent";
 import Header from "./component/common/Header";
@@ -33,6 +34,10 @@ function App() {
           <Route
             path="/userX/profile"
             element={wrapper(<ProfilePage />, buyer)}
+          />
+          <Route 
+            path="/userX/order_tracking"
+            element={wrapper(<BuyerOrderTracking />,buyer)}
           />
           <Route
             path="/sellerX/dashboard"
