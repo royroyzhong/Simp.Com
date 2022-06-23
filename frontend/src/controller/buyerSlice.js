@@ -1,6 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { quinn, gavin } from "../utils/mockFetch";
+import { mockBuyer } from "../utils/mockBuyer";
 
+// TODO: buyerSlice 
 const userSlice = createSlice({
   name: "buyer",
   initialState: {
@@ -17,6 +19,7 @@ const userSlice = createSlice({
     email: quinn.email,
     phone: quinn.phone,
     cart: quinn.cart,
+    orderHistory:mockBuyer.orderHistory,
   },
 });
 
@@ -35,5 +38,6 @@ export const getAddress = (state) => state.buyer.address;
 export const getEmail = (state) => state.buyer.email;
 export const getPhone = (state) => state.buyer.phone;
 export const getCart = (state) => state.buyer.cart;
+export const getOrderHistory = (state) => state.buyer.orderHistory;
 
 export default userSlice.reducer;
