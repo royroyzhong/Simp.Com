@@ -153,33 +153,7 @@ function LoginForm() {
         </BoldSpan>
         <Marginer direction="vertical" margin="2vh" />
         <BreakLine />
-        {/* <Tooltip title="Login with Google"> */}
-        <div id="googleSignIn">
-          {/* <GoogleIcon /> */}
-          {/* <GoogleLogin
-          clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-          render={(renderProps) => (
-            <GoogleButton
-              onClick={renderProps.onClick}
-              disabled={renderProps.disabled}
-            >
-              Sign in with Google
-            </GoogleButton>
-          )}
-          onSuccess={handleLoginGoogleSucess}
-          onFailure={handleLoginGoogleFailure}
-          cookiePolicy={"single_host_origin"}
-        ></GoogleLogin> */}
-        </div>
-        {/* </Tooltip> */}
-        {/* <GoogleOneTapLogin
-          onSuccess={handleLoginGoogleSucess}
-          onError={handleLoginGoogleFailure}
-          googleAccountConfigs={{
-            client_id:
-              "362749935465-2v6s18g1pi8kev1fmkr2c3t8irhjb3uv.apps.googleusercontent.com",
-          }}
-        /> */}
+        <div id="googleSignIn"></div>
         <Marginer direction="vertical" margin="2vh" />
       </SmallSpan>
     </BoxContainer>
