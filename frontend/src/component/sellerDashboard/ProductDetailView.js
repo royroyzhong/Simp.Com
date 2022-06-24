@@ -140,7 +140,7 @@ function TagDisplay(props) {
                     <Tag key={index}>{tag}</Tag>
                 ))}
                 <Box display={'flex'} >
-                    <AddCircleOutlineIcon onClick={handleToggle} sx={{ padding: 1.5 }} />
+                    <AddCircleOutlineIcon onClick={handleToggle} sx={{margin: 1.5}} />
                     <Fade in={shouldInputShow} sx={tagInputStyle}>
                         <TextField
                             value={tagBuffer}
@@ -197,7 +197,7 @@ function TextDisplay(props) {
                 ))}
                 <Box sx={{ display: "flex" }}>
                     <Fade in={!shouldInputShow}>
-                        <AddCircleOutlineIcon onClick={handleToggle} sx={{ padding: 1.5 }} />
+                        <AddCircleOutlineIcon onClick={handleToggle} sx={{}} />
                     </Fade>
                     <Fade in={shouldInputShow} >
                         <Box >

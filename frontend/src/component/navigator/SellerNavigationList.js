@@ -27,6 +27,7 @@ export default function SellerNavigationList() {
             {categories.map(({ id, icon, path, active }) => (
             <ListItemButton sx={{color:'#ffffff'}}
                 selected={active}
+                key={id}
                 onClick={() => navigate(path)}
               >
                 <ListItemIcon sx={{color:'#ffffff'}}>
