@@ -2,6 +2,7 @@ export default class Product {
 
     constructor(seller) {
 
+        this.uuid = null;
         this.title = "";
         this.price = 0;
         this.quantity = 0;

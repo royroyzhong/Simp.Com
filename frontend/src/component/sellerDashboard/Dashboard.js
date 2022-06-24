@@ -145,8 +145,8 @@ function InfoGraph(props) {
 }
 
 function ProcessingList(props) {
-  let awaitingActions = "hello";
-  let topProducts = ["p1", "p2"];
+  let awaitingActions = ["#266898", "#749877"];
+  let topProducts = ["???", "!!!"];
 
   return (
     <Stack direction={"row"} spacing={2}>

@@ -5,6 +5,13 @@ import { quinn, gavin } from "../utils/mockFetch";
 let product = new Product("quinn");
 product.title = "hello world";
 product.imgRefs = ['book'];
+
+let p2 = new Product("quinn");
+p2.title = "product 2";
+
+let p3 = new Product("quinn");
+p3.title = "product 3";
+
 const sellerSlice = createSlice({
   name: "seller",
   initialState: {
@@ -17,9 +24,14 @@ const sellerSlice = createSlice({
 
     // Seller inventory
     inventory: [
-      product
+      product, p2, p3
     ]
   },
+  reducers: {
+    addProduct: (state, action) => {
+      this.inventory.push(action.payload);
+    }
+  }
 });
 
 // ------------------ Getters ------------------- //
