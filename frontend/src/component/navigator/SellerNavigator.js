@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 
 const categories = [
   { id: "Home", icon: <HomeIcon />, path: "/sellerX/dashboard" },
-  { id: "Products", icon: <InventoryIcon />, path: "/sellerX/product_page/" },
+  { id: "Products", icon: <InventoryIcon />, path: "/sellerX/products/" },
   { id: "Orders", icon: <LightbulbIcon />, path: "/sellerX/order_tracking/" },
   { id: "Analysis", icon: <EqualizerIcon />, path: "/SIP" },
   { id: "Collabration", icon: <PeopleIcon />, path: "/SIP" },
