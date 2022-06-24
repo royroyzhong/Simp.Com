@@ -1,20 +1,16 @@
 // import logo from "./logo.svg";
-import OrderTracking from "./component/orders/OrderTracking";
+import OrderTracking from "./component/orders/SellerOrderTracking";
 import "./App.css";
-import Dashboard from "./component/sellerDashboard/Dashboard";
 import Login from "./component/loginComponent/LoginPage";
 import ProfilePage from "./component/profileComponent/ProfilePage";
-import ItemInCart from "./component/cart/ItemInCart";
 import Cart from "./component/cart/Cart";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NavWrapper from "./component/common/NavWrapper";
 import ProductBoard from "./component/sellerDashboard/ProductCompactView";
 import ProductPage from "./component/sellerDashboard/ProductDetailView";
-
+import BuyerOrderTracking from "./component/orders/BuyerOrderTracking";
 import CustomerPageRightContent from "./component/customerPageComponent/CustomerPageRightContent";
-import Header from "./component/common/Header";
-import { useState } from "react";
-// import ChangePassword from "./component/profileComponent/ChangePasswordPage";
+import Dashboard from "./component/sellerDashboard/Dashboard";
 
 function App() {
   const token = sessionStorage.getItem("jwtToken");
@@ -47,6 +43,10 @@ function App() {
           <Route
             path="/userX/profile"
             element={wrapper(<ProfilePage />, buyer)}
+          />
+          <Route
+            path="/userX/order_tracking"
+            element={wrapper(<BuyerOrderTracking />, buyer)}
           />
           <Route
             path="/sellerX/dashboard"

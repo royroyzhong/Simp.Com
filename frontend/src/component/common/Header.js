@@ -1,5 +1,5 @@
 // MUI Components
-import { Avatar, Grid, TextField } from "@mui/material";
+import { Avatar, TextField } from "@mui/material";
 import { Box } from "@mui/system";
 import SearchIcon from "@mui/icons-material/Search";
 import MenuItem from "@mui/material/MenuItem";
@@ -14,6 +14,13 @@ import IconButton from "@mui/material/IconButton";
 import PeopleIcon from "@mui/icons-material/People";
 import SwitchAccountIcon from "@mui/icons-material/SwitchAccount";
 import { useNavigate } from "react-router-dom";
+import Typography from "@mui/material/Typography";
+import { styled } from "@mui/material/styles";
+import MuiAppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import MenuIcon from "@mui/icons-material/Menu";
+
+const drawerWidth = 240;
 
 const PaperCssStyle = {
   elevation: 0,
@@ -41,6 +48,27 @@ const PaperCssStyle = {
     },
   },
 };
+
+// Header style
+const AppBar = styled(MuiAppBar, {
+  shouldForwardProp: (prop) => prop !== "open",
+})(({ theme, open }) => ({
+  zIndex: theme.zIndex.drawer + 1,
+  background: "#ffffff",
+  transition: theme.transitions.create(["width", "margin"], {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  ...(open && {
+    marginLeft: drawerWidth,
+    width: `calc(100% - ${drawerWidth}px)`,
+    transition: theme.transitions.create(["width", "margin"], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  }),
+}));
+
 export default function Header(prop) {
   let navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -51,26 +79,45 @@ export default function Header(prop) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
   const handleLogOut = () => {
     sessionStorage.clear();
     navigate("/login");
   };
   return (
-    <Grid container spacing={3}>
-      <Grid item xs>
+    <AppBar position="absolute" open={prop.open}>
+      <Toolbar
+        sx={{
+          pr: "24px", // keep right padding when drawer closed
+        }}
+      >
+        <IconButton
+          edge="start"
+          color="inherit"
+          aria-label="open drawer"
+          onClick={() => prop.childToParent(!prop.open)}
+          sx={{
+            marginRight: "36px",
+            ...(prop.open && { display: "none" }),
+            color: "black",
+          }}
+        >
+          <MenuIcon />
+        </IconButton>
+        <Typography
+          component="h1"
+          variant="h6"
+          color="black"
+          noWrap
+          textAlign="left"
+          sx={{ flexGrow: 1 }}
+        >
+          Hello, {quinn.name}
+        </Typography>
         <Box>
-          <p>Hello {quinn.name}</p>
+          <SearchIcon sx={{ fontSize: 40, color: "black" }}></SearchIcon>
+          <TextField variant="outlined" label="Search" size="small"></TextField>
         </Box>
-      </Grid>
-      <Grid item xs={"auto"}>
-        {prop.display == null && <SearchBar />}
-      </Grid>
-      <Grid item xs={"auto"}>
-        <Box>
-          <h4>{quinn.name}</h4>
-        </Box>
-      </Grid>
-      <Grid item xs={"auto"}>
         <IconButton
           onClick={handleClick}
           size="small"
@@ -81,7 +128,6 @@ export default function Header(prop) {
         >
           <Avatar alt="Remy Sharp" src={quinnAvatar} />
         </IconButton>
-
         <Menu
           anchorEl={anchorEl}
           id="account-menu"
@@ -118,16 +164,7 @@ export default function Header(prop) {
             Logout
           </MenuItem>
         </Menu>
-      </Grid>
-    </Grid>
-  );
-}
-
-function SearchBar(props) {
-  return (
-    <Box>
-      <SearchIcon sx={{ fontSize: 40, color: "grey" }}></SearchIcon>
-      <TextField variant="outlined" label="Search" size="small"></TextField>
-    </Box>
+      </Toolbar>
+    </AppBar>
   );
 }

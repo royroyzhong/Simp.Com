@@ -1,93 +1,103 @@
-import * as React from "react";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import SellerNavigator from "../navigator/SellerNavigator";
-import BuyerNavigator from "../navigator/BuyerNavigator";
-import CustomerPageRigheContent from "../customerPageComponent/CustomerPageRightContent";
-import ProductBoard from "../sellerDashboard/ProductCompactView";
-import Dashboard from "../sellerDashboard/Dashboard";
+import * as React from 'react';
+import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import MuiDrawer from '@mui/material/Drawer';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import Header from './Header';
+import { Typography } from '@mui/material';
+import BuyerNavigationList from '../navigator/BuyerNavigationList';
+import SellerNavigationList from '../navigator/SellerNavigationList';
+const drawerWidth = 240;
 
-let theme = createTheme({});
-theme = {
-  ...theme,
-  components: {
-    MuiDrawer: {
-      styleOverrides: {
-        paper: {
-          // background: "linear-gradient(125deg, rgba(171,214,153,1) 0%, rgba(117,201,183,1) 100%)",
-          // background: "linear-gradient(250deg, rgba(230,222,173,1) 0%, rgba(198,208,194,1) 9%, rgba(98,156,142,1) 32%, rgba(41,96,82,1) 56%, rgba(24,40,31,1) 86%)"
-          background: "linear-gradient(316deg, #310e68 0%, #5f0f40 74%)",
-          // Nav-bar background
+const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
+  ({ theme, open }) => ({
+    '& .MuiDrawer-paper': {
+      background: 'linear-gradient(316deg, #310e68 0%, #5f0f40 74%)',
+      position: 'relative',
+      whiteSpace: 'nowrap',
+      width: drawerWidth,
+      transition: theme.transitions.create('width', {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+      boxSizing: 'border-box',
+      ...(!open && {
+        overflowX: 'hidden',
+        transition: theme.transitions.create('width', {
+          easing: theme.transitions.easing.sharp,
+          duration: theme.transitions.duration.leavingScreen,
+        }),
+        width: theme.spacing(7),
+        [theme.breakpoints.up('sm')]: {
+          width: theme.spacing(9),
         },
-      },
+      }),
     },
-    MuiListItemButton: {
-      styleOverrides: {
-        root: {
-          "&.Mui-selected": {
-            color: "#ffffff",
-          },
-        },
-      },
-    },
-    MuiListItemText: {
-      styleOverrides: {
-        primary: {
-          fontSize: 14,
-          fontWeight: theme.typography.fontWeightMedium,
-        },
-      },
-    },
-    MuiListItemIcon: {
-      styleOverrides: {
-        root: {
-          color: "inherit",
-          minWidth: "auto",
-          marginRight: theme.spacing(2),
-          "& svg": {
-            fontSize: 20,
-          },
-        },
-      },
-    },
-  },
-};
+  }),
+);
 
-const drawerWidth = 256;
+const mdTheme = createTheme();
 
-export default function Paperbase(props) {
+export default function NavWrapper(props) {
+  const [open, setOpen] = React.useState(true);
+  const toggleDrawer = (childdata) => {
+    setOpen(childdata);
+  };
+
   return (
-    <ThemeProvider theme={theme}>
-      <Box sx={{ display: "flex", minHeight: "200vh" }}>
+    <ThemeProvider theme={mdTheme}>
+      <Box sx={{ display: 'flex' }}>
+        <CssBaseline />
+        <Header open={open} childToParent={toggleDrawer}/>
+        
+        <Drawer variant="permanent" open={open}>
+          <Toolbar
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'flex-end',
+              px: [1],
+            }}
+          >
+            <Typography
+              component="h2"
+              variant="h6"
+              color="white"
+              textAlign="left"
+              noWrap
+              sx={{ flexGrow: 1 }}
+            >
+              Simp.com
+            </Typography>
+            <IconButton onClick={() => {setOpen(!open)}} sx={{color:"#ffffff"}}>
+              <ChevronLeftIcon />
+            </IconButton>
+          </Toolbar>
+          <Divider />
+          {props.role === "seller" && (<SellerNavigationList/>)}
+          {props.role === "buyer" && (<BuyerNavigationList />)}
+        </Drawer>
         <Box
-          component="nav"
-          sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-        >
-          {props.role === "seller" && (
-            <SellerNavigator
-              PaperProps={{ style: { width: drawerWidth } }}
-              sx={{ display: { sm: "block", xs: "none" } }}
-            />
-          )}
-          {props.role === "buyer" && (
-            <BuyerNavigator
-              PaperProps={{ style: { width: drawerWidth } }}
-              sx={{ display: { sm: "block", xs: "none" } }}
-            />
-          )}
-        </Box>
-
-        <Box
+          component="main"
           sx={{
-            flex: 1,
-            display: "flex",
-            flexDirection: "column",
-            bgcolor: "#F7F8FC",  // wrapper for right
+            backgroundColor: (theme) =>
+              theme.palette.mode === 'light'
+                ? theme.palette.grey[100]
+                : theme.palette.grey[900],
+            flexGrow: 1,
+            height: '100vh',
+            overflow: 'auto',
           }}
         >
-          {props.children}
+          <Toolbar />
+        {props.children}
         </Box>
       </Box>
     </ThemeProvider>
   );
 }
+
