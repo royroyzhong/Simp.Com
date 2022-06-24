@@ -1,4 +1,4 @@
-import { Card, CardContent, CardMedia, Divider, Fade, ImageList, ImageListItem, Stack, TextField, Typography } from "@mui/material";
+import { Button, Card, CardContent, CardMedia, Divider, Fade, ImageList, ImageListItem, Stack, TextField, Typography } from "@mui/material";
 import { Box, Container } from "@mui/system";
 import upload from "../../assets/upload.svg";
 
@@ -12,12 +12,17 @@ import Header from "../common/Header";
 
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { useState } from "react";
-import { getFeatures, getTags, addTag, addFeature } from "../../controller/productSlice";
+import { getFeatures, getTags, addTag, addFeature, getBufferProduct } from "../../controller/productSlice";
 import { Marginer } from "../../css/CommonStyle";
+import { addProduct } from "../../controller/sellerSlice";
+import Product from "../../model/product";
 
 let imgs = [book, bomb, flask, food];
 
 export default function ProductPage(props) {
+
+    let dispatch = useDispatch();
+    let product = useSelector(getBufferProduct);
 
     let leftStackStyle = {
         minWidth: 350
@@ -37,7 +42,14 @@ export default function ProductPage(props) {
                 >
                     <TagDisplay />
                     <TextDisplay />
+                    <Button onClick={(e) => dispatch(addProduct({
+                        title: product.title,
+                        tags: product.tags,
+                        features: product.features,
+                        price: product.price,
+                    }))}>Save</Button>
                 </Stack>
+                
             </Stack>
         </Container>
     )

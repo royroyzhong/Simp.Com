@@ -29,10 +29,18 @@ const sellerSlice = createSlice({
   },
   reducers: {
     addProduct: (state, action) => {
-      this.inventory.push(action.payload);
+      let rawProduct = action.payload;
+      let p = new Product("");
+      p.title = rawProduct.title;
+      p.tags = rawProduct.tags;
+      p.features = rawProduct.features;
+      p.price = rawProduct.price;
+      state.inventory.push(p);
     }
   }
 });
+
+export const {addProduct} = sellerSlice.actions;
 
 // ------------------ Getters ------------------- //
 export const getFirstName = (state) => state.seller.firstName;

@@ -34,5 +34,13 @@ export const {addTag, addFeature, loadProduct} =
 export const getTags = (state) => state.products.tags;
 export const getFeatures = (state) => state.products.features;
 export const getTitle = (state) => state.products.title;
+export const getBufferProduct = (state) => {
+  let ret = new Product();
+  ret.title = getTitle(state);
+  ret.tags = getTags(state);
+  ret.features = getFeatures(state);
+  ret.price = state.products.price;
+  return ret;
+}
 
 export default productSlice.reducer;
