@@ -9,7 +9,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import LightbulbIcon from "@mui/icons-material/Lightbulb";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useNavigate } from "react-router-dom";
- 
+
 const categories = [
   { id: "Home", icon: <HomeIcon />, path: "/" },
   { id: "Profile", icon: <PeopleIcon />, path: "/userX/profile" },
@@ -20,24 +20,27 @@ const categories = [
 
 export default function BuyerNavigationList() {
   let navigate = useNavigate();
+  const handeOnClick = (id, path) => {
+    if (id === "Log out") {
+      sessionStorage.clear();
+    }
+    navigate(path);
+  };
 
   return (
-        <List component="nav">
-          <React.Fragment>
-            {categories.map(({ id, icon, path, active }) => (
-            <ListItemButton sx={{color:'#ffffff'}}
-                selected={active}
-                onClick={() => navigate(path)}
-              >
-                <ListItemIcon sx={{color:'#ffffff'}}>
-                  {icon}
-                </ListItemIcon>
-                <ListItemText>
-                  {id}
-                </ListItemText>
-              </ListItemButton>
-          ))}
-          </React.Fragment>
-        </List>
+    <List component="nav">
+      <React.Fragment>
+        {categories.map(({ id, icon, path, active }) => (
+          <ListItemButton
+            sx={{ color: "#ffffff" }}
+            selected={active}
+            onClick={() => handeOnClick(id, path)}
+          >
+            <ListItemIcon sx={{ color: "#ffffff" }}>{icon}</ListItemIcon>
+            <ListItemText>{id}</ListItemText>
+          </ListItemButton>
+        ))}
+      </React.Fragment>
+    </List>
   );
 }

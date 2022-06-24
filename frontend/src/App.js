@@ -13,11 +13,28 @@ import CustomerPageRightContent from "./component/customerPageComponent/Customer
 import Dashboard from "./component/sellerDashboard/Dashboard";
 
 function App() {
+  const token = sessionStorage.getItem("jwtToken");
+
   const wrapper = (component, role) => (
     <NavWrapper role={role}>{component}</NavWrapper>
   );
   let buyer = "buyer";
   let seller = "seller";
+  if (!token) {
+    return (
+      <div className="App">
+        <BrowserRouter>
+          <Routes>
+            <Route
+              path="/"
+              element={wrapper(<CustomerPageRightContent />, buyer)}
+            />
+            <Route path="/login" element={<Login />} />;
+          </Routes>
+        </BrowserRouter>
+      </div>
+    );
+  }
   return (
     <div className="App">
       <BrowserRouter>
@@ -31,9 +48,9 @@ function App() {
             path="/userX/profile"
             element={wrapper(<ProfilePage />, buyer)}
           />
-          <Route 
+          <Route
             path="/userX/order_tracking"
-            element={wrapper(<BuyerOrderTracking />,buyer)}
+            element={wrapper(<BuyerOrderTracking />, buyer)}
           />
           <Route
             path="/sellerX/dashboard"

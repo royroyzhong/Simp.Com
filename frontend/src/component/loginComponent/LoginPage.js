@@ -62,7 +62,7 @@ const InnerContainer = styled.div`
   padding: 0 0.5vw;
 `;
 export const SwitcherContext = createContext();
-function LoginPage() {
+function LoginPage(prop) {
   const [isSignIn, setSwitch] = useState(true);
   const handleSwitch = () => {
     setSwitch(!isSignIn);

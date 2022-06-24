@@ -14,11 +14,11 @@ import IconButton from "@mui/material/IconButton";
 import PeopleIcon from "@mui/icons-material/People";
 import SwitchAccountIcon from "@mui/icons-material/SwitchAccount";
 import { useNavigate } from "react-router-dom";
-import Typography from '@mui/material/Typography';
-import { styled } from '@mui/material/styles';
-import MuiAppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import MenuIcon from '@mui/icons-material/Menu';
+import Typography from "@mui/material/Typography";
+import { styled } from "@mui/material/styles";
+import MuiAppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import MenuIcon from "@mui/icons-material/Menu";
 
 const drawerWidth = 240;
 
@@ -51,18 +51,18 @@ const PaperCssStyle = {
 
 // Header style
 const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== 'open',
+  shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
   zIndex: theme.zIndex.drawer + 1,
   background: "#ffffff",
-  transition: theme.transitions.create(['width', 'margin'], {
+  transition: theme.transitions.create(["width", "margin"], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
   ...(open && {
     marginLeft: drawerWidth,
     width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
+    transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
@@ -80,88 +80,91 @@ export default function Header(prop) {
     setAnchorEl(null);
   };
 
-
+  const handleLogOut = () => {
+    sessionStorage.clear();
+    navigate("/login");
+  };
   return (
     <AppBar position="absolute" open={prop.open}>
-    <Toolbar
-      sx={{
-        pr: '24px', // keep right padding when drawer closed
-      }}
-    >
-      <IconButton
-        edge="start"
-        color="inherit"
-        aria-label="open drawer"
-        onClick={() => prop.childToParent(!prop.open)}
+      <Toolbar
         sx={{
-          marginRight: '36px',
-          ...(prop.open && { display: 'none' }),
-          color:"black",
+          pr: "24px", // keep right padding when drawer closed
         }}
       >
-        <MenuIcon />
-      </IconButton>
-      <Typography
-        component="h1"
-        variant="h6"
-        color="black"
-        noWrap
-        textAlign='left'
-        sx={{ flexGrow: 1 }}
-      >
-        Hello, {quinn.name}
-      </Typography>
-      <Box>
-        <SearchIcon sx={{ fontSize: 40, color: "black" }}></SearchIcon>
-        <TextField variant="outlined" label="Search" size="small"></TextField>
-      </Box>
-      <IconButton
-        onClick={handleClick}
-        size="small"
-        sx={{ ml: 2 }}
-        aria-controls={open ? "account-menu" : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? "true" : undefined}
-      >
-        <Avatar alt="Remy Sharp" src={quinnAvatar} />
-      </IconButton>
-      <Menu
-        anchorEl={anchorEl}
-        id="account-menu"
-        open={open}
-        onClose={handleClose}
-        onClick={handleClose}
-        PaperProps={PaperCssStyle}
-        transformOrigin={{ horizontal: "right", vertical: "top" }}
-        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-      >
-      <MenuItem onClick={() => navigate("/userX/profile")}>
-        <ListItemIcon>
-          <PeopleIcon fontSize="small" />
-        </ListItemIcon>
-        Profile
-      </MenuItem>
-      <MenuItem onClick={() => navigate("/")}>
-        <ListItemIcon>
-          <SwitchAccountIcon fontSize="small" />
-        </ListItemIcon>
-        Switch to Customer
-      </MenuItem>
-      <MenuItem onClick={() => navigate("/sellerX/dashboard")}>
-        <ListItemIcon>
-          <SwitchAccountIcon fontSize="small" />
-        </ListItemIcon>
-        Switch to Seller
-      </MenuItem>
-      <Divider />
-      <MenuItem onClick={() => navigate("/login")}>
-        <ListItemIcon>
-          <Logout fontSize="small" />
-        </ListItemIcon>
-        Logout
-      </MenuItem>
-    </Menu>
-    </Toolbar>
-  </AppBar>
+        <IconButton
+          edge="start"
+          color="inherit"
+          aria-label="open drawer"
+          onClick={() => prop.childToParent(!prop.open)}
+          sx={{
+            marginRight: "36px",
+            ...(prop.open && { display: "none" }),
+            color: "black",
+          }}
+        >
+          <MenuIcon />
+        </IconButton>
+        <Typography
+          component="h1"
+          variant="h6"
+          color="black"
+          noWrap
+          textAlign="left"
+          sx={{ flexGrow: 1 }}
+        >
+          Hello, {quinn.name}
+        </Typography>
+        <Box>
+          <SearchIcon sx={{ fontSize: 40, color: "black" }}></SearchIcon>
+          <TextField variant="outlined" label="Search" size="small"></TextField>
+        </Box>
+        <IconButton
+          onClick={handleClick}
+          size="small"
+          sx={{ ml: 2 }}
+          aria-controls={open ? "account-menu" : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? "true" : undefined}
+        >
+          <Avatar alt="Remy Sharp" src={quinnAvatar} />
+        </IconButton>
+        <Menu
+          anchorEl={anchorEl}
+          id="account-menu"
+          open={open}
+          onClose={handleClose}
+          onClick={handleClose}
+          PaperProps={PaperCssStyle}
+          transformOrigin={{ horizontal: "right", vertical: "top" }}
+          anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+        >
+          <MenuItem onClick={() => navigate("/userX/profile")}>
+            <ListItemIcon>
+              <PeopleIcon fontSize="small" />
+            </ListItemIcon>
+            Profile
+          </MenuItem>
+          <MenuItem onClick={() => navigate("/")}>
+            <ListItemIcon>
+              <SwitchAccountIcon fontSize="small" />
+            </ListItemIcon>
+            Switch to Customer
+          </MenuItem>
+          <MenuItem onClick={() => navigate("/sellerX/dashboard")}>
+            <ListItemIcon>
+              <SwitchAccountIcon fontSize="small" />
+            </ListItemIcon>
+            Switch to Seller
+          </MenuItem>
+          <Divider />
+          <MenuItem onClick={handleLogOut}>
+            <ListItemIcon>
+              <Logout fontSize="small" />
+            </ListItemIcon>
+            Logout
+          </MenuItem>
+        </Menu>
+      </Toolbar>
+    </AppBar>
   );
 }
