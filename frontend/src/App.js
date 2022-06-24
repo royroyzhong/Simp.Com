@@ -20,6 +20,7 @@ function App() {
   );
   let buyer = "buyer";
   let seller = "seller";
+  console.log(token);
   if (!token) {
     return (
       <div className="App">
