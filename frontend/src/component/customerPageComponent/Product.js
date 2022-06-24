@@ -5,7 +5,7 @@ export default function Products(props) {
     return (
         <Card variant="outlined">
             <div className="card-wrapper">
-                <p className="card-display" >{props.data}</p>
+                <p className="card-display" >{props.data.title}</p>
             </div>
         </Card>
     )

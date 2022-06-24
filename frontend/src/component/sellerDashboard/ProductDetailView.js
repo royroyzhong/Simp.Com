@@ -1,21 +1,28 @@
-import { Card, CardContent, CardMedia, Divider, Fade, ImageList, ImageListItem, Stack, TextField, Typography } from "@mui/material";
+import { Button, Card, CardContent, CardMedia, Divider, Fade, ImageList, ImageListItem, Stack, TextField, Typography } from "@mui/material";
 import { Box, Container } from "@mui/system";
 import upload from "../../assets/upload.svg";
 
-import book from "../../assets/book.svg";
 import bomb from "../../assets/bomb.svg";
+import book from "../../assets/book.svg";
 import flask from "../../assets/flask.svg";
 import food from "../../assets/food.svg";
 
 import { useDispatch, useSelector } from "react-redux";
-import { addFeature, addTag, getBuffer } from "../../controller/productSlice";
+import Header from "../common/Header";
 
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { useState } from "react";
+import { getFeatures, getTags, addTag, addFeature, getBufferProduct } from "../../controller/productSlice";
+import { Marginer } from "../../css/CommonStyle";
+import { addProduct } from "../../controller/sellerSlice";
+import Product from "../../model/product";
 
 let imgs = [book, bomb, flask, food];
 
 export default function ProductPage() {
+
+    let dispatch = useDispatch();
+    let product = useSelector(getBufferProduct);
 
     let leftStackStyle = {
         minWidth: 350
@@ -34,7 +41,14 @@ export default function ProductPage() {
                 >
                     <TagDisplay />
                     <TextDisplay />
+                    <Button onClick={(e) => dispatch(addProduct({
+                        title: product.title,
+                        tags: product.tags,
+                        features: product.features,
+                        price: product.price,
+                    }))}>Save</Button>
                 </Stack>
+                
             </Stack>
         </Container>
     )
@@ -64,7 +78,7 @@ function ImagesDisplay(props) {
                     component={"img"}
                     sx={imgStyle}
                 />
-                <ImageList cols={5} rowHeight={100} sx={{margin:0}}>
+                <ImageList cols={5} rowHeight={100} sx={{ margin: 0 }}>
                     {
                         imgs.slice(0, 5).map((img, index) => (
                             <ImageListItem key={index} sx={imgStyle}>
@@ -93,8 +107,8 @@ function ImagesDisplay(props) {
 
 function TagDisplay(props) {
 
+    let tags = useSelector(getTags);
     let dispatch = useDispatch();
-    let buffer = useSelector(getBuffer);
 
     const [shouldInputShow, toggleInput] = useState(false);
     const [tagBuffer, setTagBuffer] = useState("");
@@ -121,12 +135,12 @@ function TagDisplay(props) {
     return (
         <Box sx={style}>
             <Typography variant="h5" align="left">Tags</Typography>
-            <Box sx={{display: "flex", flexWrap:"wrap"}} >
-                {buffer.tags.map((tag, index) => (
+            <Box sx={{ display: "flex", flexWrap: "wrap" }} >
+                {tags.map((tag, index) => (
                     <Tag key={index}>{tag}</Tag>
                 ))}
                 <Box display={'flex'} >
-                    <AddCircleOutlineIcon onClick={handleToggle} sx={{padding: 1.5}}/>
+                    <AddCircleOutlineIcon onClick={handleToggle} sx={{margin: 1.5}} />
                     <Fade in={shouldInputShow} sx={tagInputStyle}>
                         <TextField
                             value={tagBuffer}
@@ -143,41 +157,74 @@ function TagDisplay(props) {
 }
 
 function TextDisplay(props) {
-    
+
+    let textStyle = {
+        textAlign: 'left'
+    }
+
+    let inputSpacing = {
+        marginBottom: '16px'
+    }
+
     let dispatch = useDispatch();
-    let buffer = useSelector(getBuffer);
+    let features = useSelector(getFeatures);
 
     const [shouldInputShow, toggleInput] = useState(false);
-    const [inputBuffer, setInputBuffer] = useState("");
+    const [title, setTitle] = useState("");
+    const [description, setDescription] = useState("");
 
     const handleToggle = () => {
         toggleInput((prev) => !prev);
-        if (inputBuffer !== "")
-            dispatch(addFeature(inputBuffer));
-        setInputBuffer("");
+        if (description !== "" || title !== "")
+            dispatch(addFeature({
+                title: title,
+                description: description
+            }));
+        if (description !== "" && title !== "") {
+            setDescription("");
+            setTitle("");
+        }
     }
 
     return (
         <Stack>
-            <Typography variant="h5" align="left">Add a description</Typography>
             <Box >
-                {buffer.features.map((f, index) => (
-                    <Tag key={index}>{f}</Tag>
+                {Object.entries(features).map(([fk, fv], index) => (
+                    <Box key={index} sx={textStyle}>
+                        <Typography variant="h5">{fk}</Typography>
+                        <Typography paragraph>{fv}</Typography>
+                    </Box>
                 ))}
-                <Box >
-                    <AddCircleOutlineIcon onClick={handleToggle} sx={{padding: 1.5}}/>
+                <Box sx={{ display: "flex" }}>
+                    <Fade in={!shouldInputShow}>
+                        <AddCircleOutlineIcon onClick={handleToggle} sx={{}} />
+                    </Fade>
                     <Fade in={shouldInputShow} >
-                        <TextField
-                            value={inputBuffer}
-                            size="small"
-                            variant="outlined"
-                            autoFocus={shouldInputShow}
-                            onBlur={handleToggle}
-                            onChange={event => setInputBuffer(event.target.value)} />
+                        <Box >
+                            <TextField
+                                sx={inputSpacing}
+                                value={title}
+                                size="large"
+                                variant="standard"
+                                autoFocus={shouldInputShow}
+                                placeholder="title"
+                                multiline
+                                fullWidth
+                                onChange={event => setTitle(event.target.value)} />
+                            <TextField
+                                value={description}
+                                size="small"
+                                variant="outlined"
+                                multiline
+                                fullWidth
+                                onBlur={handleToggle}
+                                minRows={10}
+                                onChange={event => setDescription(event.target.value)} />
+                        </Box>
                     </Fade>
                 </Box>
             </Box>
- 
+
         </Stack>
     )
 }

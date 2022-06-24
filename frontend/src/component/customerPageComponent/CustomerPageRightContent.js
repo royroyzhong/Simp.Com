@@ -5,12 +5,12 @@ import { Container} from "@mui/system";
 // Other Imports 
 import {useSelector} from "react-redux";
 import Product from "./Product";
-import { getProducts } from "../../controller/productSlice";
 import "../../css/dashboard.css";
+import { getProductList } from "../../controller/sellerSlice";
 
 export default function CustomerPageRightContent() {
 
-    let products = useSelector(getProducts);
+    let products = useSelector(getProductList);
 
     return (
         <Container maxWidth="lg" className="dashboard" sx={{bgcolor: '#F7F8FC', mt:4, md:4}}>
