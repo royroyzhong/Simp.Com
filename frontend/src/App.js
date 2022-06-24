@@ -25,6 +25,10 @@ function App() {
       <div className="App">
         <BrowserRouter>
           <Routes>
+            <Route
+              path="/"
+              element={wrapper(<CustomerPageRightContent />, buyer)}
+            />
             <Route path="/login" element={<Login />} />;
           </Routes>
         </BrowserRouter>
