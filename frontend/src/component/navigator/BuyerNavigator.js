@@ -38,7 +38,12 @@ const itemCategory = {
 
 export default function BuyerNavigator(props) {
   let navigate = useNavigate();
-
+  const handeOnClick = (id, path) => {
+    if (id === "Log out") {
+      sessionStorage.clear();
+    }
+    navigate(path);
+  };
   const { ...other } = props;
   return (
     <Drawer variant="permanent" {...other}>
@@ -53,7 +58,7 @@ export default function BuyerNavigator(props) {
               <ListItemButton
                 selected={active}
                 sx={item}
-                onClick={() => navigate(path)}
+                onClick={() => handeOnClick(id, path)}
               >
                 <ListItemIcon>{icon}</ListItemIcon>
                 <ListItemText>{id}</ListItemText>

@@ -13,14 +13,28 @@ import ProductPage from "./component/sellerDashboard/ProductDetailView";
 
 import CustomerPageRightContent from "./component/customerPageComponent/CustomerPageRightContent";
 import Header from "./component/common/Header";
+import { useState } from "react";
 // import ChangePassword from "./component/profileComponent/ChangePasswordPage";
 
 function App() {
+  const token = sessionStorage.getItem("jwtToken");
+
   const wrapper = (component, role) => (
     <NavWrapper role={role}>{component}</NavWrapper>
   );
   let buyer = "buyer";
   let seller = "seller";
+  if (!token) {
+    return (
+      <div className="App">
+        <BrowserRouter>
+          <Routes>
+            <Route path="/login" element={<Login />} />;
+          </Routes>
+        </BrowserRouter>
+      </div>
+    );
+  }
   return (
     <div className="App">
       <BrowserRouter>

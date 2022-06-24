@@ -51,6 +51,10 @@ export default function Header(prop) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const handleLogOut = () => {
+    sessionStorage.clear();
+    navigate("/login");
+  };
   return (
     <Grid container spacing={3}>
       <Grid item xs>
@@ -107,7 +111,7 @@ export default function Header(prop) {
             Switch to Seller
           </MenuItem>
           <Divider />
-          <MenuItem onClick={() => navigate("/login")}>
+          <MenuItem onClick={handleLogOut}>
             <ListItemIcon>
               <Logout fontSize="small" />
             </ListItemIcon>

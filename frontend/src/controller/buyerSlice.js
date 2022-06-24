@@ -1,23 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { quinn, gavin } from "../utils/mockFetch";
 
+const INITIAL_STATE = {
+  firstName: quinn.firstName,
+  lastName: quinn.lastName,
+  address: quinn.address,
+  email: quinn.email,
+  phone: quinn.phone,
+  cart: quinn.cart,
+  pwd: null,
+  error: null,
+};
+
 const userSlice = createSlice({
   name: "buyer",
-  initialState: {
-    // name: quinn.name,
-    // orders: quinn.orders,
-    // orderDetail: quinn.orders_detail,
-    // stats: quinn.stats,
-    // recentAwaitingActions: quinn.recentAwaitingActions,
-    // topProducts: quinn.topProducts,
-    // products: gavin.products,
-    firstName: quinn.firstName,
-    lastName: quinn.lastName,
-    address: quinn.address,
-    email: quinn.email,
-    phone: quinn.phone,
-    cart: quinn.cart,
-  },
+  initialState: INITIAL_STATE,
 });
 
 // ------------------ Getters ------------------- //
