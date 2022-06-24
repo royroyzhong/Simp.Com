@@ -6,7 +6,7 @@ import {
   List,
   ListItem,
   ListItemText,
-  Stack,
+  Stack
 } from "@mui/material";
 import { Box, Container } from "@mui/system";
 // Other Imports
@@ -18,12 +18,8 @@ import {
   LineChart,
   Tooltip,
   XAxis,
-  YAxis,
+  YAxis
 } from "recharts";
-import {
-  getRecentAwaitingActions,
-  getTopProducts,
-} from "../../controller/productSlice";
 import { getOrders, getStats } from "../../controller/orderSlice";
 import "../../css/dashboard.css";
 import Header from "../common/Header";
@@ -33,6 +29,11 @@ import Title from "../common/Title";
 
 export default function Dashboard(props) {
   let orders = useSelector(getOrders);
+
+  let infographStyle = {
+    padding: 2,
+    marginTop: 4,
+  };
 
   return (
     <Container maxWidth="md" className="dashboard">
@@ -49,10 +50,7 @@ export default function Dashboard(props) {
       <Card
         className="infograph-wrapper"
         variant="outlined"
-        sx={{
-          padding: 2,
-          marginTop: 4,
-        }}
+        sx={infographStyle}
       >
         <InfoGraph />
       </Card>
@@ -147,8 +145,8 @@ function InfoGraph(props) {
 }
 
 function ProcessingList(props) {
-  let awaitingActions = useSelector(getRecentAwaitingActions);
-  let topProducts = useSelector(getTopProducts);
+  let awaitingActions = "hello";
+  let topProducts = ["p1", "p2"];
 
   return (
     <Stack direction={"row"} spacing={2}>
