@@ -6,13 +6,10 @@ const cartSlice = createSlice({
     initialState: {
         userName: mockBuyer.username,
         cart: mockBuyer.cart,
-        sum: mockBuyer.sum
     }
 })
 
 // ------------------ Getters ------------------- // 
 export const getCart = (state) => state.cart.cart;
-
-export const getSum = (state) => state.cart.sum;
 
 export default cartSlice.reducer;

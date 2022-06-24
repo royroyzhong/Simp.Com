@@ -22,7 +22,6 @@ import {
 } from "recharts";
 import { getOrders, getStats } from "../../controller/orderSlice";
 import "../../css/dashboard.css";
-import Header from "../common/Header";
 import Title from "../common/Title";
 
 // Fake resources...
@@ -36,9 +35,7 @@ export default function Dashboard(props) {
   };
 
   return (
-    <Container maxWidth="md" className="dashboard">
-      <Header></Header>
-      <Box sx={{ flexGrow: 1 }}>
+    <Container maxWidth="lg" className="dashboard" sx={{md:4, mt:4}}>
         <Grid spacing={{ xs: 4 }} container columns={{ xs: 4, md: 4, lg: 12 }}>
           {Object.entries(orders).map(([key, val], index) => (
             <Grid item xs={4} md={2} lg={3} key={index}>
@@ -46,7 +43,6 @@ export default function Dashboard(props) {
             </Grid>
           ))}
         </Grid>
-      </Box>
       <Card
         className="infograph-wrapper"
         variant="outlined"
@@ -72,7 +68,7 @@ function OrderStatus(props) {
   );
 }
 
-function InfoGraph(props) {
+function InfoGraph() {
   let stats = useSelector(getStats);
 
   let data = [

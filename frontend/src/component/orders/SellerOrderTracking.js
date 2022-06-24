@@ -1,15 +1,15 @@
 import { getOrderDetails } from "../../controller/orderSlice";
-
 // MUI Components
 import { Grid } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
+import { Container} from "@mui/system";
 
 import { useSelector } from "react-redux";
 import "../../css/orderTracking.css";
 
 // TODO: Search bar + nav bar
 
-function OrderTracking(props) {
+function SellerOrderTracking(props) {
   let orders = useSelector(getOrderDetails);
 
   let unprocessedProducts = orders.Unprocessed;
@@ -22,9 +22,9 @@ function OrderTracking(props) {
       field: "products",
       headerName: "Products",
       width: 450,
-      renderCell: (unprocessedProducts) => (
+      renderCell: (products) => (
         <ul>
-          {unprocessedProducts.value.map((product, index) => (
+          {products.value.map((product, index) => (
             <li key={index}>
               {" "}
               id: {product.id} name: {product.productName}
@@ -37,54 +37,58 @@ function OrderTracking(props) {
   ];
 
   return (
-    <Grid
-      container
-      rowSpacing={5}
-      sx={{ marginLeft: "8vw" }}
-      className="orderTreackingContent"
-    >
-      <Grid item xs={10} className="orderTrackingHeader">
-        {" "}
-        Unprocessed Orders
+    <Container maxWidth="xl" className="dashboard" sx={{ bgcolor: '#F7F8FC' }}>
+      <Grid
+        container
+        rowSpacing={5}
+        sx={{ marginLeft: "8vw" }}
+        className="orderTrackingContent"
+      >
+        <Grid item xs={10} className="orderTrackingHeader">
+          {" "}
+          Unprocessed Orders
+        </Grid>
+        <Grid item xs={10} style={{ height: 400 }}>
+          <DataGrid
+            rows={unprocessedProducts}
+            columns={columns}
+            pageSize={5}
+            rowsPerPageOptions={[5]}
+            checkboxSelection
+          />
+        </Grid>
+
+        <Grid item xs={10} className="orderTrackingHeader">
+          {" "}
+          In Shipment Orders
+        </Grid>
+        <Grid item xs={10} style={{ height: 400 }}>
+          <DataGrid
+            rows={inShipmentProducts}
+            columns={columns}
+            pageSize={5}
+            rowsPerPageOptions={[5]}
+          />
+        </Grid>
+
+        <Grid item xs={10} className="orderTrackingHeader">
+          {" "}
+          Delievered Orders
+        </Grid>
+        <Grid item xs={10} style={{ height: 400 }}>
+          <DataGrid
+            rows={delieveredPorudcts}
+            columns={columns}
+            pageSize={5}
+            rowsPerPageOptions={[5]}
+          />
+        </Grid>
       </Grid>
-      <Grid item xs={10} style={{ height: 400 }}>
-        <DataGrid
-          rows={unprocessedProducts}
-          columns={columns}
-          pageSize={5}
-          rowsPerPageOptions={[5]}
-          checkboxSelection
-        />
-      </Grid>
-      <Grid item xs={10} className="orderTrackingHeader">
-        {" "}
-        In Shipment Orders
-      </Grid>
-      <Grid item xs={10} style={{ height: 400 }}>
-        <DataGrid
-          rows={inShipmentProducts}
-          columns={columns}
-          pageSize={5}
-          rowsPerPageOptions={[5]}
-        />
-      </Grid>
-      <Grid item xs={10} className="orderTrackingHeader">
-        {" "}
-        Delievered Orders
-      </Grid>
-      <Grid item xs={10} style={{ height: 400 }}>
-        <DataGrid
-          rows={delieveredPorudcts}
-          columns={columns}
-          pageSize={5}
-          rowsPerPageOptions={[5]}
-        />
-      </Grid>
-    </Grid>
+    </Container>
   );
 }
 
-export default OrderTracking;
+export default SellerOrderTracking;
 
 // const renderedUnprocessed = unprocessedProducts?.map((unprocessedProduct,index) => {
 //     return <Unprocess key={index}  unprocessed_section = {unprocessedProduct} />

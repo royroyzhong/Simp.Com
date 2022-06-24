@@ -19,7 +19,7 @@ import Product from "../../model/product";
 
 let imgs = [book, bomb, flask, food];
 
-export default function ProductPage(props) {
+export default function ProductPage() {
 
     let dispatch = useDispatch();
     let product = useSelector(getBufferProduct);
@@ -29,8 +29,7 @@ export default function ProductPage(props) {
     }
 
     return (
-        <Container >
-            <Header />
+        <Container sx={{md:4, mt:4}}>
             <Stack direction={'row'} spacing={2}>
                 <ImagesDisplay></ImagesDisplay>
                 <Stack
