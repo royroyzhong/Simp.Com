@@ -1,9 +1,8 @@
 import { getOrderDetails } from "../../controller/orderSlice";
-import Header from "../common/Header";
 // MUI Components
 import { Grid } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import { Box, Container} from "@mui/system";
+import { Container} from "@mui/system";
 
 import { useSelector } from "react-redux";
 import "../../css/orderTracking.css";
@@ -39,11 +38,6 @@ function SellerOrderTracking(props) {
 
   return (
     <Container maxWidth="xl" className="dashboard" sx={{ bgcolor: '#F7F8FC' }}>
-      <Box sx={{ flexGrow: 1 }}>
-        <Box sx={{ flexGrow: 1 }} className="status-line-wrapper" >
-          <Header></Header>
-        </Box>
-      </Box>
       <Grid
         container
         rowSpacing={5}

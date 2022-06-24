@@ -7,7 +7,6 @@ import bomb from "../../assets/bomb.svg";
 import flask from "../../assets/flask.svg";
 import food from "../../assets/food.svg";
 
-import Header from "../common/Header";
 import { useDispatch, useSelector } from "react-redux";
 import { addFeature, addTag, getBuffer } from "../../controller/productSlice";
 
@@ -16,15 +15,14 @@ import { useState } from "react";
 
 let imgs = [book, bomb, flask, food];
 
-export default function ProductPage(props) {
+export default function ProductPage() {
 
     let leftStackStyle = {
         minWidth: 350
     }
 
     return (
-        <Container >
-            <Header />
+        <Container sx={{md:4, mt:4}}>
             <Stack direction={'row'} spacing={2}>
                 <ImagesDisplay></ImagesDisplay>
                 <Stack

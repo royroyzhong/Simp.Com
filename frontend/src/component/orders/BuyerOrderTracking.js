@@ -1,10 +1,9 @@
 import { useSelector } from "react-redux";
 import { getOrderHistory } from '../../controller/buyerSlice';
 
-import Header from "../common/Header";
 import { DataGrid } from "@mui/x-data-grid";
 import { Grid } from "@mui/material";
-import { Box, Container} from "@mui/system";
+import { Container} from "@mui/system";
 
 export default function BuyerOrderTracking(props) {
     let orders = useSelector(getOrderHistory);
@@ -33,11 +32,6 @@ export default function BuyerOrderTracking(props) {
 
     return (
         <Container maxWidth="xl" className="dashboard" sx={{bgcolor: '#F7F8FC'}}>
-            <Box sx={{ flexGrow: 1 }}> 
-                <Box sx={{flexGrow: 1}} className="status-line-wrapper" >
-                    <Header></Header>
-                </Box>
-            </Box>
         <Grid
             container
             rowSpacing={5}
