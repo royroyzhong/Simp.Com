@@ -1,7 +1,6 @@
 import { Card, CardActionArea, CardContent, CardMedia, Container, Grid, Typography } from "@mui/material";
 import Header from "../common/Header";
 import { useSelector } from 'react-redux';
-import { getProductList } from "../../controller/productSlice";
 import avatar from "../../assets/avatar.jpg";
 import snowman from "../../assets/snowman.svg";
 //import food from "../../assets/food.svg";
@@ -9,6 +8,7 @@ import bomb from "../../assets/bomb.svg";
 import book from "../../assets/book.svg";
 import upload from "../../assets/upload.svg";
 import { Marginer } from "../../css/CommonStyle";
+import { getProductList } from "../../controller/sellerSlice";
 
 const imgs = {
     avatar: avatar,
@@ -31,10 +31,12 @@ function CardGrid(props) {
 
     let products = useSelector(getProductList)
 
+    let gridStyle = {
+        xs: 1, sm: 2, md: 12
+    };
+
     return (
-        <Grid container spacing={2} columns={{
-            xs: 1, sm: 2, md: 12
-        }}>
+        <Grid container spacing={2} columns={gridStyle}>
             {products.map((product, index) => (
                 <Grid item key={index} xs={1} sm={1} md={3}>
                     <Card variant="outlined">
@@ -50,7 +52,7 @@ function CardGrid(props) {
                                     component={"img"} />
                                 <Marginer margin="40px" />
                                 <Typography gutterBottom variant="h5">
-                                    {product.name}
+                                    {product.title}
                                 </Typography>
                             </CardContent>
                         </CardActionArea>

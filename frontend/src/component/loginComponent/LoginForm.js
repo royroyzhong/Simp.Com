@@ -25,6 +25,9 @@ import { Typography } from "@mui/material";
 import { useEffect } from "react";
 import jwt_decode from "jwt-decode";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { loginAsync } from "../../controller/login/thunks";
+
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.h7,
   color: theme.palette.text.primary,
@@ -36,7 +39,8 @@ function handleCallBackResponse(res) {
   var userObj = jwt_decode(res.credential);
   console.log(userObj);
 }
-function LoginForm() {
+function LoginForm(prop) {
+  const dispatch = useDispatch();
   const [user, setUser] = useState({});
   useEffect(() => {
     // global google
@@ -70,58 +74,77 @@ function LoginForm() {
     const value = event.target.value;
     setPwd(value);
   };
+  const handleSubmit = (e) => {
+    console.log("first");
+  };
   const handlerValidation = (event) => {
     event.preventDefault();
+    let account = { useremail: emailValue, password: pwdValue };
+    setUser(account);
+    return dispatch(loginAsync(account)).then((result) => {
+      // console.log(jwt_decode(result.payload.token));
 
-    if (emailValue === "123@gmail.com" && pwdValue === "123123") {
-      let path = "../sellerX/dashboard";
+      sessionStorage.setItem("jwtToken", result.payload.token);
+      let role = result.payload.user.name;
+      let path;
+      if (role === "seller") {
+        path = "../sellerX/dashboard";
+      } else {
+        path = "/";
+      }
       navigate(path);
-    } else {
-      console.log("fail");
-    }
+    });
+
+    // if (emailValue === "123@gmail.com" && pwdValue === "123123") {
+    //   let path = "../sellerX/dashboard";
+    //   navigate(path);
+    // } else {
+    //   console.log("fail");
+    // }
   };
 
-  const handleLoginGoogleFailure = (data) => {
-    console.log(data);
-  };
-  const handleLoginGoogleSucess = (data) => {
-    console.log(data);
-  };
+  // const handleLoginGoogleFailure = (data) => {
+  //   console.log(data);
+  // };
+  // const handleLoginGoogleSucess = (data) => {
+  //   console.log(data);
+  // };
 
   return (
     <BoxContainer
+      onSubmit={handleSubmit}
       onKeyPress={(event) => {
         if (event.key === "Enter") {
           handlerValidation(event);
         }
       }}
     >
-      <CssTextField
-        id="outlined-email-input"
-        label="Email"
-        type="email"
-        onChange={validateEmail}
-      />
-      <Marginer direction="vertical" margin="1vh" />
-      <CssTextField
-        id="outlined-password-input"
-        label="Password"
-        type={visible ? "password" : "text"}
-        autoComplete="current-password"
-        onChange={validatePwd}
-        InputProps={{
-          endAdornment: (
-            <IconButton aria-label="edit" onClick={handleVisible}>
-              {visible && <VisibilityIcon />}
-              {!visible && <VisibilityOffIcon />}
-            </IconButton>
-          ),
-        }}
-      />
+      <Box>
+        <CssTextField
+          id="outlined-email-input"
+          label="Email"
+          type="email"
+          onChange={validateEmail}
+        />
+        <Marginer direction="vertical" margin="1vh" />
+        <CssTextField
+          id="outlined-password-input"
+          label="Password"
+          type={visible ? "password" : "text"}
+          autoComplete="current-password"
+          onChange={validatePwd}
+          InputProps={{
+            endAdornment: (
+              <IconButton aria-label="edit" onClick={handleVisible}>
+                {visible && <VisibilityIcon />}
+                {!visible && <VisibilityOffIcon />}
+              </IconButton>
+            ),
+          }}
+        />
 
-      <Marginer direction="vertical" margin="3vh" />
+        <Marginer direction="vertical" margin="3vh" />
 
-      <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={1}>
           <Grid item xs={12} md={8} sm={12}>
             <Item>
@@ -133,53 +156,27 @@ function LoginForm() {
             <Item>
               <BoldSpan href="#">
                 <Typography variant="body2" gutterBottom>
-                  Forget your password?{" "}
-                </Typography>{" "}
+                  Forget your password?
+                </Typography>
               </BoldSpan>
-              {/* <BoldSpan href="#">Forget your password? </BoldSpan> */}
             </Item>
           </Grid>
         </Grid>
+        <Marginer direction="vertical" margin="1vh" />
+        <SubmitButton type="submit" onClick={handlerValidation}>
+          Sign in
+        </SubmitButton>
       </Box>
-      <Marginer direction="vertical" margin="1vh" />
-      <SubmitButton type="submit" onClick={handlerValidation}>
-        Sign in
-      </SubmitButton>
+
       <Marginer direction="vertical" margin="1vh" />
       <SmallSpan href="#">
-        Don't have an accoun?{" "}
+        Don't have an accoun?
         <BoldSpan href="#" onClick={handerSwitch}>
           Signup
         </BoldSpan>
         <Marginer direction="vertical" margin="2vh" />
         <BreakLine />
-        {/* <Tooltip title="Login with Google"> */}
-        <div id="googleSignIn">
-          {/* <GoogleIcon /> */}
-          {/* <GoogleLogin
-          clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-          render={(renderProps) => (
-            <GoogleButton
-              onClick={renderProps.onClick}
-              disabled={renderProps.disabled}
-            >
-              Sign in with Google
-            </GoogleButton>
-          )}
-          onSuccess={handleLoginGoogleSucess}
-          onFailure={handleLoginGoogleFailure}
-          cookiePolicy={"single_host_origin"}
-        ></GoogleLogin> */}
-        </div>
-        {/* </Tooltip> */}
-        {/* <GoogleOneTapLogin
-          onSuccess={handleLoginGoogleSucess}
-          onError={handleLoginGoogleFailure}
-          googleAccountConfigs={{
-            client_id:
-              "362749935465-2v6s18g1pi8kev1fmkr2c3t8irhjb3uv.apps.googleusercontent.com",
-          }}
-        /> */}
+        <div id="googleSignIn"></div>
         <Marginer direction="vertical" margin="2vh" />
       </SmallSpan>
     </BoxContainer>

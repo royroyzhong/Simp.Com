@@ -23,7 +23,7 @@ function Cart() {
 
   const renderedSellingStores = []
   for (let i in storeNames) {
-    var storeName = storeNames[i]
+    let storeName = storeNames[i]; // used to use var with warnings
     let tempArray = cart.products.filter(p => p.soldBy === storeName)
     renderedSellingStores.push(<SellingStore key={i} StoreName={storeName} products={tempArray} ></SellingStore>)
     i++
@@ -36,11 +36,6 @@ function Cart() {
 
   return (
     <Container maxWidth="xl" className="dashboard" sx={{ bgcolor: '#F7F8FC' }}>
-      <Box sx={{ flexGrow: 1 }}>
-        <Box sx={{ flexGrow: 1 }} className="status-line-wrapper" >
-          <Header></Header>
-        </Box>
-      </Box>
       <Box className="cart">
         <h1> Cart</h1>
         <Grid container rowSpacing={5} sx={{ marginLeft: "8vw", marginBottom: "2vw" }}>

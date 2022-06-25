@@ -6,7 +6,7 @@ import {
   List,
   ListItem,
   ListItemText,
-  Stack,
+  Stack
 } from "@mui/material";
 import { Box, Container } from "@mui/system";
 // Other Imports
@@ -18,15 +18,10 @@ import {
   LineChart,
   Tooltip,
   XAxis,
-  YAxis,
+  YAxis
 } from "recharts";
-import {
-  getRecentAwaitingActions,
-  getTopProducts,
-} from "../../controller/productSlice";
 import { getOrders, getStats } from "../../controller/orderSlice";
 import "../../css/dashboard.css";
-import Header from "../common/Header";
 import Title from "../common/Title";
 
 // Fake resources...
@@ -34,10 +29,13 @@ import Title from "../common/Title";
 export default function Dashboard(props) {
   let orders = useSelector(getOrders);
 
+  let infographStyle = {
+    padding: 2,
+    marginTop: 4,
+  };
+
   return (
-    <Container maxWidth="md" className="dashboard">
-      <Header></Header>
-      <Box sx={{ flexGrow: 1 }}>
+    <Container maxWidth="lg" className="dashboard" sx={{md:4, mt:4}}>
         <Grid spacing={{ xs: 4 }} container columns={{ xs: 4, md: 4, lg: 12 }}>
           {Object.entries(orders).map(([key, val], index) => (
             <Grid item xs={4} md={2} lg={3} key={index}>
@@ -45,14 +43,10 @@ export default function Dashboard(props) {
             </Grid>
           ))}
         </Grid>
-      </Box>
       <Card
         className="infograph-wrapper"
         variant="outlined"
-        sx={{
-          padding: 2,
-          marginTop: 4,
-        }}
+        sx={infographStyle}
       >
         <InfoGraph />
       </Card>
@@ -74,7 +68,7 @@ function OrderStatus(props) {
   );
 }
 
-function InfoGraph(props) {
+function InfoGraph() {
   let stats = useSelector(getStats);
 
   let data = [
@@ -147,8 +141,8 @@ function InfoGraph(props) {
 }
 
 function ProcessingList(props) {
-  let awaitingActions = useSelector(getRecentAwaitingActions);
-  let topProducts = useSelector(getTopProducts);
+  let awaitingActions = ["#266898", "#749877"];
+  let topProducts = ["???", "!!!"];
 
   return (
     <Stack direction={"row"} spacing={2}>

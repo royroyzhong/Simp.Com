@@ -1,27 +1,18 @@
 import React from "react";
 import ProfileContent from "./ProfileContent";
 import Grid from "@mui/material/Grid";
-import { Box, Container } from "@mui/system";
+import { Container } from "@mui/system";
 import ProfileLeftContent from "./ProfileLeftContent";
 import { useState } from "react";
 import ChangePasswordContent from "./ChangePasswordContent";
-import Header from "../common/Header";
+
 function ProfilePage() {
   const [Controller, setController] = useState("personalInformation");
   return (
     <Container maxWidth="md" className="dashboard">
       {/* <Box sx={{ flexGrow: 1 }}> */}
 
-      <Grid container spacing={1} sx={{ marginTop: "-10vh" }}>
-        <Grid item lg={12} md={12} xs={12}>
-          <Box
-            sx={{ flexGrow: 1, marginTop: "5vh" }}
-            className="status-line-wrapper"
-          >
-            <Header display="no"></Header>
-          </Box>
-        </Grid>
-
+      <Grid container spacing={1} sx={{ marginTop: "10vh" }}>
         <Grid
           item
           lg={4}
