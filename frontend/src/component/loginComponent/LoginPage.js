@@ -91,7 +91,7 @@ function LoginPage(prop) {
           </TopContainer>
 
           <InnerContainer>
-            {isSignIn === true && <LoginForm />}
+            {isSignIn === true && <LoginForm fn={prop.fn} />}
             {isSignIn === false && <SignUpForm />}
           </InnerContainer>
         </BoxContainer>
