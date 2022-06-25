@@ -7,7 +7,6 @@ import { Container} from "@mui/system";
 import { useSelector } from "react-redux";
 import "../../css/orderTracking.css";
 
-// TODO: Search bar + nav bar
 
 function SellerOrderTracking(props) {
   let orders = useSelector(getOrderDetails);
@@ -37,7 +36,8 @@ function SellerOrderTracking(props) {
   ];
 
   return (
-    <Container maxWidth="xl" className="dashboard" sx={{ bgcolor: '#F7F8FC' }}>
+<Container maxWidth="xl" className="dashboard" sx={{ bgcolor: '#F7F8FC' }}>
+
       <Grid
         container
         rowSpacing={5}
@@ -84,7 +84,7 @@ function SellerOrderTracking(props) {
           />
         </Grid>
       </Grid>
-    </Container>
+    </Grid>
   );
 }
 
