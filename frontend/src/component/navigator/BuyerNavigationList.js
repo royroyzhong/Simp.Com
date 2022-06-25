@@ -18,8 +18,8 @@ import DialogTitle from "@mui/material/DialogTitle";
 const categories = [
   { id: "Home", icon: <HomeIcon />, path: "/" },
   { id: "Profile", icon: <PeopleIcon />, path: "/userX/profile" },
-  { id: "Orders", icon: <LightbulbIcon />, path: "/userX/order_tracking/" },
-  { id: "Cart", icon: <ShoppingCartIcon />, path: "/userX/cart/" },
+  { id: "Orders", icon: <LightbulbIcon />, path: "/userX/order_tracking" },
+  { id: "Cart", icon: <ShoppingCartIcon />, path: "/userX/cart" },
   { id: "Log out", icon: <LogoutIcon />, path: "/login" },
 ];
 
