@@ -21,7 +21,8 @@ const cartSlice = createSlice({
       }
     },
     deleteProduct(state,action) {
-      console.log(action.payload)
+      let productToChange = state.cart.products.find(p => p.id === action.payload.id)
+      state.cart.sum += productToChange.price * productToChange.quantity
       state.cart.products = state.cart.products.filter(p => p.id !== action.payload.id)
     }
   }

@@ -15,11 +15,9 @@ import Header from "../common/Header";
 
 function Cart() {
   let cart = useSelector(getCart);
-  console.log("Rerender")
 
   let uniqueStoreNames = [... new Set(cart.products.map(product => product.soldBy))];
   let storeNames = Array.from(uniqueStoreNames).sort();
-  // cart.storeName;
 
   const renderedSellingStores = []
   for (let i in storeNames) {
