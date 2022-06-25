@@ -9,6 +9,7 @@ const INITIAL_STATE = {
   email: quinn.email,
   phone: quinn.phone,
   cart: quinn.cart,
+  orderHistory:mockBuyer.orderHistory,
   pwd: null,
   error: null,
 };
