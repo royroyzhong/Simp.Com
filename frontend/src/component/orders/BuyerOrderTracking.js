@@ -7,7 +7,6 @@ import { Grid } from "@mui/material";
 import { Box, Container } from "@mui/system";
 
 
-
 export default function BuyerOrderTracking(props) {
     let orders = useSelector(getOrderHistory);
 
@@ -55,7 +54,7 @@ export default function BuyerOrderTracking(props) {
                     />
                 </Grid>
             </Grid>
-        </Grid>
+        </Container>
     )
 
 }

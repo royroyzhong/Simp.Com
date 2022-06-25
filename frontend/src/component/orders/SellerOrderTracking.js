@@ -2,7 +2,7 @@ import { getOrderDetails } from "../../controller/orderSlice";
 // MUI Components
 import { Grid } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import { Container} from "@mui/system";
+import { Container } from "@mui/system";
 
 import { useSelector } from "react-redux";
 import "../../css/orderTracking.css";
@@ -36,7 +36,7 @@ function SellerOrderTracking(props) {
   ];
 
   return (
-<Container maxWidth="xl" className="dashboard" sx={{ bgcolor: '#F7F8FC' }}>
+    <Container maxWidth="xl" className="dashboard" sx={{ bgcolor: '#F7F8FC' }}>
 
       <Grid
         container
@@ -84,7 +84,7 @@ function SellerOrderTracking(props) {
           />
         </Grid>
       </Grid>
-    </Grid>
+    </Container>
   );
 }
 

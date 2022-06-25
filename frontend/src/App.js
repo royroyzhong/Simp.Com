@@ -69,14 +69,12 @@ function App() {
             path="/sellerX/product_page/"
             element={wrapper(<ProductPage />, seller)}
           />
-          <Route path="/userX/cart/" element={wrapper(<Cart />, buyer)} />
+          <Route
+            path="/userX/cart"
+            element={wrapper(<Cart />, buyer)} />
         </Routes>
       </BrowserRouter>
 
-      {/* <ProfilePage /> */}
-      {/* <Dashboard /> */}
-      {/* <Cart /> */}
-      {/*<OrderTracking /> */}
     </div>
   );
 }
