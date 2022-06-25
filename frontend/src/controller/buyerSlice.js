@@ -18,7 +18,7 @@ const userSlice = createSlice({
     address: quinn.address,
     email: quinn.email,
     phone: quinn.phone,
-    cart: quinn.cart,
+    cart: mockBuyer.cart,
     orderHistory:mockBuyer.orderHistory,
   },
 });

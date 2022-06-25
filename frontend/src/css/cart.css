@@ -46,4 +46,12 @@
     border-left: 6px solid #7A8CBF;
 }
 
+#clearProductIcon {
+    position: relative;
+    left:10%;
+    border: none;
+    background:none;
+}
+
+
 

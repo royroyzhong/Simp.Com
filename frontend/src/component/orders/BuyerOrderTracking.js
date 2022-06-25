@@ -4,7 +4,7 @@ import { getOrderHistory } from '../../controller/buyerSlice';
 import Header from "../common/Header";
 import { DataGrid } from "@mui/x-data-grid";
 import { Grid } from "@mui/material";
-import { Box, Container} from "@mui/system";
+import { Box, Container } from "@mui/system";
 
 export default function BuyerOrderTracking(props) {
     let orders = useSelector(getOrderHistory);
@@ -32,33 +32,33 @@ export default function BuyerOrderTracking(props) {
     ];
 
     return (
-        <Container maxWidth="xl" className="dashboard" sx={{bgcolor: '#F7F8FC'}}>
-            <Box sx={{ flexGrow: 1 }}> 
-                <Box sx={{flexGrow: 1}} className="status-line-wrapper" >
+        <Grid container maxWidth="xl" className="dashboard" sx={{ bgcolor: '#F7F8FC' }}>
+            <Box sx={{ flexGrow: 1 }}>
+                <Box sx={{ flexGrow: 1 }} className="status-line-wrapper" >
                     <Header></Header>
                 </Box>
             </Box>
-        <Grid
-            container
-            rowSpacing={5}
-            sx={{ marginLeft: "8vw" }}
-            className="orderTrackingContent"
-        >
-            <Grid item xs={10} className="orderTrackingHeader">
-                {" "}
-                Order History
-            </Grid>
-            <Grid item xs={10} style={{ height: 600 }}>
-                <DataGrid
-                    rows={orders}
-                    getRowId ={order => order.orderNumber}
-                    columns={columns}
-                    pageSize={5}
-                    rowsPerPageOptions={[5]}
-                />
+            <Grid
+                container
+                rowSpacing={5}
+                sx={{ marginLeft: "8vw" }}
+                className="orderTrackingContent"
+            >
+                <Grid item xs={10} className="orderTrackingHeader">
+                    {" "}
+                    Order History
+                </Grid>
+                <Grid item xs={10} style={{ height: 600 }}>
+                    <DataGrid
+                        rows={orders}
+                        getRowId={order => order.orderNumber}
+                        columns={columns}
+                        pageSize={5}
+                        rowsPerPageOptions={[5]}
+                    />
+                </Grid>
             </Grid>
         </Grid>
-        </Container>
     )
 
 }
