@@ -4,27 +4,28 @@ import { getUserAsync, loginAsync } from "./thunks";
 
 const INITIAL_STATE = {
   user: {},
+  token: null,
   login: REQUEST_STATE.IDLE,
   addUser: REQUEST_STATE.IDLE,
   error: null,
 };
 
 const loginSlice = createSlice({
-  name: "user",
+  name: "login",
   initialState: INITIAL_STATE,
   reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(getUserAsync.pending, (state) => {
-        state.getUsers = REQUEST_STATE.PENDING;
+        state.addUser = REQUEST_STATE.PENDING;
         state.error = null;
       })
       .addCase(getUserAsync.fulfilled, (state, action) => {
-        state.getUsers = REQUEST_STATE.FULFILLED;
+        state.addUser = REQUEST_STATE.FULFILLED;
         state.user = action.payload;
       })
       .addCase(getUserAsync.rejected, (state, action) => {
-        state.getUsers = REQUEST_STATE.REJECTED;
+        state.addUser = REQUEST_STATE.REJECTED;
         state.error = action.error;
       })
       .addCase(loginAsync.pending, (state) => {
@@ -33,7 +34,8 @@ const loginSlice = createSlice({
       })
       .addCase(loginAsync.fulfilled, (state, action) => {
         state.login = REQUEST_STATE.FULFILLED;
-        state.user = action.payload;
+        // console.log(action.payload);
+        state.token = action.payload.token;
       })
       .addCase(loginAsync.rejected, (state, action) => {
         state.login = REQUEST_STATE.REJECTED;

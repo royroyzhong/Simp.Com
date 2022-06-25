@@ -1,4 +1,4 @@
 export const actionTypes = {
-  GET_USER: "user/getUser",
-  LOGIN: "user/login",
+  GET_USER: "login/getUser",
+  LOGIN: "login/login",
 };

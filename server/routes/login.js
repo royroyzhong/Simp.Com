@@ -39,11 +39,13 @@ router.post("/", function (req, res, next) {
   //seller
   if (useremail == User[0].email && password == User[0].pwd) {
     const token = generateAccessToken(useremail);
+    res.cookie("token", token, { httpOnly: true });
     return res.json({ user: User[0], token: token });
   }
   //buyer
   if (useremail == User[1].email && password == User[1].pwd) {
     const token = generateAccessToken(useremail);
+    res.cookie("token", token, { httpOnly: true });
     return res.json({ user: User[1], token: token });
   }
   // if (useremail != users.email || password != users.pwd) {

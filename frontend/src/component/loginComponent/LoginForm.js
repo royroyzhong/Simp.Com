@@ -85,6 +85,7 @@ function LoginForm(prop) {
       // console.log(jwt_decode(result.payload.token));
 
       sessionStorage.setItem("jwtToken", result.payload.token);
+      // prop.fn(result.payload.token);
       let role = result.payload.user.name;
       let path;
       if (role === "seller") {

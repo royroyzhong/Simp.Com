@@ -1,4 +1,5 @@
 const login = async (input) => {
+  console.log(input);
   const response = await fetch("http://localhost:8888/login", {
     method: "POST",
     headers: {
@@ -12,6 +13,7 @@ const login = async (input) => {
     const errorMsg = data?.message;
     throw new Error(errorMsg);
   }
+  // console.log(data);
   return data;
 };
 
