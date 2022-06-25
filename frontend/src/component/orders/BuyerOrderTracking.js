@@ -16,20 +16,20 @@ export default function BuyerOrderTracking(props) {
         {
             field: "products",
             headerName: "Products",
-            width: 450,
+            width: 350,
             renderCell: (products) => (
                 <ul>
                     {products.value.map((product, index) => (
                         <li key={index}>
-                            {/* {" "} */}
-                            name: {product.productName} quantity: {product.quantity}
+                        Name: {product.productName}  Quantity: {product.quantity}
                         </li>
                     ))}
                 </ul>
             ),
         },
-        { field: "date", headerName: "Date of purchase", width: 130 },
+        { field: "status", headerName: "Status", width: 130 },
         { field: "total", headerName: "Total", width: 130 },
+        { field: "date", headerName: "Date of purchase", width: 130 },
     ];
 
     return (
@@ -37,7 +37,7 @@ export default function BuyerOrderTracking(props) {
             <Grid
                 container
                 rowSpacing={5}
-                sx={{ marginLeft: "8vw" }}
+                sx={{ marginLeft: "8vw", marginTop:"2vw"}}
                 className="orderTrackingContent"
             >
                 <Grid item xs={10} className="orderTrackingHeader">
