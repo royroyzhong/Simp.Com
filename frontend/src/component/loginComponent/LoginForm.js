@@ -12,8 +12,6 @@ import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
-import MuiStyle from "./MuiStyle";
-import GoogleIcon from "@mui/icons-material/Google";
 import { SwitcherContext } from "./LoginPage";
 import Tooltip from "@mui/material/Tooltip";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
@@ -27,7 +25,9 @@ import jwt_decode from "jwt-decode";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { loginAsync } from "../../controller/login/thunks";
-
+import FormGroup from "@mui/material/FormGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.h7,
   color: theme.palette.text.primary,
@@ -41,7 +41,7 @@ function handleCallBackResponse(res) {
 }
 function LoginForm(prop) {
   const dispatch = useDispatch();
-  const [user, setUser] = useState({});
+  // const [user, setUser] = useState({});
   useEffect(() => {
     // global google
     window.google.accounts.id.initialize({
@@ -64,6 +64,8 @@ function LoginForm(prop) {
   const [emailValue, setEmail] = React.useState("");
   const [pwdValue, setPwd] = React.useState("");
   const [visible, setVisible] = React.useState(true);
+  const [seller, setSeller] = React.useState(true);
+  const [remember, setRemember] = React.useState(true);
   const handleVisible = () => setVisible(!visible);
 
   const validateEmail = (event) => {
@@ -74,18 +76,17 @@ function LoginForm(prop) {
     const value = event.target.value;
     setPwd(value);
   };
-  const handleSubmit = (e) => {
-    console.log("first");
-  };
+
   const handlerValidation = (event) => {
     event.preventDefault();
-    let account = { useremail: emailValue, password: pwdValue };
-    setUser(account);
+    let account = {
+      userEmail: emailValue,
+      password: pwdValue,
+      isRemember: remember,
+      isSeller: seller,
+    };
+    // setUser(account);
     return dispatch(loginAsync(account)).then((result) => {
-      // console.log(jwt_decode(result.payload.token));
-
-      sessionStorage.setItem("jwtToken", result.payload.token);
-      // prop.fn(result.payload.token);
       let role = result.payload.user.name;
       let path;
       if (role === "seller") {
@@ -95,25 +96,16 @@ function LoginForm(prop) {
       }
       navigate(path);
     });
-
-    // if (emailValue === "123@gmail.com" && pwdValue === "123123") {
-    //   let path = "../sellerX/dashboard";
-    //   navigate(path);
-    // } else {
-    //   console.log("fail");
-    // }
   };
-
-  // const handleLoginGoogleFailure = (data) => {
-  //   console.log(data);
-  // };
-  // const handleLoginGoogleSucess = (data) => {
-  //   console.log(data);
-  // };
+  const handleOnClickSeller = (event) => {
+    setSeller(event.target.checked);
+  };
+  const handleOnClickRemember = (event) => {
+    setRemember(event.target.checked);
+  };
 
   return (
     <BoxContainer
-      onSubmit={handleSubmit}
       onKeyPress={(event) => {
         if (event.key === "Enter") {
           handlerValidation(event);
@@ -149,17 +141,29 @@ function LoginForm(prop) {
         <Grid container spacing={1}>
           <Grid item xs={12} md={8} sm={12}>
             <Item>
-              <MuiStyle />
+              <FormGroup>
+                <FormControlLabel
+                  size="small"
+                  control={
+                    <Checkbox defaultChecked onClick={handleOnClickRemember} />
+                  }
+                  label="Remember Me"
+                />
+              </FormGroup>
             </Item>
           </Grid>
 
           <Grid item xs={12} md={4} sm={12}>
             <Item>
-              <BoldSpan href="#">
-                <Typography variant="body2" gutterBottom>
-                  Forget your password?
-                </Typography>
-              </BoldSpan>
+              <FormGroup>
+                <FormControlLabel
+                  size="small"
+                  control={
+                    <Checkbox defaultChecked onClick={handleOnClickSeller} />
+                  }
+                  label="Seller"
+                />
+              </FormGroup>
             </Item>
           </Grid>
         </Grid>

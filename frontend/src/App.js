@@ -18,21 +18,21 @@ import { useSelector } from "react-redux";
 
 function App() {
   const render = () => {
-    if (!token) {
-      return (
-        <div className="App">
-          <BrowserRouter>
-            <Routes>
-              <Route
-                path="/"
-                element={wrapper(<CustomerPageRightContent />, buyer)}
-              />
-              <Route path="/login" element={<Login />} />;
-            </Routes>
-          </BrowserRouter>
-        </div>
-      );
-    }
+    // if (!token) {
+    //   return (
+    //     <div className="App">
+    //       <BrowserRouter>
+    //         <Routes>
+    //           <Route
+    //             path="/"
+    //             element={wrapper(<CustomerPageRightContent />, buyer)}
+    //           />
+    //           <Route path="/login" element={<Login />} />;
+    //         </Routes>
+    //       </BrowserRouter>
+    //     </div>
+    //   );
+    // }
     return (
       <div className="App">
         <BrowserRouter>
@@ -66,16 +66,17 @@ function App() {
               path="/sellerX/product_page/"
               element={wrapper(<ProductPage />, seller)}
             />
+            <Route path="/123" element={wrapper(<ProductPage />, seller)} />
             <Route path="/userX/cart" element={wrapper(<Cart />, buyer)} />
           </Routes>
         </BrowserRouter>
       </div>
     );
   };
-  const token = useSelector((state) => state.login.token);
-  useEffect(() => {
-    render();
-  }, [token]);
+  // const token = useSelector((state) => state.login.token);
+  // useEffect(() => {
+  //   render();
+  // }, [token]);
   // console.log(token1);
   // const [token, setToken] = useState(sessionStorage.getItem("jwtToken"));
   // const token = sessionStorage.getItem("jwtToken");
@@ -85,7 +86,7 @@ function App() {
   );
   let buyer = "buyer";
   let seller = "seller";
-  console.log(token);
+  // console.log(token);
   return render();
 }
 
