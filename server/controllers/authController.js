@@ -64,10 +64,15 @@ module.exports.login_get = (req, res) => {
 module.exports.signup_post = async (req, res) => {
   try {
     //init obj
+    console.log("post sign up");
+    console.log(req.errorsFromMid);
     const { firstName, lastName, email, password, passwordConfirm, company } =
       req.body;
     if (password !== passwordConfirm) {
       return res.status(400).json({ errors: "password not match" });
+    }
+    if (req.errorsFromMid !== undefined) {
+      return res.status(400).json({ errors: req.errorsFromMid });
     }
     let id, user, role;
     // const dbConnect = dbo.getDb();
