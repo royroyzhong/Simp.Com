@@ -17,21 +17,27 @@ const login = async (input) => {
   return data;
 };
 const signup = async (input) => {
-  const response = await fetch("http://localhost:8888/signup", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    credentials: "include",
-    body: JSON.stringify(input),
-  });
-
-  const data = await response.json();
-  if (!response.ok) {
-    const errorMsg = data?.message;
-    throw new Error(errorMsg);
+  let response, data;
+  try {
+    response = await fetch("http://localhost:8888/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify(input),
+    });
+    data = await response.json();
+    // console.log(response);
+    // console.log(data);
+    if (!response.ok) {
+      const errorMsg = data?.message;
+      throw new Error(errorMsg);
+    }
+    return data;
+  } catch (err) {
+    return { status: response.status, error: data.errors };
   }
-  return data;
 };
 const getUser = async () => {
   const response = await fetch("http://localhost:8888/login", {

@@ -62,47 +62,54 @@ module.exports.login_get = (req, res) => {
   res.send("login get");
 };
 module.exports.signup_post = async (req, res) => {
-  console.log(req.body);
-  //init obj otherwise variable below is null
-  const { firstName, lastName, email, password, passwordConfirm, company } =
-    req.body;
-  if (password !== passwordConfirm) {
-    res.status(400).json({ error: "password not match" });
-  }
-  let id, user, role;
-  // const dbConnect = dbo.getDb();
-  // await mongoose.connect(
-  //   "mongodb+srv://doge-455:doge-123@sandbox.uqu5r.mongodb.net/?retryWrites=true&w=majority"
-  // );
-
-  if (!req.body.isSeller) {
-    const { firstName, lastName, email, password, passwordConfirm } = req.body;
-
-    buyer = await Buyer.create({
-      firstName,
-      lastName,
-      email,
-      password,
-      isSeller: req.body.isSeller,
-    });
-    id = buyer._id;
-  } else {
-    console.log("first1");
+  try {
+    //init obj
     const { firstName, lastName, email, password, passwordConfirm, company } =
       req.body;
-    seller = await Seller.create({
-      firstName,
-      lastName,
-      email,
-      password,
-      company,
-      isSeller: req.body.isSeller,
-    });
-    id = seller._id;
+    if (password !== passwordConfirm) {
+      return res.status(400).json({ errors: "password not match" });
+    }
+    let id, user, role;
+    // const dbConnect = dbo.getDb();
+    // await mongoose.connect(
+    //   "mongodb+srv://doge-455:doge-123@sandbox.uqu5r.mongodb.net/?retryWrites=true&w=majority"
+    // );
+
+    if (!req.body.isSeller) {
+      const { firstName, lastName, email, password, passwordConfirm } =
+        req.body;
+
+      buyer = await Buyer.create({
+        firstName,
+        lastName,
+        email,
+        password,
+        isSeller: req.body.isSeller,
+      });
+      id = buyer._id;
+    } else {
+      console.log("first1");
+      const { firstName, lastName, email, password, passwordConfirm, company } =
+        req.body;
+      seller = await Seller.create({
+        firstName,
+        lastName,
+        email,
+        password,
+        company,
+        isSeller: req.body.isSeller,
+      });
+      id = seller._id;
+    }
+    const token = generateAccessToken(id);
+    res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
+    res.status(201).json({ user: id });
+  } catch (err) {
+    const errors = handleError(err);
+    console.log(err.message);
+    // console.log(err.code);
+    res.status(400).json({ errors });
   }
-  const token = generateAccessToken(id);
-  res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
-  res.status(201).json({ user: id });
 };
 module.exports.signup_get = (req, res) => {
   res.render("signup get");
@@ -116,3 +123,29 @@ function generateAccessToken(useremail) {
     expiresIn: "1h",
   });
 }
+const handleError = (err) => {
+  if (err.code === 11000) {
+    return "email is already registered";
+  }
+  if (err.message.includes("Please enter a valid email")) {
+    return "Please enter a valid email";
+  }
+  if (err.message.includes("Please enter an email")) {
+    return "Please enter an email";
+  }
+  if (err.message.includes("Please enter a company name")) {
+    return "Please enter a company name";
+  }
+  if (err.message.includes("Please enter first name")) {
+    return "Please enter first name";
+  }
+  if (err.message.includes("Please enter last name")) {
+    return "Please enter last name";
+  }
+  if (err.message.includes("Please enter a password")) {
+    return "Missing password, Please enter a password";
+  }
+  if (err.message.includes("shorter than the minimum allowed")) {
+    return "shorter than the minimum allowed";
+  }
+};

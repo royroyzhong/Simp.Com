@@ -37,6 +37,25 @@ function SignUpForm() {
   const [password, setPassword] = React.useState("");
   const [passwordConfirm, setPasswordConfirm] = React.useState("");
   const [company, setCompany] = React.useState("");
+  const [firstNameError, setFirstNameError] = React.useState("");
+  const [lastNameError, setLastNameError] = React.useState("");
+  const [emailError, setEmailError] = React.useState("");
+  const [passwordError, setPasswordError] = React.useState("");
+  const [passwordConfirmError, setPasswordConfirmError] = React.useState("");
+  const [companyError, setCompanyError] = React.useState("");
+  const handleError = (err) => {
+    console.log(err);
+    if (err !== undefined) {
+      if (err.includes("first name")) setFirstNameError(err);
+      if (err.includes("last name")) setLastNameError(err);
+      if (err.includes("email")) setEmailError(err);
+      if (err.includes("Missing") || err.includes("shorter"))
+        setPasswordError(err);
+      if (err.includes("password not match")) setPasswordConfirmError(err);
+      if (err.includes("company")) setCompanyError(err);
+    }
+  };
+
   const handleCreate = (event) => {
     event.preventDefault();
     let account;
@@ -60,13 +79,12 @@ function SignUpForm() {
         isSeller,
       };
     }
-    dispatch(signupAsync(account));
-    setFirstName("");
-    setLastName("");
-    setEmail("");
-    setPassword("");
-    setPasswordConfirm("");
-    setCompany("");
+
+    dispatch(signupAsync(account)).then((result) => {
+      if (result.payload.status !== 200) {
+        handleError(result.payload.error);
+      }
+    });
   };
   return (
     <BoxContainer>
@@ -93,52 +111,76 @@ function SignUpForm() {
       </Box>
       {isCustomer === false && isSeller === true && (
         <CssTextField
-          id="outlined-email-input"
+          id="outlined-error-helper-text"
           label="Company Name"
-          value={company || ""}
           type="Name"
-          onChange={(event) => setCompany(event.target.value)}
+          error={companyError !== ""}
+          helperText={companyError !== "" ? companyError : ""}
+          onChange={(event) => {
+            setCompanyError("");
+            setCompany(event.target.value);
+          }}
         />
       )}
       {isCustomer === false && <Marginer direction="vertical" margin="1vh" />}
       <CssTextField
-        id="outlined-email-input"
+        id="outlined-error-helper-text"
         label="First Name"
-        value={firstName || ""}
         type="Name"
-        onChange={(event) => setFirstName(event.target.value)}
+        error={firstNameError !== ""}
+        helperText={firstNameError !== "" ? firstNameError : ""}
+        onChange={(event) => {
+          setFirstNameError("");
+          setFirstName(event.target.value);
+        }}
       />
       <Marginer direction="vertical" margin="1vh" />
       <CssTextField
-        id="outlined-email-input"
+        id="outlined-error-helper-text"
         label="Last Name"
-        value={lastName || ""}
         type="Name"
-        onChange={(event) => setLastName(event.target.value)}
+        error={lastNameError !== ""}
+        helperText={lastNameError !== "" ? lastNameError : ""}
+        onChange={(event) => {
+          setLastNameError("");
+          setLastName(event.target.value);
+        }}
       />
       <Marginer direction="vertical" margin="1vh" />
       <CssTextField
-        id="outlined-email-input"
+        id="outlined-error-helper-text"
         label="Email"
-        value={email || ""}
         type="email"
-        onChange={(event) => setEmail(event.target.value)}
+        error={emailError !== ""}
+        helperText={emailError !== "" ? emailError : ""}
+        onChange={(event) => {
+          setEmailError("");
+          setEmail(event.target.value);
+        }}
       />
       <Marginer direction="vertical" margin="1vh" />
       <CssTextField
-        id="outlined-password-input"
+        id="outlined-error-helper-text"
         label="Password"
-        value={password || ""}
         type="password"
-        onChange={(event) => setPassword(event.target.value)}
+        error={passwordError !== ""}
+        helperText={passwordError !== "" ? passwordError : ""}
+        onChange={(event) => {
+          setPasswordError("");
+          setPassword(event.target.value);
+        }}
       />
       <Marginer direction="vertical" margin="1vh" />
       <CssTextField
-        id="outlined-password-input"
+        id="outlined-error-helper-text"
         label="Confirm Password"
-        value={passwordConfirm || ""}
         type="password"
-        onChange={(event) => setPasswordConfirm(event.target.value)}
+        error={passwordConfirmError !== ""}
+        helperText={passwordConfirmError !== "" ? passwordConfirmError : ""}
+        onChange={(event) => {
+          setPasswordConfirmError("");
+          setPasswordConfirm(event.target.value);
+        }}
       />
       <Marginer direction="vertical" margin="3vh" />
       <SubmitButton type="submit" onClick={handleCreate}>

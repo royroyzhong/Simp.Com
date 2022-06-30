@@ -1,12 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { REQUEST_STATE } from "../utils";
-import { getUserAsync, loginAsync } from "./thunks";
+import { getUserAsync, loginAsync, signupAsync } from "./thunks";
 
 const INITIAL_STATE = {
   user: {},
   token: null,
   login: REQUEST_STATE.IDLE,
   addUser: REQUEST_STATE.IDLE,
+  signup: REQUEST_STATE.IDLE,
   error: null,
 };
 
@@ -39,6 +40,10 @@ const loginSlice = createSlice({
       })
       .addCase(loginAsync.rejected, (state, action) => {
         state.login = REQUEST_STATE.REJECTED;
+        state.error = action.error;
+      })
+      .addCase(signupAsync.rejected, (state, action) => {
+        state.signup = REQUEST_STATE.REJECTED;
         state.error = action.error;
       });
   },
