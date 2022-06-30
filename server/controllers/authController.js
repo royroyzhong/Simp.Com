@@ -1,9 +1,12 @@
 const jwt = require("jsonwebtoken");
-const maxAge = 3 * 24 * 60 * 60;
+const maxAge = 24 * 60 * 60;
 // const BuyerModels=require("../models")
 // const Seller = require("../models/Buyer copy");
 const Buyer = require("../models/Buyer");
-const seller = require("../models/Seller");
+const Seller = require("../models/Seller");
+const dbo = require("../db/conn");
+const mongoose = require("mongoose");
+
 let User = [
   {
     name: "seller",
@@ -41,6 +44,7 @@ module.exports.login_post = (req, res) => {
   //seller
   if (userEmail == User[0].email && password == User[0].pwd) {
     const token = generateAccessToken(userEmail);
+    // res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge });
     res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
     return res.json({ user: User[0], token: token });
   }
@@ -57,25 +61,53 @@ module.exports.login_get = (req, res) => {
   // console.log("token: " + token);
   res.send("login get");
 };
-module.exports.signup_post = (req, res) => {
-
+module.exports.signup_post = async (req, res) => {
+  console.log(req.body);
+  //init obj otherwise variable below is null
   const { firstName, lastName, email, password, passwordConfirm, company } =
     req.body;
+  if (password !== passwordConfirm) {
+    res.status(400).json({ error: "password not match" });
+  }
+  let id, user, role;
+  // const dbConnect = dbo.getDb();
+  // await mongoose.connect(
+  //   "mongodb+srv://doge-455:doge-123@sandbox.uqu5r.mongodb.net/?retryWrites=true&w=majority"
+  // );
 
   if (!req.body.isSeller) {
     const { firstName, lastName, email, password, passwordConfirm } = req.body;
+
+    buyer = await Buyer.create({
+      firstName,
+      lastName,
+      email,
+      password,
+      isSeller: req.body.isSeller,
+    });
+    id = buyer._id;
   } else {
     console.log("first1");
     const { firstName, lastName, email, password, passwordConfirm, company } =
       req.body;
+    seller = await Seller.create({
+      firstName,
+      lastName,
+      email,
+      password,
+      company,
+      isSeller: req.body.isSeller,
+    });
+    id = seller._id;
   }
-  res.send("signup post");
+  const token = generateAccessToken(id);
+  res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
+  res.status(201).json({ user: id });
 };
 module.exports.signup_get = (req, res) => {
   res.render("signup get");
 };
 module.exports.logout_get = (req, res) => {
-  console.log("log out");
   res.cookie("jwt", "", { maxAge: 1 });
   res.send("logout");
 };

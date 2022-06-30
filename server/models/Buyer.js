@@ -4,6 +4,8 @@ const bcrypt = require("bcrypt");
 
 // create schema
 const schema = new mongoose.Schema({
+  firstName: { type: String, required: [true, "Please enter first name"] },
+  lastName: { type: String, required: [true, "Please enter first name"] },
   email: {
     type: String,
     required: [true, "Please enter an email"],
