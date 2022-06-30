@@ -9,3 +9,15 @@ export const getUserAsync = createAsyncThunk(actionTypes.GET_USER, async () => {
 export const loginAsync = createAsyncThunk(actionTypes.LOGIN, async (input) => {
   return await UserService.login(input);
 });
+export const signupAsync = createAsyncThunk(
+  actionTypes.SIGNIN,
+  async (input) => {
+    return await UserService.signup(input);
+  }
+);
+export const logoutAsync = createAsyncThunk(
+  actionTypes.LOGIN,
+  async (input) => {
+    return await UserService.logOutUser();
+  }
+);

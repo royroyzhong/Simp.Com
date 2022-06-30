@@ -20,7 +20,6 @@ const categories = [
 
 export default function SellerNavigationList() {
   let navigate = useNavigate();
-
   return (
         <List component="nav">
           <React.Fragment>

@@ -19,7 +19,8 @@ import { styled } from "@mui/material/styles";
 import MuiAppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import MenuIcon from "@mui/icons-material/Menu";
-
+import { useDispatch } from "react-redux";
+import { logoutAsync } from "../../controller/login/thunks";
 const drawerWidth = 240;
 
 const PaperCssStyle = {
@@ -71,6 +72,8 @@ const AppBar = styled(MuiAppBar, {
 
 export default function Header(prop) {
   let navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -79,9 +82,8 @@ export default function Header(prop) {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
   const handleLogOut = () => {
-    sessionStorage.clear();
+    dispatch(logoutAsync());
     navigate("/login");
   };
   return (
