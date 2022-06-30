@@ -8,6 +8,7 @@ import {
   BreakLine,
 } from "../../css/CommonStyle";
 import { CssTextField } from "./CommonMuiStyle";
+import HomeIcon from "@mui/icons-material/Home";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
@@ -184,6 +185,7 @@ function LoginForm(prop) {
         <div id="googleSignIn"></div>
         <Marginer direction="vertical" margin="2vh" />
       </SmallSpan>
+      <HomeIcon onClick={() => navigate("../")} />
     </BoxContainer>
   );
 }

@@ -3,7 +3,6 @@ const connectionString = process.env.ATLAS_URI;
 const client = new MongoClient(connectionString, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-
 });
 let dbConnection;
 module.exports = {
@@ -12,7 +11,7 @@ module.exports = {
       if (err || !db) {
         return callback(err);
       }
-      dbConnection = db.db("myDB");
+      dbConnection = db.db("test");
       console.log("Successfully connected to MongoDB.");
       return callback();
     });
