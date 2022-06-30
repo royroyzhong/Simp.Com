@@ -1,3 +1,4 @@
+require("dotenv").config({ path: "./config.env" });
 var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
@@ -9,8 +10,16 @@ const corsOptions = {
   credentials: true, //access-control-allow-credentials:true
   optionSuccessStatus: 200,
 };
-var app = express();
+const dbo = require("./db/conn");
 
+var app = express();
+// perform a database connection when the server starts
+dbo.connectToServer(function (err) {
+  if (err) {
+    console.error(err);
+    process.exit();
+  }
+});
 app.use(cors(corsOptions));
 app.use(logger("dev"));
 app.use(express.json());
