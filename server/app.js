@@ -45,13 +45,13 @@ app.use(expressWinston.errorLogger({
   )
 }));
 
-// sync perform a database connection when the server starts
-dbo.connectToServer(function (err) {
-  if (err) {
-    console.error(err);
-    process.exit();
-  }
-});
+// // sync perform a database connection when the server starts
+// dbo.connectToServer(function (err) {
+//   if (err) {
+//     console.error(err);
+//     process.exit();
+//   }
+// });
 
 //async
 const dbURI =

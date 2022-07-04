@@ -11,8 +11,8 @@ const checkDupUser = async (req, res, next) => {
         // return res.status(400).json({ errors: "email already in buyer" });
         req.errorsFromMid = "email already in buyer";
         console.log(req.errors);
-        next();
       }
+      next();
     });
   } else {
     await Seller.exists({ email: req.body.email }, function (err, doc) {
@@ -22,8 +22,8 @@ const checkDupUser = async (req, res, next) => {
         console.log("found in seller");
         // return res.status(400).json({ µerrors: "email already in seller" });
         req.errorsFromMid = "email already in seller";
-        next();
       }
+      next();
     });
   }
 };

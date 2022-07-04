@@ -81,8 +81,7 @@ module.exports.signup_post = async (req, res) => {
     // );
 
     if (!req.body.isSeller) {
-      const { firstName, lastName, email, password, passwordConfirm } =
-        req.body;
+      const { firstName, lastName, email, password } = req.body;
 
       buyer = await Buyer.create({
         firstName,
@@ -94,8 +93,7 @@ module.exports.signup_post = async (req, res) => {
       id = buyer._id;
     } else {
       console.log("first1");
-      const { firstName, lastName, email, password, passwordConfirm, company } =
-        req.body;
+      const { firstName, lastName, email, password, company } = req.body;
       seller = await Seller.create({
         firstName,
         lastName,

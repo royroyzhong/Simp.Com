@@ -20,7 +20,7 @@ const schema = new mongoose.Schema({
   isSeller: { type: Boolean, required: true },
 });
 
-// use pre to hash password before save4
+// use pre to hash password before save
 schema.pre("save", async function (next) {
   // add salt to password
   const salt = await bcrypt.genSalt();
