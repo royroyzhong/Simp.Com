@@ -15,4 +15,13 @@ const productSchema = new Schema({
     tags: [String],
     lastModifiedAt: {type: Date, default: Date.now},
     soldBy: {type: Schema.Types.ObjectId, ref: 'seller'},
+}, {
+    statics: {
+        findBySeller(seller) {
+            return this.find({soldBy: seller}).exec()
+        } 
+    }
 })
+
+const Product = mongoose.model('product', productSchema);
+module.exports = Product;
