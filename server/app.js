@@ -2,10 +2,14 @@ require("dotenv").config({ path: "./config.env" });
 var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
-var logger = require("morgan");
+var winston = require("winston"), expressWinston = require("express-winston");
 var cors = require("cors");
 var authRouter = require("./routes/authRoutes");
 const mongoose = require("mongoose");
+
+
+
+
 
 //cors for cookies in frontend
 const corsOptions = {
@@ -16,6 +20,30 @@ const corsOptions = {
 const dbo = require("./db/conn");
 
 var app = express();
+
+// Logger configuration 
+app.use(expressWinston.logger({
+  transports: [
+    new winston.transports.Console()
+  ],
+  format: winston.format.combine(
+    winston.format.colorize(),
+    winston.format.json()
+  ),
+  meta: true,
+  msg: "HTTP {{req.method}} {{req.url}}"
+
+}));
+
+app.use(expressWinston.errorLogger({
+  transports: [
+    new winston.transports.Console()
+  ],
+  format: winston.format.combine(
+    winston.format.colorize(),
+    winston.format.json()
+  )
+}));
 
 // sync perform a database connection when the server starts
 dbo.connectToServer(function (err) {
@@ -36,7 +64,6 @@ mongoose
   .catch((err) => console.log(err));
 
 app.use(cors(corsOptions));
-app.use(logger("dev"));
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
