@@ -12,6 +12,7 @@ const checkDupUser = async (req, res, next) => {
         req.errorsFromMid = "email already in buyer";
         console.log(req.errors);
       }
+      console.log("next");
       next();
     });
   } else {

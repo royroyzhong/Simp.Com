@@ -17,7 +17,6 @@ const schema = new mongoose.Schema({
     required: [true, "Please enter a password"],
     minLength: 8,
   },
-  isSeller: { type: Boolean, required: true },
 });
 
 // use pre to hash password before save

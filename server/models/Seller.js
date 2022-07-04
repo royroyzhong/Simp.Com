@@ -22,7 +22,6 @@ const schema = new mongoose.Schema({
     unique: true,
     required: [true, "Please enter a company name"],
   },
-  isSeller: { type: Boolean, required: true },
 });
 
 // use pre to hash password before save

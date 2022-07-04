@@ -127,8 +127,11 @@ function generateAccessToken(useremail) {
   });
 }
 const handleError = (err) => {
-  if (err.code === 11000) {
+  if (err.code === 11000 && err.message.includes("email")) {
     return "email is already registered";
+  }
+  if (err.code === 11000 && err.message.includes("company")) {
+    return "company is already registered";
   }
   if (err.message.includes("Please enter a valid email")) {
     return "Please enter a valid email";
