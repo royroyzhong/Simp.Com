@@ -25,7 +25,7 @@ import { useEffect } from "react";
 import jwt_decode from "jwt-decode";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { loginAsync } from "../../controller/login/thunks";
+import { loginAsync, googleloginAsync } from "../../controller/login/thunks";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
@@ -34,30 +34,35 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.primary,
   boxShadow: "none",
 }));
-function handleCallBackResponse(res) {
-  console.log("JWT:" + res.credential);
-  console.log(res);
-  var userObj = jwt_decode(res.credential);
-  console.log(userObj);
-}
+
 function LoginForm(prop) {
   const dispatch = useDispatch();
+
+  function handleCallBackResponse(res) {
+    dispatch(googleloginAsync({ jwt: res.credential })).then((result) => {
+      loginSuccess(result);
+    });
+  }
   // const [user, setUser] = useState({});
   useEffect(() => {
     // global google
-    window.google.accounts.id.initialize({
-      client_id:
-        "1089072716137-04fc5dho1ovglbmmpoagr24t83pqrjic.apps.googleusercontent.com",
-      callback: handleCallBackResponse,
-    });
-    window.google.accounts.id.renderButton(
-      document.getElementById("googleSignIn"),
-      {
-        theme: "filled_blue",
-        shape: "pill",
-        size: "large",
-      }
-    );
+    try {
+      window.google.accounts.id.initialize({
+        client_id:
+          "1089072716137-04fc5dho1ovglbmmpoagr24t83pqrjic.apps.googleusercontent.com",
+        callback: handleCallBackResponse,
+      });
+      window.google.accounts.id.renderButton(
+        document.getElementById("googleSignIn"),
+        {
+          theme: "filled_blue",
+          shape: "pill",
+          size: "large",
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
   }, []);
 
   let navigate = useNavigate();
@@ -91,22 +96,25 @@ function LoginForm(prop) {
       isSeller: seller,
     };
     return dispatch(loginAsync(account)).then((result) => {
-      try {
-        let role = result.payload.role;
-        let path;
-        if (result.payload.status === 400) {
-          handleFail(result.payload.error);
-          throw Error("role undefine");
-        } else if (role === true) {
-          path = "../sellerX/dashboard";
-        } else {
-          path = "/";
-        }
-        navigate(path);
-      } catch (err) {
-        console.log(err);
-      }
+      loginSuccess(result);
     });
+  };
+  const loginSuccess = (result) => {
+    try {
+      let role = result.payload.role;
+      let path;
+      if (result.payload.status === 400) {
+        handleFail(result.payload.error);
+        throw Error("role undefine");
+      } else if (role === true) {
+        path = "../sellerX/dashboard";
+      } else {
+        path = "/";
+      }
+      navigate(path);
+    } catch (err) {
+      console.log(err);
+    }
   };
   const handleFail = (err) => {
     if (err !== undefined) {

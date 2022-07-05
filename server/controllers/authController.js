@@ -18,8 +18,6 @@ module.exports.login_post = async (req, res) => {
     } else {
       res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 2 });
     }
-
-    console.log(user);
     res.status(200).json({
       userID: user._id,
       firstName: user.firstName,
@@ -30,6 +28,40 @@ module.exports.login_post = async (req, res) => {
     res.status(400).json({ errors: err.message });
   }
 };
+module.exports.googlelogin_post = async (req, res) => {
+  // let user, token;
+  console.log(req.body.data);
+  const { email, firstName, lastName } = req.body.data;
+  try {
+    let emails = { email: email };
+    let user = await Buyer.findOne(emails);
+    console.log(user);
+    if (!user) {
+      let newUser = {
+        firstName,
+        lastName,
+        email: email,
+        password: 12341234,
+        isSeller: false,
+      };
+      console.log("newUser");
+      console.log(newUser);
+      user = await Buyer.create(newUser);
+    }
+    token = generateAccessToken(email, false);
+    res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
+    res.status(200).json({
+      userID: user._id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      role: req.body.isSeller,
+    });
+  } catch (err) {
+    console.log(err.message);
+    res.status(400).json({ errors: err.message });
+  }
+};
+
 module.exports.login_get = async (req, res) => {
   let user;
   try {
@@ -105,7 +137,8 @@ module.exports.signup_get = (req, res) => {
 };
 module.exports.logout_get = (req, res) => {
   res.cookie("jwt", "", { maxAge: 1 });
-  res.send("logout");
+  return res.redirect("/login");
+  // res.send("logout");
 };
 function generateAccessToken(useremail, role) {
   return jwt.sign(

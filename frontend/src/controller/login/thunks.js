@@ -20,3 +20,9 @@ export const logoutAsync = createAsyncThunk(
     return await UserService.logOutUser();
   }
 );
+export const googleloginAsync = createAsyncThunk(
+  actionTypes.GOOGLELOGIN,
+  async (input) => {
+    return await UserService.googlelogin(input);
+  }
+);

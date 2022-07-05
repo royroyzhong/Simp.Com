@@ -13,7 +13,29 @@ const login = async (input) => {
     data = await response.json();
     if (!response.ok) {
       const errorMsg = data?.message;
-      throw new Error(errorMsg);
+      return { status: response.status, error: errorMsg };
+    }
+    return data;
+  } catch (err) {
+    return { status: response.status, error: data.errors };
+  }
+};
+const googlelogin = async (input) => {
+  let response, data;
+  try {
+    response = await fetch("http://localhost:8888/googlelogin", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify(input),
+    });
+
+    data = await response.json();
+    if (!response.ok) {
+      const errorMsg = data?.message;
+      return { status: response.status, error: errorMsg };
     }
     return data;
   } catch (err) {
@@ -73,4 +95,5 @@ export default {
   getUser,
   logOutUser,
   signup,
+  googlelogin,
 };
