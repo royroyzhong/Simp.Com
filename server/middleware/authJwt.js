@@ -1,17 +1,19 @@
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
+const jwt_decode = require("jwt-decode");
+
 dotenv.config();
 
 verifyToken = (req, res, next) => {
   const token = req.cookies.jwt;
   if (!token) {
-    return res.status(403).send({
+    res.status(403).send({
       message: "No token provided!",
     });
   }
   jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
     if (err) {
-      return res.status(401).send({
+      res.status(401).send({
         message: "Unauthorized!",
       });
     }
@@ -65,9 +67,29 @@ buyerCheck = (req, res, next) => {
   });
 };
 
+verifyGoogleToken = (req, res, next) => {
+  console.log("google token midware");
+  try {
+    const user = jwt_decode(req.body.jwt);
+    let data = {
+      email: user.email,
+      firstName: user.family_name,
+      lastName: user.given_name,
+      picture: user.picture,
+    };
+
+    req.body.data = data;
+    next();
+  } catch (err) {
+    res.status(401).send({
+      message: "Unauthorized!",
+    });
+  }
+};
 const authJwt = {
   verifyToken: verifyToken,
   buyerCheck: buyerCheck,
   sellerCheck: sellerCheck,
+  verifyGoogleToken: verifyGoogleToken,
 };
 module.exports = authJwt;
