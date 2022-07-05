@@ -44,7 +44,6 @@ function SignUpForm() {
   const [passwordConfirmError, setPasswordConfirmError] = React.useState("");
   const [companyError, setCompanyError] = React.useState("");
   const handleError = (err) => {
-    console.log(err);
     if (err !== undefined) {
       if (err.includes("first name")) setFirstNameError(err);
       if (err.includes("last name")) setLastNameError(err);

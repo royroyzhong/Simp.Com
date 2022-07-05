@@ -29,15 +29,17 @@ schema.pre("save", async function (next) {
 
 // create static method to login user
 schema.statics.login = async function (email, password) {
+  console.log("I am in buyer login ver");
+  console.log(email);
   const user = await this.findOne({ email });
   if (user) {
     const auth = await bcrypt.compare(password, user.password);
     if (auth) {
       return user;
     }
-    throw Error("incorrect password");
+    throw Error("Incorrect password");
   }
-  throw Error("incorrect email");
+  throw Error("Incorrect email / Is not Buyer Email");
 };
 
 const Buyer = mongoose.model("Buyer", schema);

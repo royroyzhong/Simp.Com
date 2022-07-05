@@ -19,9 +19,12 @@ import {
   getEmail,
   getPhone,
 } from "../../controller/buyerSlice";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material";
+import { getUserAsync } from "../../controller/login/thunks";
+import { useEffect } from "react";
+
 function ProfileContent() {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("md"));
@@ -47,11 +50,21 @@ function ProfileContent() {
       split.slice(6, 10)
     );
   };
-  let userFirstName = useSelector(getFirstName);
-  let userLastName = useSelector(getLastName);
-  let userAddress = useSelector(getAddress);
-  let userEmail = useSelector(getEmail);
-  let userPhone = useSelector(getPhone);
+
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.login.user);
+  useEffect(() => {
+    dispatch(getUserAsync());
+  }, []);
+  console.log(user);
+  let userFirstName, userLastName, userAddress, userEmail, userPhone;
+  if (user != null) {
+    userFirstName = user.firstName;
+    userLastName = user.lastName;
+    userAddress = user.adress;
+    userEmail = user.email;
+    userPhone = user.phone;
+  }
 
   return (
     <React.Fragment>
