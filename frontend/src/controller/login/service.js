@@ -31,13 +31,12 @@ const signup = async (input) => {
       credentials: "include",
       body: JSON.stringify(input),
     });
-    data = await response.json();
 
     if (!response.ok) {
       const errorMsg = data?.message;
-      throw new Error(errorMsg);
+      return { status: response.status, error: errorMsg };
     }
-    return data;
+    return { status: response.status };
   } catch (err) {
     return { status: response.status, error: data.errors };
   }

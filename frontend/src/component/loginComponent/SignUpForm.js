@@ -16,6 +16,7 @@ import BusinessIcon from "@mui/icons-material/Business";
 import PersonIcon from "@mui/icons-material/Person";
 import { useDispatch } from "react-redux";
 import { signupAsync } from "../../controller/login/thunks";
+import { useNavigate } from "react-router-dom";
 
 function SignUpForm() {
   const dispatch = useDispatch();
@@ -54,7 +55,7 @@ function SignUpForm() {
       if (err.includes("company")) setCompanyError(err);
     }
   };
-
+  let navigate = useNavigate();
   const handleCreate = (event) => {
     event.preventDefault();
     let account;
@@ -78,10 +79,14 @@ function SignUpForm() {
         isSeller,
       };
     }
-
     dispatch(signupAsync(account)).then((result) => {
-      if (result.payload.status !== 200) {
+      console.log("1first");
+      console.log(result);
+      if (result.payload.status !== 201) {
         handleError(result.payload.error);
+      } else {
+        console.log("first");
+        navigate("../");
       }
     });
   };
