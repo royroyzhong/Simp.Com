@@ -11,7 +11,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import { useNavigate } from "react-router-dom";
 
 import { useDispatch } from "react-redux";
-import { getUserAsync } from "../../controller/login/thunks";
+import { getUserAsync, logoutAsync } from "../../controller/login/thunks";
 const categories = [
   { id: "Home", icon: <HomeIcon />, path: "/" },
   { id: "Profile", icon: <PeopleIcon />, path: "/userX/profile" },
@@ -32,6 +32,11 @@ export default function BuyerNavigationList() {
       } else if (statusCode !== 200) {
         navigate("/login");
       } else {
+        console.log(id);
+        if (id === "Log out") {
+          console.log("first");
+          dispatch(logoutAsync());
+        }
         navigate(path);
       }
     });

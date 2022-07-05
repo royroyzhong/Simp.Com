@@ -15,7 +15,7 @@ export const signupAsync = createAsyncThunk(
   }
 );
 export const logoutAsync = createAsyncThunk(
-  actionTypes.LOGIN,
+  actionTypes.LOGOUT,
   async (input) => {
     return await UserService.logOutUser();
   }

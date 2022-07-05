@@ -8,7 +8,7 @@ import {
   BreakLine,
 } from "../../css/CommonStyle";
 import { CssTextField } from "./CommonMuiStyle";
-import HomeIcon from "@mui/icons-material/Home";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
@@ -24,7 +24,7 @@ import { Typography } from "@mui/material";
 import { useEffect } from "react";
 import jwt_decode from "jwt-decode";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { loginAsync } from "../../controller/login/thunks";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -42,6 +42,8 @@ function handleCallBackResponse(res) {
 }
 function LoginForm(prop) {
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.login.user);
+  console.log(user);
   // const [user, setUser] = useState({});
   useEffect(() => {
     // global google
@@ -204,7 +206,7 @@ function LoginForm(prop) {
         <div id="googleSignIn"></div>
         <Marginer direction="vertical" margin="2vh" />
       </SmallSpan>
-      <HomeIcon onClick={() => navigate("../")} />
+      <ArrowBackIcon onClick={() => navigate("../")} />
     </BoxContainer>
   );
 }
