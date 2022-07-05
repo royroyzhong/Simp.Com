@@ -1,66 +1,59 @@
 const jwt = require("jsonwebtoken");
 const maxAge = 24 * 60 * 60;
-// const BuyerModels=require("../models")
-// const Seller = require("../models/Buyer copy");
 const Buyer = require("../models/Buyer");
 const Seller = require("../models/Seller");
-const dbo = require("../db/conn");
 const mongoose = require("mongoose");
-
-let User = [
-  {
-    name: "seller",
-    email: "456@gmail.com",
-    pwd: "123",
-  },
-  {
-    name: "buyer",
-    email: "123@gmail.com",
-    pwd: "123",
-  },
-];
-let users = {
-  name: "seller",
-  email: "123@gmail.com",
-  pwd: "123123",
-  userToken: "123123",
-};
-
-module.exports.login_post = (req, res) => {
-  console.log(req.body.isSeller);
+module.exports.login_post = async (req, res) => {
   const { userEmail, password } = req.body;
-  // try {
-  //   const user = await buyer/seller.login(useremail, password);
-  //   res.status(200).json({ user: user._id });
-  // } catch (err) {
-  //   res.status(400).json({err});
-  // }
+  let user, token;
+  try {
+    if (req.body.isSeller) {
+      user = await Seller.login(userEmail, password);
+    } else {
+      user = await Buyer.login(userEmail, password);
+    }
+    token = generateAccessToken(userEmail, req.body.isSeller);
+    if (req.body.isRemember) {
+      res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
+    } else {
+      res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 2 });
+    }
 
-  console.log({ userEmail, password });
+    console.log(user);
+    res.status(200).json({
+      userID: user._id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      role: req.body.isSeller,
+    });
+  } catch (err) {
+    res.status(400).json({ errors: err.message });
+  }
+};
+module.exports.login_get = async (req, res) => {
   console.log(req.body);
-  if (!req.body) {
-    return res.status(400).send({ message: "400" });
+  let user;
+  try {
+    let email = req.body.user.data.useremail;
+    if (req.body.user.data.role) {
+      user = await Seller.findOne({ email });
+    } else {
+      user = await Buyer.findOne({ email });
+    }
+    let account = {
+      _id: user._id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      address: user.address,
+      phone: user.phone,
+    };
+    res.status(200).json(account);
+  } catch (err) {
+    res.status(400).json({ errors: err.message });
   }
-  //seller
-  if (userEmail == User[0].email && password == User[0].pwd) {
-    const token = generateAccessToken(userEmail);
-    // res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge });
-    res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
-    return res.json({ user: User[0], token: token });
-  }
-  //buyer
-  if (userEmail == User[1].email && password == User[1].pwd) {
-    const token = generateAccessToken(userEmail);
-    res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
-    return res.json({ user: User[1], token: token });
-  }
-  return res.status(404).send("email or password incorrect");
 };
-module.exports.login_get = (req, res) => {
-  // const token = req.cookies.jwt;
-  // console.log("token: " + token);
-  res.send("login get");
-};
+
 module.exports.signup_post = async (req, res) => {
   try {
     //init obj
@@ -81,8 +74,7 @@ module.exports.signup_post = async (req, res) => {
     // );
 
     if (!req.body.isSeller) {
-      const { firstName, lastName, email, password, passwordConfirm } =
-        req.body;
+      const { firstName, lastName, email, password } = req.body;
 
       buyer = await Buyer.create({
         firstName,
@@ -94,8 +86,7 @@ module.exports.signup_post = async (req, res) => {
       id = buyer._id;
     } else {
       console.log("first1");
-      const { firstName, lastName, email, password, passwordConfirm, company } =
-        req.body;
+      const { firstName, lastName, email, password, company } = req.body;
       seller = await Seller.create({
         firstName,
         lastName,
@@ -106,7 +97,7 @@ module.exports.signup_post = async (req, res) => {
       });
       id = seller._id;
     }
-    const token = generateAccessToken(id);
+    const token = generateAccessToken(userEmail, req.body.isSeller);
     res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
     res.status(201).json({ user: id });
   } catch (err) {
@@ -123,14 +114,21 @@ module.exports.logout_get = (req, res) => {
   res.cookie("jwt", "", { maxAge: 1 });
   res.send("logout");
 };
-function generateAccessToken(useremail) {
-  return jwt.sign({ useremail: useremail }, process.env.TOKEN_SECRET, {
-    expiresIn: "1h",
-  });
+function generateAccessToken(useremail, role) {
+  return jwt.sign(
+    { data: { useremail: useremail, role: role } },
+    process.env.TOKEN_SECRET,
+    {
+      expiresIn: "1h",
+    }
+  );
 }
 const handleError = (err) => {
-  if (err.code === 11000) {
+  if (err.code === 11000 && err.message.includes("email")) {
     return "email is already registered";
+  }
+  if (err.code === 11000 && err.message.includes("company")) {
+    return "company is already registered";
   }
   if (err.message.includes("Please enter a valid email")) {
     return "Please enter a valid email";
@@ -152,5 +150,11 @@ const handleError = (err) => {
   }
   if (err.message.includes("shorter than the minimum allowed")) {
     return "shorter than the minimum allowed";
+  }
+  if (err.message.includes("incorrect email")) {
+    return "incorrect email";
+  }
+  if (err.message.includes("incorrect password")) {
+    return "incorrect password";
   }
 };

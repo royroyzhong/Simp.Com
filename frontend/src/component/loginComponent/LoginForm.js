@@ -67,15 +67,19 @@ function LoginForm(prop) {
   const [visible, setVisible] = React.useState(true);
   const [seller, setSeller] = React.useState(true);
   const [remember, setRemember] = React.useState(true);
+  const [emailError, setEmailError] = React.useState("");
+  const [passwordError, setPasswordError] = React.useState("");
   const handleVisible = () => setVisible(!visible);
 
   const validateEmail = (event) => {
     const value = event.target.value;
     setEmail(value);
+    setEmailError("");
   };
   const validatePwd = (event) => {
     const value = event.target.value;
     setPwd(value);
+    setPasswordError("");
   };
 
   const handlerValidation = (event) => {
@@ -86,17 +90,29 @@ function LoginForm(prop) {
       isRemember: remember,
       isSeller: seller,
     };
-    // setUser(account);
     return dispatch(loginAsync(account)).then((result) => {
-      let role = result.payload.user.name;
-      let path;
-      if (role === "seller") {
-        path = "../sellerX/dashboard";
-      } else {
-        path = "/";
+      try {
+        let role = result.payload.role;
+        let path;
+        if (result.payload.status === 400) {
+          handleFail(result.payload.error);
+          throw Error("role undefine");
+        } else if (role === true) {
+          path = "../sellerX/dashboard";
+        } else {
+          path = "/";
+        }
+        navigate(path);
+      } catch (err) {
+        console.log(err);
       }
-      navigate(path);
     });
+  };
+  const handleFail = (err) => {
+    if (err !== undefined) {
+      if (err.includes("email")) setEmailError(err);
+    }
+    if (err.includes("password")) setPasswordError(err);
   };
   const handleOnClickSeller = (event) => {
     setSeller(event.target.checked);
@@ -115,16 +131,20 @@ function LoginForm(prop) {
     >
       <Box>
         <CssTextField
-          id="outlined-email-input"
+          id="outlined-email-input-error-helper-text"
           label="Email"
           type="email"
+          error={emailError !== ""}
+          helperText={emailError !== "" ? emailError : ""}
           onChange={validateEmail}
         />
         <Marginer direction="vertical" margin="1vh" />
         <CssTextField
-          id="outlined-password-input"
+          id="outlined-password-input-error-helper-text"
           label="Password"
           type={visible ? "password" : "text"}
+          error={passwordError !== ""}
+          helperText={passwordError !== "" ? passwordError : ""}
           autoComplete="current-password"
           onChange={validatePwd}
           InputProps={{
@@ -136,7 +156,6 @@ function LoginForm(prop) {
             ),
           }}
         />
-
         <Marginer direction="vertical" margin="3vh" />
 
         <Grid container spacing={1}>
@@ -176,7 +195,7 @@ function LoginForm(prop) {
 
       <Marginer direction="vertical" margin="1vh" />
       <SmallSpan href="#">
-        Don't have an accoun?
+        Don't have an account?
         <BoldSpan href="#" onClick={handerSwitch}>
           Signup
         </BoldSpan>

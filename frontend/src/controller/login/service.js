@@ -1,20 +1,24 @@
 const login = async (input) => {
-  const response = await fetch("http://localhost:8888/login", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    credentials: "include",
-    body: JSON.stringify(input),
-  });
+  let response, data;
+  try {
+    response = await fetch("http://localhost:8888/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify(input),
+    });
 
-  const data = await response.json();
-  if (!response.ok) {
-    const errorMsg = data?.message;
-    throw new Error(errorMsg);
+    data = await response.json();
+    if (!response.ok) {
+      const errorMsg = data?.message;
+      throw new Error(errorMsg);
+    }
+    return data;
+  } catch (err) {
+    return { status: response.status, error: data.errors };
   }
-  // console.log(data);
-  return data;
 };
 const signup = async (input) => {
   let response, data;
@@ -28,8 +32,7 @@ const signup = async (input) => {
       body: JSON.stringify(input),
     });
     data = await response.json();
-    // console.log(response);
-    // console.log(data);
+
     if (!response.ok) {
       const errorMsg = data?.message;
       throw new Error(errorMsg);
@@ -40,23 +43,29 @@ const signup = async (input) => {
   }
 };
 const getUser = async () => {
-  const response = await fetch("http://localhost:8888/login", {
-    method: "GET",
-    credentials: "include",
-  });
-  if (!response.ok) {
-    console.log("!ok");
-    return response.status;
+  let response, data;
+  try {
+    response = await fetch("http://localhost:8888/login", {
+      method: "GET",
+      credentials: "include",
+    });
+    data = await response.json();
+    if (!response.ok) {
+      return response.status;
+    }
+
+    return { data, statusCode: response.status };
+  } catch (err) {
+    return { status: response.status, error: data.errors };
   }
-  return response.status;
 };
+
 const logOutUser = async () => {
-  console.log("first");
   const response = await fetch("http://localhost:8888/logout", {
     method: "GET",
     credentials: "include",
   });
-  console.log(response);
+
   return response.json();
 };
 

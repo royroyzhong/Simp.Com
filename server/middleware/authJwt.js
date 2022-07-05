@@ -2,24 +2,9 @@ const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 dotenv.config();
 
-const User = [
-  {
-    name: "seller",
-    email: "456@gmail.com",
-    pwd: "123123",
-  },
-  {
-    name: "buyer",
-    email: "123@gmail.com",
-    pwd: "123",
-  },
-];
 verifyToken = (req, res, next) => {
-  // try {
   const token = req.cookies.jwt;
-  console.log("verifyToken: " + token);
   if (!token) {
-    console.log("!token");
     return res.status(403).send({
       message: "No token provided!",
     });
@@ -30,14 +15,9 @@ verifyToken = (req, res, next) => {
         message: "Unauthorized!",
       });
     }
-    req.tokenData = decoded;
+    req.body.user = decoded;
     next();
   });
-  // } catch {
-  //   res.status(401).json({
-  //     error: new Error("Invalid request!"),
-  //   });
-  // }
 };
 
 sellerCheck = (req, res, next) => {

@@ -3,7 +3,7 @@ import { REQUEST_STATE } from "../utils";
 import { getUserAsync, loginAsync, signupAsync } from "./thunks";
 
 const INITIAL_STATE = {
-  user: {},
+  user: null,
   token: null,
   login: REQUEST_STATE.IDLE,
   addUser: REQUEST_STATE.IDLE,
@@ -23,7 +23,7 @@ const loginSlice = createSlice({
       })
       .addCase(getUserAsync.fulfilled, (state, action) => {
         state.addUser = REQUEST_STATE.FULFILLED;
-        state.user = action.payload;
+        state.user = action.payload.data;
       })
       .addCase(getUserAsync.rejected, (state, action) => {
         state.addUser = REQUEST_STATE.REJECTED;
