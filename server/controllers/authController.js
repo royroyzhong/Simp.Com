@@ -31,7 +31,6 @@ module.exports.login_post = async (req, res) => {
   }
 };
 module.exports.login_get = async (req, res) => {
-  console.log(req.body);
   let user;
   try {
     let email = req.body.user.data.useremail;
@@ -68,10 +67,6 @@ module.exports.signup_post = async (req, res) => {
       return res.status(400).json({ errors: req.errorsFromMid });
     }
     let id, user, role;
-    // const dbConnect = dbo.getDb();
-    // await mongoose.connect(
-    //   "mongodb+srv://doge-455:doge-123@sandbox.uqu5r.mongodb.net/?retryWrites=true&w=majority"
-    // );
 
     if (!req.body.isSeller) {
       const { firstName, lastName, email, password } = req.body;

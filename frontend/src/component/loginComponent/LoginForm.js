@@ -8,7 +8,7 @@ import {
   BreakLine,
 } from "../../css/CommonStyle";
 import { CssTextField } from "./CommonMuiStyle";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
@@ -42,8 +42,6 @@ function handleCallBackResponse(res) {
 }
 function LoginForm(prop) {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.login.user);
-  console.log(user);
   // const [user, setUser] = useState({});
   useEffect(() => {
     // global google
