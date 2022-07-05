@@ -16,6 +16,11 @@ import { Marginer } from "../../css/CommonStyle";
 import { red } from "@mui/material/colors";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material";
+import { useSelector } from "react-redux";
+
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
+
 export const CssBoxStyle = {
   flexGrow: 1,
   width: "43vw",
@@ -48,7 +53,8 @@ function ChangePasswordContent() {
   const handleOldPwd = () => setBtnOldPwd(!btnOldPwd);
   const handleNewPwd = () => setBtnNewPwd(!btnNewPwd);
   const handleCNewPwd = () => setBtnCNewPwd(!btnCNewPwd);
-  const [OldPwd, setOldPwd] = useState("nothing");
+  const [OldPwd, setOldPwd] = useState(" ");
+  const [OldPwdErr, setOldPwdErr] = useState("");
   const [NewPwd, setNewPwd] = useState("");
   const [CNewPwd, setCNewPwd] = useState("");
   const [ruleOne, setRuleOne] = useState(false);
@@ -56,6 +62,13 @@ function ChangePasswordContent() {
   const [ruleThree, setRuleThree] = useState(false);
   const [ruleFour, setRuleFour] = useState(false);
   const [ruleFive, setRuleFive] = useState(false);
+  const [open, setOpen] = React.useState(false);
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
 
   const passwordValidation = (password) => {
     const specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
@@ -100,11 +113,41 @@ function ChangePasswordContent() {
       </Grid>
     </Box>
   );
+  const user = useSelector((state) => state.login.user);
+  const handleFailure = (err) => {
+    console.log(err);
+    setOldPwdErr(err);
+  };
+  const handleSuccess = () => {
+    setOpen(true);
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    try {
+      if (CNewPwd === NewPwd) {
+        let data = { password: OldPwd, newPassword: NewPwd, email: user.email };
+        sendData(data).then((result) => {
+          if (result.errors) {
+            handleFailure(result.errors);
+          } else {
+            handleSuccess();
+          }
+        });
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <React.Fragment>
       <CssBaseline />
       <Container maxWidth="md">
-        <Box sx={matches ? CssBoxStyle : CssBoxStyle_smaller}>
+        <Box
+          component="form"
+          onSubmit={handleSubmit}
+          sx={matches ? CssBoxStyle : CssBoxStyle_smaller}
+        >
           <Grid item xs={12}>
             <Box sx={{ borderBottom: 0.1, marginBottom: "4vh" }}>
               <Marginer direction="vertical" margin="4vh" />
@@ -132,11 +175,20 @@ function ChangePasswordContent() {
                 <TextField
                   fullWidth
                   label="Old Password"
-                  error={OldPwd === ""}
-                  helperText={OldPwd === "" ? "Passwords Empty!" : " "}
+                  error={OldPwd === "" ? true : OldPwdErr === "" ? false : true}
+                  helperText={
+                    OldPwd === ""
+                      ? "Passwords Empty!"
+                      : OldPwdErr === ""
+                      ? ""
+                      : OldPwdErr
+                  }
                   variant="standard"
                   type={btnOldPwd ? "password" : "text"}
-                  onChange={(event) => setOldPwd(event.target.value)}
+                  onChange={(event) => {
+                    setOldPwd(event.target.value);
+                    setOldPwdErr("");
+                  }}
                   InputProps={{
                     endAdornment: (
                       <IconButton aria-label="edit" onClick={handleOldPwd}>
@@ -222,15 +274,38 @@ function ChangePasswordContent() {
                 {ruleItem("At least 1 special characters", ruleFive)}
               </Grid>
               <Grid item xs={10} sx={{ marginTop: "2vh", marginLeft: "10vw" }}>
-                <Button variant="contained">Save</Button>
-
+                <Button type="submit" variant="contained">
+                  Save
+                </Button>
               </Grid>
             </Grid>
           </Grid>
         </Box>
       </Container>
+      <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
+          Update Successfully!
+        </Alert>
+      </Snackbar>
     </React.Fragment>
   );
 }
 
 export default ChangePasswordContent;
+
+async function sendData(input) {
+  let response;
+  try {
+    response = await fetch("http://localhost:8888/user/profile/password", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify(input),
+    });
+    return response.json();
+  } catch (err) {
+    return { error: err.message };
+  }
+}

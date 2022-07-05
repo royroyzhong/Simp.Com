@@ -24,7 +24,8 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material";
 import { getUserAsync } from "../../controller/login/thunks";
 import { useEffect } from "react";
-
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 function ProfileContent() {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("md"));
@@ -36,6 +37,20 @@ function ProfileContent() {
   const handleEditLName = () => setBtnDisabledLName(!btnDisabledLName);
   const handleEditAddress = () => setBtnDisabledAddress(!btnDisabledAddress);
   const handleEditPhone = (id) => setBtnDisabledPhone(!btnDisabledPhone);
+  // let userFirstName, userLastName, userAddress, userEmail, userPhone;
+  const [userFirstName, setUserFirstName] = useState();
+  const [userLastName, setUserLastName] = useState();
+  const [userAddress, setUserAddress] = useState();
+  const [userEmail, setUserEmail] = useState();
+  const [userPhone, setUserPhone] = useState();
+  const [open, setOpen] = React.useState(false);
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
   const formatPhoneNumber = (number) => {
     if (!number) {
       return number;
@@ -50,27 +65,47 @@ function ProfileContent() {
       split.slice(6, 10)
     );
   };
-
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    try {
+      let data = {
+        userFirstName,
+        userLastName,
+        userEmail,
+        userAddress,
+        userPhone,
+      };
+      sendData(data).then(() => {
+        setOpen(true);
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.login.user);
   useEffect(() => {
-    dispatch(getUserAsync());
+    dispatch(getUserAsync()).then((result, err) => {
+      if (err) {
+        console.log(err);
+      }
+      let user = result.payload.data;
+      setUserFirstName(user.firstName);
+      setUserLastName(user.lastName);
+      setUserAddress(user.address);
+      setUserEmail(user.email);
+      setUserPhone(user.phone);
+    });
   }, []);
-  console.log(user);
-  let userFirstName, userLastName, userAddress, userEmail, userPhone;
-  if (user != null) {
-    userFirstName = user.firstName;
-    userLastName = user.lastName;
-    userAddress = user.adress;
-    userEmail = user.email;
-    userPhone = user.phone;
-  }
 
   return (
     <React.Fragment>
       <CssBaseline />
       <Container maxWidth="md">
-        <Box sx={matches ? CssBoxStyle : CssBoxStyle_smaller}>
+        <Box
+          component="form"
+          onSubmit={handleSubmit}
+          sx={matches ? CssBoxStyle : CssBoxStyle_smaller}
+        >
           <Grid item xs={12}>
             <Box sx={{ borderBottom: 0.1, marginBottom: "4vh" }}>
               <Marginer direction="vertical" margin="4vh" />
@@ -98,7 +133,8 @@ function ProfileContent() {
                 fullWidth
                 id="standard"
                 label="First Name"
-                value={userFirstName}
+                value={userFirstName || ""}
+                onChange={(e) => setUserFirstName(e.target.value)}
                 variant="standard"
                 disabled={btnDisabledFName}
                 InputProps={{
@@ -116,7 +152,8 @@ function ProfileContent() {
                 fullWidth
                 id="standard"
                 label="Last Name"
-                value={userLastName}
+                value={userLastName || ""}
+                onChange={(e) => setUserLastName(e.target.value)}
                 variant="standard"
                 disabled={btnDisabledLName}
                 InputProps={{
@@ -134,7 +171,8 @@ function ProfileContent() {
                 fullWidth
                 id="standard-read-only-input"
                 label="Email"
-                value={userEmail}
+                value={userEmail || ""}
+                onChange={(e) => setUserEmail(e.target.value)}
                 InputProps={{
                   disabled: true,
                 }}
@@ -146,7 +184,8 @@ function ProfileContent() {
                 fullWidth
                 id="standard"
                 label="Address"
-                value={userAddress}
+                value={userAddress || ""}
+                onChange={(e) => setUserAddress(e.target.value)}
                 variant="standard"
                 disabled={btnDisabledAddress}
                 InputProps={{
@@ -164,7 +203,8 @@ function ProfileContent() {
                 fullWidth
                 id="standard"
                 label="Phone"
-                value={formatPhoneNumber(userPhone)}
+                value={formatPhoneNumber(userPhone || "")}
+                onChange={(e) => setUserPhone(e.target.value)}
                 variant="standard"
                 disabled={btnDisabledPhone}
                 InputProps={{
@@ -183,13 +223,38 @@ function ProfileContent() {
               xs={2}
               sx={{ marginTop: "2vh", marginLeft: "2vw" }}
             >
-              <Button variant="contained">Save</Button>
+              <Button type="submit" variant="contained">
+                Save
+              </Button>
             </Grid>
           </Grid>
         </Box>
       </Container>
+      <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
+          Update Successfully!
+        </Alert>
+      </Snackbar>
     </React.Fragment>
   );
 }
 
 export default ProfileContent;
+
+async function sendData(input) {
+  let response;
+  try {
+    response = await fetch("http://localhost:8888/user/profile", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify(input),
+    });
+
+    return response.json();
+  } catch (err) {
+    return { error: err.message };
+  }
+}
