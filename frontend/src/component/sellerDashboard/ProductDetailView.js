@@ -8,14 +8,10 @@ import flask from "../../assets/flask.svg";
 import food from "../../assets/food.svg";
 
 import { useDispatch, useSelector } from "react-redux";
-import Header from "../common/Header";
 
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { useState } from "react";
-import { getFeatures, getTags, addTag, addFeature, getBufferProduct } from "../../controller/productSlice";
-import { Marginer } from "../../css/CommonStyle";
-import { addProduct } from "../../controller/sellerSlice";
-import Product from "../../model/product";
+import { addFeature, addTag, getBufferProduct, getFeatures, getTags, postNewProduct } from "../../controller/productSlice";
 
 let imgs = [book, bomb, flask, food];
 
@@ -41,8 +37,8 @@ export default function ProductPage() {
                 >
                     <TagDisplay />
                     <TextDisplay />
-                    <Button onClick={(e) => dispatch(addProduct({
-                        title: product.title,
+                    <Button onClick={(e) => dispatch(postNewProduct({
+                        name: product.title,
                         tags: product.tags,
                         features: product.features,
                         price: product.price,

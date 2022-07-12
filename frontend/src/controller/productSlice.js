@@ -1,6 +1,11 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { quinn, gavin } from "../utils/mockFetch";
 import Product from "../model/product";
+import { fetchAPI } from "../api/client";
+
+export const postNewProduct = createAsyncThunk('/product/post', async function(data) {
+  return fetchAPI('POST', data, {}, 'products').then(response => response.text());
+})
 
 /**
  * Product Slice is only used for the editing page.
@@ -24,6 +29,12 @@ const productSlice = createSlice({
       state.price = product.price;
     }
   },
+  extraReducers: (builder) => {
+    builder
+    .addCase(postNewProduct.fulfilled, function(state, action) {
+      console.log("succeed")
+    })
+  }
 });
 
 // Export Setters

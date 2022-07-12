@@ -9,6 +9,7 @@ import book from "../../assets/book.svg";
 import upload from "../../assets/upload.svg";
 import { Marginer } from "../../css/CommonStyle";
 import { getProductList } from "../../controller/sellerSlice";
+import { Link, useNavigate } from "react-router-dom";
 
 const imgs = {
     avatar: avatar,
@@ -35,11 +36,15 @@ function CardGrid(props) {
         xs: 1, sm: 2, md: 12
     };
 
+    let navigate = useNavigate();
+
     return (
         <Grid container spacing={2} columns={gridStyle}>
             {products.map((product, index) => (
                 <Grid item key={index} xs={1} sm={1} md={3}>
-                    <Card variant="outlined">
+                    <Card variant="outlined" onClick={(e) => {
+                        navigate("/sellerX/product_page");
+                    }}>
                         <CardActionArea>
                             <CardContent>
                                 <Marginer margin="40px" />
