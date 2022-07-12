@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
-const uuid = require('uuid');
 
 const productSchema = new Schema({
     uuid: {
