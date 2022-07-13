@@ -49,6 +49,7 @@ export default function BuyerNavigationList() {
           <ListItemButton
             sx={{ color: "#ffffff" }}
             selected={active}
+            key={id}
             onClick={() => handeOnClick(id, path)}
           >
             <ListItemIcon sx={{ color: "#ffffff" }}>{icon}</ListItemIcon>

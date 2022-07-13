@@ -58,6 +58,7 @@ function ProfileLeftContent(props) {
           gutterBottom
           sx={{
             marginLeft: "1vw",
+            padding: "0.5vw",
           }}
         >
           Personal Information
@@ -77,6 +78,7 @@ function ProfileLeftContent(props) {
           gutterBottom
           sx={{
             marginLeft: "3vw",
+            padding: "0.5vw",
           }}
         >
           Payment
@@ -96,6 +98,7 @@ function ProfileLeftContent(props) {
           gutterBottom
           sx={{
             marginLeft: "1vw",
+            padding: "0.2vw",
           }}
         >
           Change Password
