@@ -7,7 +7,7 @@ User login information including address and encrypted password will be saved as
 
 ### Project Requirements
 **Minimal Requirements**:
-- [x]Login
+- [x] Login
 - [ ]Basic CRUD operation on user profile includes remove/update/add to cart/wishlist 
 - [ ]Editable and expandable product presentation page 
 - [ ]Track order status for shipped items
