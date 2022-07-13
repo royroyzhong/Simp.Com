@@ -86,10 +86,30 @@ verifyGoogleToken = (req, res, next) => {
     });
   }
 };
+generateAccessTokenWithRememberMe = (useremail, role) => {
+  return jwt.sign(
+    { data: { useremail: useremail, role: role } },
+    process.env.TOKEN_SECRET,
+    {
+      expiresIn: "1d",
+    }
+  );
+};
+generateAccessTokenWithoutRememberMe = (useremail, role) => {
+  return jwt.sign(
+    { data: { useremail: useremail, role: role } },
+    process.env.TOKEN_SECRET,
+    {
+      expiresIn: "5m",
+    }
+  );
+};
 const authJwt = {
   verifyToken: verifyToken,
   buyerCheck: buyerCheck,
   sellerCheck: sellerCheck,
   verifyGoogleToken: verifyGoogleToken,
+  generateAccessTokenWithRememberMe: generateAccessTokenWithRememberMe,
+  generateAccessTokenWithoutRememberMe: generateAccessTokenWithoutRememberMe,
 };
 module.exports = authJwt;
