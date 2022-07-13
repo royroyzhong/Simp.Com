@@ -1,19 +1,23 @@
 const baseUrl = "http://localhost:8888"
 
 /**
- * This fetch method will carry the cookies over 
+ * Fetch protected API with current active JWT token. 
+ * @return !!! raw response 
  */
-export const fetchAPI = async function(method, data, params, ...path) {
+export const fetchAPI = async function (method, data, params, ...path) {
+
+    if (data === null || data === undefined) data = {};
+    if (params === null || params === undefined) params = {};
+
     return new Promise((resolve, reject) => {
         resolve(JSON.stringify(data));
     }).then(dataStr => {
-        console.log(dataStr);
         // Fetch RESTful resources
-        let url = baseUrl+'/'+path.join('/');
+        let url = baseUrl + '/' + path.join('/');
         let paramsKV = Object.entries(params);
         if (paramsKV.length > 0) {
             url += '?';
-            url += paramsKV.map(([k,v]) => k + '=' + v).join('&')
+            url += paramsKV.map(([k, v]) => k + '=' + v).join('&')
         }
         let config = {
             method: method,
