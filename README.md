@@ -17,7 +17,7 @@ User login information including address and encrypted password will be saved as
 - [x] Encrypted password 
 - [ ] Data visualization
 - [ ] Email notification for restocking of wanted item
-- [x ] Login with Google
+- [x] Login with Google
 - [ ] Drag and drop pictures (jpeg,gif and most image and video format)
 
 **Stretch Requirements**:
