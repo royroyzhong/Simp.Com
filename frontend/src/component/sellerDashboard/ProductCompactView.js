@@ -65,7 +65,9 @@ function CardGrid(props) {
                 </Grid>
             ))}
             <Grid item key={-1} xs={1} sm={1} md={3}>
-                <Card variant="outlined">
+                <Card variant="outlined" onClick={(e) => {
+                        navigate("/sellerX/product_page");
+                    }}>
                     <CardActionArea>
                         <CardContent>
                             <Marginer margin="40px" />

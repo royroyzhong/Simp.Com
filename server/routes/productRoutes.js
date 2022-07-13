@@ -27,16 +27,14 @@ router.get('/', function (req, res) {
 router.post('/', authJwt.verifyToken, function (req, res) {
 
     let dataStr = req.body;
-    let c = req.cookies;
+
     let queryResult = productController.saveFromJsonString(dataStr);
 
     queryResult
         .then(products => {
-            console.log(">>>>>>>>>>>>>>>>>.Still Running");
             res.send("Product saved");
         })
         .catch(err => {
-            console.error(err)
             res.status(503).send("Unexpected Error.");
         })
 })

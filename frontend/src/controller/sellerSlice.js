@@ -1,6 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
-import Product from "../model/product";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { quinn } from "../utils/mockFetch";
+
+export const getProducts = createAsyncThunk();
 
 const sellerSlice = createSlice({
   name: "seller",
