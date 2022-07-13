@@ -34,7 +34,6 @@ module.exports.googlelogin_post = async (req, res) => {
   try {
     let emails = { email: email };
     let user = await Buyer.findOne(emails);
-    console.log(user);
     if (!user) {
       let newUser = {
         firstName,
@@ -43,8 +42,6 @@ module.exports.googlelogin_post = async (req, res) => {
         password: 12341234,
         isSeller: false,
       };
-      console.log("newUser");
-      console.log(newUser);
       user = await Buyer.create(newUser);
     }
     token = generateAccessToken(email, false);
@@ -64,8 +61,8 @@ module.exports.googlelogin_post = async (req, res) => {
 module.exports.login_get = async (req, res) => {
   let user;
   try {
-    let email = res.locals.user.data.useremail;
-    if (res.locals.user.data.role) {
+    let email = res.locals.user.useremail;
+    if (res.locals.user.role) {
       user = await Seller.findOne({ email });
     } else {
       user = await Buyer.findOne({ email });

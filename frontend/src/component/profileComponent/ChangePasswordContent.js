@@ -63,11 +63,13 @@ function ChangePasswordContent() {
   const [ruleFour, setRuleFour] = useState(false);
   const [ruleFive, setRuleFive] = useState(false);
   const [open, setOpen] = React.useState(false);
+  const [openError, setOpenError] = React.useState(false);
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
     setOpen(false);
+    setOpenError(false);
   };
 
   const passwordValidation = (password) => {
@@ -121,18 +123,23 @@ function ChangePasswordContent() {
   const handleSuccess = () => {
     setOpen(true);
   };
+  const handlePasswordRule = () => {};
   const handleSubmit = (e) => {
     e.preventDefault();
     try {
       if (CNewPwd === NewPwd) {
         let data = { password: OldPwd, newPassword: NewPwd, email: user.email };
-        sendData(data).then((result) => {
-          if (result.errors) {
-            handleFailure(result.errors);
-          } else {
-            handleSuccess();
-          }
-        });
+        if (ruleOne && ruleTwo && ruleThree && ruleFour && ruleFive) {
+          sendData(data).then((result) => {
+            if (result.errors) {
+              handleFailure(result.errors);
+            } else {
+              handleSuccess();
+            }
+          });
+        } else {
+          setOpenError(true);
+        }
       }
     } catch (err) {
       console.log(err);
@@ -285,6 +292,11 @@ function ChangePasswordContent() {
       <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
           Update Successfully!
+        </Alert>
+      </Snackbar>
+      <Snackbar open={openError} autoHideDuration={2000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
+          Please check password rule!
         </Alert>
       </Snackbar>
     </React.Fragment>
