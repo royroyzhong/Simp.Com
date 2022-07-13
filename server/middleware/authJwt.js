@@ -17,7 +17,7 @@ verifyToken = (req, res, next) => {
         message: "Unauthorized!",
       });
     }
-    req.locals.user = decoded.data;
+    res.locals.user = decoded.data;
     next();
   });
 };
@@ -78,7 +78,7 @@ verifyGoogleToken = (req, res, next) => {
       picture: user.picture,
     };
 
-    req.body.data = data;
+    res.locals.user = data;
     next();
   } catch (err) {
     res.status(401).send({
