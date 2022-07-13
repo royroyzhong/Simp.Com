@@ -1,56 +1,60 @@
 require("dotenv").config({ path: "./config.env" });
 var express = require("express");
-var path = require("path");
-var cookieParser = require("cookie-parser");
-var winston = require("winston"),
-  expressWinston = require("express-winston");
-var cors = require("cors");
-var authRouter = require("./routes/authRoutes");
-var profileRouter = require("./routes/userProfile");
-const mongoose = require("mongoose");
+var app = express();
 
-//cors for cookies in frontend
+// ++++++++++++++++++ Logger Config ++++++++++++++++++ //
+var winston = require("winston"), expressWinston = require("express-winston");
+
+const myFormat = winston.format.printf(({ level, message, label, timestamp, ...meta}) => {
+  let entries = Object.entries(meta.meta);
+  let metaString = '';
+  for (const [k,v] of entries) {
+    metaString += `\u001b[32m[${k}]\u001b[0m : ${JSON.stringify(v, undefined, 2)} \n`
+  }
+  return `${timestamp} ${label} >>> [${level}]: ${message} \n ${metaString}`;
+});
+
+app.use(expressWinston.logger({
+  format: winston.format.combine(
+    winston.format.label({ label: "ʕ ·ᴥ· ʔ" }),
+    winston.format.timestamp(),
+    winston.format.colorize(),
+    winston.format.prettyPrint(),
+    myFormat
+  ),
+  transports: [new winston.transports.Console()],
+  meta: true,
+  msg: "HTTP {{req.method}} {{req.url}}",
+  expressFormat: true,
+  colorize: false
+}));
+
+app.use(
+  expressWinston.errorLogger({
+    level: 'info',
+    transports: [new winston.transports.Console()],
+    format: winston.format.combine(
+      winston.format.label({ label: "ʕ ·ᴥ· ʔ" }),
+      winston.format.timestamp(),
+      winston.format.colorize(),
+      winston.format.json(),
+    ),
+  })
+);
+
+// ++++++++++++++++++ Cookies & Securities ++++++++++++++++++ //
+var cookieParser = require("cookie-parser");
+var cors = require("cors");
 const corsOptions = {
   origin: "http://localhost:3000", // must match to frontend path
   credentials: true, //access-control-allow-credentials:true
   optionSuccessStatus: 200,
 };
-const dbo = require("./db/conn");
 
-var app = express();
+// ++++++++++++++++++ Database Config ++++++++++++++++++ //
+var path = require("path");
+var mongoose = require("mongoose");
 
-// Logger configuration
-app.use(
-  expressWinston.logger({
-    transports: [new winston.transports.Console()],
-    format: winston.format.combine(
-      winston.format.colorize(),
-      winston.format.json()
-    ),
-    meta: true,
-    msg: "HTTP {{req.method}} {{req.url}}",
-  })
-);
-
-app.use(
-  expressWinston.errorLogger({
-    transports: [new winston.transports.Console()],
-    format: winston.format.combine(
-      winston.format.colorize(),
-      winston.format.json()
-    ),
-  })
-);
-
-// // sync perform a database connection when the server starts
-// dbo.connectToServer(function (err) {
-//   if (err) {
-//     console.error(err);
-//     process.exit();
-//   }
-// });
-
-//async
 const dbURI =
   "mongodb+srv://doge-455:doge-123@sandbox.uqu5r.mongodb.net/cpsc455-doge-com?retryWrites=true&w=majority";
 mongoose
@@ -66,10 +70,14 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
+// ++++++++++++++++++ Router Config ++++++++++++++++++ //
+var authRouter = require("./routes/authRoutes");
+var productRouter = require("./routes/productRoutes");
+
 app.use("/index", (req, res) => {
   res.render("index");
 });
 app.use(authRouter);
-app.use(profileRouter);
+app.use("/products", productRouter)
 
 module.exports = app;

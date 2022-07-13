@@ -17,7 +17,7 @@ verifyToken = (req, res, next) => {
         message: "Unauthorized!",
       });
     }
-    req.body.user = decoded;
+    req.locals.user = decoded.data;
     next();
   });
 };
