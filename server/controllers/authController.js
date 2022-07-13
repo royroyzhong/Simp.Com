@@ -35,7 +35,6 @@ module.exports.googlelogin_post = async (req, res) => {
   try {
     let emails = { email: email };
     let user = await Buyer.findOne(emails);
-    console.log(user);
     if (!user) {
       let newUser = {
         firstName,
@@ -44,8 +43,6 @@ module.exports.googlelogin_post = async (req, res) => {
         password: 12341234,
         isSeller: false,
       };
-      console.log("newUser");
-      console.log(newUser);
       user = await Buyer.create(newUser);
     }
     token = generateAccessToken(email, false);
