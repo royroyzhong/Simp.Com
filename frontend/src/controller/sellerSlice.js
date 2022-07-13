@@ -1,16 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
-import Product from "../model/product";
-import { quinn, gavin } from "../utils/mockFetch";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { quinn } from "../utils/mockFetch";
 
-let product = new Product("quinn");
-product.title = "hello world";
-product.imgRefs = ['book'];
-
-let p2 = new Product("quinn");
-p2.title = "product 2";
-
-let p3 = new Product("quinn");
-p3.title = "product 3";
+export const getProducts = createAsyncThunk();
 
 const sellerSlice = createSlice({
   name: "seller",
@@ -24,20 +15,8 @@ const sellerSlice = createSlice({
 
     // Seller inventory
     inventory: [
-      product, p2, p3
     ]
   },
-  reducers: {
-    addProduct: (state, action) => {
-      let rawProduct = action.payload;
-      let p = new Product("");
-      p.title = rawProduct.title;
-      p.tags = rawProduct.tags;
-      p.features = rawProduct.features;
-      p.price = rawProduct.price;
-      state.inventory.push(p);
-    }
-  }
 });
 
 export const {addProduct} = sellerSlice.actions;

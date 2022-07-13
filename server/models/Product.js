@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
-const uuid = require('uuid');
 
 const productSchema = new Schema({
     uuid: {
@@ -15,12 +14,6 @@ const productSchema = new Schema({
     tags: [String],
     lastModifiedAt: {type: Date, default: Date.now},
     soldBy: {type: Schema.Types.ObjectId, ref: 'seller'},
-}, {
-    statics: {
-        findBySeller(seller) {
-            return this.find({soldBy: seller}).exec()
-        } 
-    }
 })
 
 const Product = mongoose.model('product', productSchema);

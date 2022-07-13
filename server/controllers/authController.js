@@ -30,8 +30,7 @@ module.exports.login_post = async (req, res) => {
 };
 module.exports.googlelogin_post = async (req, res) => {
   // let user, token;
-  console.log(req.body.data);
-  const { email, firstName, lastName } = req.body.data;
+  const { email, firstName, lastName } = res.locals.user;
   try {
     let emails = { email: email };
     let user = await Buyer.findOne(emails);
@@ -62,8 +61,8 @@ module.exports.googlelogin_post = async (req, res) => {
 module.exports.login_get = async (req, res) => {
   let user;
   try {
-    let email = req.body.user.data.useremail;
-    if (req.body.user.data.role) {
+    let email = res.locals.user.useremail;
+    if (res.locals.user.role) {
       user = await Seller.findOne({ email });
     } else {
       user = await Buyer.findOne({ email });
@@ -98,7 +97,7 @@ module.exports.signup_post = async (req, res) => {
     let id, user, role;
 
     if (!req.body.isSeller) {
-      const { firstName, lastName, email, password } = req.body;
+      const { firstName, lastName, email, password } = res.locals.data;
 
       buyer = await Buyer.create({
         firstName,
