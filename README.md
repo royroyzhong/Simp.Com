@@ -14,14 +14,14 @@ User login information including address and encrypted password will be saved as
 - [ ] View product page 
 
 **Standard Requirements**:
-- [ ] Encrypted password 
+- [x] Encrypted password 
 - [ ] Data visualization
 - [ ] Email notification for restocking of wanted item
-- [ ] Login with Google
+- [x ] Login with Google
 - [ ] Drag and drop pictures (jpeg,gif and most image and video format)
 
 **Stretch Requirements**:
-- [ ]Payment (support paypal, mastercard, visa credit cards etc) 
+- [ ] Payment (support paypal, mastercard, visa credit cards etc) 
 - [ ] Livechat for customer support 
 - [ ] Recommondation system 
 
