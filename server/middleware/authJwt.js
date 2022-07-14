@@ -17,6 +17,7 @@ verifyToken = (req, res, next) => {
         message: "Unauthorized!",
       });
     }
+
     res.locals.user = decoded.data;
     next();
   });
@@ -69,6 +70,7 @@ buyerCheck = (req, res, next) => {
 
 verifyGoogleToken = (req, res, next) => {
   console.log("google token midware");
+
   try {
     const user = jwt_decode(req.body.jwt);
     let data = {
