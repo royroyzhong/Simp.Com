@@ -105,11 +105,10 @@ module.exports.signup_post = async (req, res) => {
     if (req.errorsFromMid !== undefined) {
       return res.status(400).json({ errors: req.errorsFromMid });
     }
+
     let id, user, role;
-
     if (!req.body.isSeller) {
-      const { firstName, lastName, email, password } = res.locals.data;
-
+      const { firstName, lastName, email, password } = req.body;
       buyer = await Buyer.create({
         firstName,
         lastName,
@@ -147,15 +146,7 @@ module.exports.logout_get = (req, res) => {
   return res.redirect("/login");
   // res.send("logout");
 };
-// function generateAccessToken(useremail, role) {
-//   return jwt.sign(
-//     { data: { useremail: useremail, role: role } },
-//     process.env.TOKEN_SECRET,
-//     {
-//       expiresIn: "1h",
-//     }
-//   );
-// }
+
 const handleError = (err) => {
   if (err.code === 11000 && err.message.includes("email")) {
     return "email is already registered";
