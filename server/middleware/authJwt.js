@@ -17,7 +17,7 @@ verifyToken = (req, res, next) => {
         message: "Unauthorized!",
       });
     }
-    req.body.user = decoded;
+    res.locals.user = decoded.data;
     next();
   });
 };
@@ -78,7 +78,7 @@ verifyGoogleToken = (req, res, next) => {
       picture: user.picture,
     };
 
-    req.body.data = data;
+    res.locals.user = data;
     next();
   } catch (err) {
     res.status(401).send({
@@ -86,10 +86,30 @@ verifyGoogleToken = (req, res, next) => {
     });
   }
 };
+generateAccessTokenWithRememberMe = (useremail, role) => {
+  return jwt.sign(
+    { data: { useremail: useremail, role: role } },
+    process.env.TOKEN_SECRET,
+    {
+      expiresIn: "1d",
+    }
+  );
+};
+generateAccessTokenWithoutRememberMe = (useremail, role) => {
+  return jwt.sign(
+    { data: { useremail: useremail, role: role } },
+    process.env.TOKEN_SECRET,
+    {
+      expiresIn: "5m",
+    }
+  );
+};
 const authJwt = {
   verifyToken: verifyToken,
   buyerCheck: buyerCheck,
   sellerCheck: sellerCheck,
   verifyGoogleToken: verifyGoogleToken,
+  generateAccessTokenWithRememberMe: generateAccessTokenWithRememberMe,
+  generateAccessTokenWithoutRememberMe: generateAccessTokenWithoutRememberMe,
 };
 module.exports = authJwt;

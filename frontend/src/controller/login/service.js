@@ -12,11 +12,11 @@ const login = async (input) => {
 
     data = await response.json();
     if (!response.ok) {
-      const errorMsg = data?.message;
-      return { status: response.status, error: errorMsg };
+      return { status: response.status, error: data.errors };
     }
     return data;
   } catch (err) {
+    console.log(err);
     return { status: response.status, error: data.errors };
   }
 };
@@ -34,8 +34,7 @@ const googlelogin = async (input) => {
 
     data = await response.json();
     if (!response.ok) {
-      const errorMsg = data?.message;
-      return { status: response.status, error: errorMsg };
+      return { status: response.status, error: data.errors };
     }
     return data;
   } catch (err) {

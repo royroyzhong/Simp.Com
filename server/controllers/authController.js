@@ -1,8 +1,9 @@
 const jwt = require("jsonwebtoken");
-const maxAge = 24 * 60 * 60;
+const maxAge = 60 * 60 * 1000;
 const Buyer = require("../models/Buyer");
 const Seller = require("../models/Seller");
 const mongoose = require("mongoose");
+const auth = require("../middleware/authJwt");
 module.exports.login_post = async (req, res) => {
   const { userEmail, password } = req.body;
   let user, token;
@@ -12,11 +13,20 @@ module.exports.login_post = async (req, res) => {
     } else {
       user = await Buyer.login(userEmail, password);
     }
-    token = generateAccessToken(userEmail, req.body.isSeller);
+    // token = generateAccessToken(userEmail, req.body.isSeller);
+    let token;
     if (req.body.isRemember) {
-      res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
+      token = auth.generateAccessTokenWithRememberMe(
+        userEmail,
+        req.body.isSeller
+      );
+      res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 24 });
     } else {
-      res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 2 });
+      token = auth.generateAccessTokenWithoutRememberMe(
+        userEmail,
+        req.body.isSeller
+      );
+      res.cookie("jwt", token, { httpOnly: true, maxAge: (maxAge * 5) / 60 });
     }
     res.status(200).json({
       userID: user._id,
@@ -25,17 +35,16 @@ module.exports.login_post = async (req, res) => {
       role: req.body.isSeller,
     });
   } catch (err) {
+    console.log(err.message);
     res.status(400).json({ errors: err.message });
   }
 };
 module.exports.googlelogin_post = async (req, res) => {
   // let user, token;
-  console.log(req.body.data);
-  const { email, firstName, lastName } = req.body.data;
+  const { email, firstName, lastName } = res.locals.user;
   try {
     let emails = { email: email };
     let user = await Buyer.findOne(emails);
-    console.log(user);
     if (!user) {
       let newUser = {
         firstName,
@@ -44,12 +53,10 @@ module.exports.googlelogin_post = async (req, res) => {
         password: 12341234,
         isSeller: false,
       };
-      console.log("newUser");
-      console.log(newUser);
       user = await Buyer.create(newUser);
     }
-    token = generateAccessToken(email, false);
-    res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
+    token = auth.generateAccessTokenWithRememberMe(email, false);
+    res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 24 });
     res.status(200).json({
       userID: user._id,
       firstName: user.firstName,
@@ -65,8 +72,8 @@ module.exports.googlelogin_post = async (req, res) => {
 module.exports.login_get = async (req, res) => {
   let user;
   try {
-    let email = req.body.user.data.useremail;
-    if (req.body.user.data.role) {
+    let email = res.locals.user.useremail;
+    if (res.locals.user.role) {
       user = await Seller.findOne({ email });
     } else {
       user = await Buyer.findOne({ email });
@@ -101,7 +108,7 @@ module.exports.signup_post = async (req, res) => {
     let id, user, role;
 
     if (!req.body.isSeller) {
-      const { firstName, lastName, email, password } = req.body;
+      const { firstName, lastName, email, password } = res.locals.data;
 
       buyer = await Buyer.create({
         firstName,
@@ -140,15 +147,15 @@ module.exports.logout_get = (req, res) => {
   return res.redirect("/login");
   // res.send("logout");
 };
-function generateAccessToken(useremail, role) {
-  return jwt.sign(
-    { data: { useremail: useremail, role: role } },
-    process.env.TOKEN_SECRET,
-    {
-      expiresIn: "1h",
-    }
-  );
-}
+// function generateAccessToken(useremail, role) {
+//   return jwt.sign(
+//     { data: { useremail: useremail, role: role } },
+//     process.env.TOKEN_SECRET,
+//     {
+//       expiresIn: "1h",
+//     }
+//   );
+// }
 const handleError = (err) => {
   if (err.code === 11000 && err.message.includes("email")) {
     return "email is already registered";
