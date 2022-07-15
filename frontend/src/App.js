@@ -11,7 +11,7 @@ import ProductPage from "./component/sellerDashboard/ProductDetailView";
 import BuyerOrderTracking from "./component/orders/BuyerOrderTracking";
 import CustomerPageRightContent from "./component/customerPageComponent/CustomerPageRightContent";
 import Dashboard from "./component/sellerDashboard/Dashboard";
-
+import TestChat from "./component/chat/TestChat";
 function App() {
   const render = () => {
     return (
@@ -49,6 +49,7 @@ function App() {
             />
             <Route path="/123" element={wrapper(<ProductPage />, seller)} />
             <Route path="/userX/cart" element={wrapper(<Cart />, buyer)} />
+            <Route path="/liveChat" element={<TestChat />} />
           </Routes>
         </BrowserRouter>
       </div>
