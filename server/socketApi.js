@@ -12,8 +12,25 @@ module.exports.setup = (server) => {
   socketApi.io = io;
   io.on("connection", function (socket) {
     console.log(`User Connected: ${socket.id}`);
+    //join room
+    socket.on("join_room", (data) => {
+      socket.join(data);
+      //   socket.emit("join_message", {
+      //     text: `Welcome to Room ${data}`,
+      //   });
+    });
+    // socket.on("user", (data) => {
+    //   socket.broadcast.emit("user-connected", data);
+    // });
+    //send msg
     socket.on("send_message", (data) => {
+      console.log(socket.id);
       console.log(data);
+      socket.to(data.room).emit("receive_message", {
+        userName: data.user,
+        userID: socket.id,
+        message: data.message,
+      });
     });
   });
 };
