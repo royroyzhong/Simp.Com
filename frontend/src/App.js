@@ -38,7 +38,9 @@ function App() {
             <Route
               path="/sellerX/products/"
               element={wrapper(<ProductBoard />, seller)}
-            />
+            >
+            </Route>
+            <Route path="/sellerX/product/:productId" element={wrapper(<ProductPage />, seller)}/>
             <Route
               path="/sellerX/order_tracking/"
               element={wrapper(<OrderTracking />, seller)}
