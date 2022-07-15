@@ -79,7 +79,6 @@ verifyGoogleToken = (req, res, next) => {
       lastName: user.given_name,
       picture: user.picture,
     };
-
     res.locals.user = data;
     next();
   } catch (err) {
