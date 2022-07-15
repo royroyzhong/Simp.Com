@@ -130,10 +130,11 @@ module.exports.signup_post = async (req, res) => {
       });
       id = seller._id;
     }
-    const token = generateAccessToken(email, req.body.isSeller);
+    const token = auth.generateAccessToken(email, req.body.isSeller);
     res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
     res.status(201).json({});
   } catch (err) {
+    console.log(err);
     const errors = handleError(err);
     res.status(400).json({ errors });
   }
