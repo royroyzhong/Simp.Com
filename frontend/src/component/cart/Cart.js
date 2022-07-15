@@ -10,18 +10,22 @@ import React from "react";
 import { useSelector } from 'react-redux';
 import { getCart } from '../../controller/cartSlice';
 import SellingStore from './SellingStore';
-import Header from "../common/Header";
+
+import { useDispatch } from 'react-redux';
+import { submitOrderAsync } from './cartThunks';
 
 
 function Cart() {
   let cart = useSelector(getCart);
 
-  let uniqueStoreNames = [... new Set(cart.products.map(product => product.soldBy))];
+  let uniqueStoreNames = [... new Set(cart.products?.map(product => product.soldBy))];
   let storeNames = Array.from(uniqueStoreNames).sort();
+
+  const dispatch = useDispatch()
 
   const renderedSellingStores = []
   for (let i in storeNames) {
-    let storeName = storeNames[i]; // used to use var with warnings
+    let storeName = storeNames[i]; 
     let tempArray = cart.products.filter(p => p.soldBy === storeName)
     renderedSellingStores.push(<SellingStore key={i} StoreName={storeName} products={tempArray} ></SellingStore>)
     i++
@@ -29,7 +33,7 @@ function Cart() {
   
   const handleCheckout = event => { 
     event.preventDefault()
-    // missing handler
+    dispatch(submitOrderAsync(cart.products))
   }
 
   return (

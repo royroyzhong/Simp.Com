@@ -83,6 +83,7 @@ app.use(express.static(path.join(__dirname, "public")));
 var authRouter = require("./routes/authRoutes");
 var userProfile = require("./routes/userProfile");
 var productRouter = require("./routes/productRoutes");
+var orderRouter = require("./routes/orderRoutes");
 
 app.use("/index", (req, res) => {
   res.render("index");
@@ -90,5 +91,6 @@ app.use("/index", (req, res) => {
 app.use(authRouter);
 app.use(userProfile);
 app.use("/products", productRouter);
+app.use("/order",orderRouter)
 
 module.exports = app;
