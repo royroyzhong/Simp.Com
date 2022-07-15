@@ -4,11 +4,7 @@ import { fetchAPI } from "../api/client";
 
 export const postNewProduct = createAsyncThunk('/product/post', async function(data) {
   let features = data.features;
-  let descriptions = [];
-  for (const [k,v] in Object.entries(features)) {
-    let description = {title: k, content: v};
-    descriptions.add(description);
-  }
+  let descriptions = Object.entries(features).map(([key, val]) => {return {title: key, content: val}})
   data.descriptions = descriptions;
   return fetchAPI('POST', data, {}, 'products').then(response => response.text());
 })
@@ -40,6 +36,7 @@ const productSlice = createSlice({
     addFeature: (state, action) => {state.features[action.payload.title] = action.payload.description},
     loadProduct: (state, action) => {
       let product = action.payload;
+      state.name = product.name;
       state.features = product.features;
       state.tags = product.tags;
       state.title = product.title;
@@ -67,12 +64,13 @@ export const getFeatures = (state) => state.products.features;
 export const getName = (state) => state.products.name;
 export const getTitle = (state) => state.products.title;
 export const getBufferProduct = (state) => {
-  let ret = new Product();
-  ret.title = getTitle(state);
-  ret.tags = getTags(state);
-  ret.features = getFeatures(state);
-  ret.price = state.products.price;
-  return ret;
+  return {
+    title: getTitle(state),
+    tags: getTags(state),
+    features: getFeatures(state),
+    name: getName(state),
+    price: state.products.price
+  };
 }
 
 export default productSlice.reducer;
