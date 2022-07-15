@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { quinn, gavin } from "../utils/mockFetch";
 import Product from "../model/product";
 import { fetchAPI } from "../api/client";
 
@@ -31,7 +30,8 @@ const productSlice = createSlice({
     title: "",
     price: 0,
     tags: [],
-    features: {}
+    features: {},
+    buyerProductList: []
   },
   reducers: {
     setName: (state, action) => {state.name = action.payload},

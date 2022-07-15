@@ -21,6 +21,11 @@ export default function CustomerPageRightContent() {
                     </Grid>
                     ))}
                 </Grid>
+                <Grid container spacing={{xs:2}} columns={{ xs: 2, md: 2, lg: 16 }}>
+                    <Grid item xs={16} sm={8} md={4} lg={4}>
+                        <Product />
+                    </Grid>
+                </Grid>
         </Container>
     )
 }
