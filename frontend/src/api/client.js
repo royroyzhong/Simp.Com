@@ -19,7 +19,7 @@ export const fetchAPI = async function (method, data, params, ...path) {
             url += '?';
             url += paramsKV.map(([k, v]) => k + '=' + v).join('&')
         }
-        let config = method === 'POST' ? {
+        let config = method !== 'GET' ? {
             method: method,
             mode: 'cors',
             headers: {

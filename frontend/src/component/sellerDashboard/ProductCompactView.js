@@ -11,6 +11,7 @@ import { Marginer } from "../../css/CommonStyle";
 import { getProductList, getProductListStatus, getProducts } from "../../controller/sellerSlice";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { loadProduct } from "../../controller/productSlice";
 
 const imgs = {
     avatar: avatar,
@@ -50,7 +51,19 @@ function CardGrid(props) {
             {status === 'succeed' ? products.map((product, index) => (
                 <Grid item key={index} xs={1} sm={1} md={3}>
                     <Card variant="outlined" onClick={(e) => {
-                        navigate("/sellerX/product_page");
+                        // Set ProductSlice data
+                        let features = {}
+                        for (let description in product.descriptions) {
+                            features[Object.keys(description)[0]] = Object.values(description)[0]
+                        }
+                        dispatch(loadProduct({
+                            name: product.name,
+                            title: "",
+                            features: features,
+                            tags: product.tags,
+                            price: 0
+                        }))
+                        navigate("/sellerX/product/" + product.uuid);
                     }}>
                         <CardActionArea>
                             <CardContent>
