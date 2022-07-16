@@ -1,6 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { quinn, gavin } from "../utils/mockFetch";
+import { quinn } from "../utils/mockFetch";
 import { mockBuyer } from "../utils/mockBuyer";
+
+export const getProducts = createAsyncThunk('/products/get', async function() {
+  return fetchAPI('GET', {}, { isBuyer: true }, 'products').then(response => response.json());
+});
 
 const INITIAL_STATE = {
   firstName: quinn.firstName,
@@ -12,8 +16,9 @@ const INITIAL_STATE = {
   orderHistory:mockBuyer.orderHistory,
   pwd: null,
   error: null,
+  displayProducts: []
 };
-
+ 
 const userSlice = createSlice({
   name: "buyer",
   initialState: INITIAL_STATE,

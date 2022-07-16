@@ -30,8 +30,7 @@ const productSlice = createSlice({
     title: "",
     price: 0,
     tags: [],
-    features: {},
-    buyerProductList: []
+    features: {}
   },
   reducers: {
     setName: (state, action) => {state.name = action.payload},

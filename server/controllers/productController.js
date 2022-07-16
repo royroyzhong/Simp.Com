@@ -9,6 +9,7 @@ function handleGet(req, res) {
 
     let email = res.locals.user.useremail;
     let queryResult = Seller.findOne({ email: email }).exec()
+    let isBuyer = req.query["isBuyer"];
 
     queryResult
         .then(seller => {
@@ -21,7 +22,6 @@ function handleGet(req, res) {
         .catch(err => {
             res.status(503).send(`Expected Error ${err}`);
         })
-
 }
 
 function handlePut(req, res) {
