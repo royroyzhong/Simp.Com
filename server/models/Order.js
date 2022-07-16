@@ -7,7 +7,8 @@ const orderSchema = new Schema({
         default: null
     },
     store: String,
-    storeEmail: String,
+    sellerEmail: String,
+    buyerEmail: String,
     products: [{
         id: String,
         name: String,
