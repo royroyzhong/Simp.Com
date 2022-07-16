@@ -26,11 +26,11 @@ router.post('/', function (req, res, next) {
         for (let i = 0 ; i < tempArray.length; i++) {
             let product = tempArray[i];
             console.log(product);
-            tempProducts.push({ id: product.id, name: product.productName, quantity: product.quantity});
+            tempProducts.push({ id: product.id, name: product.name, quantity: product.quantity});
             console.log(tempProducts);
         }
         const orderToAdd = new OrderModel({
-            uuid: uuid(), store: storeName, storeEmail: "", products: tempProducts,
+            uuid: uuid(), store: storeName, sellerEmail: "", products: tempProducts,
             status: "Unprocessed", totalPrice: tempSum
         })
         orderToAdd.save();

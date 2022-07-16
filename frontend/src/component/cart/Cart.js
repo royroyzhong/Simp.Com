@@ -18,22 +18,24 @@ import { submitOrderAsync } from './cartThunks';
 function Cart() {
   let cart = useSelector(getCart);
 
-  let uniqueStoreNames = [... new Set(cart.products?.map(product => product.soldBy))];
+  let uniqueStoreNames = [... new Set(cart?.map(product => product.soldBy))];
   let storeNames = Array.from(uniqueStoreNames).sort();
+
+  console.log(storeNames)
 
   const dispatch = useDispatch()
 
   const renderedSellingStores = []
   for (let i in storeNames) {
     let storeName = storeNames[i]; 
-    let tempArray = cart.products.filter(p => p.soldBy === storeName)
+    let tempArray = cart?.filter(p => p.soldBy === storeName)
     renderedSellingStores.push(<SellingStore key={i} StoreName={storeName} products={tempArray} ></SellingStore>)
     i++
   }
   
   const handleCheckout = event => { 
     event.preventDefault()
-    dispatch(submitOrderAsync(cart.products))
+    dispatch(submitOrderAsync(cart))
   }
 
   return (

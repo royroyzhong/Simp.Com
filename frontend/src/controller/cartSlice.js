@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { mockBuyer } from "../utils/mockBuyer";
 import { REQUEST_STATE } from './utils';
 import { submitOrderAsync} from '../component/cart/cartThunks';
 
@@ -10,12 +11,25 @@ const INITIAL_STATE = {
       soldBy: "1234",
       price: 0,
       quantity: 1
+    }, 
+    {
+      id:"9999",
+      name:"sandwitch",
+      soldBy:"1111",
+      price:0,
+      quantity:1
     }
 ],
   sum: 0,
   submitOrder: REQUEST_STATE.IDLE,
   addProductToCart: REQUEST_STATE.IDLE
 }
+
+// const INITIAL_STATE = {
+//   cart: mockBuyer.cart,
+//   submitOrder: REQUEST_STATE.IDLE,
+//   addProductToCart: REQUEST_STATE.IDLE
+// }
 
 const cartSlice = createSlice({
   name: "cart",
