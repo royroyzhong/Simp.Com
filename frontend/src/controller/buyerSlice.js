@@ -4,7 +4,7 @@ import { mockBuyer } from "../utils/mockBuyer";
 import { fetchAPI } from "../api/client";
 
 export const getProducts = createAsyncThunk('/products/get', async function() {
-  return fetchAPI('GET', {}, { isBuyer: true }, 'products').then(response => response.json());
+  return fetchAPI('GET', {}, {}, 'products').then(response => response.json());
 });
 
 const INITIAL_STATE = {

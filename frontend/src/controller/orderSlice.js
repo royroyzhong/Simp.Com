@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { mockBuyer } from "../utils/mockBuyer";
-import { quinn, gavin } from "../utils/mockFetch";
+import { quinn } from "../utils/mockFetch";
 const orderSlice = createSlice({
   name: "orders",
   initialState: {
@@ -12,6 +12,7 @@ const orderSlice = createSlice({
     orders: quinn.orders,
     orderDetail: quinn.orders_detail,
     stats: quinn.stats,
+    orders: []
   },
 });
 
