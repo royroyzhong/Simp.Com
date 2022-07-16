@@ -37,7 +37,7 @@ function Cart() {
   }
 
   return (
-    <Container maxWidth="xl" className="dashboard" sx={{ bgcolor: '#F7F8FC' }}>
+    <Container maxWidth="xl" className="dashboard" sx={{ bgcolor: '#F7F8FC', marginTop: "-1vw" }}>
       <Box className="cart">
         <h1> Cart</h1>
         <Grid container rowSpacing={5} sx={{ marginLeft: "8vw", marginBottom: "2vw" }}>

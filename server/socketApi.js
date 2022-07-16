@@ -24,11 +24,8 @@ module.exports.setup = (server) => {
     // });
     //send msg
     socket.on("send_message", (data) => {
-      console.log(socket.id);
-      console.log(data);
       socket.to(data.room).emit("receive_message", {
         userName: data.user,
-        userID: socket.id,
         message: data.message,
       });
     });
