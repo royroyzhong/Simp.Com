@@ -175,7 +175,7 @@ export default function Header(prop) {
         >
           Hello,
           {userInfo == null
-            ? "Guest"
+            ? " Guest"
             : " " + userInfo.firstName + " " + userInfo.lastName}
         </Typography>
 
