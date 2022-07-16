@@ -9,15 +9,15 @@ import ChangePasswordContent from "./ChangePasswordContent";
 function ProfilePage() {
   const [Controller, setController] = useState("personalInformation");
   return (
-    <Container maxWidth="md" className="dashboard">
+    <Container maxWidth="xl" className="dashboard" sx={{bgcolor: '#F7F8FC'}}>
       {/* <Box sx={{ flexGrow: 1 }}> */}
 
-      <Grid container spacing={1} sx={{ marginTop: "10vh" }}>
+      <Grid container spacing={1} sx={{ marginTop: "1vh" }}>
         <Grid
           item
           lg={4}
           md={3}
-          sx={{ marginLeft: "-5vw", marginTop: "-12vh" }}
+          sx={{ marginLeft: "-2vw", marginTop: "-5vh" }}
         >
           <ProfileLeftContent
             ControllerName={Controller}
@@ -25,7 +25,7 @@ function ProfilePage() {
           />
         </Grid>
 
-        <Grid item lg={8} md={3} sx={{ marginTop: "-12vh" }}>
+        <Grid item lg={8} md={3} sx={{ marginTop: "-5vh" }}>
           {Controller === "" && <ProfileContent />}
           {Controller === "personalInformation" && <ProfileContent />}
           {/* {Controller === "Payment" && <PaymentContent />} */}
