@@ -4,12 +4,21 @@ import { Grid } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { Container } from "@mui/system";
 
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch} from "react-redux";
+import { useState } from "react";
 import "../../css/orderTracking.css";
 
 
 function SellerOrderTracking(props) {
+  const [finalClickInfo, setFinalClickInfo] = useState(null);
   let orders = useSelector(getOrderDetails);
+  const dispatch = useDispatch()
+
+  const handleOnCellClick = (params,event) => {
+    event.preventDefault();
+    setFinalClickInfo(params);
+
+  };
 
   let unprocessedProducts = orders.Unprocessed;
   let inShipmentProducts = orders.Shipped;
@@ -55,6 +64,7 @@ function SellerOrderTracking(props) {
             pageSize={5}
             rowsPerPageOptions={[5]}
             checkboxSelection
+            onCellClick={(handleOnCellClick)}
           />
         </Grid>
 
