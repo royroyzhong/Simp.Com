@@ -1,6 +1,11 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { quinn } from "../utils/mockFetch";
 import { mockBuyer } from "../utils/mockBuyer";
+import { fetchAPI } from "../api/client";
+
+export const getProducts = createAsyncThunk('/products/get', async function() {
+  return fetchAPI('GET', {}, {}, 'products').then(response => response.json());
+});
 
 export const getProducts = createAsyncThunk('/products/get', async function() {
   return fetchAPI('GET', {}, { isBuyer: true }, 'products').then(response => response.json());
@@ -22,6 +27,14 @@ const INITIAL_STATE = {
 const userSlice = createSlice({
   name: "buyer",
   initialState: INITIAL_STATE,
+  extraReducers: (builder) => {
+    builder.addCase(getProducts.fulfilled, function(state, action) {
+      state.displayProducts = action.payload;
+    })
+    .addCase(getProducts.rejected, function(state, action) {
+      console.log(action);
+    })
+  }
 });
 
 export const getFirstName = (state) => state.buyer.firstName;
@@ -31,5 +44,6 @@ export const getEmail = (state) => state.buyer.email;
 export const getPhone = (state) => state.buyer.phone;
 export const getCart = (state) => state.buyer.cart;
 export const getOrderHistory = (state) => state.buyer.orderHistory;
+export const getDisplayProductList = (state) => state.buyer.displayProducts;
 
 export default userSlice.reducer;
