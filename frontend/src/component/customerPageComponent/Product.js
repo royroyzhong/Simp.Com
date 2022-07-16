@@ -17,7 +17,7 @@ export default function Product(props) {
                     />
                     <Marginer margin="40px" />
                     <Typography gutterBottom variant="h5">
-                        product name
+                        {props.data.name}
                     </Typography>
                 </CardContent>
             </CardActionArea>

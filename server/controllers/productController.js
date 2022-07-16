@@ -1,16 +1,17 @@
 const Product = require("../models/Product");
 const { v4: uuidv4 } = require('uuid');
 const Seller = require("../models/Seller");
-async function getAll() {
-    return Product.find({}).exec()
-}
 
 function handleGet(req, res) {
-
-    let email = res.locals.user.useremail;
-    let queryResult = Seller.findOne({ email: email }).exec()
-
-    queryResult
+    let isBuyer = req.query["isBuyer"];
+    console.log(isBuyer);
+    if (isBuyer) {
+        Product.find({}).exec().then(products => {res.json(products)}).catch(err => {
+        res.status(503).send(`unexpected Error ${err}`)});
+    } else {
+        let email = res.locals.user.useremail;
+        let queryResult = Seller.findOne({ email: email }).exec();
+        queryResult
         .then(seller => {
             return Product.find({ soldBy: seller._id })
         })
@@ -21,7 +22,7 @@ function handleGet(req, res) {
         .catch(err => {
             res.status(503).send(`Expected Error ${err}`);
         })
-
+    }
 }
 
 function handlePut(req, res) {
