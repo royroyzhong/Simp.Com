@@ -11,7 +11,6 @@ import { IconButton } from '@mui/material';
 function ItemInCart(props) {
     const originalQuantity = props.item.quantity;
     const [quantity, setQuantity] = useState(originalQuantity)
-    // console.log(props.item.quantity,originalQuantity,quantity)
 
     const dispatch = useDispatch()
 

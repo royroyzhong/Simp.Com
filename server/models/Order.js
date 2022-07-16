@@ -1,6 +1,12 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
+const orderSubschema = new Schema({
+    id: String,
+    name: String,
+    quantity: Number
+})
+
 const orderSchema = new Schema({
     uuid: {
         type: String,
@@ -8,11 +14,7 @@ const orderSchema = new Schema({
     },
     store: String,
     storeEmail: String,
-    products: [{
-        id: String,
-        name: String,
-        quantity: Number
-    }],
+    products: [orderSubschema],
     status: String,
     totalPrice: Number,
 })

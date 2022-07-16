@@ -1,14 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { mockBuyer } from "../utils/mockBuyer";
 import { REQUEST_STATE } from './utils';
-import { getOrderAsync, submitOrderAsync, changeStatusAsync } from '../component/cart/cartThunks';
+import { submitOrderAsync} from '../component/cart/cartThunks';
 
 const INITIAL_STATE = {
   userName: mockBuyer.username,
   cart: mockBuyer.cart,
   submitOrder: REQUEST_STATE.IDLE,
-  getOrder: REQUEST_STATE.IDLE,
-  changeStatus: REQUEST_STATE.IDLE
 }
 
 const cartSlice = createSlice({
@@ -47,29 +45,7 @@ const cartSlice = createSlice({
       state.submitOrder = REQUEST_STATE.REJECTED;
       state.error = action.error;
     })
-    .addCase(getOrderAsync.pending, (state) => {
-      state.getOrder = REQUEST_STATE.PENDING;
-      state.error = null;
-    })
-    .addCase(getOrderAsync.fulfilled, (state, action) => {
-      state.getOrder = REQUEST_STATE.FULFILLED;
-      state.cart = action.payload;
-    })
-    .addCase(getOrderAsync.rejected, (state, action) => {
-      state.getOrder = REQUEST_STATE.REJECTED;
-      state.error = action.error;
-    })
-    .addCase(changeStatusAsync.pending, (state) => {
-      state.changeStatus = REQUEST_STATE.PENDING;
-      state.error = null;
-    })
-    .addCase(changeStatusAsync.fulfilled, (state, action) => {
-      state.changeStatus = REQUEST_STATE.FULFILLED;
-    })
-    .addCase(changeStatusAsync.rejected, (state, action) => {
-      state.changeStatus = REQUEST_STATE.REJECTED;
-      state.error = action.error;
-    })
+
 }
 })
 
