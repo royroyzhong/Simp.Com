@@ -7,6 +7,10 @@ export const getProducts = createAsyncThunk('/products/get', async function() {
   return fetchAPI('GET', {}, {}, 'products').then(response => response.json());
 });
 
+export const getProducts = createAsyncThunk('/products/get', async function() {
+  return fetchAPI('GET', {}, { isBuyer: true }, 'products').then(response => response.json());
+});
+
 const INITIAL_STATE = {
   firstName: quinn.firstName,
   lastName: quinn.lastName,
@@ -17,9 +21,9 @@ const INITIAL_STATE = {
   orderHistory:mockBuyer.orderHistory,
   pwd: null,
   error: null,
-  displayProducts: [],
+  displayProducts: []
 };
-
+ 
 const userSlice = createSlice({
   name: "buyer",
   initialState: INITIAL_STATE,
