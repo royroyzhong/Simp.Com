@@ -1,63 +1,63 @@
 var express = require("express");
 const mongoose = require('mongoose');
 var router = express.Router();
-const { v4: uuidv4 } = require('uuid');
+const { v4: uuid } = require('uuid');
 const OrderModel = require('../models/Order')
 
 router.get('/', function (req, res, next) {
     OrderModel.find({}, function (err, result) {
-      if (err) {
-        res.status(400).send('Error fetching listings!');
-      } else {
-        res.json(result);
-      }
+        if (err) {
+            res.status(400).send('Error fetching listings!');
+        } else {
+            res.json(result);
+        }
     })
-  });
+});
 
 router.post('/', function (req, res, next) {
-    console.log("here")
     let uniqueStoreNames = [... new Set(req.body.map(product => product.soldBy))];
     for (let i in uniqueStoreNames) {
         let storeName = uniqueStoreNames[i];
         let tempArray = req.body.filter(p => p.soldBy === storeName);
         let tempSum = tempArray.reduce((accumulator, object) => {
             return accumulator + object.price
-        },0);
+        }, 0);
         let tempProducts = [];
-        for (let i in tempArray.length) {
-            let product = tempArray[i]
-            tempProducts.push({id:product.id,name:product.name})
+        for (let i = 0 ; i < tempArray.length; i++) {
+            let product = tempArray[i];
+            console.log(product);
+            tempProducts.push({ id: product.id, name: product.name, quantity: product.quantity});
+            console.log(tempProducts);
         }
-        // missing quantity
-        OrderModel.create({uuid: uuidv4(), store:storeName,storeEmail: "", products:{tempProducts},
-        status:"Unprocessed",totalPrice:tempSum}
-        )
+        const orderToAdd = new OrderModel({
+            uuid: uuid(), store: storeName, sellerEmail: "", products: tempProducts,
+            status: "Unprocessed", totalPrice: tempSum
+        })
+        orderToAdd.save();
         i++;
     }
     OrderModel.find({}, function (err, result) {
         if (err) {
-          res.status(400).send('Error fetching listings!');
+            res.status(400).send('Error fetching listings!');
         } else {
-          res.json(result)
+            res.json(result)
         }
-      })
+    })
 })
 
 router.patch('/', function (req, res, next) {
     const filterCondition = req.query['orderid']
-    OrderModel.findByIdAndUpdate(filterCondition, {status:"Shipped"},
-      function (err, docs) {
-      if (err) {
-        res.status(400).send('Error fetching listings!');
-      }
-    })
-    OrderModel.find({}, function (err, result) {
-      if (err) {
-        res.status(400).send('Error fetching listings!');
-      } else {
-        res.json(result);
-      }
-    })
-  })
+    OrderModel.findByIdAndUpdate(filterCondition, { status: "Shipped" })
+    .then(() => {
+            OrderModel.find({}, function (err, result) {
+                if (err) {
+                    res.status(400).send('Error fetching listings!');
+                } else {
+                    console.log(JSON.stringify(result))
+                    res.json(result);
+                }
+            })
+        })
+})
 
-  module.exports = router;
+module.exports = router;

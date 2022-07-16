@@ -16,7 +16,14 @@ function TestChat() {
     }
   };
   const handleOnClick = () => {
-    socket.emit("send_message", { user, message, room });
+    if (message !== "") {
+      socket.emit("send_message", { user, message, room });
+      let tempEle = {
+        user: user,
+        message: message,
+      };
+      setMessageReceived((oldArray) => [...oldArray, tempEle]);
+    }
   };
   const handleUser = () => {
     socket.emit("user", { user });
@@ -28,8 +35,7 @@ function TestChat() {
 
     socket.on("receive_message", (data) => {
       let tempEle = {
-        name: data.userName,
-        id: data.userID,
+        user: data.userName,
         message: data.message,
       };
       setMessageReceived((oldArray) => [...oldArray, tempEle]);
@@ -61,11 +67,10 @@ function TestChat() {
       <button onClick={handleOnClick}>Send</button>
       <h1> Message:</h1>
       {messageReceived.map((i) => {
-        console.log(messageReceived);
         return (
           <div>
             <p>
-              {i.name}:{i.message}
+              {i.user}:{i.message}
             </p>
           </div>
         );

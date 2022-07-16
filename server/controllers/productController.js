@@ -1,27 +1,26 @@
 const Product = require("../models/Product");
 const { v4: uuidv4 } = require('uuid');
 const Seller = require("../models/Seller");
-async function getAll() {
-    return Product.find({}).exec()
-}
 
 function handleGet(req, res) {
-
     let email = res.locals.user.useremail;
-    let queryResult = Seller.findOne({ email: email }).exec()
-
+    let queryResult = Seller.findOne({ email: email }).exec();
     queryResult
-        .then(seller => {
-            return Product.find({ soldBy: seller._id })
-        })
-        .then(products => {
-            console.log(`[INFO] >>> Getting products: ${JSON.stringify(products)}`);
-            res.json(products);
-        })
-        .catch(err => {
-            res.status(503).send(`Expected Error ${err}`);
-        })
+    .then(seller => {
+        return Product.find({ soldBy: seller._id })
+    })
+    .then(products => {
+        console.log(`[INFO] >>> Getting products: ${JSON.stringify(products)}`);
+        res.json(products);
+    })
+    .catch(err => {
+        res.status(503).send(`Expected Error ${err}`);
+    })
+}
 
+function handleBuyerAndGuestGet(req, res) {
+    Product.find({}).exec().then(products => {res.json(products)}).catch(err => {
+    res.status(503).send(`unexpected Error ${err}`)});
 }
 
 function handlePut(req, res) {
@@ -32,6 +31,7 @@ function handlePut(req, res) {
 
     queryResult
         .then(seller => {
+            console.log(`>>> ${JSON.stringify(dataStr)}`);
             let product = new Product(dataStr);
             product.soldBy = seller._id;
             product.uuid = uuidv4();
@@ -54,9 +54,11 @@ function handlePatch(req, res) {
     
     queryResult
         .then(seller => {
+            console.log(`>>> ${JSON.stringify(dataStr)}`);
             return Product.findOneAndUpdate({soldBy: seller, uuid: dataStr.uuid}, dataStr).exec()
         })
-        .then(_ => {
+        .then(result => {
+            console.log(result);
             res.send("Product updated");
         })
         .catch(err => {
@@ -65,8 +67,8 @@ function handlePatch(req, res) {
 }
 
 module.exports.productController = {
-    getAll: handleGet,
     getBySellerId: handleGet,
     saveFromJsonString: handlePut,
-    updateProduct: handlePatch
+    updateProduct: handlePatch,
+    getAll: handleBuyerAndGuestGet
 }

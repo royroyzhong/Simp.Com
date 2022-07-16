@@ -11,7 +11,6 @@ import { IconButton } from '@mui/material';
 function ItemInCart(props) {
     const originalQuantity = props.item.quantity;
     const [quantity, setQuantity] = useState(originalQuantity)
-    // console.log(props.item.quantity,originalQuantity,quantity)
 
     const dispatch = useDispatch()
 
@@ -40,9 +39,7 @@ function ItemInCart(props) {
             </Grid>
             <Grid item xs={1}  className='verticalLine'> </Grid>
             <Grid container item spacing={2} xs={6}>
-                <Grid item xs={10}> Product: {props.item.productName}</Grid>
-                <Grid item xs={5}> Size: {props.item.size} </Grid>
-                <Grid item xs={5}> Color: {props.item.color} </Grid>
+                <Grid item xs={10}> Product: {props.item.name}</Grid>
                 <Grid item xs={4}> Price: {props.item.price} </Grid>
                 <Grid item xs={5}> Quantity: 
                     <input

@@ -21,5 +21,4 @@ export const changeStatusAsync = createAsyncThunk(
     async (orderToChange) => {
         return await orderService.changeStatus(orderToChange);
     }
-
 )

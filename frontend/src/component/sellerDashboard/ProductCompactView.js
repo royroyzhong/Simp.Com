@@ -51,7 +51,8 @@ function CardGrid(props) {
                     <Card variant="outlined" onClick={(e) => {
                         // Set ProductSlice data
                         let features = {}
-                        for (let description in product.descriptions) {
+                        for (let description of product.descriptions) {
+                            console.log(".." + description);
                             features[Object.keys(description)[0]] = Object.values(description)[0]
                         }
                         dispatch(loadProduct({
