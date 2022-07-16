@@ -7,10 +7,6 @@ export const getProducts = createAsyncThunk('/products/get', async function() {
   return fetchAPI('GET', {}, {}, 'products').then(response => response.json());
 });
 
-export const getProducts = createAsyncThunk('/products/get', async function() {
-  return fetchAPI('GET', {}, { isBuyer: true }, 'products').then(response => response.json());
-});
-
 const INITIAL_STATE = {
   firstName: quinn.firstName,
   lastName: quinn.lastName,
