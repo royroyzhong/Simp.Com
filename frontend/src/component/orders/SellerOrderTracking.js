@@ -1,31 +1,46 @@
-import { getOrderDetails } from "../../controller/orderSlice";
+import { getModified, getOrderDetails } from "../../controller/orderSlice";
 // MUI Components
 import { Grid } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { Container } from "@mui/system";
 
-import { useSelector, useDispatch} from "react-redux";
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import "../../css/orderTracking.css";
+import { changeStatusAsync, getOrderAsync } from '../cart/cartThunks';
 
+import AlertPopup from './alertPopup';
+
+import Popup from 'reactjs-popup';
+import 'reactjs-popup/dist/index.css';
 
 function SellerOrderTracking(props) {
   const [finalClickInfo, setFinalClickInfo] = useState(null);
+  const [popUpOpen, setPopUpOpen] = useState(true);
+  const [popUpConfirm, setPopUpConfirm] = useState(false);
   let orders = useSelector(getOrderDetails);
-  const dispatch = useDispatch()
+  var modified = useSelector(getModified);
+  const dispatch = useDispatch();
 
-  const handleOnCellClick = (params,event) => {
+  const handleOnCellClick = (params, event) => {
     event.preventDefault();
     setFinalClickInfo(params);
-
+    // setPopUpOpen(true);
+    // if (popUpConfirm === true) {
+      dispatch(changeStatusAsync(params.id))
+    // }
   };
 
-  let unprocessedProducts = orders.Unprocessed;
-  let inShipmentProducts = orders.Shipped;
-  let delieveredPorudcts = orders.Delivered;
+  useEffect(() => {
+    if (modified !== "succeed") {
+      dispatch(getOrderAsync());
+    }
+  }, [dispatch, modified]);
+
 
   const columns = [
-    { field: "orderNumber", headerName: "Order Number", width: 130 },
+    { field: "uuid", headerName: "Order Number", width: 130 },
     {
       field: "products",
       headerName: "Products",
@@ -35,7 +50,9 @@ function SellerOrderTracking(props) {
           {products.value.map((product, index) => (
             <li key={index}>
               {" "}
-              id: {product.id} name: {product.productName}
+              id: {product.id}
+              {" "}
+              name: {product.name}
             </li>
           ))}
         </ul>
@@ -44,13 +61,27 @@ function SellerOrderTracking(props) {
     { field: "status", headerName: "Status", width: 130 },
   ];
 
+  let extendedOrders = orders.map((order) => ({
+    ...order,
+    id: order._id
+  }))
+
   return (
     <Container maxWidth="xl" className="dashboard" sx={{ bgcolor: '#F7F8FC' }}>
+
+      {/* {popUpOpen &&
+        <div>
+          <AlertPopup
+            setOpen={setPopUpOpen}
+            // setConfirm = {setPopUpConfirm}
+          />
+        </div>
+      } */}
 
       <Grid
         container
         rowSpacing={5}
-        sx={{ marginLeft: "8vw", marginTop:"2vw"}}
+        sx={{ marginLeft: "8vw", marginTop: "2vw" }}
         className="orderTrackingContent"
       >
         <Grid item xs={10} className="orderTrackingHeader">
@@ -59,7 +90,7 @@ function SellerOrderTracking(props) {
         </Grid>
         <Grid item xs={10} style={{ height: 400 }}>
           <DataGrid
-            rows={unprocessedProducts}
+            rows={extendedOrders.filter(order => order.status === "Unprocessed")}
             columns={columns}
             pageSize={5}
             rowsPerPageOptions={[5]}
@@ -68,14 +99,13 @@ function SellerOrderTracking(props) {
           />
         </Grid>
 
-
         <Grid item xs={10} className="orderTrackingHeader">
           {" "}
           In Shipment Orders
         </Grid>
         <Grid item xs={10} style={{ height: 400 }}>
           <DataGrid
-            rows={inShipmentProducts}
+            rows={extendedOrders.filter(order => order.status === "Shipped")}
             columns={columns}
             pageSize={5}
             rowsPerPageOptions={[5]}
@@ -84,11 +114,11 @@ function SellerOrderTracking(props) {
 
         <Grid item xs={10} className="orderTrackingHeader">
           {" "}
-          Delievered Orders
+          Delivered Orders
         </Grid>
         <Grid item xs={10} style={{ height: 400 }}>
           <DataGrid
-            rows={delieveredPorudcts}
+            rows={extendedOrders.filter(order => order.status === "Delivered")}
             columns={columns}
             pageSize={5}
             rowsPerPageOptions={[5]}
@@ -101,26 +131,3 @@ function SellerOrderTracking(props) {
 
 export default SellerOrderTracking;
 
-// const renderedUnprocessed = unprocessedProducts?.map((unprocessedProduct,index) => {
-//     return <Unprocess key={index}  unprocessed_section = {unprocessedProduct} />
-// })
-
-// const renderedInShipment = inShipmentProducts?.map((inShipmentProducts,index) => {
-//     return <InShipment key={index} inShipment_section = {inShipmentProducts} />
-// })
-
-// <Grid container spacing={3} sx={{ marginLeft: "8vw",marginBottom: "2vw" }} className="orderTracking">
-//     <Grid item xs={10}>
-//         <Box>
-//             <h2> Unprocessed Items</h2>
-//             {renderedUnprocessed}
-//         </Box>
-//     </Grid>
-
-//     <Grid item xs={10}>
-//         <Box>
-//             <h2> In Shipment</h2>
-//             {renderedInShipment}
-//         </Box>
-//     </Grid>
-// </Grid>
