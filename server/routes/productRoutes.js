@@ -1,10 +1,11 @@
 var express = require('express');
 const { productController } = require('../controllers/productController');
 const authJwt = require('../middleware/authJwt');
-const Product = require('../models/Product');
 var router = express.Router();
 
-router.get('/', authJwt.verifyToken, (req, res) => productController.getBySellerId(req, res))
+router.get('/seller', authJwt.verifyToken, (req, res) => productController.getBySellerId(req, res))
+
+router.get('/', (req, res) => productController.getAll(req, res))
 
 router.post('/', authJwt.verifyToken, (req, res) => productController.saveFromJsonString(req, res));
 

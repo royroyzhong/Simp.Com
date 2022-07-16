@@ -3,26 +3,24 @@ const { v4: uuidv4 } = require('uuid');
 const Seller = require("../models/Seller");
 
 function handleGet(req, res) {
-    let isBuyer = req.query["isBuyer"];
-    console.log(isBuyer);
-    if (isBuyer) {
-        Product.find({}).exec().then(products => {res.json(products)}).catch(err => {
-        res.status(503).send(`unexpected Error ${err}`)});
-    } else {
-        let email = res.locals.user.useremail;
-        let queryResult = Seller.findOne({ email: email }).exec();
-        queryResult
-        .then(seller => {
-            return Product.find({ soldBy: seller._id })
-        })
-        .then(products => {
-            console.log(`[INFO] >>> Getting products: ${JSON.stringify(products)}`);
-            res.json(products);
-        })
-        .catch(err => {
-            res.status(503).send(`Expected Error ${err}`);
-        })
-    }
+    let email = res.locals.user.useremail;
+    let queryResult = Seller.findOne({ email: email }).exec();
+    queryResult
+    .then(seller => {
+        return Product.find({ soldBy: seller._id })
+    })
+    .then(products => {
+        console.log(`[INFO] >>> Getting products: ${JSON.stringify(products)}`);
+        res.json(products);
+    })
+    .catch(err => {
+        res.status(503).send(`Expected Error ${err}`);
+    })
+}
+
+function handleBuyerAndGuestGet(req, res) {
+    Product.find({}).exec().then(products => {res.json(products)}).catch(err => {
+    res.status(503).send(`unexpected Error ${err}`)});
 }
 
 function handlePut(req, res) {
@@ -69,8 +67,8 @@ function handlePatch(req, res) {
 }
 
 module.exports.productController = {
-    getAll: handleGet,
     getBySellerId: handleGet,
     saveFromJsonString: handlePut,
-    updateProduct: handlePatch
+    updateProduct: handlePatch,
+    getAll: handleBuyerAndGuestGet
 }

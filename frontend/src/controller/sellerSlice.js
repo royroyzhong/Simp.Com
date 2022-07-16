@@ -3,7 +3,7 @@ import { fetchAPI } from "../api/client";
 import { quinn } from "../utils/mockFetch";
 
 export const getProducts = createAsyncThunk('/products/get', async function() {
-  return fetchAPI('GET', {}, { isBuyer: false }, 'products').then(response => response.json());
+  return fetchAPI('GET', {}, {}, 'products/seller').then(response => response.json());
 });
 
 const sellerSlice = createSlice({
