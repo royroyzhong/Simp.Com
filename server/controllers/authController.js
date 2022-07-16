@@ -105,11 +105,10 @@ module.exports.signup_post = async (req, res) => {
     if (req.errorsFromMid !== undefined) {
       return res.status(400).json({ errors: req.errorsFromMid });
     }
+
     let id, user, role;
-
     if (!req.body.isSeller) {
-      const { firstName, lastName, email, password } = res.locals.data;
-
+      const { firstName, lastName, email, password } = req.body;
       buyer = await Buyer.create({
         firstName,
         lastName,
@@ -131,10 +130,14 @@ module.exports.signup_post = async (req, res) => {
       });
       id = seller._id;
     }
-    const token = generateAccessToken(email, req.body.isSeller);
+    const token = auth.generateAccessTokenWithoutRememberMe(
+      email,
+      req.body.isSeller
+    );
     res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
     res.status(201).json({});
   } catch (err) {
+    console.log(err);
     const errors = handleError(err);
     res.status(400).json({ errors });
   }
@@ -147,15 +150,7 @@ module.exports.logout_get = (req, res) => {
   return res.redirect("/login");
   // res.send("logout");
 };
-// function generateAccessToken(useremail, role) {
-//   return jwt.sign(
-//     { data: { useremail: useremail, role: role } },
-//     process.env.TOKEN_SECRET,
-//     {
-//       expiresIn: "1h",
-//     }
-//   );
-// }
+
 const handleError = (err) => {
   if (err.code === 11000 && err.message.includes("email")) {
     return "email is already registered";

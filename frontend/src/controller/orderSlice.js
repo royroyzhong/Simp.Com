@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { mockBuyer } from "../utils/mockBuyer";
 import { quinn } from "../utils/mockFetch";
+
 import { REQUEST_STATE } from './utils';
 import { getOrderAsync,changeStatusAsync} from '../component/cart/cartThunks';
 
@@ -49,6 +50,7 @@ const orderSlice = createSlice({
       state.error = action.error;
     })
   }
+
 });
 
 // ------------------ Getters ------------------- //

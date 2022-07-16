@@ -52,10 +52,9 @@ const signup = async (input) => {
       credentials: "include",
       body: JSON.stringify(input),
     });
-
+    data = await response.json();
     if (!response.ok) {
-      const errorMsg = data?.message;
-      return { status: response.status, error: errorMsg };
+      return { status: response.status, error: data.errors };
     }
     return { status: response.status };
   } catch (err) {

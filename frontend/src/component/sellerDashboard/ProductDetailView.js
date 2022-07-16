@@ -11,7 +11,8 @@ import { useDispatch, useSelector } from "react-redux";
 
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { useState } from "react";
-import { addFeature, addTag, getBufferProduct, getFeatures, getTags, postNewProduct } from "../../controller/productSlice";
+import { addFeature, addTag, getBufferProduct, getFeatures, getName, getTags, getTitle, postNewProduct, setName, setTitle, updateProduct } from "../../controller/productSlice";
+import { useParams } from "react-router-dom";
 
 let imgs = [book, bomb, flask, food];
 
@@ -20,12 +21,14 @@ export default function ProductPage() {
     let dispatch = useDispatch();
     let product = useSelector(getBufferProduct);
 
+    let { productId } = useParams()
+
     let leftStackStyle = {
         minWidth: 350
     }
 
     return (
-        <Container sx={{md:4, mt:4}}>
+        <Container sx={{ md: 4, mt: 4 }}>
             <Stack direction={'row'} spacing={2}>
                 <ImagesDisplay></ImagesDisplay>
                 <Stack
@@ -35,16 +38,30 @@ export default function ProductPage() {
                     spacing={2}
                     sx={leftStackStyle}
                 >
+                    <TitleDisplay />
                     <TagDisplay />
                     <TextDisplay />
-                    <Button onClick={(e) => dispatch(postNewProduct({
-                        name: product.title,
-                        tags: product.tags,
-                        features: product.features,
-                        price: product.price,
-                    }))}>Save</Button>
+                    <Button onClick={(e) => {
+
+                        if (productId === undefined || productId === null) {
+                            dispatch(postNewProduct({
+                                name: product.name,
+                                tags: product.tags,
+                                features: product.features,
+                                price: product.price,
+                            }))
+                        }
+                        else 
+                            dispatch(updateProduct({
+                                uuid: productId,
+                                name: product.name,
+                                tags: product.tags,
+                                features: product.features,
+                                price: product.price,
+                            }))
+                    }}>Save</Button>
                 </Stack>
-                
+
             </Stack>
         </Container>
     )
@@ -101,6 +118,25 @@ function ImagesDisplay(props) {
     )
 }
 
+function TitleDisplay(props) {
+
+    let name = useSelector(getName);
+    let dispatch = useDispatch();
+
+    return (
+        <div>
+            <Typography variant="h4">Product Name:</Typography>
+            <TextField
+                value={name}
+                size="big"
+                variant="outlined"
+                onChange={event => {
+                    dispatch(setName(event.target.value))
+                }} />
+        </div>
+    )
+}
+
 function TagDisplay(props) {
 
     let tags = useSelector(getTags);
@@ -136,7 +172,7 @@ function TagDisplay(props) {
                     <Tag key={index}>{tag}</Tag>
                 ))}
                 <Box display={'flex'} >
-                    <AddCircleOutlineIcon onClick={handleToggle} sx={{margin: 1.5}} />
+                    <AddCircleOutlineIcon onClick={handleToggle} sx={{ margin: 1.5 }} />
                     <Fade in={shouldInputShow} sx={tagInputStyle}>
                         <TextField
                             value={tagBuffer}
@@ -164,6 +200,7 @@ function TextDisplay(props) {
 
     let dispatch = useDispatch();
     let features = useSelector(getFeatures);
+
 
     const [shouldInputShow, toggleInput] = useState(false);
     const [title, setTitle] = useState("");

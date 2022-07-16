@@ -13,8 +13,9 @@ const orderSchema = new Schema({
         default: null
     },
     store: String,
-    storeEmail: String,
     products: [orderSubschema],
+    sellerEmail: String,
+    buyerEmail: String,
     status: String,
     totalPrice: Number,
 })

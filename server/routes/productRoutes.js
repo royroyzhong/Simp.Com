@@ -1,43 +1,15 @@
 var express = require('express');
 const { productController } = require('../controllers/productController');
 const authJwt = require('../middleware/authJwt');
-const Product = require('../models/Product');
 var router = express.Router();
 
-router.get('/', function (req, res) {
+router.get('/seller', authJwt.verifyToken, (req, res) => productController.getBySellerId(req, res))
 
-    let sellerId = req.query.sellerId;
-    let queryResult = null;
+router.get('/', (req, res) => productController.getAll(req, res))
 
-    if (sellerId === null || sellerId === undefined)
-        queryResult = productController.getAll()
-    else
-        queryResult = productController.getBySellerId(sellerId)
+router.post('/', authJwt.verifyToken, (req, res) => productController.saveFromJsonString(req, res));
 
-    queryResult
-        .then(products => {
-            res.json(products);
-        })
-        .catch(err => {
-            res.status(503).send("Unexpected Error.");
-        })
-
-});
-
-router.post('/', authJwt.verifyToken, function (req, res) {
-
-    let dataStr = req.body;
-
-    let queryResult = productController.saveFromJsonString(dataStr);
-
-    queryResult
-        .then(products => {
-            res.send("Product saved");
-        })
-        .catch(err => {
-            res.status(503).send("Unexpected Error.");
-        })
-})
+router.patch('/', authJwt.verifyToken, (req, res) => productController.updateProduct(req, res));
 
 
 module.exports = router;

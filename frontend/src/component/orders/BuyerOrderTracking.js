@@ -37,7 +37,7 @@ export default function BuyerOrderTracking(props) {
             <Grid
                 container
                 rowSpacing={5}
-                sx={{ marginLeft: "8vw", marginTop:"2vw"}}
+                sx={{ marginLeft: "8vw", marginTop:"0.5vw"}}
                 className="orderTrackingContent"
             >
                 <Grid item xs={10} className="orderTrackingHeader">

@@ -3,14 +3,19 @@ import { Grid } from "@mui/material";
 import { Container} from "@mui/system";
 
 // Other Imports 
-import {useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Product from "./Product";
 import "../../css/dashboard.css";
-import { getProductList } from "../../controller/sellerSlice";
+import { getDisplayProductList, getProducts } from "../../controller/buyerSlice";
+import { useEffect } from "react";
 
 export default function CustomerPageRightContent() {
 
-    let products = useSelector(getProductList);
+    let products = useSelector(getDisplayProductList);
+    let dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(getProducts());
+    }, []);
 
     return (
         <Container maxWidth="lg" className="dashboard" sx={{bgcolor: '#F7F8FC', mt:4, md:4}}>
