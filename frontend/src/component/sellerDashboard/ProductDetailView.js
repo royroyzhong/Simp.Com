@@ -42,16 +42,19 @@ export default function ProductPage() {
                     <TagDisplay />
                     <TextDisplay />
                     <Button onClick={(e) => {
-                        if (productId === undefined || productId === null)
+
+                        if (productId === undefined || productId === null) {
                             dispatch(postNewProduct({
-                                name: product.title,
+                                name: product.name,
                                 tags: product.tags,
                                 features: product.features,
                                 price: product.price,
                             }))
+                        }
                         else 
                             dispatch(updateProduct({
-                                name: product.title,
+                                uuid: productId,
+                                name: product.name,
                                 tags: product.tags,
                                 features: product.features,
                                 price: product.price,
@@ -197,6 +200,7 @@ function TextDisplay(props) {
 
     let dispatch = useDispatch();
     let features = useSelector(getFeatures);
+
 
     const [shouldInputShow, toggleInput] = useState(false);
     const [title, setTitle] = useState("");
