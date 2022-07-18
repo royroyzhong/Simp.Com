@@ -27,7 +27,7 @@ export default function BuyerNavigationList() {
   const handeOnClick = (id, path) => {
     return dispatch(getUserAsync()).then((result) => {
       let statusCode = result.payload.statusCode;
-      if (path === "/") {
+      if (path === "/" || path === "/userX/cart") {
         navigate(path);
       } else if (statusCode !== 200) {
         navigate("/login");
