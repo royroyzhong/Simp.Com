@@ -22,6 +22,7 @@ const schema = new mongoose.Schema({
     unique: true,
     required: [true, "Please enter a company name"],
   },
+  onlineStatus: Boolean,
 });
 
 // use pre to hash password before save
@@ -39,6 +40,8 @@ schema.statics.login = async function (email, password) {
   if (user) {
     const auth = await bcrypt.compare(password, user.password);
     if (auth) {
+      let online = { onlineStatus: true };
+      let setOnline = await this.findOneAndUpdate({ email }, online);
       return user;
     } else {
       throw Error("Incorrect password");
