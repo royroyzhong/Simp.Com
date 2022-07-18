@@ -82,6 +82,7 @@ function ProfileContent() {
       console.log(err);
     }
   };
+  
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getUserAsync()).then((result, err) => {

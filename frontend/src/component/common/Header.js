@@ -91,6 +91,7 @@ export default function Header(prop) {
   const [options, setOptions] = React.useState([]);
   const loading = openChat && options.length === 0;
   const [userInfo, setUserInfo] = React.useState(null);
+  const [sellers, setSellers] = React.useState(null);
   React.useEffect(() => {
     dispatch(getUserAsync()).then((result, err) => {
       if (err) {
@@ -99,6 +100,9 @@ export default function Header(prop) {
         let user = result.payload.data;
         setUserInfo(user);
       }
+    });
+    getSellerData().then((result, err) => {
+      setSellers(result.data);
     });
   }, []);
 
@@ -113,7 +117,7 @@ export default function Header(prop) {
       await sleep(1e3); // For demo purposes.
 
       if (active) {
-        setOptions([...sellerList]);
+        setOptions([...sellers]);
       }
     })();
 
@@ -141,7 +145,16 @@ export default function Header(prop) {
     navigate("/login");
   };
   const handleDisplay = (option) => {
-    return "Name: " + option.name + ", Company: " + option.company;
+    return (
+      "Name: " +
+      option.firstName +
+      " " +
+      option.lastName +
+      ", Company: " +
+      option.company +
+      ", Status: " +
+      (option.onlineStatus === true ? "online" : "offline")
+    );
   };
   const handleTarget = () => {};
 
@@ -289,3 +302,22 @@ const sellerList = [
   { name: "AA4", company: "BB4" },
   { name: "AA5", company: "BB5" },
 ];
+async function getSellerData() {
+  let response, data;
+  try {
+    response = await fetch("http://localhost:8888/user/sellers", {
+      method: "GET",
+      credentials: "include",
+      body: JSON.stringify(),
+    });
+
+    data = await response.json();
+    if (!response.ok) {
+      return response.status;
+    }
+
+    return { data, statusCode: response.status };
+  } catch (err) {
+    return { status: response.status, error: data.errors };
+  }
+}
