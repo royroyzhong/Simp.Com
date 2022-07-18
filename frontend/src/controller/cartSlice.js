@@ -35,14 +35,14 @@ const cartSlice = createSlice({
       let diff = newValue- productToChange.quantity 
       state.cart = state.cart.filter(p => p.id !== action.payload.id);
       productToChange.quantity= newValue;
-      state.cart.sum += productToChange.price * diff;
+      state.sum += productToChange.price * diff;
       state.cart.push(productToChange);
       state.cart.sort((a,b) => a.name.localeCompare(b.name));
       }
     },
     deleteProduct(state, action) {
       let productToChange = state.cart.find(p => p.id === action.payload.id)
-      state.cart.sum -= productToChange.price * productToChange.quantity
+      state.sum -= productToChange.price * productToChange.quantity
       state.cart = state.cart.filter(p => p.id !== action.payload.id)
     },
     addProduct(state, action) {
