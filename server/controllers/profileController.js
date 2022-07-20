@@ -1,4 +1,5 @@
 const Buyer = require("../models/Buyer");
+const Seller = require("../models/Seller");
 // const Seller = require("../models/Seller");
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
@@ -33,6 +34,15 @@ module.exports.updatePassword_put = async (req, res) => {
     let emails = { email: email };
     user = await Buyer.findOneAndUpdate(emails, update, { new: true });
     res.status(200).json({});
+  } catch (err) {
+    res.status(400).json({ errors: err.message });
+  }
+};
+
+module.exports.getAllSeller_get = async (req, res) => {
+  try {
+    const user = await Seller.find({});
+    res.status(200).json(user);
   } catch (err) {
     res.status(400).json({ errors: err.message });
   }

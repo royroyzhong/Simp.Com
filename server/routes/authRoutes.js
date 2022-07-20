@@ -16,6 +16,6 @@ router.post(
   auth.verifyGoogleToken,
   authControllers.googlelogin_post
 );
-router.get("/logout", authControllers.logout_get);
+router.get("/logout", auth.verifyToken, authControllers.logout_get);
 
 module.exports = router;

@@ -52,8 +52,12 @@ module.exports.googlelogin_post = async (req, res) => {
         email: email,
         password: 12341234,
         isSeller: false,
+        onlineStatus: true,
       };
       user = await Buyer.create(newUser);
+    } else {
+      let online = { onlineStatus: true };
+      user = await Buyer.findOneAndUpdate({ email }, online);
     }
     token = auth.generateAccessTokenWithRememberMe(email, false);
     res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 24 });
@@ -115,6 +119,7 @@ module.exports.signup_post = async (req, res) => {
         email,
         password,
         isSeller: req.body.isSeller,
+        onlineStatus: true,
       });
       id = buyer._id;
     } else {
@@ -127,14 +132,15 @@ module.exports.signup_post = async (req, res) => {
         password,
         company,
         isSeller: req.body.isSeller,
+        onlineStatus: true,
       });
       id = seller._id;
     }
-    const token = auth.generateAccessTokenWithoutRememberMe(
+    const token = auth.generateAccessTokenWithRememberMe(
       email,
       req.body.isSeller
     );
-    res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
+    res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 24 });
     res.status(201).json({});
   } catch (err) {
     console.log(err);
@@ -145,10 +151,22 @@ module.exports.signup_post = async (req, res) => {
 module.exports.signup_get = (req, res) => {
   res.render("signup get");
 };
-module.exports.logout_get = (req, res) => {
+module.exports.logout_get = async (req, res) => {
+  try {
+    let email = res.locals.user.useremail;
+    let role = res.locals.user.role;
+    let offline = { onlineStatus: false };
+    if (role) {
+      await Seller.findOneAndUpdate({ email }, offline);
+    } else {
+      await Buyer.findOneAndUpdate({ email }, offline);
+    }
+  } catch (err) {
+    res.status(400).json({ errors: err.message });
+  }
+
   res.cookie("jwt", "", { maxAge: 1 });
   return res.redirect("/login");
-  // res.send("logout");
 };
 
 const handleError = (err) => {
