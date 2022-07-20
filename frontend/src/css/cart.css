@@ -27,6 +27,16 @@
     color:#404373;
 }
 
+#subCheckoutIcon {
+    position: relative;
+    left: 10%;
+    top:20%;
+    background-color: white;
+    border-radius: 10px;
+    height: 30px;
+    color:#404373;
+}
+
 #storeName {
     text-align: left;
     font-size: 30px;

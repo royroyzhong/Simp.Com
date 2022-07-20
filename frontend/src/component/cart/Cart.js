@@ -31,9 +31,8 @@ function Cart() {
   let uniqueStoreNames = [...new Set(cart?.map((product) => product.soldBy))];
   let storeNames = Array.from(uniqueStoreNames).sort();
 
-  console.log(storeNames);
+  const renderedSellingStores = []
 
-  const renderedSellingStores = [];
   for (let i in storeNames) {
     let storeName = storeNames[i];
     let tempArray = cart?.filter((p) => p.soldBy === storeName);
