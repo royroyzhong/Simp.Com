@@ -10,11 +10,19 @@ import food from "../../assets/food.svg";
 import { useDispatch, useSelector } from "react-redux";
 
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { addFeature, addTag, getBufferProduct, getFeatures, getName, getTags, getTitle, postNewProduct, setName, setTitle, updateProduct } from "../../controller/productSlice";
 import { useParams } from "react-router-dom";
 
+import Dropzone from '../../utils/Dropzone';
+import cuid from "cuid";
+
+// import DragDrop from '../common/DragDrop';
+import DragDropDisplay from '../common/DragDropDisplay';
+
+
 let imgs = [book, bomb, flask, food];
+const images = []
 
 export default function ProductPage() {
 
@@ -61,7 +69,10 @@ export default function ProductPage() {
                             }))
                     }}>Save</Button>
                 </Stack>
-
+                <DragDrop onDrop={DragDrop.onDrop} accept={"image/*"}/>
+                {console.log("here")}
+                <DragDropDisplay images={images}/>
+                {console.log("here")}
             </Stack>
         </Container>
     )
@@ -277,3 +288,29 @@ function Tag(props) {
         </Typography>
     )
 }
+
+function DragDrop() {
+    const [images, setImages] = useState([]);
+
+    const onDrop = useCallback(acceptedFiles => {
+      acceptedFiles.map(file => {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          setImages(prevState => [
+            ...prevState,
+            { id: cuid(), src: e.target.result }
+          ]);
+        };
+        reader.readAsDataURL(file);
+        return file;
+      });
+    }, []);
+  
+      return (
+        <Box> 
+            <h1> Drag & Drop </h1>
+            <Dropzone onDrop = {onDrop} accept={"image/*"} > </Dropzone>
+        </Box>
+      )
+}
+
