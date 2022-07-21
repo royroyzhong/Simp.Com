@@ -29,6 +29,7 @@ import { loginAsync, googleloginAsync } from "../../controller/login/thunks";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
+import io from "socket.io-client";
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.h7,
   color: theme.palette.text.primary,
@@ -86,7 +87,7 @@ function LoginForm(prop) {
     setPwd(value);
     setPasswordError("");
   };
-
+  const socket = io.connect("http://localhost:8888");
   const handlerValidation = (event) => {
     event.preventDefault();
     let account = {
@@ -108,6 +109,7 @@ function LoginForm(prop) {
         handleFail(result.payload.error);
         throw Error("role undefine");
       } else if (role === true) {
+        socket.emit("join_room", result.payload.email);
         path = "../sellerX/dashboard";
       } else {
         path = "/";

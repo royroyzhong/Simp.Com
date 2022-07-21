@@ -33,6 +33,7 @@ module.exports.login_post = async (req, res) => {
       firstName: user.firstName,
       lastName: user.lastName,
       role: req.body.isSeller,
+      email: user.email,
     });
   } catch (err) {
     console.log(err.message);
