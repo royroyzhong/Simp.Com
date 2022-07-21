@@ -10,9 +10,9 @@ import food from "../../assets/food.svg";
 import { useDispatch, useSelector } from "react-redux";
 
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import { useCallback, useState } from "react";
-import { addFeature, addTag, getBufferProduct, getFeatures, getName, getTags, getTitle, postNewProduct, setName, setTitle, updateProduct } from "../../controller/productSlice";
-import { useParams } from "react-router-dom";
+import { useCallback, useEffect, useState } from "react";
+import { addFeature, addTag, getBufferProduct, getFeatures, getName, getTags, getTitle, loadProduct, postNewProduct, setName, setTitle, updateProduct } from "../../controller/productSlice";
+import { useLocation, useParams } from "react-router-dom";
 
 import Dropzone from '../../utils/Dropzone';
 import cuid from "cuid";
@@ -24,16 +24,41 @@ import DragDropDisplay from '../common/DragDropDisplay';
 let imgs = [book, bomb, flask, food];
 const images = []
 
-export default function ProductPage() {
+export default function ProductPage(props) {
 
     let dispatch = useDispatch();
     let product = useSelector(getBufferProduct);
 
     let { productId } = useParams()
 
+    let location = useLocation();
+
     let leftStackStyle = {
         minWidth: 350
     }
+
+    let [isStatic, setStatic] = useState(false);
+
+    // Set initial data if this is a static page 
+    useEffect(() => {
+        if (location.state !== null && location.state.isStatic) {
+            setStatic(true);
+            console.log(location.state.data)
+            // dispatch(loadProduct(location.state.data))
+            // Set ProductSlice data
+            let features = {}
+            for (let description of location.state.data.descriptions) {
+                features[Object.keys(description)[0]] = Object.values(description)[0]
+            }
+            dispatch(loadProduct({
+                name: location.state.data.name,
+                title: "",
+                features: features,
+                tags: location.state.data.tags,
+                price: 0
+            }))
+        }
+    }, [dispatch, location]);
 
     return (
         <Container sx={{ md: 4, mt: 4 }}>
@@ -46,33 +71,33 @@ export default function ProductPage() {
                     spacing={2}
                     sx={leftStackStyle}
                 >
-                    <TitleDisplay />
-                    <TagDisplay />
-                    <TextDisplay />
-                    <Button onClick={(e) => {
+                    <TitleDisplay isStatic={isStatic} />
+                    <TagDisplay isStatic={isStatic} />
+                    <TextDisplay isStatic={isStatic} />
+                    {isStatic ? (<div></div>) : (
+                        <Button onClick={(e) => {
 
-                        if (productId === undefined || productId === null) {
-                            dispatch(postNewProduct({
-                                name: product.name,
-                                tags: product.tags,
-                                features: product.features,
-                                price: product.price,
-                            }))
-                        }
-                        else 
-                            dispatch(updateProduct({
-                                uuid: productId,
-                                name: product.name,
-                                tags: product.tags,
-                                features: product.features,
-                                price: product.price,
-                            }))
-                    }}>Save</Button>
+                            if (productId === undefined || productId === null) {
+                                dispatch(postNewProduct({
+                                    name: product.name,
+                                    tags: product.tags,
+                                    features: product.features,
+                                    price: product.price,
+                                }))
+                            }
+                            else
+                                dispatch(updateProduct({
+                                    uuid: productId,
+                                    name: product.name,
+                                    tags: product.tags,
+                                    features: product.features,
+                                    price: product.price,
+                                }))
+                        }}>Save</Button>
+                    )}
                 </Stack>
-                <DragDrop onDrop={DragDrop.onDrop} accept={"image/*"}/>
-                {console.log("here")}
-                <DragDropDisplay images={images}/>
-                {console.log("here")}
+                {isStatic ? (<div></div>) : (<DragDrop onDrop={DragDrop.onDrop} accept={"image/*"} />)}
+                {isStatic ? (<div></div>) : (<DragDropDisplay images={images} />)}
             </Stack>
         </Container>
     )
@@ -137,13 +162,15 @@ function TitleDisplay(props) {
     return (
         <div>
             <Typography variant="h4">Product Name:</Typography>
-            <TextField
+            {props.isStatic ? (<Typography variant="h4">
+                {name}
+            </Typography>) : (<TextField
                 value={name}
                 size="big"
                 variant="outlined"
                 onChange={event => {
                     dispatch(setName(event.target.value))
-                }} />
+                }} />)}
         </div>
     )
 }
@@ -182,7 +209,7 @@ function TagDisplay(props) {
                 {tags.map((tag, index) => (
                     <Tag key={index}>{tag}</Tag>
                 ))}
-                <Box display={'flex'} >
+                {props.isStatic ? null : (<Box display={'flex'} >
                     <AddCircleOutlineIcon onClick={handleToggle} sx={{ margin: 1.5 }} />
                     <Fade in={shouldInputShow} sx={tagInputStyle}>
                         <TextField
@@ -193,7 +220,7 @@ function TagDisplay(props) {
                             onBlur={handleToggle}
                             onChange={event => setTagBuffer(event.target.value)} />
                     </Fade>
-                </Box>
+                </Box>)}
             </Box>
         </Box>
     )
@@ -211,7 +238,6 @@ function TextDisplay(props) {
 
     let dispatch = useDispatch();
     let features = useSelector(getFeatures);
-
 
     const [shouldInputShow, toggleInput] = useState(false);
     const [title, setTitle] = useState("");
@@ -239,34 +265,36 @@ function TextDisplay(props) {
                         <Typography paragraph>{fv}</Typography>
                     </Box>
                 ))}
-                <Box sx={{ display: "flex" }}>
-                    <Fade in={!shouldInputShow}>
-                        <AddCircleOutlineIcon onClick={handleToggle} sx={{}} />
-                    </Fade>
-                    <Fade in={shouldInputShow} >
-                        <Box >
-                            <TextField
-                                sx={inputSpacing}
-                                value={title}
-                                size="large"
-                                variant="standard"
-                                autoFocus={shouldInputShow}
-                                placeholder="title"
-                                multiline
-                                fullWidth
-                                onChange={event => setTitle(event.target.value)} />
-                            <TextField
-                                value={description}
-                                size="small"
-                                variant="outlined"
-                                multiline
-                                fullWidth
-                                onBlur={handleToggle}
-                                minRows={10}
-                                onChange={event => setDescription(event.target.value)} />
-                        </Box>
-                    </Fade>
-                </Box>
+                {props.isStatic ? (<div></div>) : (
+                    <Box sx={{ display: "flex" }}>
+                        <Fade in={!shouldInputShow}>
+                            <AddCircleOutlineIcon onClick={handleToggle} sx={{}} />
+                        </Fade>
+                        <Fade in={shouldInputShow} >
+                            <Box >
+                                <TextField
+                                    sx={inputSpacing}
+                                    value={title}
+                                    size="large"
+                                    variant="standard"
+                                    autoFocus={shouldInputShow}
+                                    placeholder="title"
+                                    multiline
+                                    fullWidth
+                                    onChange={event => setTitle(event.target.value)} />
+                                <TextField
+                                    value={description}
+                                    size="small"
+                                    variant="outlined"
+                                    multiline
+                                    fullWidth
+                                    onBlur={handleToggle}
+                                    minRows={10}
+                                    onChange={event => setDescription(event.target.value)} />
+                            </Box>
+                        </Fade>
+                    </Box>
+                )}
             </Box>
 
         </Stack>
@@ -293,24 +321,24 @@ function DragDrop() {
     const [images, setImages] = useState([]);
 
     const onDrop = useCallback(acceptedFiles => {
-      acceptedFiles.map(file => {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          setImages(prevState => [
-            ...prevState,
-            { id: cuid(), src: e.target.result }
-          ]);
-        };
-        reader.readAsDataURL(file);
-        return file;
-      });
+        acceptedFiles.map(file => {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                setImages(prevState => [
+                    ...prevState,
+                    { id: cuid(), src: e.target.result }
+                ]);
+            };
+            reader.readAsDataURL(file);
+            return file;
+        });
     }, []);
-  
-      return (
-        <Box> 
+
+    return (
+        <Box>
             <h1> Drag & Drop </h1>
-            <Dropzone onDrop = {onDrop} accept={"image/*"} > </Dropzone>
+            <Dropzone onDrop={onDrop} accept={"image/*"} > </Dropzone>
         </Box>
-      )
+    )
 }
 
