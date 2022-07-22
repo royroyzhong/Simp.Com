@@ -10,9 +10,10 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
-import Input from "@mui/material/Input";
+import { TextField } from "@mui/material";
 import io from "socket.io-client";
 import { useEffect, useState } from "react";
+const socket = io.connect("http://localhost:8888");
 function SellerSearch(prop) {
   const [open, setOpen] = React.useState(false);
 
@@ -20,14 +21,17 @@ function SellerSearch(prop) {
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
   const handleClose = () => {
     setOpen(false);
+    socket.disconnect();
   };
   const handleClickOpen = () => {
     setOpen(true);
+    socket.connect();
+    socket.emit("join_room", prop.self.email);
   };
 
-  const socket = io.connect("http://localhost:8888");
   const [message, setMessage] = useState("");
   const [messageReceived, setMessageReceived] = useState([]);
+
   useEffect(() => {
     socket.on("receive_message", (data) => {
       let tempEle = {
@@ -37,16 +41,22 @@ function SellerSearch(prop) {
       setMessageReceived((oldArray) => [...oldArray, tempEle]);
     });
   }, [socket]);
+
   const handleSent = () => {
     if (message !== "") {
-      socket.emit("send_message", { message });
+      socket.emit("send_message", {
+        room: prop.self.email,
+        user: prop.self.firstName,
+        message,
+      });
       let tempEle = {
-        user: prop.self,
+        user: prop.self.firstName,
         message: message,
       };
       setMessageReceived((oldArray) => [...oldArray, tempEle]);
     }
   };
+
   return (
     <>
       <InboxIcon
@@ -56,44 +66,38 @@ function SellerSearch(prop) {
       <Box>
         <Dialog
           fullScreen={fullScreen}
-          maxWidth="sm"
+          maxWidth="md"
           open={open}
           onClose={handleClose}
           aria-labelledby="responsive-dialog-title"
         >
-          <DialogTitle id="responsive-dialog-title">{"Chat With "}</DialogTitle>
+          <DialogTitle id="responsive-dialog-title">{"Chat "}</DialogTitle>
           <DialogContent>
-            <DialogContentText>
-              Let Google help apps determine location. This means sending
-              anonymous location data to Google, even when no apps are running.
-            </DialogContentText>
-            <DialogContentText sx={{ position: "relative", left: "10vw" }}>
-              {" "}
-              Let Google help apps determine location. This means sending
-              anonymous location data to Google, even when no apps are running.
-            </DialogContentText>
-            <DialogContentText>
-              Let Google help apps determine location. This means sending
-              anonymous location data to Google, even when no apps are running.
-            </DialogContentText>
-            <DialogContentText sx={{ position: "relative", left: "10vw" }}>
-              {" "}
-              Let Google help apps determine location. This means sending
-              anonymous location data to Google, even when no apps are running.
-            </DialogContentText>
-            {/* {messageReceived.map((i) => {
-              return <DialogContentText>{i.message}</DialogContentText>;
-            })} */}
+            {messageReceived.map((i) => {
+              if (i.user === prop.self.firstName) {
+                return (
+                  <DialogContentText sx={{ textAlign: "left" }}>
+                    {i.user} : {i.message}
+                  </DialogContentText>
+                );
+              } else {
+                return (
+                  <DialogContentText sx={{ textAlign: "right" }}>
+                    {i.user} : {i.message}
+                  </DialogContentText>
+                );
+              }
+            })}
           </DialogContent>
           <DialogActions>
-            <Input fullWidth defaultValue="Enter Text here" />
-            <Button
-              autoFocus
-              onClick={handleSent}
+            <TextField
+              fullWidth
+              variant="standard"
               onChange={(e) => {
                 setMessage(e.target.value);
               }}
-            >
+            />
+            <Button autoFocus onClick={handleSent}>
               Send
             </Button>
             <Button onClick={handleClose} autoFocus>

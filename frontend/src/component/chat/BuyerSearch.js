@@ -33,8 +33,6 @@ function BuyerSearch(prop) {
 
   const [message, setMessage] = useState("");
   const [messageReceived, setMessageReceived] = useState([]);
-  const [room, setRoom] = useState("");
-  const [user, setUser] = useState("");
 
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
@@ -45,6 +43,7 @@ function BuyerSearch(prop) {
 
   const handleClose = () => {
     setOpen(false);
+    socket.disconnect();
   };
 
   React.useEffect(() => {
@@ -84,15 +83,21 @@ function BuyerSearch(prop) {
     );
   };
   const handleChatTarget = (data) => {
-    if (room !== "") {
+    try {
       socket.emit("join_room", data.email);
+    } catch (err) {
+      console.log(err);
     }
   };
   const handleSent = () => {
     if (message !== "") {
-      socket.emit("send_message", { user, message });
+      socket.emit("send_message", {
+        room: chatTarget.email,
+        user: prop.self.firstName,
+        message,
+      });
       let tempEle = {
-        user: prop.self,
+        user: prop.self.firstName,
         message: message,
       };
       setMessageReceived((oldArray) => [...oldArray, tempEle]);
@@ -126,6 +131,8 @@ function BuyerSearch(prop) {
           handleChatTarget(value);
           if (value !== null) {
             handleClickOpen(value);
+          } else {
+            console.log("is null 129");
           }
         }}
         open={openSearchChat}
@@ -160,47 +167,45 @@ function BuyerSearch(prop) {
       <Box>
         <Dialog
           fullScreen={fullScreen}
-          maxWidth="sm"
+          maxWidth="md"
           open={open}
           onClose={handleClose}
           aria-labelledby="responsive-dialog-title"
         >
           <DialogTitle id="responsive-dialog-title">
-            {"Chat With " + chatTarget.firstName + " " + chatTarget.lastName}
+            {chatTarget === null
+              ? "None"
+              : "Chat With " +
+                chatTarget.firstName +
+                " " +
+                chatTarget.lastName}{" "}
           </DialogTitle>
           <DialogContent>
-            <DialogContentText>
-              Let Google help apps determine location. This means sending
-              anonymous location data to Google, even when no apps are running.
-            </DialogContentText>
-            <DialogContentText sx={{ position: "relative", left: "10vw" }}>
-              {" "}
-              Let Google help apps determine location. This means sending
-              anonymous location data to Google, even when no apps are running.
-            </DialogContentText>
-            <DialogContentText>
-              Let Google help apps determine location. This means sending
-              anonymous location data to Google, even when no apps are running.
-            </DialogContentText>
-            <DialogContentText sx={{ position: "relative", left: "10vw" }}>
-              {" "}
-              Let Google help apps determine location. This means sending
-              anonymous location data to Google, even when no apps are running.
-            </DialogContentText>
-            {/* 
             {messageReceived.map((i) => {
-              return <DialogContentText>{i.message}</DialogContentText>;
-            })} */}
+              if (i.user === prop.self.firstName) {
+                return (
+                  <DialogContentText sx={{ textAlign: "left" }}>
+                    {i.user} : {i.message}
+                  </DialogContentText>
+                );
+              } else {
+                return (
+                  <DialogContentText sx={{ textAlign: "right" }}>
+                    {i.user} : {i.message}
+                  </DialogContentText>
+                );
+              }
+            })}
           </DialogContent>
           <DialogActions>
-            <Input fullWidth defaultValue="Enter Text here" />
-            <Button
-              autoFocus
-              onClick={handleSent}
+            <TextField
+              fullWidth
               onChange={(e) => {
                 setMessage(e.target.value);
               }}
-            >
+            />
+
+            <Button autoFocus onClick={handleSent}>
               Send
             </Button>
             <Button onClick={handleClose} autoFocus>

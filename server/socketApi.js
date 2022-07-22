@@ -14,6 +14,7 @@ module.exports.setup = (server) => {
     console.log(`User Connected: ${socket.id}`);
     //join room
     socket.on("join_room", (data) => {
+      console.log("enter: " + data);
       socket.join(data);
       //   socket.emit("join_message", {
       //     text: `Welcome to Room ${data}`,
@@ -24,6 +25,7 @@ module.exports.setup = (server) => {
     // });
     //send msg
     socket.on("send_message", (data) => {
+      console.log("28:" + data.room);
       socket.to(data.room).emit("receive_message", {
         userName: data.user,
         message: data.message,

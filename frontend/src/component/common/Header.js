@@ -147,13 +147,11 @@ export default function Header(prop) {
         {prop.role === "buyer" && (
           <BuyerSearch
             data={sellers}
-            self={userInfo === null ? "None" : userInfo.firstName}
+            self={userInfo === null ? "None" : userInfo}
           />
         )}
         {prop.role === "seller" && (
-          <SellerSearch
-            self={userInfo === null ? "None" : userInfo.firstName}
-          />
+          <SellerSearch self={userInfo === null ? "None" : userInfo} />
         )}
 
         <IconButton
@@ -206,20 +204,7 @@ export default function Header(prop) {
     </AppBar>
   );
 }
-const sellerList = [
-  { name: "A", company: "B" },
-  { name: "A1", company: "B1" },
-  { name: "A2", company: "B2" },
-  { name: "A3", company: "B3" },
-  { name: "A4", company: "B4" },
-  { name: "A5", company: "B5" },
-  { name: "AA", company: "BB" },
-  { name: "AA1", company: "BB1" },
-  { name: "AA2", company: "BB2" },
-  { name: "AA3", company: "BB3" },
-  { name: "AA4", company: "BB4" },
-  { name: "AA5", company: "BB5" },
-];
+
 async function getSellerData() {
   let response, data;
   try {

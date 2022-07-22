@@ -35,7 +35,7 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.primary,
   boxShadow: "none",
 }));
-
+const socket = io.connect("http://localhost:8888");
 function LoginForm(prop) {
   const dispatch = useDispatch();
 
@@ -87,7 +87,7 @@ function LoginForm(prop) {
     setPwd(value);
     setPasswordError("");
   };
-  const socket = io.connect("http://localhost:8888");
+
   const handlerValidation = (event) => {
     event.preventDefault();
     let account = {
