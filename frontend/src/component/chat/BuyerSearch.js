@@ -200,6 +200,7 @@ function BuyerSearch(prop) {
           <DialogActions>
             <TextField
               fullWidth
+              variant="standard"
               onChange={(e) => {
                 setMessage(e.target.value);
               }}
