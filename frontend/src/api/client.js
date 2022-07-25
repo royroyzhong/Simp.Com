@@ -1,4 +1,4 @@
-const baseUrl = "https://doge-commerce.herokuapp.com";
+const baseUrl = "";
 
 /**
  * Fetch protected API with current active JWT token.

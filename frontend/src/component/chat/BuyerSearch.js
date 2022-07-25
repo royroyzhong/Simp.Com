@@ -100,8 +100,9 @@ function BuyerSearch(prop) {
     socket.connect();
     try {
       socket.emit("join_room", data.email);
+      console.log(chatTarget.email);
       socket.emit("send_message", {
-        room: chatTarget.email,
+        room: data.email,
         user: prop.self.firstName,
         message: "Enter the Room",
       });
