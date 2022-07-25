@@ -60,7 +60,6 @@ function SellerSearch(prop) {
       setMessageReceived((oldArray) => [...oldArray, tempEle]);
     }
   };
-  console.log(socket);
 
   return (
     <>
