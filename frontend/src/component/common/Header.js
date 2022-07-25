@@ -180,18 +180,7 @@ export default function Header(prop) {
             </ListItemIcon>
             Profile
           </MenuItem>
-          <MenuItem onClick={() => navigate("/")}>
-            <ListItemIcon>
-              <SwitchAccountIcon fontSize="small" />
-            </ListItemIcon>
-            Switch to Customer
-          </MenuItem>
-          <MenuItem onClick={() => navigate("/sellerX/dashboard")}>
-            <ListItemIcon>
-              <SwitchAccountIcon fontSize="small" />
-            </ListItemIcon>
-            Switch to Seller
-          </MenuItem>
+
           <Divider />
           <MenuItem onClick={handleLogOut}>
             <ListItemIcon>
