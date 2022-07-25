@@ -55,7 +55,7 @@ app.use(
 var cookieParser = require("cookie-parser");
 var cors = require("cors");
 const corsOptions = {
-  origin: "http://localhost:3000", // must match to frontend path
+  origin: "*", // must match to frontend path
   credentials: true, //access-control-allow-credentials:true
   optionSuccessStatus: 200,
 };

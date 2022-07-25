@@ -208,7 +208,7 @@ export default function Header(prop) {
 async function getSellerData() {
   let response, data;
   try {
-    response = await fetch("http://localhost:8888/user/sellers", {
+    response = await fetch("/user/sellers", {
       method: "GET",
       credentials: "include",
       body: JSON.stringify(),

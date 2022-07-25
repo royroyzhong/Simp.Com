@@ -1,7 +1,7 @@
 const login = async (input) => {
   let response, data;
   try {
-    response = await fetch("http://localhost:8888/login", {
+    response = await fetch("/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -23,7 +23,7 @@ const login = async (input) => {
 const googlelogin = async (input) => {
   let response, data;
   try {
-    response = await fetch("http://localhost:8888/googlelogin", {
+    response = await fetch("/googlelogin", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -44,7 +44,7 @@ const googlelogin = async (input) => {
 const signup = async (input) => {
   let response, data;
   try {
-    response = await fetch("http://localhost:8888/signup", {
+    response = await fetch("/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -64,7 +64,7 @@ const signup = async (input) => {
 const getUser = async () => {
   let response, data;
   try {
-    response = await fetch("http://localhost:8888/login", {
+    response = await fetch("/login", {
       method: "GET",
       credentials: "include",
     });
@@ -80,7 +80,7 @@ const getUser = async () => {
 };
 
 const logOutUser = async () => {
-  const response = await fetch("http://localhost:8888/logout", {
+  const response = await fetch("/logout", {
     method: "GET",
     credentials: "include",
   });

@@ -35,12 +35,13 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.primary,
   boxShadow: "none",
 }));
-const socket = io.connect("http://localhost:8888");
+const socket = io.connect("https://doge-commerce.herokuapp.com");
 function LoginForm(prop) {
   const dispatch = useDispatch();
 
   function handleCallBackResponse(res) {
     dispatch(googleloginAsync({ jwt: res.credential })).then((result) => {
+      console.log("google login callback");
       loginSuccess(result);
     });
   }
@@ -102,6 +103,7 @@ function LoginForm(prop) {
   };
   const loginSuccess = (result) => {
     try {
+      console.log(result);
       let role = result.payload.role;
       let path;
       if (result.payload.status === 400) {

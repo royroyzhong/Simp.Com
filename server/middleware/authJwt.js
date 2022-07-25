@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 const jwt_decode = require("jwt-decode");
 
-dotenv.config();
+dotenv.config({ path: "../.env" });
 
 verifyToken = (req, res, next) => {
   const token = req.cookies.jwt;
@@ -11,16 +11,20 @@ verifyToken = (req, res, next) => {
       message: "No token provided!",
     });
   }
-  jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
-    if (err) {
-      return res.status(401).send({
-        message: "Unauthorized!",
-      });
-    }
+  jwt.verify(
+    token,
+    "-ntXnNLuNzTn7sMb1PjeHXchuNXReXzTr0z3nNv0u3P2plwcG0UntOaYoYW-54K6",
+    (err, decoded) => {
+      if (err) {
+        return res.status(401).send({
+          message: "Unauthorized!",
+        });
+      }
 
-    res.locals.user = decoded.data;
-    next();
-  });
+      res.locals.user = decoded.data;
+      next();
+    }
+  );
 };
 
 sellerCheck = (req, res, next) => {
@@ -90,7 +94,7 @@ verifyGoogleToken = (req, res, next) => {
 generateAccessTokenWithRememberMe = (useremail, role) => {
   return jwt.sign(
     { data: { useremail: useremail, role: role } },
-    process.env.TOKEN_SECRET,
+    "-ntXnNLuNzTn7sMb1PjeHXchuNXReXzTr0z3nNv0u3P2plwcG0UntOaYoYW-54K6",
     {
       expiresIn: "1d",
     }
@@ -99,7 +103,7 @@ generateAccessTokenWithRememberMe = (useremail, role) => {
 generateAccessTokenWithoutRememberMe = (useremail, role) => {
   return jwt.sign(
     { data: { useremail: useremail, role: role } },
-    process.env.TOKEN_SECRET,
+    "-ntXnNLuNzTn7sMb1PjeHXchuNXReXzTr0z3nNv0u3P2plwcG0UntOaYoYW-54K6",
     {
       expiresIn: "5m",
     }
