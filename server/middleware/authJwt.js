@@ -1,8 +1,5 @@
 const jwt = require("jsonwebtoken");
-const dotenv = require("dotenv");
 const jwt_decode = require("jwt-decode");
-
-dotenv.config({ path: "../.env" });
 
 verifyToken = (req, res, next) => {
   const token = req.cookies.jwt;
