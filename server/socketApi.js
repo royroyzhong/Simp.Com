@@ -16,16 +16,13 @@ module.exports.setup = (server) => {
     socket.on("join_room", (data) => {
       console.log("enter: " + data);
       socket.join(data);
-      //   socket.emit("join_message", {
-      //     text: `Welcome to Room ${data}`,
-      //   });
     });
-    // socket.on("user", (data) => {
-    //   socket.broadcast.emit("user-connected", data);
-    // });
+
     //send msg
     socket.on("send_message", (data) => {
-      console.log("28:" + data.room);
+      console.log(socket);
+      console.log("room number:" + data.room);
+      console.log(socket);
       socket.to(data.room).emit("receive_message", {
         userName: data.user,
         message: data.message,
