@@ -13,7 +13,7 @@ import io from "socket.io-client";
 import { useEffect, useState } from "react";
 import MarkUnreadChatAltIcon from "@mui/icons-material/MarkUnreadChatAlt";
 import ChatIcon from "@mui/icons-material/Chat";
-const socket = io.connect("http://localhost:8888");
+const socket = io.connect("https://doge-commerce.herokuapp.com");
 function SellerSearch(prop) {
   socket.emit("join_room", prop.self.email);
   const [open, setOpen] = React.useState(false);

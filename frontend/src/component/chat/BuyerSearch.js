@@ -19,7 +19,7 @@ import Alert from "@mui/material/Alert";
 import io from "socket.io-client";
 import { useEffect, useState } from "react";
 
-const socket = io.connect("http://localhost:8888");
+const socket = io.connect("https://doge-commerce.herokuapp.com");
 function sleep(delay = 0) {
   return new Promise((resolve) => {
     setTimeout(resolve, delay);
@@ -100,8 +100,9 @@ function BuyerSearch(prop) {
     socket.connect();
     try {
       socket.emit("join_room", data.email);
+      console.log(chatTarget.email);
       socket.emit("send_message", {
-        room: chatTarget.email,
+        room: data.email,
         user: prop.self.firstName,
         message: "Enter the Room",
       });

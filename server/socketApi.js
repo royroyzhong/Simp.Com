@@ -4,7 +4,7 @@ module.exports.setup = (server) => {
   var socket_io = require("socket.io");
   var io = socket_io(server, {
     cors: {
-      origin: "http://localhost:3000",
+      origin: "*",
       methods: ["GET", "POST"],
     },
   });
