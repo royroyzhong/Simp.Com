@@ -146,7 +146,7 @@ function BuyerSearch(prop) {
   useEffect(() => {
     socket.on("receive_message", (data) => {
       let tempEle = {
-        position: "right",
+        position: "left",
         type: "text",
         text: data.message,
       };

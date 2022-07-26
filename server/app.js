@@ -84,7 +84,6 @@ var userProfile = require("./routes/userProfile");
 var productRouter = require("./routes/productRoutes");
 var orderRouter = require("./routes/orderRoutes");
 
-
 app.use("/index", (req, res) => {
   res.render("index");
 });
@@ -93,7 +92,6 @@ app.use(userProfile);
 app.use("/products", productRouter);
 app.use("/order", orderRouter);
 
-
-app.use(express.static(path.join(__dirname, "public/build")));
+app.use("/", express.static(__dirname + "/public/build"));
 
 module.exports = app;
