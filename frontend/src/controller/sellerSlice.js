@@ -19,7 +19,7 @@ const sellerSlice = createSlice({
     // Seller inventory
     inventory: [
     ],
-    inventoryStatus: "idle"
+    inventoryStatus: "idle",
   },
   extraReducers: (builder) => {
     builder.addCase(getProducts.fulfilled, function(state, action) {

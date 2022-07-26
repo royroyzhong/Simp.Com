@@ -25,7 +25,9 @@ const productSlice = createSlice({
     title: "",
     price: 0,
     tags: [],
-    features: {}
+    features: {},
+    test:"",
+    images:[],
   },
   reducers: {
     setName: (state, action) => {state.name = action.payload},
@@ -39,6 +41,10 @@ const productSlice = createSlice({
       state.tags = product.tags;
       state.title = product.title;
       state.price = product.price;
+    },
+    addImage: (state,action) => {
+      console.log(state)
+      // state.images.push({id:images.length,image:action.payload})
     }
   },
   extraReducers: (builder) => {
@@ -53,7 +59,7 @@ const productSlice = createSlice({
 });
 
 // Export Setters
-export const {setName, setTitle, addTag, addFeature, loadProduct} =
+export const {setName, setTitle, addTag, addFeature, loadProduct,addImage} =
   productSlice.actions;
 
 // ++++++++++++++++ Getters ++++++++++++++++++++ //
@@ -70,5 +76,7 @@ export const getBufferProduct = (state) => {
     price: state.products.price
   };
 }
+export const getImages = (state) => state.products.images;
+
 
 export default productSlice.reducer;
