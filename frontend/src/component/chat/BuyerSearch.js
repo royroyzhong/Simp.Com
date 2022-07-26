@@ -1,16 +1,13 @@
 import React from "react";
 import { Box } from "@mui/system";
 import Paper from "@mui/material/Paper";
-import Input from "@mui/material/Input";
 
 import CircularProgress from "@mui/material/CircularProgress";
 import Autocomplete from "@mui/material/Autocomplete";
 import { Avatar, TextField } from "@mui/material";
-import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
@@ -18,6 +15,10 @@ import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import io from "socket.io-client";
 import { useEffect, useState } from "react";
+import "react-chat-elements/dist/main.css";
+import { MessageList, Input, Button } from "react-chat-elements";
+import CloseIcon from "@mui/icons-material/Close";
+import IconButton from "@mui/material/IconButton";
 
 const socket = io.connect("https://dogecom.herokuapp.com");
 function sleep(delay = 0) {
@@ -52,8 +53,7 @@ function BuyerSearch(prop) {
     setOpen(false);
     socket.emit("send_message", {
       room: chatTarget.email,
-      user: prop.self.firstName,
-      message: "Leave the Room",
+      message: prop.self.firstName + " just leave the room",
     });
     socket.disconnect();
     setMessageReceived([]);
@@ -103,9 +103,14 @@ function BuyerSearch(prop) {
       console.log(chatTarget.email);
       socket.emit("send_message", {
         room: data.email,
-        user: prop.self.firstName,
-        message: "Enter the Room",
+        message: prop.self.firstName + " just enter the room",
       });
+      let tempEle = {
+        position: "right",
+        type: "text",
+        text: "Join the room ",
+      };
+      setMessageReceived((oldArray) => [...oldArray, tempEle]);
     } catch (err) {
       console.log(err);
     }
@@ -118,8 +123,9 @@ function BuyerSearch(prop) {
         message,
       });
       let tempEle = {
-        user: prop.self.firstName,
-        message: message,
+        position: "right",
+        type: "text",
+        text: message,
       };
       setMessageReceived((oldArray) => [...oldArray, tempEle]);
     }
@@ -129,7 +135,6 @@ function BuyerSearch(prop) {
     setWarming(false);
     if (value !== null) {
       if (value.onlineStatus) {
-        console.log("OPEN 146");
         setChatTarget(value);
         handleChatTarget(value);
         handleClickOpen(value);
@@ -141,8 +146,9 @@ function BuyerSearch(prop) {
   useEffect(() => {
     socket.on("receive_message", (data) => {
       let tempEle = {
-        user: data.userName,
-        message: data.message,
+        position: "right",
+        type: "text",
+        text: data.message,
       };
       setMessageReceived((oldArray) => [...oldArray, tempEle]);
     });
@@ -187,7 +193,8 @@ function BuyerSearch(prop) {
       <Box>
         <Dialog
           // fullScreen={fullScreen}
-          maxWidth="md"
+          maxWidth="sm"
+          fullWidth
           open={open}
           onClose={handleClose}
           aria-labelledby="responsive-dialog-title"
@@ -195,43 +202,45 @@ function BuyerSearch(prop) {
           <DialogTitle id="responsive-dialog-title">
             {chatTarget === null
               ? "None"
-              : "Chat With " +
-                chatTarget.firstName +
-                " " +
-                chatTarget.lastName}{" "}
+              : "Chat With " + chatTarget.firstName + " " + chatTarget.lastName}
+            <IconButton
+              aria-label="close"
+              onClick={handleClose}
+              sx={{
+                position: "absolute",
+                right: 8,
+                top: 8,
+                color: (theme) => theme.palette.grey[500],
+              }}
+            >
+              <CloseIcon />
+            </IconButton>
           </DialogTitle>
-          <DialogContent>
-            {messageReceived.map((i) => {
-              if (i.user === prop.self.firstName) {
-                return (
-                  <DialogContentText sx={{ textAlign: "left" }}>
-                    {i.user} : {i.message}
-                  </DialogContentText>
-                );
-              } else {
-                return (
-                  <DialogContentText sx={{ textAlign: "right" }}>
-                    {i.user} : {i.message}
-                  </DialogContentText>
-                );
-              }
-            })}
+          <DialogContent dividers>
+            <MessageList
+              className="message-list"
+              lockable={true}
+              toBottomHeight={"100%"}
+              dataSource={messageReceived}
+            />
           </DialogContent>
           <DialogActions>
-            <TextField
-              fullWidth
-              variant="standard"
+            <Input
+              placeholder="Type here..."
+              multiline={true}
               onChange={(e) => {
                 setMessage(e.target.value);
               }}
+              rightButtons={
+                <Button
+                  type="outlined"
+                  color="white"
+                  backgroundColor="black"
+                  text="Send"
+                  onClick={handleSent}
+                />
+              }
             />
-
-            <Button autoFocus onClick={handleSent}>
-              Send
-            </Button>
-            <Button onClick={handleClose} autoFocus>
-              Close
-            </Button>
           </DialogActions>
         </Dialog>
       </Box>
