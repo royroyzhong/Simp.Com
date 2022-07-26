@@ -52,15 +52,17 @@ function CardGrid(props) {
                         // Set ProductSlice data
                         let features = {}
                         for (let description of product.descriptions) {
-                            console.log(".." + description);
                             features[Object.keys(description)[0]] = Object.values(description)[0]
                         }
+                        console.log("pringint");
+                        console.log(product.price)
                         dispatch(loadProduct({
                             name: product.name,
                             title: "",
                             features: features,
                             tags: product.tags,
-                            price: 0
+                            price: product.price,
+                            storage: product.storage 
                         }))
                         navigate("/sellerX/product/" + product.uuid);
                     }}>
