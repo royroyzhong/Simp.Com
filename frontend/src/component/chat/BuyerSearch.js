@@ -19,7 +19,7 @@ import Alert from "@mui/material/Alert";
 import io from "socket.io-client";
 import { useEffect, useState } from "react";
 
-const socket = io.connect("https://doge-commerce.herokuapp.com");
+const socket = io.connect("https://dogecom.herokuapp.com");
 function sleep(delay = 0) {
   return new Promise((resolve) => {
     setTimeout(resolve, delay);
