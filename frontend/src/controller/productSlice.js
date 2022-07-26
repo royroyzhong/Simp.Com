@@ -32,6 +32,8 @@ const productSlice = createSlice({
     setName: (state, action) => {state.name = action.payload},
     setTitle: (state, action) => {state.title = action.payload},
     addTag: (state, action) => {state.tags.push(action.payload)},
+    setPrice: (state, action) => {state.price = action.payload},
+    setStorage: (state, action) => {state.storage = action.payload},
     addFeature: (state, action) => {state.features[action.payload.title] = action.payload.description},
     loadProduct: (state, action) => {
       let product = action.payload;
@@ -55,7 +57,7 @@ const productSlice = createSlice({
 });
 
 // Export Setters
-export const {setName, setTitle, addTag, addFeature, loadProduct} =
+export const {setName, setTitle, addTag, addFeature, loadProduct, setStorage, setPrice} =
   productSlice.actions;
 
 // ++++++++++++++++ Getters ++++++++++++++++++++ //
@@ -72,7 +74,7 @@ export const getBufferProduct = (state) => {
     features: getFeatures(state),
     name: getName(state),
     price: state.products.price,
-    storage: state.product.storage
+    storage: state.products.storage
   };
 }
 
