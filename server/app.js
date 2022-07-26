@@ -77,13 +77,13 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, "public")));
 
 // ++++++++++++++++++ Router Config ++++++++++++++++++ //
 var authRouter = require("./routes/authRoutes");
 var userProfile = require("./routes/userProfile");
 var productRouter = require("./routes/productRoutes");
 var orderRouter = require("./routes/orderRoutes");
+
 
 app.use("/index", (req, res) => {
   res.render("index");
@@ -92,5 +92,8 @@ app.use(authRouter);
 app.use(userProfile);
 app.use("/products", productRouter);
 app.use("/order", orderRouter);
+
+
+app.use(express.static(path.join(__dirname, "public/build")));
 
 module.exports = app;
