@@ -1,5 +1,5 @@
 const submitOrder = async (products) => {
-  const response = await fetch('http://localhost:8888/order', {
+  const response = await fetch('/order', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -17,14 +17,14 @@ const submitOrder = async (products) => {
 }
 
 const getOrder = async () => {
-  const response = await fetch('http://localhost:8888/order', {
+  const response = await fetch('/order', {
     method: 'GET'
   });
   return response.json();
 };
 
 const changeStatus = async (orderToChange) => {
-  const response = await fetch('http://localhost:8888/order?orderid=' + orderToChange, {
+  const response = await fetch('/order?orderid=' + orderToChange, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json'
