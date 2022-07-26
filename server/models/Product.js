@@ -14,6 +14,8 @@ const productSchema = new Schema({
     tags: [String],
     lastModifiedAt: {type: Date, default: Date.now},
     soldBy: {type: Schema.Types.ObjectId, ref: 'seller'},
+    price: Number,
+    storage: Number
 })
 
 const Product = mongoose.model('product', productSchema);
