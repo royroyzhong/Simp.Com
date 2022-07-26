@@ -6,12 +6,16 @@
     "main.js": "/static/js/main.0973266d.js",
 =======
     "main.css": "/static/css/main.31da2a35.css",
+<<<<<<< HEAD
     "main.js": "/static/js/main.88228b55.js",
 >>>>>>> dev: [Quinn] added product price and storage
 =======
     "main.css": "/static/css/main.31da2a35.css",
     "main.js": "/static/js/main.d51a423e.js",
 >>>>>>> dev: [Quinn] added product price
+=======
+    "main.js": "/static/js/main.d51a423e.js",
+>>>>>>> b42aef0bf97c2bfd122c8076f368390f9fc594cf
     "static/js/787.28cb0dcd.chunk.js": "/static/js/787.28cb0dcd.chunk.js",
     "static/media/food.svg": "/static/media/food.3c7a24978fadbf4d4926c230b491c5bd.svg",
     "static/media/snowman.svg": "/static/media/snowman.b3eb5207c90e2a7774f908675f4e2d13.svg",
@@ -36,16 +40,23 @@
 =======
     "main.31da2a35.css.map": "/static/css/main.31da2a35.css.map",
     "main.d51a423e.js.map": "/static/js/main.d51a423e.js.map",
+<<<<<<< HEAD
 >>>>>>> dev: [Quinn] added product price
+=======
+>>>>>>> b42aef0bf97c2bfd122c8076f368390f9fc594cf
     "787.28cb0dcd.chunk.js.map": "/static/js/787.28cb0dcd.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.31da2a35.css",
+<<<<<<< HEAD
 <<<<<<< HEAD
     "static/js/main.88228b55.js"
 >>>>>>> dev: [Quinn] added product price and storage
 =======
     "static/js/main.d51a423e.js"
 >>>>>>> dev: [Quinn] added product price
+=======
+    "static/js/main.d51a423e.js"
+>>>>>>> b42aef0bf97c2bfd122c8076f368390f9fc594cf
   ]
 }

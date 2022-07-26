@@ -24,6 +24,7 @@ const productSlice = createSlice({
     name: "",
     title: "",
     price: 0,
+    storage: 0,
     tags: [],
     features: {}
   },
@@ -41,6 +42,7 @@ const productSlice = createSlice({
       state.tags = product.tags;
       state.title = product.title;
       state.price = product.price;
+      state.storage = product.storage;
     }
   },
   extraReducers: (builder) => {
@@ -63,6 +65,8 @@ export const getTags = (state) => state.products.tags;
 export const getFeatures = (state) => state.products.features;
 export const getName = (state) => state.products.name;
 export const getTitle = (state) => state.products.title;
+export const getPrice = (state) => state.products.price;
+export const getStorage = (state) => state.products.storage;
 export const getBufferProduct = (state) => {
   return {
     title: getTitle(state),
