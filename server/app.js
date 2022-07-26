@@ -98,8 +98,5 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'build', 'index.html'))
 }) 
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'build', 'index.html'))
-}) 
 
 module.exports = app;
