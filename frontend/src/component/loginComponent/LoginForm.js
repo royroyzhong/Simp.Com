@@ -41,7 +41,6 @@ function LoginForm(prop) {
 
   function handleCallBackResponse(res) {
     dispatch(googleloginAsync({ jwt: res.credential })).then((result) => {
-      console.log("google login callback");
       loginSuccess(result);
     });
   }
@@ -216,8 +215,8 @@ function LoginForm(prop) {
         <div id="googleSignIn"></div>
         <Marginer direction="vertical" margin="2vh" />
       </SmallSpan>
-      <IconButton>
-        <ArrowBackIcon onClick={() => navigate("../")} />
+      <IconButton onClick={() => navigate("../")}>
+        <ArrowBackIcon />
       </IconButton>
     </BoxContainer>
   );
