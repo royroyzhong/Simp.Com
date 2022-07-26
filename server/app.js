@@ -94,4 +94,9 @@ app.use("/order", orderRouter);
 
 app.use("/", express.static(__dirname + "/public/build"));
 
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'build', 'index.html'))
+}) 
+
+
 module.exports = app;

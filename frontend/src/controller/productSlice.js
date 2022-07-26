@@ -24,6 +24,7 @@ const productSlice = createSlice({
     name: "",
     title: "",
     price: 0,
+    storage: 0,
     tags: [],
     features: {}
   },
@@ -31,6 +32,8 @@ const productSlice = createSlice({
     setName: (state, action) => {state.name = action.payload},
     setTitle: (state, action) => {state.title = action.payload},
     addTag: (state, action) => {state.tags.push(action.payload)},
+    setPrice: (state, action) => {state.price = action.payload},
+    setStorage: (state, action) => {state.storage = action.payload},
     addFeature: (state, action) => {state.features[action.payload.title] = action.payload.description},
     loadProduct: (state, action) => {
       let product = action.payload;
@@ -39,6 +42,7 @@ const productSlice = createSlice({
       state.tags = product.tags;
       state.title = product.title;
       state.price = product.price;
+      state.storage = product.storage;
     }
   },
   extraReducers: (builder) => {
@@ -53,7 +57,7 @@ const productSlice = createSlice({
 });
 
 // Export Setters
-export const {setName, setTitle, addTag, addFeature, loadProduct} =
+export const {setName, setTitle, addTag, addFeature, loadProduct, setStorage, setPrice} =
   productSlice.actions;
 
 // ++++++++++++++++ Getters ++++++++++++++++++++ //
@@ -61,13 +65,16 @@ export const getTags = (state) => state.products.tags;
 export const getFeatures = (state) => state.products.features;
 export const getName = (state) => state.products.name;
 export const getTitle = (state) => state.products.title;
+export const getPrice = (state) => state.products.price;
+export const getStorage = (state) => state.products.storage;
 export const getBufferProduct = (state) => {
   return {
     title: getTitle(state),
     tags: getTags(state),
     features: getFeatures(state),
     name: getName(state),
-    price: state.products.price
+    price: state.products.price,
+    storage: state.products.storage
   };
 }
 

@@ -11,11 +11,11 @@ import { useDispatch, useSelector } from "react-redux";
 
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { useCallback, useEffect, useState } from "react";
-import { addFeature, addTag, getBufferProduct, getFeatures, getName, getTags, getTitle, loadProduct, postNewProduct, setName, setTitle, updateProduct } from "../../controller/productSlice";
 import { useLocation, useParams } from "react-router-dom";
+import { addFeature, addTag, getBufferProduct, getFeatures, getName, getPrice, getStorage, getTags, loadProduct, postNewProduct, setName, setPrice, updateProduct } from "../../controller/productSlice";
 
-import Dropzone from '../../utils/Dropzone';
 import cuid from "cuid";
+import Dropzone from '../../utils/Dropzone';
 
 // import DragDrop from '../common/DragDrop';
 import DragDropDisplay from '../common/DragDropDisplay';
@@ -55,7 +55,8 @@ export default function ProductPage(props) {
                 title: "",
                 features: features,
                 tags: location.state.data.tags,
-                price: 0
+                price: location.state.data.price,
+                storage: location.state.data.storage 
             }))
         }
     }, [dispatch, location]);
@@ -72,6 +73,7 @@ export default function ProductPage(props) {
                     sx={leftStackStyle}
                 >
                     <TitleDisplay isStatic={isStatic} />
+                    <PriceAndQuantity isStatic={isStatic} />
                     <TagDisplay isStatic={isStatic} />
                     <TextDisplay isStatic={isStatic} />
                     {isStatic ? (<div></div>) : (
@@ -83,6 +85,7 @@ export default function ProductPage(props) {
                                     tags: product.tags,
                                     features: product.features,
                                     price: product.price,
+                                    storage: product.storage
                                 }))
                             }
                             else
@@ -92,6 +95,7 @@ export default function ProductPage(props) {
                                     tags: product.tags,
                                     features: product.features,
                                     price: product.price,
+                                    storage: product.storage
                                 }))
                         }}>Save</Button>
                     )}
@@ -171,6 +175,27 @@ function TitleDisplay(props) {
                 onChange={event => {
                     dispatch(setName(event.target.value))
                 }} />)}
+        </div>
+    )
+}
+
+function PriceAndQuantity(props) {
+    let price = useSelector(getPrice);
+    let storage = useSelector(getStorage);
+    let dispatch = useDispatch();
+
+    return (
+        <div>
+            <Typography variant="h5">Price</Typography>
+            {props.isStatic ? (<Typography variant="h5">{price}</Typography>) : (
+                <TextField
+                    value={price}
+                    size="small"
+                    variant="outlined"
+                    onChange={event => {
+                        dispatch(setPrice(event.target.value));
+                    }} />
+            )}
         </div>
     )
 }
