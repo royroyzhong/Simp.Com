@@ -36,6 +36,7 @@ function BuyerSearch(prop) {
 
   const [message, setMessage] = useState("");
   const [messageReceived, setMessageReceived] = useState([]);
+  const inputReferance = React.createRef();
 
   // const theme = useTheme();
   // const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
@@ -129,6 +130,7 @@ function BuyerSearch(prop) {
       };
       setMessageReceived((oldArray) => [...oldArray, tempEle]);
     }
+    inputReferance.current.value = "";
   };
   const handleAutoCompleteSubmit = (event, value) => {
     console.log(value);
@@ -226,6 +228,7 @@ function BuyerSearch(prop) {
           </DialogContent>
           <DialogActions>
             <Input
+              referance={inputReferance}
               placeholder="Type here..."
               multiline={true}
               onChange={(e) => {
