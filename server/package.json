@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "cd ./frontend && npm run build && cd ../ && node ./bin/www",
+    "start": "node ./bin/www",
     "build": "cd ./frontend && npm install --legacy-peer-deps && npm run build",
     "heroku-postbuild": "cd ./frontend &&  npm install --legacy-peer-deps && npm run build",
     "tstart": "cd ../frontend && npm run build && cd ../server && node ./bin/www"
