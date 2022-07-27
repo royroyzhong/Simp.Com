@@ -22,6 +22,7 @@ const socket = io.connect("https://dogecom.herokuapp.com");
 function SellerSearch(prop) {
   socket.emit("join_room", prop.self.email);
   const [open, setOpen] = React.useState(false);
+  const inputReferance = React.createRef();
 
   // const theme = useTheme();
   // const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
@@ -67,6 +68,7 @@ function SellerSearch(prop) {
         text: message,
       };
       setMessageReceived((oldArray) => [...oldArray, tempEle]);
+      inputReferance.current.value = "";
     }
   };
 
@@ -119,6 +121,7 @@ function SellerSearch(prop) {
           </DialogContent>
           <DialogActions>
             <Input
+              referance={inputReferance}
               placeholder="Type here..."
               multiline={true}
               onChange={(e) => {
