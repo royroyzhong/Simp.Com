@@ -66,7 +66,7 @@ export default function ProductPage() {
                     }}>Save</Button>
                 </Stack>
                 <DragDrop onDrop={DragDrop.onDrop} accept={"image/*"}/>
-                {/* <DragDropDisplay images={getImages}/> */}
+                <DragDropDisplay/>
             </Stack>
         </Container>
     )

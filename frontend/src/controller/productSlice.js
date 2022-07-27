@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { fetchAPI } from "../api/client";
+import { current } from "@reduxjs/toolkit";
 
 export const postNewProduct = createAsyncThunk('/product/post', async function(data) {
   let features = data.features;
@@ -18,17 +19,19 @@ export const updateProduct = createAsyncThunk('/product/patch', async function(d
 /**
  * Product Slice is only used for the editing page.
  */
+
+ const INITIAL_STATE = {
+  name: "",
+  title: "",
+  price: 0,
+  tags: [],
+  features: {},
+  images:[]
+}
+
 const productSlice = createSlice({
   name: "product",
-  initialState: {
-    name: "",
-    title: "",
-    price: 0,
-    tags: [],
-    features: {},
-    test:"",
-    images:[],
-  },
+  initialState: INITIAL_STATE,
   reducers: {
     setName: (state, action) => {state.name = action.payload},
     setTitle: (state, action) => {state.title = action.payload},
@@ -43,8 +46,8 @@ const productSlice = createSlice({
       state.price = product.price;
     },
     addImage: (state,action) => {
-      console.log(state)
-      // state.images.push({id:images.length,image:action.payload})
+      state.images.push({id:state.images.length, src:action.payload});
+      console.log(current(state))
     }
   },
   extraReducers: (builder) => {
@@ -75,7 +78,7 @@ export const getBufferProduct = (state) => {
     name: getName(state),
     price: state.products.price
   };
-}
+};
 export const getImages = (state) => state.products.images;
 
 

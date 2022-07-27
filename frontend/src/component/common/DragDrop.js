@@ -14,13 +14,17 @@ export default function DragDrop() {
     const [imageBuffer, setImageBuffer] = useState([]);
 
     const onDrop = (file) => {
+      console.log(file[0]);
       const reader = new FileReader();
       reader.onload = function (e) {
-        setImageBuffer({id:images.length, src:e.target.result});
-        dispatch(addImage(imageBuffer));
+        setImageBuffer((prevState) => [
+          ...prevState,
+          {id:images.length, src:e.target.result},
+        ]);
+        dispatch(addImage(e.target.result));
       }
-      reader.readAsDataURL(file);
-      return file;
+      reader.readAsDataURL(file[0]);
+      return file[0];
     }
   // useCallback(acceptedFiles => {
   //   acceptedFiles.map(file => {
