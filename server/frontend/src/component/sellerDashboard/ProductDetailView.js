@@ -12,16 +12,13 @@ import { useDispatch, useSelector } from "react-redux";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { useCallback, useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import { addFeature, addTag, getBufferProduct, getFeatures, getName, getPrice, getStorage, getTags, loadProduct, postNewProduct, setName, setPrice, updateProduct } from "../../controller/productSlice";
+import { addFeature, addTag, getBufferProduct, getFeatures, getImages, getName, getPrice, getStorage, getTags, loadProduct, postNewProduct, setName, setPrice, updateProduct } from "../../controller/productSlice";
 
-<<<<<<< HEAD:frontend/src/component/sellerDashboard/ProductDetailView.js
 import DragDrop from '../common/DragDrop';
-=======
 import cuid from "cuid";
 import Dropzone from '../../utils/Dropzone';
 
 // import DragDrop from '../common/DragDrop';
->>>>>>> main:server/frontend/src/component/sellerDashboard/ProductDetailView.js
 import DragDropDisplay from '../common/DragDropDisplay';
 
 
@@ -30,6 +27,7 @@ let imgs = [book, bomb, flask, food];
 export default function ProductPage(props) {
 
     let dispatch = useDispatch();
+    let images = useSelector(getImages);
     let product = useSelector(getBufferProduct);
 
     let { productId } = useParams()
