@@ -19,6 +19,7 @@ import "react-chat-elements/dist/main.css";
 import { MessageList, Input, Button } from "react-chat-elements";
 import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
+import { useNavigate } from "react-router-dom";
 
 const socket = io.connect("https://dogecom.herokuapp.com");
 function sleep(delay = 0) {
@@ -37,6 +38,7 @@ function BuyerSearch(prop) {
   const [message, setMessage] = useState("");
   const [messageReceived, setMessageReceived] = useState([]);
   const inputReferance = React.createRef();
+  let navigate = useNavigate();
 
   // const theme = useTheme();
   // const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
@@ -65,6 +67,7 @@ function BuyerSearch(prop) {
     }
 
     setOpenAlert(false);
+    navigate("./login");
   };
   React.useEffect(() => {
     let active = true;
@@ -272,11 +275,10 @@ function BuyerSearch(prop) {
       </Snackbar>
       <Snackbar
         open={openAlert}
-        autoHideDuration={6000}
+        autoHideDuration={3000}
         onClose={handleCloseAlert}
       >
         <Alert
-          anchorOrigin={{ horizontal: "center", vertical: "top" }}
           onClose={handleCloseAlert}
           severity="error"
           sx={{ width: "100%" }}
