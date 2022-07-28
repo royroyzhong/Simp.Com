@@ -31,18 +31,15 @@ export const updateProduct = createAsyncThunk('/product/patch', async function(d
 
 const productSlice = createSlice({
   name: "product",
-<<<<<<< HEAD:frontend/src/controller/productSlice.js
-  initialState: INITIAL_STATE,
-=======
   initialState: {
     name: "",
     title: "",
     price: 0,
     storage: 0,
     tags: [],
-    features: {}
+    features: {},
+    images:[]
   },
->>>>>>> main:server/frontend/src/controller/productSlice.js
   reducers: {
     setName: (state, action) => {state.name = action.payload},
     setTitle: (state, action) => {state.title = action.payload},
@@ -57,14 +54,11 @@ const productSlice = createSlice({
       state.tags = product.tags;
       state.title = product.title;
       state.price = product.price;
-<<<<<<< HEAD:frontend/src/controller/productSlice.js
+      state.storage = product.storage;
     },
     addImage: (state,action) => {
       state.images.push({id:state.images.length, src:action.payload});
       console.log(current(state))
-=======
-      state.storage = product.storage;
->>>>>>> main:server/frontend/src/controller/productSlice.js
     }
   },
   extraReducers: (builder) => {
@@ -79,11 +73,7 @@ const productSlice = createSlice({
 });
 
 // Export Setters
-<<<<<<< HEAD:frontend/src/controller/productSlice.js
-export const {setName, setTitle, addTag, addFeature, loadProduct,addImage} =
-=======
-export const {setName, setTitle, addTag, addFeature, loadProduct, setStorage, setPrice} =
->>>>>>> main:server/frontend/src/controller/productSlice.js
+export const {setName, setTitle, addTag, addFeature, loadProduct, setStorage, setPrice, addImage} =
   productSlice.actions;
 
 // ++++++++++++++++ Getters ++++++++++++++++++++ //
