@@ -68,6 +68,7 @@ function SellerSearch(prop) {
         text: message,
       };
       setMessageReceived((oldArray) => [...oldArray, tempEle]);
+      setMessage("");
       inputReferance.current.value = "";
     }
   };

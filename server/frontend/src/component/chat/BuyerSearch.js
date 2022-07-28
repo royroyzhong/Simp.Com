@@ -143,6 +143,7 @@ function BuyerSearch(prop) {
       };
       setMessageReceived((oldArray) => [...oldArray, tempEle]);
     }
+    setMessage("");
     inputReferance.current.value = "";
   };
   const handleAutoCompleteSubmit = (event, value) => {
