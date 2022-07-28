@@ -9,7 +9,8 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import LightbulbIcon from "@mui/icons-material/Lightbulb";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useNavigate } from "react-router-dom";
-
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 import { useDispatch } from "react-redux";
 import { getUserAsync, logoutAsync } from "../../controller/login/thunks";
 const categories = [
@@ -30,7 +31,7 @@ export default function BuyerNavigationList() {
       if (path === "/" || path === "/userX/cart") {
         navigate(path);
       } else if (statusCode !== 200) {
-        navigate("/login");
+        setOpenAlert(true);
       } else {
         console.log(id);
         if (id === "Log out") {
@@ -41,7 +42,14 @@ export default function BuyerNavigationList() {
       }
     });
   };
-
+  const [openAlert, setOpenAlert] = React.useState(false);
+  const handleCloseAlert = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenAlert(false);
+    navigate("./login");
+  };
   return (
     <List component="nav">
       <React.Fragment>
@@ -57,6 +65,19 @@ export default function BuyerNavigationList() {
           </ListItemButton>
         ))}
       </React.Fragment>
+      <Snackbar
+        open={openAlert}
+        autoHideDuration={3000}
+        onClose={handleCloseAlert}
+      >
+        <Alert
+          onClose={handleCloseAlert}
+          severity="error"
+          sx={{ width: "100%" }}
+        >
+          Please Log in to continue.
+        </Alert>
+      </Snackbar>
     </List>
   );
 }
