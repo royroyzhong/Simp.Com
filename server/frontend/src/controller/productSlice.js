@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { fetchAPI } from "../api/client";
+import { current } from "@reduxjs/toolkit";
 
 export const postNewProduct = createAsyncThunk('/product/post', async function(data) {
   let features = data.features;
@@ -18,8 +19,21 @@ export const updateProduct = createAsyncThunk('/product/patch', async function(d
 /**
  * Product Slice is only used for the editing page.
  */
+
+ const INITIAL_STATE = {
+  name: "",
+  title: "",
+  price: 0,
+  tags: [],
+  features: {},
+  images:[]
+}
+
 const productSlice = createSlice({
   name: "product",
+<<<<<<< HEAD:frontend/src/controller/productSlice.js
+  initialState: INITIAL_STATE,
+=======
   initialState: {
     name: "",
     title: "",
@@ -28,6 +42,7 @@ const productSlice = createSlice({
     tags: [],
     features: {}
   },
+>>>>>>> main:server/frontend/src/controller/productSlice.js
   reducers: {
     setName: (state, action) => {state.name = action.payload},
     setTitle: (state, action) => {state.title = action.payload},
@@ -42,7 +57,14 @@ const productSlice = createSlice({
       state.tags = product.tags;
       state.title = product.title;
       state.price = product.price;
+<<<<<<< HEAD:frontend/src/controller/productSlice.js
+    },
+    addImage: (state,action) => {
+      state.images.push({id:state.images.length, src:action.payload});
+      console.log(current(state))
+=======
       state.storage = product.storage;
+>>>>>>> main:server/frontend/src/controller/productSlice.js
     }
   },
   extraReducers: (builder) => {
@@ -57,7 +79,11 @@ const productSlice = createSlice({
 });
 
 // Export Setters
+<<<<<<< HEAD:frontend/src/controller/productSlice.js
+export const {setName, setTitle, addTag, addFeature, loadProduct,addImage} =
+=======
 export const {setName, setTitle, addTag, addFeature, loadProduct, setStorage, setPrice} =
+>>>>>>> main:server/frontend/src/controller/productSlice.js
   productSlice.actions;
 
 // ++++++++++++++++ Getters ++++++++++++++++++++ //
@@ -76,6 +102,8 @@ export const getBufferProduct = (state) => {
     price: state.products.price,
     storage: state.products.storage
   };
-}
+};
+export const getImages = (state) => state.products.images;
+
 
 export default productSlice.reducer;

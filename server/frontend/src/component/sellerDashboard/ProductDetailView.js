@@ -14,15 +14,18 @@ import { useCallback, useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import { addFeature, addTag, getBufferProduct, getFeatures, getName, getPrice, getStorage, getTags, loadProduct, postNewProduct, setName, setPrice, updateProduct } from "../../controller/productSlice";
 
+<<<<<<< HEAD:frontend/src/component/sellerDashboard/ProductDetailView.js
+import DragDrop from '../common/DragDrop';
+=======
 import cuid from "cuid";
 import Dropzone from '../../utils/Dropzone';
 
 // import DragDrop from '../common/DragDrop';
+>>>>>>> main:server/frontend/src/component/sellerDashboard/ProductDetailView.js
 import DragDropDisplay from '../common/DragDropDisplay';
 
 
 let imgs = [book, bomb, flask, food];
-const images = []
 
 export default function ProductPage(props) {
 
@@ -342,28 +345,5 @@ function Tag(props) {
     )
 }
 
-function DragDrop() {
-    const [images, setImages] = useState([]);
 
-    const onDrop = useCallback(acceptedFiles => {
-        acceptedFiles.map(file => {
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                setImages(prevState => [
-                    ...prevState,
-                    { id: cuid(), src: e.target.result }
-                ]);
-            };
-            reader.readAsDataURL(file);
-            return file;
-        });
-    }, []);
-
-    return (
-        <Box>
-            <h1> Drag & Drop </h1>
-            <Dropzone onDrop={onDrop} accept={"image/*"} > </Dropzone>
-        </Box>
-    )
-}
 
