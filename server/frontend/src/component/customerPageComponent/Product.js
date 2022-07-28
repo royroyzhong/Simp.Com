@@ -31,7 +31,13 @@ export default function Product(props) {
         },
       }}
     >
-      <CardActionArea>
+      <CardActionArea
+        onClick={() => {
+          navigate("/sellerX/product/" + props.data.uuid, {
+            state: { data: props.data, isStatic: true },
+          });
+        }}
+      >
         <CardContent>
           <Marginer margin="40px" />
           <CardMedia
