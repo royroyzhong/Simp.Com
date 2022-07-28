@@ -1,0 +1,15 @@
+.orderTrackingHeader {
+    font-size: 2pc;
+    color: #404373;
+}
+
+.unprocess,.inShipment{
+    background-color: rgba(255,241,218,0.9);
+}
+
+#actionIcon {
+position: relative;
+left: 40%;
+bottom:50px;
+color:#a95409;
+}

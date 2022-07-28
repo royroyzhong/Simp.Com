@@ -21,6 +21,12 @@ const myFormat = winston.format.printf(
   }
 );
 
+// // Choose the port and start the server
+// const PORT = process.env.PORT || 8888
+// app.listen(PORT, () => {
+//   console.log(`Mixing it up on port ${PORT}`)
+// })
+
 app.use(
   expressWinston.logger({
     format: winston.format.combine(
@@ -84,7 +90,6 @@ var userProfile = require("./routes/userProfile");
 var productRouter = require("./routes/productRoutes");
 var orderRouter = require("./routes/orderRoutes");
 
-
 app.use("/index", (req, res) => {
   res.render("index");
 });
@@ -93,7 +98,11 @@ app.use(userProfile);
 app.use("/products", productRouter);
 app.use("/order", orderRouter);
 
+app.use("/", express.static(__dirname + "/public/build"));
 
-app.use(express.static(path.join(__dirname, "public/build")));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'build', 'index.html'))
+}) 
+
 
 module.exports = app;
