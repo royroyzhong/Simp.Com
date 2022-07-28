@@ -33,7 +33,7 @@ function BuyerSearch(prop) {
   const [chatTarget, setChatTarget] = React.useState({});
   const [options, setOptions] = React.useState([]);
   const loading = openSearchChat && options.length === 0;
-
+  const [openAlert, setOpenAlert] = React.useState(false);
   const [message, setMessage] = useState("");
   const [messageReceived, setMessageReceived] = useState([]);
   const inputReferance = React.createRef();
@@ -59,7 +59,13 @@ function BuyerSearch(prop) {
     socket.disconnect();
     setMessageReceived([]);
   };
+  const handleCloseAlert = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
 
+    setOpenAlert(false);
+  };
   React.useEffect(() => {
     let active = true;
 
@@ -71,7 +77,11 @@ function BuyerSearch(prop) {
       await sleep(1e3);
 
       if (active) {
-        setOptions([...prop.data]);
+        try {
+          setOptions([...prop.data]);
+        } catch (err) {
+          setOpenAlert(true);
+        }
       }
     })();
 
@@ -258,6 +268,20 @@ function BuyerSearch(prop) {
           sx={{ width: "100%" }}
         >
           Please select online user!
+        </Alert>
+      </Snackbar>
+      <Snackbar
+        open={openAlert}
+        autoHideDuration={6000}
+        onClose={handleCloseAlert}
+      >
+        <Alert
+          anchorOrigin={{ horizontal: "center", vertical: "top" }}
+          onClose={handleCloseAlert}
+          severity="error"
+          sx={{ width: "100%" }}
+        >
+          Please Log in to continue.
         </Alert>
       </Snackbar>
     </Box>
