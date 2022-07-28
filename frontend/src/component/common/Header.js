@@ -1,7 +1,6 @@
 // MUI Components
 import { Avatar, TextField } from "@mui/material";
-import { Box } from "@mui/system";
-import SearchIcon from "@mui/icons-material/Search";
+
 import MenuItem from "@mui/material/MenuItem";
 import Divider from "@mui/material/Divider";
 import * as React from "react";
@@ -21,10 +20,8 @@ import Toolbar from "@mui/material/Toolbar";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useDispatch } from "react-redux";
 import { logoutAsync } from "../../controller/login/thunks";
-import ChatIcon from "@mui/icons-material/Chat";
-import PersonIcon from "@mui/icons-material/Person";
-import CircularProgress from "@mui/material/CircularProgress";
-import Autocomplete from "@mui/material/Autocomplete";
+import BuyerSearch from "../chat/BuyerSearch";
+import SellerSearch from "../chat/SellerSearch";
 import { getUserAsync } from "../../controller/login/thunks";
 const drawerWidth = 240;
 
@@ -74,11 +71,7 @@ const AppBar = styled(MuiAppBar, {
     }),
   }),
 }));
-function sleep(delay = 0) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, delay);
-  });
-}
+
 export default function Header(prop) {
   let navigate = useNavigate();
   const dispatch = useDispatch();
@@ -86,11 +79,10 @@ export default function Header(prop) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
-  const [openChat, setOpenChat] = React.useState(false);
-  const [chatTarget, setChatTarget] = React.useState({});
-  const [options, setOptions] = React.useState([]);
-  const loading = openChat && options.length === 0;
+  // const [chatTarget, setChatTarget] = React.useState({});
+
   const [userInfo, setUserInfo] = React.useState(null);
+  const [sellers, setSellers] = React.useState(null);
   React.useEffect(() => {
     dispatch(getUserAsync()).then((result, err) => {
       if (err) {
@@ -100,33 +92,10 @@ export default function Header(prop) {
         setUserInfo(user);
       }
     });
+    getSellerData().then((result, err) => {
+      setSellers(result.data);
+    });
   }, []);
-
-  React.useEffect(() => {
-    let active = true;
-
-    if (!loading) {
-      return undefined;
-    }
-
-    (async () => {
-      await sleep(1e3); // For demo purposes.
-
-      if (active) {
-        setOptions([...sellerList]);
-      }
-    })();
-
-    return () => {
-      active = false;
-    };
-  }, [loading]);
-
-  React.useEffect(() => {
-    if (!openChat) {
-      setOptions([]);
-    }
-  }, [openChat]);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -140,11 +109,7 @@ export default function Header(prop) {
     dispatch(logoutAsync());
     navigate("/login");
   };
-  const handleDisplay = (option) => {
-    return "Name: " + option.name + ", Company: " + option.company;
-  };
-  const handleTarget = () => {};
-
+  console.log(prop.role);
   return (
     <AppBar position="absolute" open={prop.open}>
       <Toolbar
@@ -179,51 +144,15 @@ export default function Header(prop) {
             : " " + userInfo.firstName + " " + userInfo.lastName}
         </Typography>
 
-        <Box>
-          <Autocomplete
-            onKeyDown={(event, value) => {
-              if (event.key === "Enter") {
-                // your handler code
-                // console.log(chatTarget);
-                // console.log(chatTarget);
-                // console.log(event);
-              }
-            }}
-            id="asynchronous-demo"
-            sx={{ width: 300 }}
-            onChange={(event, value) => {
-              return console.log(value);
-            }}
-            open={openChat}
-            onOpen={() => {
-              setOpenChat(true);
-            }}
-            onClose={() => {
-              setOpenChat(false);
-            }}
-            isOptionEqualToValue={(option, value) => option.name === value.name}
-            getOptionLabel={handleDisplay}
-            options={options}
-            loading={loading}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label="Search to Chat"
-                InputProps={{
-                  ...params.InputProps,
-                  endAdornment: (
-                    <React.Fragment>
-                      {loading ? (
-                        <CircularProgress color="inherit" size={20} />
-                      ) : null}
-                      {params.InputProps.endAdornment}
-                    </React.Fragment>
-                  ),
-                }}
-              />
-            )}
+        {prop.role === "buyer" && (
+          <BuyerSearch
+            data={sellers}
+            self={userInfo === null ? "None" : userInfo}
           />
-        </Box>
+        )}
+        {prop.role === "seller" && (
+          <SellerSearch self={userInfo === null ? "None" : userInfo} />
+        )}
 
         <IconButton
           onClick={handleClick}
@@ -251,18 +180,7 @@ export default function Header(prop) {
             </ListItemIcon>
             Profile
           </MenuItem>
-          <MenuItem onClick={() => navigate("/")}>
-            <ListItemIcon>
-              <SwitchAccountIcon fontSize="small" />
-            </ListItemIcon>
-            Switch to Customer
-          </MenuItem>
-          <MenuItem onClick={() => navigate("/sellerX/dashboard")}>
-            <ListItemIcon>
-              <SwitchAccountIcon fontSize="small" />
-            </ListItemIcon>
-            Switch to Seller
-          </MenuItem>
+
           <Divider />
           <MenuItem onClick={handleLogOut}>
             <ListItemIcon>
@@ -275,17 +193,23 @@ export default function Header(prop) {
     </AppBar>
   );
 }
-const sellerList = [
-  { name: "A", company: "B" },
-  { name: "A1", company: "B1" },
-  { name: "A2", company: "B2" },
-  { name: "A3", company: "B3" },
-  { name: "A4", company: "B4" },
-  { name: "A5", company: "B5" },
-  { name: "AA", company: "BB" },
-  { name: "AA1", company: "BB1" },
-  { name: "AA2", company: "BB2" },
-  { name: "AA3", company: "BB3" },
-  { name: "AA4", company: "BB4" },
-  { name: "AA5", company: "BB5" },
-];
+
+async function getSellerData() {
+  let response, data;
+  try {
+    response = await fetch("/user/sellers", {
+      method: "GET",
+      credentials: "include",
+      body: JSON.stringify(),
+    });
+
+    data = await response.json();
+    if (!response.ok) {
+      return response.status;
+    }
+
+    return { data, statusCode: response.status };
+  } catch (err) {
+    return { status: response.status, error: data.errors };
+  }
+}

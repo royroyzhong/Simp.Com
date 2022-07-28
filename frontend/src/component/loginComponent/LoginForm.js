@@ -29,6 +29,7 @@ import { loginAsync, googleloginAsync } from "../../controller/login/thunks";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
+
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.h7,
   color: theme.palette.text.primary,
@@ -40,6 +41,7 @@ function LoginForm(prop) {
 
   function handleCallBackResponse(res) {
     dispatch(googleloginAsync({ jwt: res.credential })).then((result) => {
+      console.log("google login callback");
       loginSuccess(result);
     });
   }
@@ -101,6 +103,7 @@ function LoginForm(prop) {
   };
   const loginSuccess = (result) => {
     try {
+      console.log(result);
       let role = result.payload.role;
       let path;
       if (result.payload.status === 400) {

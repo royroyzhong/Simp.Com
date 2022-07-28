@@ -308,7 +308,7 @@ export default ChangePasswordContent;
 async function sendData(input) {
   let response;
   try {
-    response = await fetch("http://localhost:8888/user/profile/password", {
+    response = await fetch("user/profile/password", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

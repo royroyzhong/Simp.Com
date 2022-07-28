@@ -3,13 +3,17 @@ import picture from "../../assets/picture.svg";
 import { Marginer } from "../../css/CommonStyle";
 import { useDispatch } from 'react-redux';
 import { addProduct } from "../../controller/cartSlice";
+import { useNavigate } from "react-router-dom";
 
 export default function Product(props) {
     let dispatch = useDispatch();
-    console.log(props.data);
+    let navigate = useNavigate();
+
     return (
         <Card variant="outlined" onClick={() => {console.log("22222");dispatch(addProduct(props.data));}}>
-             <CardActionArea>
+             <CardActionArea onClick={() => {
+                navigate("/sellerX/product/" + props.data.uuid, {state: {data: props.data, isStatic: true}});
+             }}>
                 <CardContent>
                     <Marginer margin="40px" />
                     <CardMedia

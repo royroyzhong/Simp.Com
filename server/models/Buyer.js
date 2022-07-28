@@ -19,6 +19,7 @@ const schema = new mongoose.Schema({
   },
   address: String,
   phone: String,
+  onlineStatus: Boolean,
 });
 
 // use pre to hash password before save
@@ -37,6 +38,8 @@ schema.statics.login = async function (email, password) {
   if (user) {
     const auth = await bcrypt.compare(password, user.password);
     if (auth) {
+      let online = { onlineStatus: true };
+      let setOnline = await this.findOneAndUpdate({ email }, online);
       return user;
     }
     throw Error("Incorrect password");

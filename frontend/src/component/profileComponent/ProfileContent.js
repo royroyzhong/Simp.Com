@@ -82,6 +82,7 @@ function ProfileContent() {
       console.log(err);
     }
   };
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getUserAsync()).then((result, err) => {
@@ -244,7 +245,7 @@ export default ProfileContent;
 async function sendData(input) {
   let response;
   try {
-    response = await fetch("http://localhost:8888/user/profile", {
+    response = await fetch("user/profile", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

@@ -55,7 +55,7 @@ app.use(
 var cookieParser = require("cookie-parser");
 var cors = require("cors");
 const corsOptions = {
-  origin: "http://localhost:3000", // must match to frontend path
+  origin: "*", // must match to frontend path
   credentials: true, //access-control-allow-credentials:true
   optionSuccessStatus: 200,
 };
@@ -77,7 +77,6 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, "public")));
 
 // ++++++++++++++++++ Router Config ++++++++++++++++++ //
 var authRouter = require("./routes/authRoutes");
@@ -85,12 +84,16 @@ var userProfile = require("./routes/userProfile");
 var productRouter = require("./routes/productRoutes");
 var orderRouter = require("./routes/orderRoutes");
 
+
 app.use("/index", (req, res) => {
   res.render("index");
 });
 app.use(authRouter);
 app.use(userProfile);
 app.use("/products", productRouter);
-app.use("/order",orderRouter)
+app.use("/order", orderRouter);
+
+
+app.use(express.static(path.join(__dirname, "public/build")));
 
 module.exports = app;
