@@ -58,6 +58,7 @@ export default function BuyerOrderTracking(props) {
             disableColumnFilter
             disableColumnSelector
             disableDensitySelector
+            disableSelectionOnClick
             components={{ Toolbar: GridToolbar }}
             componentsProps={{
               toolbar: {

@@ -19,6 +19,7 @@ import "react-chat-elements/dist/main.css";
 import { MessageList, Input, Button } from "react-chat-elements";
 import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
+import { useNavigate } from "react-router-dom";
 
 const socket = io.connect("https://dogecom.herokuapp.com");
 function sleep(delay = 0) {
@@ -33,10 +34,11 @@ function BuyerSearch(prop) {
   const [chatTarget, setChatTarget] = React.useState({});
   const [options, setOptions] = React.useState([]);
   const loading = openSearchChat && options.length === 0;
-
+  const [openAlert, setOpenAlert] = React.useState(false);
   const [message, setMessage] = useState("");
   const [messageReceived, setMessageReceived] = useState([]);
   const inputReferance = React.createRef();
+  let navigate = useNavigate();
 
   // const theme = useTheme();
   // const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
@@ -59,7 +61,14 @@ function BuyerSearch(prop) {
     socket.disconnect();
     setMessageReceived([]);
   };
+  const handleCloseAlert = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
 
+    setOpenAlert(false);
+    navigate("./login");
+  };
   React.useEffect(() => {
     let active = true;
 
@@ -71,7 +80,11 @@ function BuyerSearch(prop) {
       await sleep(1e3);
 
       if (active) {
-        setOptions([...prop.data]);
+        try {
+          setOptions([...prop.data]);
+        } catch (err) {
+          setOpenAlert(true);
+        }
       }
     })();
 
@@ -130,6 +143,7 @@ function BuyerSearch(prop) {
       };
       setMessageReceived((oldArray) => [...oldArray, tempEle]);
     }
+    setMessage("");
     inputReferance.current.value = "";
   };
   const handleAutoCompleteSubmit = (event, value) => {
@@ -258,6 +272,19 @@ function BuyerSearch(prop) {
           sx={{ width: "100%" }}
         >
           Please select online user!
+        </Alert>
+      </Snackbar>
+      <Snackbar
+        open={openAlert}
+        autoHideDuration={3000}
+        onClose={handleCloseAlert}
+      >
+        <Alert
+          onClose={handleCloseAlert}
+          severity="error"
+          sx={{ width: "100%" }}
+        >
+          Please Log in to continue.
         </Alert>
       </Snackbar>
     </Box>
