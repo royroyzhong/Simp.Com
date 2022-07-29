@@ -10,7 +10,6 @@ function handleGet(req, res) {
         return Product.find({ soldBy: seller._id })
     })
     .then(products => {
-        console.log(`[INFO] >>> Getting products: ${JSON.stringify(products)}`);
         res.json(products);
     })
     .catch(err => {
@@ -31,7 +30,6 @@ function handlePut(req, res) {
 
     queryResult
         .then(seller => {
-            console.log(`>>> ${JSON.stringify(dataStr)}`);
             let product = new Product(dataStr);
             product.soldBy = seller._id;
             product.uuid = uuidv4();

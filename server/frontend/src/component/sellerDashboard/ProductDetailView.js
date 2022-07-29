@@ -1,7 +1,5 @@
 import { Button, Card, CardContent, CardMedia, Divider, Fade, ImageList, ImageListItem, Stack, TextField, Typography } from "@mui/material";
 import { Box, Container } from "@mui/system";
-import upload from "../../assets/upload.svg";
-
 
 import { useDispatch, useSelector } from "react-redux";
 
@@ -12,7 +10,6 @@ import { addFeature, addTag, getBufferProduct, getFeatures, getImages, getName, 
 
 import DragDrop from '../common/DragDrop';
 
-// import DragDrop from '../common/DragDrop';
 import DragDropDisplay from '../common/DragDropDisplay';
 
 export default function ProductPage(props) {
@@ -34,12 +31,11 @@ export default function ProductPage(props) {
     useEffect(() => {
         if (location.state !== null && location.state.isStatic) {
             setStatic(true);
-            console.log(location.state.data)
             // dispatch(loadProduct(location.state.data))
             // Set ProductSlice data
             let features = {}
             for (let description of location.state.data.descriptions) {
-                features[Object.keys(description)[0]] = Object.values(description)[0]
+                features[description['title']] = description['content'];
             }
             dispatch(loadProduct({
                 name: location.state.data.name,
@@ -47,7 +43,8 @@ export default function ProductPage(props) {
                 features: features,
                 tags: location.state.data.tags,
                 price: location.state.data.price,
-                storage: location.state.data.storage
+                storage: location.state.data.storage,
+                images: location.state.data.images.map(i => JSON.parse(i))
             }))
         }
     }, [dispatch, location]);
@@ -79,7 +76,8 @@ export default function ProductPage(props) {
                                     tags: product.tags,
                                     features: product.features,
                                     price: product.price,
-                                    storage: product.storage
+                                    storage: product.storage,
+                                    images: product.images
                                 }))
                             }
                             else
@@ -89,7 +87,8 @@ export default function ProductPage(props) {
                                     tags: product.tags,
                                     features: product.features,
                                     price: product.price,
-                                    storage: product.storage
+                                    storage: product.storage,
+                                    images: product.images
                                 }))
                         }}>Save</Button>
                     )}
@@ -116,7 +115,6 @@ function ImagesDisplay(props) {
     }
 
     const images = useSelector(getImages);
-
     return (
         <Card variant="outlined" sx={cardstyle}>
             <CardContent>
@@ -135,15 +133,7 @@ function ImagesDisplay(props) {
                             </ImageListItem>
                         ))
                     }
-                    <ImageListItem key={-1} sx={imgStyle}>
-                        <CardMedia
-                            image={upload}
-                            height={100}
-                            component={"img"}
-                            sx={smImgStyle}
-                        />
-                    </ImageListItem>
-                </ImageList>
+               </ImageList>
             </CardContent>
         </Card>
     )

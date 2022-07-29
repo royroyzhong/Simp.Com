@@ -1,7 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { fetchAPI } from "../api/client";
-import { current } from "@reduxjs/toolkit";
-import bomb from "../assets/bomb.svg";
 
 export const postNewProduct = createAsyncThunk('/product/post', async function(data) {
   let features = data.features;
