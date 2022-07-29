@@ -106,6 +106,10 @@ export default function Header(prop) {
     dispatch(logoutAsync());
     navigate("/login");
   };
+  const handleNavProfile = () => {
+    if (prop.role === "buyer") navigate("/userX/profile");
+    if (prop.role === "seller") navigate("/seller/profile");
+  };
   console.log(prop.role);
   return (
     <AppBar position="absolute" open={prop.open}>
@@ -168,7 +172,7 @@ export default function Header(prop) {
           anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
         >
           {userInfo != null && (
-            <MenuItem onClick={() => navigate("/userX/profile")}>
+            <MenuItem onClick={handleNavProfile}>
               <ListItemIcon>
                 <PeopleIcon fontSize="small" />
               </ListItemIcon>
