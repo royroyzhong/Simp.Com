@@ -2,10 +2,6 @@ import { Button, Card, CardContent, CardMedia, Divider, Fade, ImageList, ImageLi
 import { Box, Container } from "@mui/system";
 import upload from "../../assets/upload.svg";
 
-import bomb from "../../assets/bomb.svg";
-import book from "../../assets/book.svg";
-import flask from "../../assets/flask.svg";
-import food from "../../assets/food.svg";
 
 import { useDispatch, useSelector } from "react-redux";
 
