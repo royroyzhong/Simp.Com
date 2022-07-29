@@ -15,19 +15,11 @@ import { useLocation, useParams } from "react-router-dom";
 import { addFeature, addTag, getBufferProduct, getFeatures, getImages, getName, getPrice, getStorage, getTags, loadProduct, postNewProduct, setName, setPrice, updateProduct } from "../../controller/productSlice";
 
 import DragDrop from '../common/DragDrop';
-import cuid from "cuid";
-import Dropzone from '../../utils/Dropzone';
-
-// import DragDrop from '../common/DragDrop';
 import DragDropDisplay from '../common/DragDropDisplay';
-
-
-let imgs = [book, bomb, flask, food];
 
 export default function ProductPage(props) {
 
     let dispatch = useDispatch();
-    let images = useSelector(getImages);
     let product = useSelector(getBufferProduct);
 
     let { productId } = useParams()
@@ -57,7 +49,7 @@ export default function ProductPage(props) {
                 features: features,
                 tags: location.state.data.tags,
                 price: location.state.data.price,
-                storage: location.state.data.storage 
+                storage: location.state.data.storage
             }))
         }
     }, [dispatch, location]);
@@ -65,7 +57,10 @@ export default function ProductPage(props) {
     return (
         <Container sx={{ md: 4, mt: 4 }}>
             <Stack direction={'row'} spacing={2}>
-                <ImagesDisplay></ImagesDisplay>
+                <Stack>
+                    <ImagesDisplay></ImagesDisplay>
+                    {isStatic ? (<div></div>) : (<DragDrop onDrop={DragDrop.onDrop} accept={"image/*"} />)}
+                </Stack>
                 <Stack
                     divider={
                         <Divider orientation="horizontal" flexItem></Divider>
@@ -101,8 +96,7 @@ export default function ProductPage(props) {
                         }}>Save</Button>
                     )}
                 </Stack>
-                {isStatic ? (<div></div>) : (<DragDrop onDrop={DragDrop.onDrop} accept={"image/*"} />)}
-                {isStatic ? (<div></div>) : (<DragDropDisplay images={images} />)}
+                {/* <DragDropDisplay> </DragDropDisplay> */}
             </Stack>
         </Container>
     )
@@ -123,22 +117,20 @@ function ImagesDisplay(props) {
         objectFit: "contain"
     }
 
+    const images = useSelector(getImages);
+
     return (
         <Card variant="outlined" sx={cardstyle}>
             <CardContent>
-                <CardMedia
-                    image={book}
-                    height={400}
-                    component={"img"}
-                    sx={imgStyle}
-                />
+                <DragDropDisplay></DragDropDisplay>
                 <ImageList cols={5} rowHeight={100} sx={{ margin: 0 }}>
                     {
-                        imgs.slice(0, 5).map((img, index) => (
+                        images?.map((img, index) => (
                             <ImageListItem key={index} sx={imgStyle}>
                                 <CardMedia
-                                    image={img}
+                                    image={img.src}
                                     height={100}
+                                    width={200}
                                     component={"img"}
                                     sx={smImgStyle}
                                 />

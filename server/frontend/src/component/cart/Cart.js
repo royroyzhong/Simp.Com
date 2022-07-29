@@ -19,14 +19,8 @@ import { useEffect } from "react";
 
 function Cart() {
   let cart = useSelector(getCart);
-  console.log(cart);
   const dispatch = useDispatch();
   let navigate = useNavigate();
-  /*
-  useEffect(() => {
-    let cart = useSelector(getCart);
-}, []);
-*/
 
   let uniqueStoreNames = [...new Set(cart?.map((product) => product.soldBy))];
   let storeNames = Array.from(uniqueStoreNames).sort();

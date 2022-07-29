@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { fetchAPI } from "../api/client";
 import { current } from "@reduxjs/toolkit";
+import bomb from "../assets/bomb.svg";
 
 export const postNewProduct = createAsyncThunk('/product/post', async function(data) {
   let features = data.features;
@@ -24,6 +25,7 @@ export const updateProduct = createAsyncThunk('/product/patch', async function(d
   name: "",
   title: "",
   price: 0,
+  storage: 0,
   tags: [],
   features: {},
   images:[]
@@ -31,15 +33,7 @@ export const updateProduct = createAsyncThunk('/product/patch', async function(d
 
 const productSlice = createSlice({
   name: "product",
-  initialState: {
-    name: "",
-    title: "",
-    price: 0,
-    storage: 0,
-    tags: [],
-    features: {},
-    images:[]
-  },
+  initialState: INITIAL_STATE,
   reducers: {
     setName: (state, action) => {state.name = action.payload},
     setTitle: (state, action) => {state.title = action.payload},
@@ -58,7 +52,6 @@ const productSlice = createSlice({
     },
     addImage: (state,action) => {
       state.images.push({id:state.images.length, src:action.payload});
-      console.log(current(state))
     }
   },
   extraReducers: (builder) => {
