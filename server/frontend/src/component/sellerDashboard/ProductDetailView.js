@@ -10,11 +10,13 @@ import food from "../../assets/food.svg";
 import { useDispatch, useSelector } from "react-redux";
 
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import { addFeature, addTag, getBufferProduct, getFeatures, getName, getPrice, getStorage, getTags, loadProduct, postNewProduct, setName, setPrice, setStorage, updateProduct, getImages } from "../../controller/productSlice";
+import { addFeature, addTag, getBufferProduct, getFeatures, getImages, getName, getPrice, getStorage, getTags, loadProduct, postNewProduct, setName, setPrice, setStorage, updateProduct } from "../../controller/productSlice";
 
 import DragDrop from '../common/DragDrop';
+
+// import DragDrop from '../common/DragDrop';
 import DragDropDisplay from '../common/DragDropDisplay';
 
 export default function ProductPage(props) {

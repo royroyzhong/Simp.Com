@@ -20,6 +20,7 @@ export const updateProduct = createAsyncThunk('/product/patch', async function(d
 /**
  * Product Slice is only used for the editing page.
  */
+<<<<<<< HEAD
 
  const INITIAL_STATE = {
   name: "",
@@ -31,6 +32,8 @@ export const updateProduct = createAsyncThunk('/product/patch', async function(d
   images:[]
 }
 
+=======
+>>>>>>> b258693... fix: [Quinn] edited product
 const productSlice = createSlice({
   name: "product",
   initialState: INITIAL_STATE,
@@ -49,6 +52,7 @@ const productSlice = createSlice({
       state.title = product.title;
       state.price = product.price;
       state.storage = product.storage;
+      state.images = product.images;
     },
     addImage: (state,action) => {
       state.images.push({id:state.images.length, src:action.payload});
@@ -83,7 +87,8 @@ export const getBufferProduct = (state) => {
     features: getFeatures(state),
     name: getName(state),
     price: state.products.price,
-    storage: state.products.storage
+    storage: state.products.storage,
+    images: state.products.images
   };
 };
 export const getImages = (state) => state.products.images;
