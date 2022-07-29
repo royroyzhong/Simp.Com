@@ -3,7 +3,7 @@ import { mockBuyer } from "../utils/mockBuyer";
 import { quinn } from "../utils/mockFetch";
 
 import { REQUEST_STATE } from './utils';
-import { getOrderAsync,changeStatusAsync} from '../component/cart/cartThunks';
+import { getSellerOrderAsync, changeStatusAsync } from '../component/cart/cartThunks';
 
 const INITIAL_STATE = {
   id: mockBuyer.id,
@@ -15,9 +15,10 @@ const INITIAL_STATE = {
   orderDetail:  [],
   stats: quinn.stats,
   modified: "Idle",
-  getOrder: REQUEST_STATE.IDLE,
+
+  getBuyerOrder: REQUEST_STATE.IDLE,
+  getSellerOrder: REQUEST_STATE.IDLE,
   changeStatus: REQUEST_STATE.IDLE,
-  error: null
 }
 
 const orderSlice = createSlice({
@@ -25,15 +26,15 @@ const orderSlice = createSlice({
   initialState: INITIAL_STATE,
   extraReducers: (builder) => {
     builder
-    .addCase(getOrderAsync.pending, (state) => {
+    .addCase(getSellerOrderAsync.pending, (state) => {
       state.getOrder = REQUEST_STATE.PENDING;
       state.error = null;
     })
-    .addCase(getOrderAsync.fulfilled, (state, action) => {
+    .addCase(getSellerOrderAsync.fulfilled, (state, action) => {
       state.getOrder = REQUEST_STATE.FULFILLED;
       state.orderDetail = action.payload;
     })
-    .addCase(getOrderAsync.rejected, (state, action) => {
+    .addCase(getSellerOrderAsync.rejected, (state, action) => {
       state.getOrder = REQUEST_STATE.REJECTED;
       state.error = action.error;
     })
@@ -50,7 +51,6 @@ const orderSlice = createSlice({
       state.error = action.error;
     })
   }
-
 });
 
 // ------------------ Getters ------------------- //

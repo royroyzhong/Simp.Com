@@ -9,10 +9,17 @@ export const submitOrderAsync = createAsyncThunk(
     }
 )
 
-export const getOrderAsync = createAsyncThunk(
-    orderActionTypes.GET_ORDER,
+export const getBuyerOrderAsync = createAsyncThunk(
+    orderActionTypes.GET_BUYER_ORDER,
     async () => {
-        return await orderService.getOrder();
+        return await orderService.getBuyerOrder();
+    }
+)
+
+export const getSellerOrderAsync = createAsyncThunk(
+    orderActionTypes.GET_SELLER_ORDER,
+    async () => {
+        return await orderService.getSellerOrder();
     }
 )
 

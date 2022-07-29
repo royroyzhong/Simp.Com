@@ -4,6 +4,7 @@ const Buyer = require("../models/Buyer");
 const Seller = require("../models/Seller");
 const mongoose = require("mongoose");
 const auth = require("../middleware/authJwt");
+
 module.exports.login_post = async (req, res) => {
   const { userEmail, password } = req.body;
   let user, token;

@@ -2,23 +2,23 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const orderSubschema = new Schema({
-    id: String,
+    _id: String,
     name: String,
     quantity: Number
-})
+});
 
 const orderSchema = new Schema({
-    uuid: {
+    _id: {
         type: String,
         default: null
     },
     store: String,
     products: [orderSubschema],
-    sellerEmail: String,
+    selleEmail: String,
     buyerEmail: String,
     status: String,
     totalPrice: Number,
-})
+});
 
 const Order = mongoose.model('order', orderSchema);
 module.exports = Order;

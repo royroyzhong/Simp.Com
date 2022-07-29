@@ -16,8 +16,15 @@ const submitOrder = async (products) => {
   return data;
 }
 
-const getOrder = async () => {
-  const response = await fetch('/order', {
+const getBuyerOrder = async () => {
+  const response = await fetch('/order/buyer', {
+    method: 'GET'
+  });
+  return response.json();
+};
+
+const getSellerOrder = async () => {
+  const response = await fetch('/order/seller', {
     method: 'GET'
   });
   return response.json();
@@ -35,6 +42,7 @@ const changeStatus = async (orderToChange) => {
 
 export default {
   submitOrder,
-  getOrder,
+  getBuyerOrder,
+  getSellerOrder,
   changeStatus
 }

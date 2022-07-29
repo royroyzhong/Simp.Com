@@ -11,13 +11,7 @@ import { getProductList, getProductListStatus, getProducts } from "../../control
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { loadProduct } from "../../controller/productSlice";
-
-const imgs = {
-    avatar: avatar,
-    snowman: snowman,
-    book: book,
-    bomb: bomb
-}
+import { REQUEST_STATE } from "../../controller/utils";
 
 export default function ProductBoard(props) {
 
@@ -39,16 +33,16 @@ function CardGrid(props) {
     let navigate = useNavigate();
     let dispatch = useDispatch();
     useEffect(() => {
-        if (status === 'idle') {
+        if (status === REQUEST_STATE.IDLE) {
             dispatch(getProducts());
         }
     }, [dispatch, status]);
 
     return (
         <Grid container spacing={2} columns={gridStyle}>
-            {status === 'succeed' ? products.map((product, index) => (
+            {status === REQUEST_STATE.FULFILLED ? products.map((product, index) => (
                 <Grid item key={index} xs={1} sm={1} md={3}>
-                    <Card variant="outlined" onClick={(e) => {
+                    <Card variant="outlined" onClick={() => {
                         // Set ProductSlice data
                         let features = {}
                         for (let description of product.descriptions) {

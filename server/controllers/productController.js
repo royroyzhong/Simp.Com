@@ -34,7 +34,7 @@ function handlePut(req, res) {
             console.log(`>>> ${JSON.stringify(dataStr)}`);
             let product = new Product(dataStr);
             product.soldBy = seller._id;
-            product.uuid = uuidv4();
+            product._id = uuidv4();
             return product.save()
         })
         .then(_ => {
@@ -55,7 +55,7 @@ function handlePatch(req, res) {
     queryResult
         .then(seller => {
             console.log(`>>> ${JSON.stringify(dataStr)}`);
-            return Product.findOneAndUpdate({soldBy: seller, uuid: dataStr.uuid}, dataStr).exec()
+            return Product.findOneAndUpdate({soldBy: seller, _id: dataStr._id}, dataStr).exec()
         })
         .then(result => {
             console.log(result);

@@ -90,7 +90,7 @@ export default function ProductPage(props) {
                             }
                             else
                                 dispatch(updateProduct({
-                                    uuid: productId,
+                                    _id: productId,
                                     name: product.name,
                                     tags: product.tags,
                                     features: product.features,

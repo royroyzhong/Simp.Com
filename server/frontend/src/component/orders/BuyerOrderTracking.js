@@ -51,7 +51,7 @@ export default function BuyerOrderTracking(props) {
         <Grid item xs={10} style={{ height: 600 }}>
           <DataGrid
             rows={orders}
-            getRowId={(order) => order.orderNumber}
+            getRowId={(order) => order._id}
             columns={columns}
             pageSize={5}
             rowsPerPageOptions={[5]}
