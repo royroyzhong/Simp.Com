@@ -22,7 +22,6 @@ export default function Product(props) {
     <Card
       variant="outlined"
       onClick={() => {
-        console.log("22222");
         dispatch(addProduct(props.data));
       }}
       sx={{
@@ -33,7 +32,7 @@ export default function Product(props) {
     >
       <CardActionArea
         onClick={() => {
-          navigate("/sellerX/product/" + props.data.uuid, {
+          navigate("/buyer/product/" + props.data.uuid, {
             state: { data: props.data, isStatic: true },
           });
         }}
@@ -41,7 +40,7 @@ export default function Product(props) {
         <CardContent>
           <Marginer margin="40px" />
           <CardMedia
-            image={picture}
+            image={props.data.images.length === 0 ? picture : JSON.parse(props.data.images[0]).src}
             height={100}
             sx={{ objectFit: "contain" }}
             component={"img"}
@@ -59,13 +58,22 @@ export default function Product(props) {
       </CardActionArea>
       <Divider light />
 
+      <CardContent>
+        <Typography
+          align="left"
+          variant="body1"
+          sx={{ flex: 1, paddingLeft: "20px" }}
+        >
+          {props.data.storage + ' in stock'}
+        </Typography>
+      </ CardContent>
       <CardActions>
         <Typography
           align="left"
           variant="body1"
           sx={{ flex: 1, paddingLeft: "20px" }}
         >
-          $12.99
+          {'$' + props.data.price}
         </Typography>
         <Button variant="contained" size="small" color="primary">
           Add to Cart

@@ -1,7 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { fetchAPI } from "../api/client";
-import { current } from "@reduxjs/toolkit";
-import bomb from "../assets/bomb.svg";
 
 export const postNewProduct = createAsyncThunk('/product/post', async function(data) {
   let features = data.features;
@@ -49,6 +47,7 @@ const productSlice = createSlice({
       state.title = product.title;
       state.price = product.price;
       state.storage = product.storage;
+      state.images = product.images;
     },
     addImage: (state,action) => {
       state.images.push({id:state.images.length, src:action.payload});
@@ -83,7 +82,8 @@ export const getBufferProduct = (state) => {
     features: getFeatures(state),
     name: getName(state),
     price: state.products.price,
-    storage: state.products.storage
+    storage: state.products.storage,
+    images: state.products.images
   };
 };
 export const getImages = (state) => state.products.images;
