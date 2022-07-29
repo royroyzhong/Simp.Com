@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { useCallback, useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import { addFeature, addTag, getBufferProduct, getFeatures, getImages, getName, getPrice, getStorage, getTags, loadProduct, postNewProduct, setName, setPrice, updateProduct } from "../../controller/productSlice";
+import { addFeature, addTag, getBufferProduct, getFeatures, getName, getPrice, getStorage, getTags, loadProduct, postNewProduct, setName, setPrice, setStorage, updateProduct, getImages } from "../../controller/productSlice";
 
 import DragDrop from '../common/DragDrop';
 import DragDropDisplay from '../common/DragDropDisplay';
@@ -187,6 +187,16 @@ function PriceAndQuantity(props) {
                     variant="outlined"
                     onChange={event => {
                         dispatch(setPrice(event.target.value));
+                    }} />
+            )}
+            <Typography variant="h5">Storage</Typography>
+            {props.isStatic ? (<Typography variant="h5">{storage}</Typography>) : (
+                <TextField
+                    value={storage}
+                    size="small"
+                    variant="outlined"
+                    onChange={event => {
+                        dispatch(setStorage(event.target.value));
                     }} />
             )}
         </div>
