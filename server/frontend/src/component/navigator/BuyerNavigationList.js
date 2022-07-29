@@ -31,6 +31,8 @@ export default function BuyerNavigationList() {
         navigate(path);
       } else if (statusCode !== 200) {
         setOpenAlert(true);
+      } else {
+        navigate(path);
       }
     });
   };
@@ -40,7 +42,7 @@ export default function BuyerNavigationList() {
       return;
     }
     setOpenAlert(false);
-    navigate("./login");
+    navigate("/login");
   };
   return (
     <List component="nav">
