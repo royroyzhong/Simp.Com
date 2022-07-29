@@ -33,7 +33,7 @@ const sellerSlice = createSlice({
       state.inventoryStatus = REQUEST_STATE.FULFILLED;
     })
     .addCase(getProducts.rejected, function(state, action) {
-      state.inventoryStatus = REQUEST_STATE.REJECTED,
+      state.inventoryStatus = REQUEST_STATE.REJECTED;
       console.log(action);
     })
     .addCase(getSellerOrderAsync.rejected, function(state, action) {
@@ -73,7 +73,7 @@ const sellerSlice = createSlice({
     .addCase(changeStatusAsync.fulfilled, (state, action) => {
       state.changeOrderStatus = REQUEST_STATE.FULFILLED;
       const orderIdx = state.orderDetail.Unprocessed.findIndex(order => order._id === action.payload._id);
-      state.orderDetail.Shipped.unshift(state,orderDetail.Unprocessed[orderIdx]);
+      state.orderDetail.Shipped.unshift(state.orderDetail.Unprocessed[orderIdx]);
       state.orderDetail.Unprocessed.splice(orderIdx, 1);
       --state.orders.unprocessed;
       ++state.orders.shipped;
@@ -90,8 +90,8 @@ const sellerSlice = createSlice({
 // ------------------ Getters ------------------- //
 export const getProductList = (state) => state.seller.inventory;
 export const getProductListStatus = (state) => state.seller.inventoryStatus;
-export const getSellerOrders = (state) => state.seller.orders;
-export const getSellerOrdersDetail = (state) => state.seller.orderDetail;
+export const getSellerOrder = (state) => state.seller.orders;
+export const getSellerOrderDetail = (state) => state.seller.orderDetail;
 export const getStats = (state) => state.seller.stats;
 export const getTopProducts = (state) => state.seller.topProducts;
 export const getSellerOrderStatus = (state) => state.seller.getSellerOrder;

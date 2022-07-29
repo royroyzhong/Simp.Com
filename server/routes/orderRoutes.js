@@ -3,10 +3,10 @@ var router = express.Router();
 const { v4: uuid } = require('uuid');
 const OrderModel = require('../models/Order');
 const authJwt = require('../middleware/authJwt');
-const SellerModel = require('../model/Seller');
+const SellerModel = require('../models/Seller');
 
 // For buyer get orders
-router.get('/buyer', auth.verifyToken, function (req, res, next) {
+router.get('/buyer', authJwt.verifyToken, function (req, res, next) {
     OrderModel.find({ buyerEmail: res.locals.user.useremail }, function (err, result) {
         if (err) {
             res.status(400).send('Error fetching listings!');
@@ -17,7 +17,7 @@ router.get('/buyer', auth.verifyToken, function (req, res, next) {
 });
 
 // For seller get orders
-router.get('/seller', auth.verifyToken, function (req, res, next) {
+router.get('/seller', authJwt.verifyToken, function (req, res, next) {
     OrderModel.find({ sellerEmail: res.locals.user.useremail }, function (err, result) {
         if (err) {
             res.status(400).send('Error fetching listings!');
@@ -60,7 +60,7 @@ router.patch('/', function (req, res, next) {
     const filterCondition = req.query['orderid']
     OrderModel.findByIdAndUpdate(filterCondition, { status: "Shipped" })
     .then(() => {
-            OrderModel.find({ filterCondition }, function (err, result) {
+            OrderModel.find({ _id: filterCondition }, function (err, result) {
                 if (err) {
                     res.status(400).send('Error fetching listings!');
                 } else {

@@ -20,14 +20,14 @@ import {
   XAxis,
   YAxis
 } from "recharts";
-import { getSellerOrders, getStats, getTopProducts } from "../../controller/sellerSlice";
+import { getSellerOrder, getStats, getTopProducts } from "../../controller/sellerSlice";
 import "../../css/dashboard.css";
 import Title from "../common/Title";
 
 // Fake resources...
 
 export default function Dashboard(props) {
-  let orders = useSelector(getSellerOrders);
+  //let orders = useSelector(getSellerOrder);
 
   let infographStyle = {
     padding: 2,
@@ -124,7 +124,7 @@ function InfoGraph() {
 
 function ProcessingList(props) {
   //let awaitingActions = ["#266898", "#749877"];
-  let orders = useSelector(getSellerOrders);
+  let orders = useSelector(getSellerOrder);
   let topProducts = useSelector(getTopProducts);
 
   return (

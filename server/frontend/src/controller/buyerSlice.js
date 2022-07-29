@@ -1,17 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { mockBuyer } from "../utils/mockBuyer";
 import { fetchAPI } from "../api/client";
+import { getBuyerOrderAsync } from "../component/cart/cartThunks";
 
 export const getProducts = createAsyncThunk('/products/get', async function() {
   return fetchAPI('GET', {}, {}, 'products').then(response => response.json());
 });
 
-export const getOrders = createAsyncThunk('/order/buyer', async function() {
-  return fetchAPI('GET', {}, {}, 'order/buyer').then(response => response.json());
-});
-
 const INITIAL_STATE = {
-  orderHistory:mockBuyer.orderHistory,
+  orderHistory: [],
   displayProducts: []
 };
  
@@ -26,10 +22,10 @@ const userSlice = createSlice({
     .addCase(getProducts.rejected, function(state, action) {
       console.log(action);
     })
-    .addCase(getOrders.fulfilled, function(state, action) {
+    .addCase(getBuyerOrderAsync.fulfilled, function(state, action) {
       state.orderHistory = action.payload;
     })
-    .addCase(getOrders.rejected, function(state, action) {
+    .addCase(getBuyerOrderAsync.rejected, function(state, action) {
       console.log(action);
     })
   }

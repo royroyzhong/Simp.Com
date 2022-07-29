@@ -5,10 +5,14 @@ import ShoppingCartCheckoutOutlinedIcon from '@mui/icons-material/ShoppingCartCh
 import { useSelector, useDispatch } from 'react-redux';
 import { submitOrderAsync } from './cartThunks';
 import { getCart } from "../../controller/cartSlice";
+import { getUserAsync } from "../../controller/login/thunks";
+import { useNavigate } from "react-router-dom";
 
 function SellingStore(props) {
     const dispatch = useDispatch();
+    let navigate = useNavigate();
     const cart = useSelector(getCart);
+    
     const renderedProducts = props.products?.map((product, index) => {
         return <ItemInCart key={index} item={product} />
     })
