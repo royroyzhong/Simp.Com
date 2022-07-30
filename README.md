@@ -1,5 +1,9 @@
 # Project
 Link: https://dogecom.herokuapp.com
+
+### Intro: 
+We deisnged an e-commerce platform which supports roles from guests and buyer to seller. We included a variety of features from upload products, drag & drop files and cart operations to more advanced such as live chat and data visulization. 
+
 ### Project Description
 We designed a business startup framework which supports various role-based activity through our interactive dashboard UI for small business and their corresponding targeted customers. Seller activity spans from designing presentation page to tracking order status where logged-in user can browse page, add/delete item to/from carts/wishlist, receive email notification for restocking of wanted item, adn guests are limited to only browsing.
 

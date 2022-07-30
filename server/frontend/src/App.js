@@ -51,7 +51,14 @@ function App() {
               path="/sellerX/product_page/"
               element={wrapper(<ProductPage />, seller)}
             />
-            <Route path="/123" element={wrapper(<ProductPage />, seller)} />
+            <Route 
+              path="/buyer/product/:productId"
+              element={wrapper(<ProductPage />, buyer)}
+            />
+            <Route
+              path="/seller/profile"
+              element={wrapper(<ProfilePage />, seller)}
+            />
             <Route path="/userX/cart" element={wrapper(<Cart />, buyer)} />
             {/* <Route path="/liveChat" element={<TestChat />} /> */}
           </Routes>
