@@ -6,10 +6,11 @@ import { Grid } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { Container } from "@mui/system";
 
-import React, { useEffect } from 'react';
+import React, { useEffect,  useState } from 'react';
 import { useSelector, useDispatch } from "react-redux";
-import { useState } from "react";
 import "../../css/orderTracking.css";
+import AlertPopup from "./alertPopup";
+import { confirm } from "react-confirm-box";
 import { changeStatusAsync, getSellerOrderAsync } from '../cart/cartThunks';
 
 function SellerOrderTracking(props) {
@@ -20,13 +21,25 @@ function SellerOrderTracking(props) {
   let getOrderStatus = useSelector(getSellerOrderStatus);
   const dispatch = useDispatch();
 
-  const handleOnCellClick = (params, event) => {
+  const options = {
+    labels: {
+      confirmable: "Confirm",
+      cancellable: "Cancel"
+    }
+  }
+
+  const handleOnCellClick = async (params, event) => {
     event.preventDefault();
-    setFinalClickInfo(params);
-    // setPopUpOpen(true);
-    // if (popUpConfirm === true) {
-      dispatch(changeStatusAsync(params.id))
-    // }
+    setFinalClickInfo(params.id);
+    renderPopUp(options,params)
+  };
+
+  const renderPopUp = async (options,params) => {
+    const result = await confirm("Are you sure?", options);
+    if (result) {
+      dispatch(changeStatusAsync(params.id));
+      return;
+    }
   };
 
   useEffect(() => {
@@ -65,8 +78,8 @@ function SellerOrderTracking(props) {
 
   return (
     <Container maxWidth="xl" className="dashboard" sx={{ bgcolor: '#F7F8FC' }}>
-
-      {/* {popUpOpen &&
+{/* 
+      {popUpOpen &&
         <div>
           <AlertPopup
             setOpen={setPopUpOpen}

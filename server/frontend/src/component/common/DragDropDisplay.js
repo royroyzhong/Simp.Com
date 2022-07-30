@@ -1,30 +1,31 @@
 import React from "react";
+import Carousel from 'react-material-ui-carousel'
+import { getImages } from '../../controller/productSlice';
+import { useSelector } from 'react-redux';
+import { Paper, Button } from '@mui/material'
 
-// Rendering individual images
-const Image = ({ image }) => {
+function DragDropDisplay() {
+  const images = useSelector(getImages);
   return (
-    <div className="file-item">
-      <img alt={`img - ${image.id}`} src={image.src} className="file-img" />
-    </div>
-  );
-};
+    <Carousel
+      next={(next, active) => next}
+      prev={(prev, active) => prev}
+    >
+      {
+        images?.map((img, index) => <IndividualImage key={index} img={img} />)
+      }
 
-// ImageList Component
-const DragDropDisplay = ({ images }) => {
+    </Carousel>
+  )
+}
 
-  // render each image by calling Image component
-  const renderImage = (image, index) => {
-    console.log(image);
-    return (
-      <Image
-        image={image}
-        key={`${image.id}-image`}
-      />
-    );
-  };
+function IndividualImage(props) {
+  return (
+    <Paper>
+      <img src={props.img.src} height={400} ></img>
+    </Paper>
+  )
 
-  // Return the list of files
-  return <section className="file-list">{images.map(renderImage)}</section>;
-};
+}
 
-export default DragDropDisplay;
+export default DragDropDisplay
