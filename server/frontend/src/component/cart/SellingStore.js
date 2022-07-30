@@ -2,18 +2,33 @@ import Grid from "@mui/material/Grid";
 import ItemInCart from './ItemInCart';
 import "../../css/cart.css";
 import ShoppingCartCheckoutOutlinedIcon from '@mui/icons-material/ShoppingCartCheckoutOutlined';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { submitOrderAsync } from './cartThunks';
+import { getCart } from "../../controller/cartSlice";
+import { getUserAsync } from "../../controller/login/thunks";
+import { useNavigate } from "react-router-dom";
 
 function SellingStore(props) {
     const dispatch = useDispatch();
+    let navigate = useNavigate();
+    const cart = useSelector(getCart);
+    
     const renderedProducts = props.products?.map((product, index) => {
         return <ItemInCart key={index} item={product} />
     })
 
-    const handleCheckout = event => { 
-        event.preventDefault()
-        dispatch(submitOrderAsync(props.products))
+    const handleCheckout = event => {
+        event.preventDefault();
+        dispatch(getUserAsync()).then((result) => {
+            let statusCode = result.payload.statusCode;
+            if (statusCode !== 200) {
+                navigate("/login");
+            } else {
+                dispatch(submitOrderAsync(props.products))
+                let updatedCart = cart.filter(product => props.products.findIndex(p => p.id === product.id) === -1);
+                sessionStorage.setItem('Cart', JSON.stringify(updatedCart));
+            }
+        });
       }
 
     return (

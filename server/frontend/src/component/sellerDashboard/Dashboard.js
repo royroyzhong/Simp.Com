@@ -20,14 +20,14 @@ import {
   XAxis,
   YAxis
 } from "recharts";
-import { getOrders, getStats } from "../../controller/orderSlice";
+import { getSellerOrder, getStats, getTopProducts } from "../../controller/sellerSlice";
 import "../../css/dashboard.css";
 import Title from "../common/Title";
 
 // Fake resources...
 
 export default function Dashboard(props) {
-  let orders = useSelector(getOrders);
+  //let orders = useSelector(getSellerOrder);
 
   let infographStyle = {
     padding: 2,
@@ -36,13 +36,6 @@ export default function Dashboard(props) {
 
   return (
     <Container maxWidth="lg" className="dashboard" sx={{md:4, mt:4}}>
-        <Grid spacing={{ xs: 4 }} container columns={{ xs: 4, md: 4, lg: 12 }}>
-          {Object.entries(orders).map(([key, val], index) => (
-            <Grid item xs={4} md={2} lg={3} key={index}>
-              <OrderStatus title={key} data={val} />
-            </Grid>
-          ))}
-        </Grid>
       <Card
         className="infograph-wrapper"
         variant="outlined"
@@ -54,17 +47,6 @@ export default function Dashboard(props) {
         <ProcessingList />
       </Box>
     </Container>
-  );
-}
-
-function OrderStatus(props) {
-  return (
-    <Card variant="outlined">
-      <div className="card-wrapper">
-        <p className="card-title">{props.title}</p>
-        <p className="card-display">{props.data}</p>
-      </div>
-    </Card>
   );
 }
 
@@ -141,15 +123,16 @@ function InfoGraph() {
 }
 
 function ProcessingList(props) {
-  let awaitingActions = ["#266898", "#749877"];
-  let topProducts = ["???", "!!!"];
+  //let awaitingActions = ["#266898", "#749877"];
+  let orders = useSelector(getSellerOrder);
+  let topProducts = useSelector(getTopProducts);
 
   return (
     <Stack direction={"row"} spacing={2}>
       <Card variant="outlined" sx={{ width: "50%" }}>
-        <Title>Awaiting Actions</Title>
+        <Title>Statistics</Title>
         <List>
-          {awaitingActions.map((a, i) => (
+          {orders.map((a, i) => (
             <ListItem key={i}>{a}</ListItem>
           ))}
         </List>

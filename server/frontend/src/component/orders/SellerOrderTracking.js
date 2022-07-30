@@ -1,4 +1,6 @@
-import { getModified, getOrderDetails } from "../../controller/orderSlice";
+import { getSellerOrderStatus, getSellerOrderDetail } from "../../controller/sellerSlice";
+import { REQUEST_STATE } from "../../controller/utils";
+
 // MUI Components
 import { Grid } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
@@ -7,15 +9,16 @@ import { Container } from "@mui/system";
 import React, { useEffect,  useState } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import "../../css/orderTracking.css";
-import { changeStatusAsync, getOrderAsync } from '../cart/cartThunks';
 import AlertPopup from "./alertPopup";
 import { confirm } from "react-confirm-box";
-
+import { changeStatusAsync, getSellerOrderAsync } from '../cart/cartThunks';
 
 function SellerOrderTracking(props) {
   const [finalClickInfo, setFinalClickInfo] = useState(null);
-  let orders = useSelector(getOrderDetails);
-  var modified = useSelector(getModified);
+  const [popUpOpen, setPopUpOpen] = useState(true);
+  const [popUpConfirm, setPopUpConfirm] = useState(false);
+  let orders = useSelector(getSellerOrderDetail);
+  let getOrderStatus = useSelector(getSellerOrderStatus);
   const dispatch = useDispatch();
 
   const options = {
@@ -40,10 +43,10 @@ function SellerOrderTracking(props) {
   };
 
   useEffect(() => {
-    if (modified !== "succeed") {
-      dispatch(getOrderAsync());
+    if (getOrderStatus !== REQUEST_STATE.FULFILLED) {
+      dispatch(getSellerOrderAsync());
     }
-  }, [dispatch, modified]);
+  }, [dispatch, getOrderStatus]);
 
 
   const columns = [
@@ -57,7 +60,7 @@ function SellerOrderTracking(props) {
           {products.value.map((product, index) => (
             <li key={index}>
               {" "}
-              id: {product.id}
+              id: {product._id}
               {" "}
               name: {product.name}
             </li>

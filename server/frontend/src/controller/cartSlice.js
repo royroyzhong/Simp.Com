@@ -5,17 +5,17 @@ import { submitOrderAsync} from '../component/cart/cartThunks';
 const INITIAL_STATE = {
   cart: [ 
     {
-      id: "8888",
+      _id: "8888",
       name: "egg",
       soldBy: "1234",
       price: 0,
       quantity: 1
     }, 
     {
-      id:"9999",
+      _id:"9999",
       name:"sandwitch",
       soldBy:"1111",
-      price:0,
+      price: 0,
       quantity:1
     }
 ],
@@ -31,35 +31,38 @@ const cartSlice = createSlice({
     updateQuantity(state, action) {
       let newValue = parseInt(action.payload.quantity);
       if (newValue >= 0) {
-      let productToChange = state.cart.find(p => p.id === action.payload.id);
-      let diff = newValue- productToChange.quantity 
-      state.cart = state.cart.filter(p => p.id !== action.payload.id);
-      productToChange.quantity= newValue;
-      state.sum += productToChange.price * diff;
-      state.cart.push(productToChange);
-      state.cart.sort((a,b) => a.name.localeCompare(b.name));
+        let productIdx = state.cart.findIndex(p => p._id === action.payload._id);
+        let diff = newValue - state.cart[productIdx].quantity;
+        state.cart[productIdx].quantity= newValue;
+        state.sum += state.cart[productIdx].price * diff;
+        state.cart.sort((a,b) => a.name.localeCompare(b.name));
       }
     },
     deleteProduct(state, action) {
-      let productToChange = state.cart.find(p => p.id === action.payload.id)
-      state.sum -= productToChange.price * productToChange.quantity
-      state.cart = state.cart.filter(p => p.id !== action.payload.id)
+      let productToChange = state.cart.find(p => p._id === action.payload._id);
+      state.sum -= productToChange.price * productToChange.quantity;
+      state.cart = state.cart.filter(p => p._id !== action.payload._id);
     },
     addProduct(state, action) {
-      let product = state.cart.find(p => p.id === action.payload.uuid);
-      if (product !== undefined) {
-        const index = state.cart.indexOf(product);
-        ++state.cart[index].quantity;
-        state.sum += state.cart[index].price;
+      let productIdx = state.cart.findIndex(p => p._id === action.payload._id);
+      if (productIdx !== -1) {
+        ++state.cart[productIdx].quantity;
+        state.sum += state.cart[productIdx].price;
       } else {
         state.cart.push({
-          id: action.payload.uuid,
+          _id: action.payload._id,
           name: action.payload.name,
           soldBy: action.payload.soldBy,
-          price: 0,
+          price: action.payload.price,
           quantity: 1});
         state.sum += 0;
       }
+    },
+    loadFromStorage(state, action) {
+      state.cart = action.payload;
+      let price = 0;
+      state.cart.forEach(item => {price += item.price*item.quantity;});
+      state.sum = price;
     }
   },
   extraReducers: (builder) => {
@@ -68,19 +71,18 @@ const cartSlice = createSlice({
       state.submitOrder = REQUEST_STATE.PENDING;
       state.error = null;
     })
-    .addCase(submitOrderAsync.fulfilled, (state,action) => {
+    .addCase(submitOrderAsync.fulfilled, (state, action) => {
       state.submitOrder = REQUEST_STATE.FULFILLED;
-      state.cart = [];
+      state.cart = state.cart.filter(product => action.payload.findIndex(p => p._id === product._id) === -1);
     })
     .addCase(submitOrderAsync.rejected, (state,action) => {
       state.submitOrder = REQUEST_STATE.REJECTED;
       state.error = action.error;
     })
-
 }
 });
 
-export const { updateQuantity, deleteProduct, addProduct } =
+export const { updateQuantity, deleteProduct, addProduct, loadFromStorage} =
   cartSlice.actions;
 
 // ------------------ Getters ------------------- // 
