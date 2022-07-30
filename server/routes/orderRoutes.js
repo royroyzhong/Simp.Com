@@ -49,6 +49,7 @@ router.patch('/', function (req, res, next) {
     const filterCondition = req.query['orderid']
     OrderModel.findByIdAndUpdate(filterCondition, { status: "Shipped" })
     .then(() => {
+        console.log(filterCondition);
             OrderModel.find({}, function (err, result) {
                 if (err) {
                     res.status(400).send('Error fetching listings!');
