@@ -39,9 +39,10 @@ router.post('/', authJwt.verifyToken, function (req, res, next) {
         let tempProducts = [];
         for (let i = 0 ; i < tempArray.length; i++) {
             let product = tempArray[i];
-            //console.log(product);
+            // Decrease product storage
+            let storageProduct = Product.find({_id: product.id});
+            console.log(">>>" + storageProduct.storage);
             tempProducts.push({ _id: product.id, name: product.name, quantity: product.quantity }); 
-            //console.log(tempProducts);
         }
         let seller = SellerModel.find( { _id: tempSellerId } );
         let email = res.locals.user.useremail;

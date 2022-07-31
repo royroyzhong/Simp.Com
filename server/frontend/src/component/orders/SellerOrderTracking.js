@@ -1,16 +1,15 @@
-import { getSellerOrderStatus, getSellerOrderDetail } from "../../controller/sellerSlice";
+import { getSellerOrderDetail, getSellerOrderStatus } from "../../controller/sellerSlice";
 import { REQUEST_STATE } from "../../controller/utils";
 
 // MUI Components
 import { Grid } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
 import { Container } from "@mui/system";
+import { DataGrid } from "@mui/x-data-grid";
 
-import React, { useEffect,  useState } from 'react';
-import { useSelector, useDispatch } from "react-redux";
-import "../../css/orderTracking.css";
-import AlertPopup from "./alertPopup";
+import React, { useEffect, useState } from 'react';
 import { confirm } from "react-confirm-box";
+import { useDispatch, useSelector } from "react-redux";
+import "../../css/orderTracking.css";
 import { changeStatusAsync, getSellerOrderAsync } from '../cart/cartThunks';
 
 function SellerOrderTracking(props) {

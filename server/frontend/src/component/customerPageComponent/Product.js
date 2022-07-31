@@ -10,10 +10,12 @@ import {
 import picture from "../../assets/picture.svg";
 import { Marginer } from "../../css/CommonStyle";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { addProduct, getCart } from "../../controller/cartSlice";
 import Divider from "@mui/material/Divider";
 
 export default function Product(props) {
+  let navigate = useNavigate();
   let dispatch = useDispatch();
   let cart = useSelector(getCart);
 
