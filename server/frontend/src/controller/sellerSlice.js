@@ -63,10 +63,6 @@ const sellerSlice = createSlice({
       state.topProducts = allProducts.length >= 3? allProducts.slice(0, 3) : allProducts;
       state.getSellerOrder = REQUEST_STATE.FULFILLED;
     })
-    .addCase(getSellerOrderAsync.rejected, function(state, action) {
-      console.log(action);
-      state.getSellerOrder = REQUEST_STATE.REJECTED;
-    })
     .addCase(changeStatusAsync.pending, (state) => {
       state.changeOrderStatus = REQUEST_STATE.PENDING;
     })
