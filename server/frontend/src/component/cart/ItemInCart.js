@@ -18,12 +18,12 @@ function ItemInCart(props) {
     function handleChangeInQuantity(newValue) {
         setQuantity(newValue);
         dispatch(updateQuantity({
-            id: props.item.id,
+            _id: props.item._id,
             quantity: newValue,
         }));
         let value = parseInt(newValue);
         if (value >= 0) {
-            let productIdx = cart.findIndex(p => p.id === props.item.id);
+            let productIdx = cart.findIndex(p => p._id === props.item._id);
             cart[productIdx].quantity= value;
         }
         sessionStorage.setItem('Cart', JSON.stringify(cart));
@@ -31,9 +31,9 @@ function ItemInCart(props) {
 
     function handleDelete() {
         dispatch(deleteProduct({
-            id:props.item.id,
+            _id:props.item._id,
         }));
-        let updatedCart = cart.filter(p => p.id !== props.item.id);
+        let updatedCart = cart.filter(p => p._id !== props.item._id);
         sessionStorage.setItem('Cart', JSON.stringify(updatedCart));
     }
 
