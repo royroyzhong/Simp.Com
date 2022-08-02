@@ -30,7 +30,7 @@ export default function Product(props) {
     >
       <CardActionArea
         onClick={() => {
-          navigate("/buyer/product/" + props.data.uuid, {
+          navigate("/buyer/product/" + props.data._id, {
             state: { data: props.data, isStatic: true },
           });
         }}
@@ -81,7 +81,7 @@ export default function Product(props) {
             ++updatedCart[productIdx].quantity;
           } else {
             updatedCart.push({
-              id: props.data._id,
+              _id: props.data._id,
               name: props.data.name,
               soldBy: props.data.soldBy,
               price: props.data.price,

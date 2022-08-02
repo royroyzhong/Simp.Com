@@ -29,14 +29,14 @@ function SellerOrderTracking(props) {
 
   const handleOnCellClick = async (params, event) => {
     event.preventDefault();
-    setFinalClickInfo(params.id);
+    setFinalClickInfo(params._id);
     renderPopUp(options,params)
   };
 
   const renderPopUp = async (options,params) => {
     const result = await confirm("Are you sure?", options);
     if (result) {
-      dispatch(changeStatusAsync(params.id));
+      dispatch(changeStatusAsync(params._id));
       return;
     }
   };
@@ -49,7 +49,7 @@ function SellerOrderTracking(props) {
 
 
   const columns = [
-    { field: "uuid", headerName: "Order Number", width: 130 },
+    { field: "orderNumber", headerName: "Order Number", width: 130 },
     {
       field: "products",
       headerName: "Products",
@@ -69,11 +69,6 @@ function SellerOrderTracking(props) {
     },
     { field: "status", headerName: "Status", width: 130 },
   ];
-
-  let extendedOrders = orders.map((order) => ({
-    ...order,
-    id: order._id
-  }))
 
   return (
     <Container maxWidth="xl" className="dashboard" sx={{ bgcolor: '#F7F8FC' }}>
@@ -99,7 +94,7 @@ function SellerOrderTracking(props) {
         </Grid>
         <Grid item xs={10} style={{ height: 400 }}>
           <DataGrid
-            rows={extendedOrders.filter(order => order.status === "Unprocessed")}
+            rows={orders.Unprocessed}
             columns={columns}
             pageSize={5}
             rowsPerPageOptions={[5]}
@@ -114,7 +109,7 @@ function SellerOrderTracking(props) {
         </Grid>
         <Grid item xs={10} style={{ height: 400 }}>
           <DataGrid
-            rows={extendedOrders.filter(order => order.status === "Shipped")}
+            rows={orders.Shipped}
             columns={columns}
             pageSize={5}
             rowsPerPageOptions={[5]}
@@ -127,7 +122,7 @@ function SellerOrderTracking(props) {
         </Grid>
         <Grid item xs={10} style={{ height: 400 }}>
           <DataGrid
-            rows={extendedOrders.filter(order => order.status === "Delivered")}
+            rows={orders.Delivered}
             columns={columns}
             pageSize={5}
             rowsPerPageOptions={[5]}

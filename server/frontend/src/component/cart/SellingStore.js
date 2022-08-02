@@ -25,7 +25,7 @@ function SellingStore(props) {
                 navigate("/login");
             } else {
                 dispatch(submitOrderAsync(props.products))
-                let updatedCart = cart.filter(product => props.products.findIndex(p => p.id === product.id) === -1);
+                let updatedCart = cart.filter(product => props.products.findIndex(p => p._id === product._id) === -1);
                 sessionStorage.setItem('Cart', JSON.stringify(updatedCart));
             }
         });

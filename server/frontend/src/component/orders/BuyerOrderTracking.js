@@ -14,8 +14,8 @@ export default function BuyerOrderTracking(props) {
   let orders = useSelector(getOrderHistory);
 
   const columns = [
-    { field: "orderNumber", headerName: "Order Number", width: 130 },
-    { field: "storeName", headerName: "Store", width: 130 },
+    { field: "_id", headerName: "Order Number", width: 130 },
+    { field: "store", headerName: "Store", width: 130 },
     {
       field: "products",
       headerName: "Products",
@@ -78,7 +78,7 @@ const getApplyFilterFnProducts = (value) => {
       each.productName.includes(value);
       if (
         each.color.toLowerCase().includes(value.toLowerCase()) ||
-        each.id === value ||
+        each._id === value ||
         each.price === value ||
         each.productName.toLowerCase().includes(value.toLowerCase()) ||
         each.quantity === value ||

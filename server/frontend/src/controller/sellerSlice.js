@@ -81,8 +81,6 @@ const sellerSlice = createSlice({
   }
 });
 
-// export const { addProduct } = sellerSlice.actions;
-
 // ------------------ Getters ------------------- //
 export const getProductList = (state) => state.seller.inventory;
 export const getProductListStatus = (state) => state.seller.inventoryStatus;
