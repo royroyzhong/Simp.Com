@@ -7,6 +7,7 @@ import {
   Marginer,
   BreakLine,
 } from "../../css/CommonStyle";
+import "../../css/login.css";
 import { CssTextField } from "./CommonMuiStyle";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { styled } from "@mui/material/styles";
@@ -35,7 +36,11 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.primary,
   boxShadow: "none",
 }));
-
+const boxCSS = {
+  "@media (max-width:900px)": {
+    marginLeft: "30vw",
+  },
+};
 function LoginForm(prop) {
   const dispatch = useDispatch();
 
@@ -140,7 +145,7 @@ function LoginForm(prop) {
         }
       }}
     >
-      <Box>
+      <Box sx={boxCSS}>
         <CssTextField
           id="outlined-email-input-error-helper-text"
           label="Email"
@@ -202,22 +207,25 @@ function LoginForm(prop) {
         <SubmitButton type="submit" onClick={handlerValidation}>
           Sign in
         </SubmitButton>
-      </Box>
+        <Marginer direction="vertical" margin="1vh" />
 
-      <Marginer direction="vertical" margin="1vh" />
-      <SmallSpan href="#">
-        Don't have an account?
-        <BoldSpan href="#" onClick={handerSwitch}>
-          Signup
-        </BoldSpan>
-        <Marginer direction="vertical" margin="2vh" />
-        <BreakLine />
-        <div id="googleSignIn"></div>
-        <Marginer direction="vertical" margin="2vh" />
-      </SmallSpan>
-      <IconButton onClick={() => navigate("../")}>
-        <ArrowBackIcon />
-      </IconButton>
+        <SmallSpan href="#">
+          Don't have an account?
+          <BoldSpan href="#" onClick={handerSwitch}>
+            Signup
+          </BoldSpan>
+          <Marginer direction="vertical" margin="2vh" />
+          <BreakLine />
+        </SmallSpan>
+        <Marginer direction="horizontal" margin="4vw" />
+      </Box>
+      <div id="googleSignIn"></div>
+      <Marginer direction="vertical" margin="2vh" />
+      <Box sx={boxCSS}>
+        <IconButton onClick={() => navigate("../")}>
+          <ArrowBackIcon />
+        </IconButton>
+      </Box>
     </BoxContainer>
   );
 }

@@ -5,8 +5,9 @@ import { createContext } from "react";
 import SignUpForm from "./SignUpForm";
 import { useState } from "react";
 import { SmallSpan, Marginer } from "../../css/CommonStyle";
-
-const AppContainer = styled.div`
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material";
+export const AppContainer = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
@@ -14,7 +15,7 @@ const AppContainer = styled.div`
   align-items: center;
   justify-content: center;
 `;
-const BoxContainer = styled.div`
+export const BoxContainer = styled.div`
   margin-top: 11vh;
   width: 35vw;
   min-height: 550px;
@@ -25,21 +26,23 @@ const BoxContainer = styled.div`
   box-shadow: 0 0 2px rgba(20, 20, 20, 0.5);
   position: relative;
   overflow: hidden;
+  @media only screen and (max-width: 900px) {
+    width: 70vw;
+  }
 `;
-const TopContainer = styled.div`
-  // width: 100%;
+export const TopContainer = styled.div`
   height: 120px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   padding-bottom: 3vh;
 `;
-const HeaderContainer = styled.div`
+export const HeaderContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
 `;
-const HeaderText = styled.h2`
+export const HeaderText = styled.h2`
   font-size: 30px;
   font-weight: 600;
   line-height: 1.24;
@@ -47,7 +50,7 @@ const HeaderText = styled.h2`
   margin: 0;
 `;
 
-const SmallText = styled.h5`
+export const SmallText = styled.h5`
   color: black;
   font-weight: 500;
   font-size: 11px;
@@ -55,7 +58,7 @@ const SmallText = styled.h5`
   margin: 0;
   margin-top: 7px;
 `;
-const InnerContainer = styled.div`
+export const InnerContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;

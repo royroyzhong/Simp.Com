@@ -57,6 +57,7 @@ export default function NavWrapper(props) {
       setOpen(false);
     }
   }
+
   return (
     <ThemeProvider theme={mdTheme}>
       <Box sx={{ display: "flex" }}>
@@ -82,14 +83,16 @@ export default function NavWrapper(props) {
             >
               Simp.com
             </Typography>
-            <IconButton
-              onClick={() => {
-                setOpen(!open);
-              }}
-              sx={{ color: "#ffffff" }}
-            >
-              <ChevronLeftIcon />
-            </IconButton>
+            {!matches && (
+              <IconButton
+                onClick={() => {
+                  setOpen(!open);
+                }}
+                sx={{ color: "#ffffff" }}
+              >
+                <ChevronLeftIcon />
+              </IconButton>
+            )}
           </Toolbar>
           <Divider />
           {props.role === "seller" && <SellerNavigationList />}

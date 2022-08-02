@@ -12,14 +12,7 @@ import { Marginer } from "../../css/CommonStyle";
 import Typography from "@mui/material/Typography";
 import { CssBoxStyle, CssBoxStyle_smaller } from "./ChangePasswordContent";
 import { Button } from "@mui/material";
-import {
-  getFirstName,
-  getLastName,
-  getAddress,
-  getEmail,
-  getPhone,
-} from "../../controller/buyerSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material";
 import { getUserAsync } from "../../controller/login/thunks";
@@ -37,7 +30,6 @@ function ProfileContent() {
   const handleEditLName = () => setBtnDisabledLName(!btnDisabledLName);
   const handleEditAddress = () => setBtnDisabledAddress(!btnDisabledAddress);
   const handleEditPhone = (id) => setBtnDisabledPhone(!btnDisabledPhone);
-  // let userFirstName, userLastName, userAddress, userEmail, userPhone;
   const [userFirstName, setUserFirstName] = useState();
   const [userLastName, setUserLastName] = useState();
   const [userAddress, setUserAddress] = useState();

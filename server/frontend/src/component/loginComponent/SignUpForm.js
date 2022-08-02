@@ -17,7 +17,11 @@ import PersonIcon from "@mui/icons-material/Person";
 import { useDispatch } from "react-redux";
 import { signupAsync } from "../../controller/login/thunks";
 import { useNavigate } from "react-router-dom";
-
+const boxCSS = {
+  "@media (max-width:900px)": {
+    marginLeft: "30vw",
+  },
+};
 function SignUpForm() {
   const dispatch = useDispatch();
   const handerSwitch = useContext(SwitcherContext);
@@ -92,7 +96,7 @@ function SignUpForm() {
   };
   return (
     <BoxContainer>
-      <Box sx={{ width: 500 }}>
+      <Box sx={boxCSS}>
         <BottomNavigation
           showLabels
           value={value}
@@ -112,92 +116,93 @@ function SignUpForm() {
           />
         </BottomNavigation>
         <Marginer direction="vertical" margin="1vh" />
-      </Box>
-      {isCustomer === false && isSeller === true && (
+
+        {isCustomer === false && isSeller === true && (
+          <CssTextField
+            id="outlined-error-helper-text"
+            label="Company Name"
+            type="Name"
+            error={companyError !== ""}
+            helperText={companyError !== "" ? companyError : ""}
+            onChange={(event) => {
+              setCompanyError("");
+              setCompany(event.target.value);
+            }}
+          />
+        )}
+        {isCustomer === false && <Marginer direction="vertical" margin="1vh" />}
         <CssTextField
           id="outlined-error-helper-text"
-          label="Company Name"
+          label="First Name"
           type="Name"
-          error={companyError !== ""}
-          helperText={companyError !== "" ? companyError : ""}
+          error={firstNameError !== ""}
+          helperText={firstNameError !== "" ? firstNameError : ""}
           onChange={(event) => {
-            setCompanyError("");
-            setCompany(event.target.value);
+            setFirstNameError("");
+            setFirstName(event.target.value);
           }}
         />
-      )}
-      {isCustomer === false && <Marginer direction="vertical" margin="1vh" />}
-      <CssTextField
-        id="outlined-error-helper-text"
-        label="First Name"
-        type="Name"
-        error={firstNameError !== ""}
-        helperText={firstNameError !== "" ? firstNameError : ""}
-        onChange={(event) => {
-          setFirstNameError("");
-          setFirstName(event.target.value);
-        }}
-      />
-      <Marginer direction="vertical" margin="1vh" />
-      <CssTextField
-        id="outlined-error-helper-text"
-        label="Last Name"
-        type="Name"
-        error={lastNameError !== ""}
-        helperText={lastNameError !== "" ? lastNameError : ""}
-        onChange={(event) => {
-          setLastNameError("");
-          setLastName(event.target.value);
-        }}
-      />
-      <Marginer direction="vertical" margin="1vh" />
-      <CssTextField
-        id="outlined-error-helper-text"
-        label="Email"
-        type="email"
-        error={emailError !== ""}
-        helperText={emailError !== "" ? emailError : ""}
-        onChange={(event) => {
-          setEmailError("");
-          setEmail(event.target.value);
-        }}
-      />
-      <Marginer direction="vertical" margin="1vh" />
-      <CssTextField
-        id="outlined-error-helper-text"
-        label="Password"
-        type="password"
-        error={passwordError !== ""}
-        helperText={passwordError !== "" ? passwordError : ""}
-        onChange={(event) => {
-          setPasswordError("");
-          setPassword(event.target.value);
-        }}
-      />
-      <Marginer direction="vertical" margin="1vh" />
-      <CssTextField
-        id="outlined-error-helper-text"
-        label="Confirm Password"
-        type="password"
-        error={passwordConfirmError !== ""}
-        helperText={passwordConfirmError !== "" ? passwordConfirmError : ""}
-        onChange={(event) => {
-          setPasswordConfirmError("");
-          setPasswordConfirm(event.target.value);
-        }}
-      />
-      <Marginer direction="vertical" margin="3vh" />
-      <SubmitButton type="submit" onClick={handleCreate}>
-        Create
-      </SubmitButton>
-      <Marginer direction="vertical" margin="2vh" />
-      <SmallSpan href="#">
-        Already have an account?{" "}
-        <BoldSpan href="#" onClick={handerSwitch}>
-          Sign in
-        </BoldSpan>
-      </SmallSpan>
-      <Marginer direction="vertical" margin="2vh" />
+        <Marginer direction="vertical" margin="1vh" />
+        <CssTextField
+          id="outlined-error-helper-text"
+          label="Last Name"
+          type="Name"
+          error={lastNameError !== ""}
+          helperText={lastNameError !== "" ? lastNameError : ""}
+          onChange={(event) => {
+            setLastNameError("");
+            setLastName(event.target.value);
+          }}
+        />
+        <Marginer direction="vertical" margin="1vh" />
+        <CssTextField
+          id="outlined-error-helper-text"
+          label="Email"
+          type="email"
+          error={emailError !== ""}
+          helperText={emailError !== "" ? emailError : ""}
+          onChange={(event) => {
+            setEmailError("");
+            setEmail(event.target.value);
+          }}
+        />
+        <Marginer direction="vertical" margin="1vh" />
+        <CssTextField
+          id="outlined-error-helper-text"
+          label="Password"
+          type="password"
+          error={passwordError !== ""}
+          helperText={passwordError !== "" ? passwordError : ""}
+          onChange={(event) => {
+            setPasswordError("");
+            setPassword(event.target.value);
+          }}
+        />
+        <Marginer direction="vertical" margin="1vh" />
+        <CssTextField
+          id="outlined-error-helper-text"
+          label="Confirm Password"
+          type="password"
+          error={passwordConfirmError !== ""}
+          helperText={passwordConfirmError !== "" ? passwordConfirmError : ""}
+          onChange={(event) => {
+            setPasswordConfirmError("");
+            setPasswordConfirm(event.target.value);
+          }}
+        />
+        <Marginer direction="vertical" margin="3vh" />
+        <SubmitButton type="submit" onClick={handleCreate}>
+          Create
+        </SubmitButton>
+        <Marginer direction="vertical" margin="2vh" />
+        <SmallSpan href="#">
+          Already have an account?{" "}
+          <BoldSpan href="#" onClick={handerSwitch}>
+            Sign in
+          </BoldSpan>
+        </SmallSpan>
+        <Marginer direction="vertical" margin="2vh" />
+      </Box>
     </BoxContainer>
   );
 }
