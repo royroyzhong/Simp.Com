@@ -31,7 +31,7 @@ export default function Dashboard(props) {
   let topProducts = useSelector(getTopProducts);
   let stats = useSelector(getStats);
   let sellerOrderStatus = useSelector(getSellerOrderStatus);
-  
+
   const dispatch = useDispatch();
   useEffect(() => {
     if (sellerOrderStatus !== REQUEST_STATE.FULFILLED) {
@@ -45,15 +45,15 @@ export default function Dashboard(props) {
   };
 
   return (
-    <Container maxWidth="lg" className="dashboard" sx={{md:4, mt:4}}>
+    <Container maxWidth="lg" className="dashboard" sx={{ md: 4, mt: 4 }}>
       <Card
         className="infograph-wrapper"
         variant="outlined"
         sx={infographStyle}
       >
-        <InfoGraph stats={stats}/>
+        <InfoGraph stats={stats} />
       </Card>
-      
+
       <Box sx={{ marginTop: 4 }}>
         <ProcessingList orders={orderStats} topProducts={topProducts} />
       </Box>
@@ -138,16 +138,16 @@ function ProcessingList(props) {
       <Card variant="outlined" sx={{ width: "50%" }}>
         <Title>Statistics</Title>
         <List>
-          <ListItem>{props.orders.unprocessed}</ListItem>
-          <ListItem>{props.orders.shipped}</ListItem>
-          <ListItem>{props.orders.delivered}</ListItem>
+          <ListItem>Unprocessed Items: {props.orders.unprocessed === undefined ? 0 : props.orders.unprocessed}</ListItem>
+          <ListItem>Shipping in Progress: {props.orders.shipped === undefined ? 0 : props.orders.shipped}</ListItem>
+          <ListItem>Delivered Orders: {props.orders.delivered === undefined ? 0 : props.orders.delivered}</ListItem>
         </List>
       </Card>
       <Card variant="outlined" sx={{ width: "50%" }}>
         <Title>Top Products</Title>
         <List>
-          {props.topProducts.map((p, i) => (
-            <ListItem key={i}>{p}</ListItem>
+          {props.topProducts === undefined ? "" : props.topProducts.map((p, i) => (
+            <ListItem key={i}>{p.name}</ListItem>
           ))}
         </List>
       </Card>

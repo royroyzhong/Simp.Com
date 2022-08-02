@@ -57,7 +57,7 @@ function CardGrid(props) {
                             storage: product.storage,
                             images: product.images.map(i => JSON.parse(i))
                         }))
-                        navigate("/sellerX/product/" + product.uuid);
+                        navigate("/sellerX/product/" + product._id);
                     }}>
                         <CardActionArea>
                             <CardContent>
