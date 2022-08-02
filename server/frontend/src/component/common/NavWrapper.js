@@ -11,6 +11,9 @@ import Header from "./Header";
 import { Typography } from "@mui/material";
 import BuyerNavigationList from "../navigator/BuyerNavigationList";
 import SellerNavigationList from "../navigator/SellerNavigationList";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
+
 const drawerWidth = 240;
 
 const Drawer = styled(MuiDrawer, {
@@ -47,6 +50,13 @@ export default function NavWrapper(props) {
   const toggleDrawer = (childdata) => {
     setOpen(childdata);
   };
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down("md"));
+  if (matches) {
+    if (open !== false) {
+      setOpen(false);
+    }
+  }
 
   return (
     <ThemeProvider theme={mdTheme}>
@@ -73,14 +83,16 @@ export default function NavWrapper(props) {
             >
               Simp.com
             </Typography>
-            <IconButton
-              onClick={() => {
-                setOpen(!open);
-              }}
-              sx={{ color: "#ffffff" }}
-            >
-              <ChevronLeftIcon />
-            </IconButton>
+            {!matches && (
+              <IconButton
+                onClick={() => {
+                  setOpen(!open);
+                }}
+                sx={{ color: "#ffffff" }}
+              >
+                <ChevronLeftIcon />
+              </IconButton>
+            )}
           </Toolbar>
           <Divider />
           {props.role === "seller" && <SellerNavigationList />}

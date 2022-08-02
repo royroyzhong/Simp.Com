@@ -16,9 +16,9 @@ const containerBoxStyle = {
   flexGrow: 1,
   borderRadius: "19px",
   backgroundColor: "white",
-  width: "18vw",
-  height: "auto",
-  margin: "5vw",
+  width: "50%",
+  height: "70vh",
+  margin: "10vh 5vw",
   paddingBottom: "20vh",
   boxShadow: "0 0 2px rgb(20 20 20 / 50%)",
 };
@@ -26,9 +26,9 @@ const containerBoxStyle_smaller = {
   flexGrow: 1,
   borderRadius: "19px",
   backgroundColor: "white",
-  width: "30vw",
-  margin: "5vw 20vw",
-  paddingLeft: "1vw",
+  width: "55vw",
+  margin: "10vh 23vw",
+  padding: "0 12vw 5vh 14vw",
   boxShadow: "0 0 2px rgb(20 20 20 / 50%)",
 };
 function ProfileLeftContent(props) {
