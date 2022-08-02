@@ -23,7 +23,7 @@ import Alert from "@mui/material/Alert";
 export const CssBoxStyle = {
   flexGrow: 1,
   width: "43vw",
-  height: "70vh",
+  height: "auto",
   margin: "10vh -15vw",
   paddingBottom: "2vw",
   borderRadius: "19px",
@@ -34,7 +34,7 @@ export const CssBoxStyle = {
 export const CssBoxStyle_smaller = {
   width: "55vw",
   margin: "3vh 20vw",
-  height: "80vh",
+  height: "auto",
   flexGrow: 1,
   paddingBottom: "2vw",
   borderRadius: "19px",
