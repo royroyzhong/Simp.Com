@@ -2,22 +2,15 @@ import { Card, CardActionArea, CardContent, CardMedia, Container, Grid, Typograp
 import { useDispatch, useSelector } from 'react-redux';
 import avatar from "../../assets/avatar.jpg";
 import snowman from "../../assets/snowman.svg";
-//import food from "../../assets/food.svg";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import bomb from "../../assets/bomb.svg";
 import book from "../../assets/book.svg";
 import upload from "../../assets/upload.svg";
-import { Marginer } from "../../css/CommonStyle";
-import { getProductList, getProductListStatus, getProducts } from "../../controller/sellerSlice";
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 import { loadProduct } from "../../controller/productSlice";
-
-const imgs = {
-    avatar: avatar,
-    snowman: snowman,
-    book: book,
-    bomb: bomb
-}
+import { REQUEST_STATE } from "../../controller/utils";
+import { getProductList, getProductListStatus, getProducts } from "../../controller/sellerSlice";
+import { Marginer } from "../../css/CommonStyle";
 
 export default function ProductBoard(props) {
 
@@ -38,31 +31,31 @@ function CardGrid(props) {
 
     let navigate = useNavigate();
     let dispatch = useDispatch();
+
     useEffect(() => {
-        if (status === 'idle') {
+        if (status === REQUEST_STATE.IDLE) {
             dispatch(getProducts());
         }
     }, [dispatch, status]);
 
     return (
         <Grid container spacing={2} columns={gridStyle}>
-            {status === 'succeed' ? products.map((product, index) => (
+            {status === REQUEST_STATE.FULFILLED ? products.map((product, index) => (
                 <Grid item key={index} xs={1} sm={1} md={3}>
-                    <Card variant="outlined" onClick={(e) => {
+                    <Card variant="outlined" onClick={() => {
                         // Set ProductSlice data
                         let features = {}
                         for (let description of product.descriptions) {
-                            features[Object.keys(description)[0]] = Object.values(description)[0]
+                            features[description['title']] = description['content'];
                         }
-                        console.log("pringint");
-                        console.log(product.price)
                         dispatch(loadProduct({
                             name: product.name,
                             title: "",
                             features: features,
                             tags: product.tags,
                             price: product.price,
-                            storage: product.storage 
+                            storage: product.storage,
+                            images: product.images.map(i => JSON.parse(i))
                         }))
                         navigate("/sellerX/product/" + product.uuid);
                     }}>
@@ -70,6 +63,7 @@ function CardGrid(props) {
                             <CardContent>
                                 <Marginer margin="40px" />
                                 <CardMedia
+                                    image={product.images.length > 0 ? JSON.parse(product.images[0]).src : ""}
                                     height={100}
                                     sx={{
                                         objectFit: "contain"
@@ -86,6 +80,15 @@ function CardGrid(props) {
             )) : null}
             <Grid item key={-1} xs={1} sm={1} md={3}>
                 <Card variant="outlined" onClick={(e) => {
+                    dispatch(loadProduct({
+                        name: "",
+                        title: "",
+                        features: {},
+                        tags: [],
+                        price: 0,
+                        storage: 0,
+                        images: []
+                    }))
                     navigate("/sellerX/product_page");
                 }}>
                     <CardActionArea>

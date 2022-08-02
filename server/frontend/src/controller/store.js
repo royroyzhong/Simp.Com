@@ -3,7 +3,6 @@ import cartSlice from "./cartSlice";
 import productSlice from "./productSlice";
 import buyerSlice from "./buyerSlice";
 import sellerSlice from "./sellerSlice";
-import orderSlice from "./orderSlice";
 import loginSlice from "./login/reducer";
 
 export default configureStore({
@@ -12,7 +11,6 @@ export default configureStore({
     seller: sellerSlice,
     cart: cartSlice,
     products: productSlice,
-    orders: orderSlice,
     login: loginSlice,
   },
   middleware: (middleware) =>

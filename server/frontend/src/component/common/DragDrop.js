@@ -1,30 +1,26 @@
-import { useDispatch, useSelector } from "react-redux";
-import { useCallback, useState } from "react";
-import Dropzone from '../../utils/Dropzone';
-import cuid from "cuid";
-import { Box, Container } from "@mui/system";
+import { useDispatch} from "react-redux";
+import Dropzone from './Dropzone';
+import { Box} from "@mui/system";
+import { addImage } from "../../controller/productSlice";
 
 export default function DragDrop() {
-    const [images, setImages] = useState([]);
+  let dispatch = useDispatch();
 
-    const onDrop = useCallback(acceptedFiles => {
-      acceptedFiles.map(file => {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          setImages(prevState => [
-            ...prevState,
-            { id: cuid(), src: e.target.result }
-          ]);
-        };
-        reader.readAsDataURL(file);
-        return file;
-      });
-    }, []);
-  
-      return (
-        <Box> 
-            <h1> Drag & Drop </h1>
-            <Dropzone onDrop = {onDrop} accept={"image/*"} > </Dropzone>
-        </Box>
-      )
+  const onDrop = (files) => {
+    files.map((file) => {
+      console.log(file);
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        dispatch(addImage(e.target.result));
+      }
+      reader.readAsDataURL(file);
+      return file;
+    })
+  }
+
+  return (
+    <Box>
+      <Dropzone onDrop={onDrop} accept={"image/*"} > </Dropzone>
+    </Box>
+  )
 }

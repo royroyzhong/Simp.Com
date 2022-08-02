@@ -1,28 +1,16 @@
 import { Button, Card, CardContent, CardMedia, Divider, Fade, ImageList, ImageListItem, Stack, TextField, Typography } from "@mui/material";
 import { Box, Container } from "@mui/system";
-import upload from "../../assets/upload.svg";
-
-import bomb from "../../assets/bomb.svg";
-import book from "../../assets/book.svg";
-import flask from "../../assets/flask.svg";
-import food from "../../assets/food.svg";
 
 import { useDispatch, useSelector } from "react-redux";
 
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import { addFeature, addTag, getBufferProduct, getFeatures, getName, getPrice, getStorage, getTags, loadProduct, postNewProduct, setName, setPrice, updateProduct } from "../../controller/productSlice";
+import { addFeature, addTag, getBufferProduct, getFeatures, getImages, getName, getPrice, getStorage, getTags, loadProduct, postNewProduct, setName, setPrice, setStorage, updateProduct } from "../../controller/productSlice";
 
-import cuid from "cuid";
-import Dropzone from '../../utils/Dropzone';
+import DragDrop from '../common/DragDrop';
 
-// import DragDrop from '../common/DragDrop';
 import DragDropDisplay from '../common/DragDropDisplay';
-
-
-let imgs = [book, bomb, flask, food];
-const images = []
 
 export default function ProductPage(props) {
 
@@ -43,12 +31,11 @@ export default function ProductPage(props) {
     useEffect(() => {
         if (location.state !== null && location.state.isStatic) {
             setStatic(true);
-            console.log(location.state.data)
             // dispatch(loadProduct(location.state.data))
             // Set ProductSlice data
             let features = {}
             for (let description of location.state.data.descriptions) {
-                features[Object.keys(description)[0]] = Object.values(description)[0]
+                features[description['title']] = description['content'];
             }
             dispatch(loadProduct({
                 name: location.state.data.name,
@@ -56,7 +43,8 @@ export default function ProductPage(props) {
                 features: features,
                 tags: location.state.data.tags,
                 price: location.state.data.price,
-                storage: location.state.data.storage 
+                storage: location.state.data.storage,
+                images: location.state.data.images.map(i => JSON.parse(i))
             }))
         }
     }, [dispatch, location]);
@@ -64,7 +52,10 @@ export default function ProductPage(props) {
     return (
         <Container sx={{ md: 4, mt: 4 }}>
             <Stack direction={'row'} spacing={2}>
-                <ImagesDisplay></ImagesDisplay>
+                <Stack>
+                    <ImagesDisplay></ImagesDisplay>
+                    {isStatic ? (<div></div>) : (<DragDrop onDrop={DragDrop.onDrop} accept={"image/*"} />)}
+                </Stack>
                 <Stack
                     divider={
                         <Divider orientation="horizontal" flexItem></Divider>
@@ -85,23 +76,24 @@ export default function ProductPage(props) {
                                     tags: product.tags,
                                     features: product.features,
                                     price: product.price,
-                                    storage: product.storage
+                                    storage: product.storage,
+                                    images: product.images
                                 }))
                             }
                             else
                                 dispatch(updateProduct({
-                                    uuid: productId,
+                                    _id: productId,
                                     name: product.name,
                                     tags: product.tags,
                                     features: product.features,
                                     price: product.price,
-                                    storage: product.storage
+                                    storage: product.storage,
+                                    images: product.images
                                 }))
                         }}>Save</Button>
                     )}
                 </Stack>
-                {isStatic ? (<div></div>) : (<DragDrop onDrop={DragDrop.onDrop} accept={"image/*"} />)}
-                {isStatic ? (<div></div>) : (<DragDropDisplay images={images} />)}
+                {/* <DragDropDisplay> </DragDropDisplay> */}
             </Stack>
         </Container>
     )
@@ -122,37 +114,26 @@ function ImagesDisplay(props) {
         objectFit: "contain"
     }
 
+    const images = useSelector(getImages);
     return (
         <Card variant="outlined" sx={cardstyle}>
             <CardContent>
-                <CardMedia
-                    image={book}
-                    height={400}
-                    component={"img"}
-                    sx={imgStyle}
-                />
+                <DragDropDisplay></DragDropDisplay>
                 <ImageList cols={5} rowHeight={100} sx={{ margin: 0 }}>
                     {
-                        imgs.slice(0, 5).map((img, index) => (
+                        images?.map((img, index) => (
                             <ImageListItem key={index} sx={imgStyle}>
                                 <CardMedia
-                                    image={img}
+                                    image={img.src}
                                     height={100}
+                                    width={200}
                                     component={"img"}
                                     sx={smImgStyle}
                                 />
                             </ImageListItem>
                         ))
                     }
-                    <ImageListItem key={-1} sx={imgStyle}>
-                        <CardMedia
-                            image={upload}
-                            height={100}
-                            component={"img"}
-                            sx={smImgStyle}
-                        />
-                    </ImageListItem>
-                </ImageList>
+               </ImageList>
             </CardContent>
         </Card>
     )
@@ -194,6 +175,16 @@ function PriceAndQuantity(props) {
                     variant="outlined"
                     onChange={event => {
                         dispatch(setPrice(event.target.value));
+                    }} />
+            )}
+            <Typography variant="h5">Storage</Typography>
+            {props.isStatic ? (<Typography variant="h5">{storage}</Typography>) : (
+                <TextField
+                    value={storage}
+                    size="small"
+                    variant="outlined"
+                    onChange={event => {
+                        dispatch(setStorage(event.target.value));
                     }} />
             )}
         </div>
@@ -342,28 +333,5 @@ function Tag(props) {
     )
 }
 
-function DragDrop() {
-    const [images, setImages] = useState([]);
 
-    const onDrop = useCallback(acceptedFiles => {
-        acceptedFiles.map(file => {
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                setImages(prevState => [
-                    ...prevState,
-                    { id: cuid(), src: e.target.result }
-                ]);
-            };
-            reader.readAsDataURL(file);
-            return file;
-        });
-    }, []);
-
-    return (
-        <Box>
-            <h1> Drag & Drop </h1>
-            <Dropzone onDrop={onDrop} accept={"image/*"} > </Dropzone>
-        </Box>
-    )
-}
 

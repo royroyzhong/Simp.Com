@@ -18,16 +18,20 @@ export const updateProduct = createAsyncThunk('/product/patch', async function(d
 /**
  * Product Slice is only used for the editing page.
  */
+
+ const INITIAL_STATE = {
+  name: "",
+  title: "",
+  price: 0,
+  storage: 0,
+  tags: [],
+  features: {},
+  images:[]
+}
+
 const productSlice = createSlice({
   name: "product",
-  initialState: {
-    name: "",
-    title: "",
-    price: 0,
-    storage: 0,
-    tags: [],
-    features: {}
-  },
+  initialState: INITIAL_STATE,
   reducers: {
     setName: (state, action) => {state.name = action.payload},
     setTitle: (state, action) => {state.title = action.payload},
@@ -43,6 +47,10 @@ const productSlice = createSlice({
       state.title = product.title;
       state.price = product.price;
       state.storage = product.storage;
+      state.images = product.images;
+    },
+    addImage: (state,action) => {
+      state.images.push({id:state.images.length, src:action.payload});
     }
   },
   extraReducers: (builder) => {
@@ -57,7 +65,7 @@ const productSlice = createSlice({
 });
 
 // Export Setters
-export const {setName, setTitle, addTag, addFeature, loadProduct, setStorage, setPrice} =
+export const {setName, setTitle, addTag, addFeature, loadProduct, setStorage, setPrice, addImage} =
   productSlice.actions;
 
 // ++++++++++++++++ Getters ++++++++++++++++++++ //
@@ -74,8 +82,11 @@ export const getBufferProduct = (state) => {
     features: getFeatures(state),
     name: getName(state),
     price: state.products.price,
-    storage: state.products.storage
+    storage: state.products.storage,
+    images: state.products.images
   };
-}
+};
+export const getImages = (state) => state.products.images;
+
 
 export default productSlice.reducer;

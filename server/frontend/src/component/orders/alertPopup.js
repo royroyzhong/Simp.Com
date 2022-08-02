@@ -5,19 +5,20 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-export default function AlertPopup(setOpen) {
-    console.log(setOpen);
+export default function AlertPopup(setOpen,) {
+   
 
     const handleClose = (event) => {
         event.preventDefault();
-        setOpen(false);
+        // setOpen(false);
     };
 
     const handleConfirm = (event) => {
         event.preventDefault();
-        // setConfirm(true);
+        // setPopUpConfirm(true);
         handleClose();
     }
+
 
     return (
         <div>

@@ -2,7 +2,6 @@
 import {
   Card,
   Divider,
-  Grid,
   List,
   ListItem,
   ListItemText,
@@ -10,7 +9,8 @@ import {
 } from "@mui/material";
 import { Box, Container } from "@mui/system";
 // Other Imports
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
 // Recahrt Components
 import {
   CartesianGrid,
@@ -20,14 +20,24 @@ import {
   XAxis,
   YAxis
 } from "recharts";
-import { getOrders, getStats } from "../../controller/orderSlice";
+import { getSellerOrder, getStats, getTopProducts, getSellerOrderDetail, getSellerOrderStatus } from "../../controller/sellerSlice";
+import { getSellerOrderAsync } from '../cart/cartThunks';
 import "../../css/dashboard.css";
 import Title from "../common/Title";
-
-// Fake resources...
+import { REQUEST_STATE } from "../../controller/utils";
 
 export default function Dashboard(props) {
-  let orders = useSelector(getOrders);
+  let orderStats = useSelector(getSellerOrder);
+  let topProducts = useSelector(getTopProducts);
+  let stats = useSelector(getStats);
+  let sellerOrderStatus = useSelector(getSellerOrderStatus);
+  
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (sellerOrderStatus !== REQUEST_STATE.FULFILLED) {
+      dispatch(getSellerOrderAsync());
+    }
+  }, [dispatch, sellerOrderStatus]);
 
   let infographStyle = {
     padding: 2,
@@ -36,40 +46,22 @@ export default function Dashboard(props) {
 
   return (
     <Container maxWidth="lg" className="dashboard" sx={{md:4, mt:4}}>
-        <Grid spacing={{ xs: 4 }} container columns={{ xs: 4, md: 4, lg: 12 }}>
-          {Object.entries(orders).map(([key, val], index) => (
-            <Grid item xs={4} md={2} lg={3} key={index}>
-              <OrderStatus title={key} data={val} />
-            </Grid>
-          ))}
-        </Grid>
       <Card
         className="infograph-wrapper"
         variant="outlined"
         sx={infographStyle}
       >
-        <InfoGraph />
+        <InfoGraph stats={stats}/>
       </Card>
+      
       <Box sx={{ marginTop: 4 }}>
-        <ProcessingList />
+        <ProcessingList orders={orderStats} topProducts={topProducts} />
       </Box>
     </Container>
   );
 }
 
-function OrderStatus(props) {
-  return (
-    <Card variant="outlined">
-      <div className="card-wrapper">
-        <p className="card-title">{props.title}</p>
-        <p className="card-display">{props.data}</p>
-      </div>
-    </Card>
-  );
-}
-
-function InfoGraph() {
-  let stats = useSelector(getStats);
+function InfoGraph(props) {
 
   let data = [
     {
@@ -131,7 +123,7 @@ function InfoGraph() {
         <List>
           <ListItem>Best Seller</ListItem>
           <ListItem>
-            <ListItemText primary={stats.bestSeller} />
+            <ListItemText primary={props.stats.bestSeller} />
           </ListItem>
           <Divider />
         </List>
@@ -141,23 +133,20 @@ function InfoGraph() {
 }
 
 function ProcessingList(props) {
-  let awaitingActions = ["#266898", "#749877"];
-  let topProducts = ["???", "!!!"];
-
   return (
     <Stack direction={"row"} spacing={2}>
       <Card variant="outlined" sx={{ width: "50%" }}>
-        <Title>Awaiting Actions</Title>
+        <Title>Statistics</Title>
         <List>
-          {awaitingActions.map((a, i) => (
-            <ListItem key={i}>{a}</ListItem>
-          ))}
+          <ListItem>{props.orders.unprocessed}</ListItem>
+          <ListItem>{props.orders.shipped}</ListItem>
+          <ListItem>{props.orders.delivered}</ListItem>
         </List>
       </Card>
       <Card variant="outlined" sx={{ width: "50%" }}>
         <Title>Top Products</Title>
         <List>
-          {topProducts.map((p, i) => (
+          {props.topProducts.map((p, i) => (
             <ListItem key={i}>{p}</ListItem>
           ))}
         </List>
