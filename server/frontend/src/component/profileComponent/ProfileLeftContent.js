@@ -17,7 +17,7 @@ const containerBoxStyle = {
   borderRadius: "19px",
   backgroundColor: "white",
   width: "50%",
-  height: "70vh",
+  height: "auto",
   margin: "10vh 5vw",
   paddingBottom: "20vh",
   boxShadow: "0 0 2px rgb(20 20 20 / 50%)",
