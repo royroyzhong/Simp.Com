@@ -55,8 +55,9 @@ function Cart() {
       if (statusCode !== 200) {
         navigate("/login");
       } else {
-        dispatch(submitOrderAsync(cart));
-        sessionStorage.clear();
+        dispatch(submitOrderAsync(cart)).then(() => {
+          sessionStorage.clear();
+        }).catch(err => {console.log(err)});
       }
     });
   };
