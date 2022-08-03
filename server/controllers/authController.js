@@ -29,7 +29,7 @@ module.exports.login_post = async (req, res) => {
       );
       res.cookie("jwt", token, { httpOnly: true, maxAge: (maxAge * 5) / 60 });
     }
-    res.status(200).json({
+    return res.status(200).json({
       userID: user._id,
       firstName: user.firstName,
       lastName: user.lastName,
@@ -37,8 +37,7 @@ module.exports.login_post = async (req, res) => {
       email: user.email,
     });
   } catch (err) {
-    console.log(err.message);
-    res.status(400).json({ errors: err.message });
+    return res.status(400).json({ errors: err.message });
   }
 };
 module.exports.googlelogin_post = async (req, res) => {
@@ -63,15 +62,14 @@ module.exports.googlelogin_post = async (req, res) => {
     }
     token = auth.generateAccessTokenWithRememberMe(email, false);
     res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 24 });
-    res.status(200).json({
+    return res.status(200).json({
       userID: user._id,
       firstName: user.firstName,
       lastName: user.lastName,
       role: req.body.isSeller,
     });
   } catch (err) {
-    console.log(err.message);
-    res.status(400).json({ errors: err.message });
+    return res.status(400).json({ errors: err.message });
   }
 };
 
@@ -92,9 +90,9 @@ module.exports.login_get = async (req, res) => {
       address: user.address,
       phone: user.phone,
     };
-    res.status(200).json(account);
+    return res.status(200).json(account);
   } catch (err) {
-    res.status(400).json({ errors: err.message });
+    return res.status(400).json({ errors: err.message });
   }
 };
 
@@ -143,16 +141,13 @@ module.exports.signup_post = async (req, res) => {
       req.body.isSeller
     );
     res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 24 });
-    res.status(201).json({});
+    return res.status(201).json({});
   } catch (err) {
-    console.log(err);
     const errors = handleError(err);
-    res.status(400).json({ errors });
+    return res.status(400).json({ errors });
   }
 };
-module.exports.signup_get = (req, res) => {
-  res.render("signup get");
-};
+
 module.exports.logout_get = async (req, res) => {
   try {
     let email = res.locals.user.useremail;
@@ -164,9 +159,8 @@ module.exports.logout_get = async (req, res) => {
       await Buyer.findOneAndUpdate({ email }, offline);
     }
   } catch (err) {
-    res.status(400).json({ errors: err.message });
+    return res.status(400).json({ errors: err.message });
   }
-
   res.cookie("jwt", "", { maxAge: 1 });
   return res.redirect("/login");
 };
