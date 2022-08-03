@@ -95,6 +95,7 @@ function SellerOrderTracking(props) {
         <Grid item xs={10} style={{ height: 400 }}>
           <DataGrid
             rows={orders.Unprocessed}
+            getRowId={(order) => order.orderNumber}
             columns={columns}
             pageSize={5}
             rowsPerPageOptions={[5]}
@@ -110,6 +111,7 @@ function SellerOrderTracking(props) {
         <Grid item xs={10} style={{ height: 400 }}>
           <DataGrid
             rows={orders.Shipped}
+            getRowId={(order) => order.orderNumber}
             columns={columns}
             pageSize={5}
             rowsPerPageOptions={[5]}
@@ -123,6 +125,7 @@ function SellerOrderTracking(props) {
         <Grid item xs={10} style={{ height: 400 }}>
           <DataGrid
             rows={orders.Delivered}
+            getRowId={(order) => order.orderNumber}
             columns={columns}
             pageSize={5}
             rowsPerPageOptions={[5]}
