@@ -15,7 +15,8 @@ import SellingStore from "./SellingStore";
 import { useDispatch } from "react-redux";
 import { submitOrderAsync } from "./cartThunks";
 import { getUserAsync } from "../../controller/login/thunks";
-import { useEffect } from "react";
+
+import { transporter, mailOptions } from "../orders/emailNotification";
 
 function Cart() {
   let cart = useSelector(getCart);
@@ -52,6 +53,17 @@ function Cart() {
     });
   };
 
+  const handleSendEmail = (event) => {
+    event.preventDefault();
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+          console.log(error);
+      } else {
+          console.log('Email sent' + info.response);
+      }
+  })
+  }
+
   return (
     <Container
       maxWidth="xl"
@@ -74,6 +86,7 @@ function Cart() {
           {" "}
           <ShoppingCartCheckoutOutlinedIcon> </ShoppingCartCheckoutOutlinedIcon>
         </button>
+        <button onClick={handleSendEmail}> Test </button>
       </Box>
     </Container>
   );
