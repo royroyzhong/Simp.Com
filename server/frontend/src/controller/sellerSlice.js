@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { fetchAPI } from "../api/client";
-import { quinn } from "../utils/mockFetch";
+import { getSellerOrderAsync, changeStatusAsync } from "../component/cart/cartThunks";
+import { REQUEST_STATE } from "./utils";
 
 export const getProducts = createAsyncThunk('/products/get', async function() {
   return fetchAPI('GET', {}, {}, 'products/seller').then(response => response.json());
@@ -9,39 +10,85 @@ export const getProducts = createAsyncThunk('/products/get', async function() {
 const sellerSlice = createSlice({
   name: "seller",
   initialState: {
-    firstName: quinn.firstName,
-    lastName: quinn.lastName,
-    address: quinn.address,
-    email: quinn.email,
-    phone: quinn.phone,
-    compangName: quinn.compangName,
-
-    // Seller inventory
-    inventory: [
-    ],
-    inventoryStatus: "idle",
+    // Inventory
+    inventory: [],
+    inventoryStatus: REQUEST_STATE.IDLE,
+    
+    // Orders
+    orders: {},
+    orderDetail:  {},
+    stats: { bestSeller: "想吃锅贴" },
+    topProducts: [], 
+    
+    //status
+    getSellerOrder: REQUEST_STATE.IDLE,
+    changeOrderStatus: REQUEST_STATE.IDLE,
   },
   extraReducers: (builder) => {
-    builder.addCase(getProducts.fulfilled, function(state, action) {
+    builder.addCase(getProducts.pending, function(state, action) {
+      state.inventoryStatus = REQUEST_STATE.PENDING;
+    })
+    .addCase(getProducts.fulfilled, function(state, action) {
       state.inventory = action.payload;
-      state.inventoryStatus = 'succeed';
+      state.inventoryStatus = REQUEST_STATE.FULFILLED;
     })
     .addCase(getProducts.rejected, function(state, action) {
+      state.inventoryStatus = REQUEST_STATE.REJECTED;
+      console.log(action);
+    })
+    .addCase(getSellerOrderAsync.rejected, function(state, action) {
+      state.getSellerOrder = REQUEST_STATE.REJECTED;
+      console.log(action);
+    })
+    .addCase(getSellerOrderAsync.fulfilled, function(state, action) {
+      let allOrders = action.payload.map((order) => 
+      { return {orderNumber: order._id, products: order.products, status: order.status}});
+      state.orderDetail = { Unprocessed: allOrders.filter(order => order.status === 'Unprocessed'),
+                            Shipped: allOrders.filter(order => order.status === 'Shipped'),
+                            Delivered: allOrders.filter(order => order.status === 'Delivered') };
+      state.orders = {  unprocessed: state.orderDetail.Unprocessed.length,
+                        shipped: state.orderDetail.Shipped.length,
+                        delivered: state.orderDetail.Delivered.length };
+      let allProducts = [];
+      action.payload.forEach(order => {
+        order.products.forEach(product => {
+          let idx = allProducts.findIndex(p => p._id === product._id);
+          if (idx !== -1) {
+            allProducts[idx].quantity += product.quantity;
+          } else {
+            allProducts.push(product);
+          }})});
+      allProducts.sort((a, b) => { return b.quantity - a.quantity; });
+      
+      state.topProducts = allProducts.length >= 3? allProducts.slice(0, 3) : allProducts;
+      state.getSellerOrder = REQUEST_STATE.FULFILLED;
+    })
+    .addCase(changeStatusAsync.pending, (state) => {
+      state.changeOrderStatus = REQUEST_STATE.PENDING;
+    })
+    .addCase(changeStatusAsync.fulfilled, (state, action) => {
+      state.changeOrderStatus = REQUEST_STATE.FULFILLED;
+      const orderIdx = state.orderDetail.Unprocessed.findIndex(order => order._id === action.payload._id);
+      state.orderDetail.Shipped.unshift(state.orderDetail.Unprocessed[orderIdx]);
+      state.orderDetail.Unprocessed.splice(orderIdx, 1);
+      --state.orders.unprocessed;
+      ++state.orders.shipped;
+    })
+    .addCase(changeStatusAsync.rejected, (state, action) => {
+      state.changeOrderStatus = REQUEST_STATE.REJECTED;
       console.log(action);
     })
   }
 });
 
-export const {addProduct} = sellerSlice.actions;
-
 // ------------------ Getters ------------------- //
-export const getFirstName = (state) => state.seller.firstName;
-export const getLastName = (state) => state.seller.lastName;
-export const getAddress = (state) => state.seller.address;
-export const getEmail = (state) => state.seller.email;
-export const getPhone = (state) => state.seller.phone;
-export const getCompanyName = (state) => state.seller.compangName;
-
 export const getProductList = (state) => state.seller.inventory;
 export const getProductListStatus = (state) => state.seller.inventoryStatus;
+export const getSellerOrder = (state) => state.seller.orders;
+export const getSellerOrderDetail = (state) => state.seller.orderDetail;
+export const getStats = (state) => state.seller.stats;
+export const getTopProducts = (state) => state.seller.topProducts;
+export const getSellerOrderStatus = (state) => state.seller.getSellerOrder;
+export const getChangeOrderStatus = (state) => state.seller.changeOrderStatus;
+
 export default sellerSlice.reducer;

@@ -3,30 +3,38 @@ import React from "react";
 import "../../css/cart.css";
 import { Grid } from '@mui/material';
 import { deleteProduct, updateQuantity } from '../../controller/cartSlice';
-import { useDispatch} from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 import { IconButton } from '@mui/material';
-
+import { getCart } from "../../controller/cartSlice";
 
 function ItemInCart(props) {
     const originalQuantity = props.item.quantity;
     const [quantity, setQuantity] = useState(originalQuantity)
 
     const dispatch = useDispatch();
+    const cart = useSelector(getCart);
 
     function handleChangeInQuantity(newValue) {
-        setQuantity(newValue)
+        setQuantity(newValue);
         dispatch(updateQuantity({
-            id: props.item.id,
+            _id: props.item._id,
             quantity: newValue,
-        }))
+        }));
+        let value = parseInt(newValue);
+        if (value >= 0) {
+            let productIdx = cart.findIndex(p => p._id === props.item._id);
+            cart[productIdx].quantity= value;
+        }
+        sessionStorage.setItem('Cart', JSON.stringify(cart));
     }
 
     function handleDelete() {
         dispatch(deleteProduct({
-            id:props.item.id,
-        }
-        ))
+            _id:props.item._id,
+        }));
+        let updatedCart = cart.filter(p => p._id !== props.item._id);
+        sessionStorage.setItem('Cart', JSON.stringify(updatedCart));
     }
 
     return (

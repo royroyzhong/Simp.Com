@@ -83,7 +83,7 @@ export default function Header(prop) {
   React.useEffect(() => {
     dispatch(getUserAsync()).then((result, err) => {
       if (err) {
-        console.log(err);
+        setUserInfo(null);
       } else {
         let user = result.payload.data;
         setUserInfo(user);

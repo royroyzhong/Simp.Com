@@ -9,21 +9,19 @@ import {
 } from "@mui/material";
 import picture from "../../assets/picture.svg";
 import { Marginer } from "../../css/CommonStyle";
-import { useDispatch } from "react-redux";
-import { addProduct } from "../../controller/cartSlice";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { addProduct, getCart } from "../../controller/cartSlice";
 import Divider from "@mui/material/Divider";
 
 export default function Product(props) {
-  let dispatch = useDispatch();
   let navigate = useNavigate();
+  let dispatch = useDispatch();
+  let cart = useSelector(getCart);
 
   return (
     <Card
       variant="outlined"
-      onClick={() => {
-        dispatch(addProduct(props.data));
-      }}
       sx={{
         ":hover": {
           transform: "scale(1.055)",
@@ -32,7 +30,7 @@ export default function Product(props) {
     >
       <CardActionArea
         onClick={() => {
-          navigate("/buyer/product/" + props.data.uuid, {
+          navigate("/buyer/product/" + props.data._id, {
             state: { data: props.data, isStatic: true },
           });
         }}
@@ -75,7 +73,22 @@ export default function Product(props) {
         >
           {'$' + props.data.price}
         </Typography>
-        <Button variant="contained" size="small" color="primary">
+        <Button variant="contained" size="small" color="primary" onClick={() => {
+          dispatch(addProduct(props.data));
+          let updatedCart = [...cart];
+          let productIdx = updatedCart.findIndex(p => p._id === props.data._id);
+          if (productIdx !== -1) {
+            ++updatedCart[productIdx].quantity;
+          } else {
+            updatedCart.push({
+              _id: props.data._id,
+              name: props.data.name,
+              soldBy: props.data.soldBy,
+              price: props.data.price,
+              quantity: 1});
+          }
+          sessionStorage.setItem('Cart', JSON.stringify(updatedCart));
+        }}>
           Add to Cart
         </Button>
       </CardActions>

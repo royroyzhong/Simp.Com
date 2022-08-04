@@ -17,7 +17,6 @@ import { red } from "@mui/material/colors";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material";
 import { useSelector } from "react-redux";
-
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 
@@ -25,7 +24,7 @@ export const CssBoxStyle = {
   flexGrow: 1,
   width: "43vw",
   height: "auto",
-  margin: "5vw",
+  margin: "10vh -15vw",
   paddingBottom: "2vw",
   borderRadius: "19px",
   backgroundColor: "white",
@@ -33,14 +32,14 @@ export const CssBoxStyle = {
   boxShadow: "0 0 2px rgb(20 20 20 / 50%)",
 };
 export const CssBoxStyle_smaller = {
-  margin: "5vw 12vw",
-  flexGrow: 1,
+  width: "55vw",
+  margin: "3vh 20vw",
   height: "auto",
+  flexGrow: 1,
   paddingBottom: "2vw",
   borderRadius: "19px",
   backgroundColor: "white",
   boxShadow: "0 0 2px rgb(20 20 20 / 50%)",
-  width: "30vw",
 };
 
 // import { Marginer } from "../loginComponent/CommonStyle";

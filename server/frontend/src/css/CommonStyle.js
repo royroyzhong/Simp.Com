@@ -55,11 +55,12 @@ export const Input = styled.input`
 `;
 
 export const SubmitButton = styled.button`
-  width: 16vw;
-  padding: 12px 10vh;
+  width: 24vw;
+  padding: 12px 1vw;
   text-align: center;
   color: #fff;
-  font-size: 18px;
+  font-size: 1.2vw;
+  white-space: nowrap;
   font-weight: 600;
   border: none;
   border-radius: 100px 100px 100px 100px;
@@ -69,6 +70,10 @@ export const SubmitButton = styled.button`
   background: linear-gradient(80deg, rgba #e3f2fd 20%, rgba #1976d2 80%);
   &:hover {
     filter: brightness(1.03);
+  }
+  @media only screen and (max-width: 900px) {
+    font-size: 2.8vw;
+    width: 46vw;
   }
 `;
 

@@ -2,7 +2,7 @@
 Link: https://dogecom.herokuapp.com
 
 ### Intro: 
-We deisnged an e-commerce platform which supports roles from guests and buyer to seller. We included a variety of features from upload products, drag & drop files and cart operations to more advanced such as live chat and data visulization. 
+We designed an e-commerce platform supporting roles from guests to buyer to seller. We included a variety of features from upload products, drag & drop files and cart operations to more advanced integration such as live chat and data visualization.
 
 ### Project Description
 We designed a business startup framework which supports various role-based activity through our interactive dashboard UI for small business and their corresponding targeted customers. Seller activity spans from designing presentation page to tracking order status where logged-in user can browse page, add/delete item to/from carts/wishlist, receive email notification for restocking of wanted item, adn guests are limited to only browsing.
@@ -12,21 +12,21 @@ User login information including address and encrypted password will be saved as
 ### Project Requirements
 **Minimal Requirements**:
 - [x] Login
-- [ ] Basic CRUD operation on user profile includes remove/update/add to cart/wishlist 
-- [ ] Editable and expandable product presentation page 
-- [ ] Track order status for shipped items
-- [ ] View product page 
+- [x] Basic CRUD operation on user profile includes remove/update/add to cart/wishlist 
+- [x] Editable and expandable product presentation page 
+- [x] Track order status for shipped items
+- [x] View product page 
 
 **Standard Requirements**:
 - [x] Encrypted password 
 - [ ] Data visualization
 - [ ] Email notification for restocking of wanted item
 - [x] Login with Google
-- [ ] Drag and drop pictures (jpeg,gif and most image and video format)
+- [x] Drag and drop pictures (jpeg,gif and most image and video format)
 
 **Stretch Requirements**:
 - [ ] Payment (support paypal, mastercard, visa credit cards etc) 
-- [ ] Livechat for customer support 
+- [x] Livechat for customer support 
 - [ ] Recommondation system 
 
 ### Task Breakdowns 

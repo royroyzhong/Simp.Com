@@ -9,7 +9,7 @@ import ShoppingCartCheckoutOutlinedIcon from "@mui/icons-material/ShoppingCartCh
 import React from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getCart } from "../../controller/cartSlice";
+import { getCart, loadFromStorage } from "../../controller/cartSlice";
 import SellingStore from "./SellingStore";
 
 import { useDispatch } from "react-redux";
@@ -19,10 +19,18 @@ import { getUserAsync } from "../../controller/login/thunks";
 import { transporter, mailOptions } from "../orders/emailNotification";
 
 function Cart() {
-  let cart = useSelector(getCart);
   const dispatch = useDispatch();
   let navigate = useNavigate();
 
+  useEffect(() => {
+    //sessionStorage.clear();
+    let localStorage = sessionStorage.getItem('Cart');
+    if (localStorage != null) {
+      dispatch(loadFromStorage(JSON.parse(localStorage)));
+    }
+  }, []);
+
+  let cart = useSelector(getCart);
   let uniqueStoreNames = [...new Set(cart?.map((product) => product.soldBy))];
   let storeNames = Array.from(uniqueStoreNames).sort();
 
@@ -48,7 +56,9 @@ function Cart() {
       if (statusCode !== 200) {
         navigate("/login");
       } else {
-        dispatch(submitOrderAsync(cart));
+        dispatch(submitOrderAsync(cart)).then(() => {
+          sessionStorage.clear();
+        }).catch(err => {console.log(err)});
       }
     });
   };

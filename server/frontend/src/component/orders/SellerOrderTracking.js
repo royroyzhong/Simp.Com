@@ -1,21 +1,23 @@
-import { getModified, getOrderDetails } from "../../controller/orderSlice";
+import { getSellerOrderDetail, getSellerOrderStatus } from "../../controller/sellerSlice";
+import { REQUEST_STATE } from "../../controller/utils";
+
 // MUI Components
 import { Grid } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
 import { Container } from "@mui/system";
+import { DataGrid } from "@mui/x-data-grid";
 
-import React, { useEffect,  useState } from 'react';
-import { useSelector, useDispatch } from "react-redux";
-import "../../css/orderTracking.css";
-import { changeStatusAsync, getOrderAsync } from '../cart/cartThunks';
-import AlertPopup from "./alertPopup";
+import React, { useEffect, useState } from 'react';
 import { confirm } from "react-confirm-box";
-
+import { useDispatch, useSelector } from "react-redux";
+import "../../css/orderTracking.css";
+import { changeStatusAsync, getSellerOrderAsync } from '../cart/cartThunks';
 
 function SellerOrderTracking(props) {
   const [finalClickInfo, setFinalClickInfo] = useState(null);
-  let orders = useSelector(getOrderDetails);
-  var modified = useSelector(getModified);
+  const [popUpOpen, setPopUpOpen] = useState(true);
+  const [popUpConfirm, setPopUpConfirm] = useState(false);
+  let orders = useSelector(getSellerOrderDetail);
+  let getOrderStatus = useSelector(getSellerOrderStatus);
   const dispatch = useDispatch();
 
   const options = {
@@ -27,27 +29,27 @@ function SellerOrderTracking(props) {
 
   const handleOnCellClick = async (params, event) => {
     event.preventDefault();
-    setFinalClickInfo(params.id);
+    setFinalClickInfo(params._id);
     renderPopUp(options,params)
   };
 
   const renderPopUp = async (options,params) => {
     const result = await confirm("Are you sure?", options);
     if (result) {
-      dispatch(changeStatusAsync(params.id));
+      dispatch(changeStatusAsync(params._id));
       return;
     }
   };
 
   useEffect(() => {
-    if (modified !== "succeed") {
-      dispatch(getOrderAsync());
+    if (getOrderStatus !== REQUEST_STATE.FULFILLED) {
+      dispatch(getSellerOrderAsync());
     }
-  }, [dispatch, modified]);
+  }, [dispatch, getOrderStatus]);
 
 
   const columns = [
-    { field: "uuid", headerName: "Order Number", width: 130 },
+    { field: "orderNumber", headerName: "Order Number", width: 130 },
     {
       field: "products",
       headerName: "Products",
@@ -57,7 +59,7 @@ function SellerOrderTracking(props) {
           {products.value.map((product, index) => (
             <li key={index}>
               {" "}
-              id: {product.id}
+              id: {product._id}
               {" "}
               name: {product.name}
             </li>
@@ -67,11 +69,6 @@ function SellerOrderTracking(props) {
     },
     { field: "status", headerName: "Status", width: 130 },
   ];
-
-  let extendedOrders = orders.map((order) => ({
-    ...order,
-    id: order._id
-  }))
 
   return (
     <Container maxWidth="xl" className="dashboard" sx={{ bgcolor: '#F7F8FC' }}>
@@ -97,7 +94,8 @@ function SellerOrderTracking(props) {
         </Grid>
         <Grid item xs={10} style={{ height: 400 }}>
           <DataGrid
-            rows={extendedOrders.filter(order => order.status === "Unprocessed")}
+            rows={orders.Unprocessed}
+            getRowId={(order) => order.orderNumber}
             columns={columns}
             pageSize={5}
             rowsPerPageOptions={[5]}
@@ -112,7 +110,8 @@ function SellerOrderTracking(props) {
         </Grid>
         <Grid item xs={10} style={{ height: 400 }}>
           <DataGrid
-            rows={extendedOrders.filter(order => order.status === "Shipped")}
+            rows={orders.Shipped}
+            getRowId={(order) => order.orderNumber}
             columns={columns}
             pageSize={5}
             rowsPerPageOptions={[5]}
@@ -125,7 +124,8 @@ function SellerOrderTracking(props) {
         </Grid>
         <Grid item xs={10} style={{ height: 400 }}>
           <DataGrid
-            rows={extendedOrders.filter(order => order.status === "Delivered")}
+            rows={orders.Delivered}
+            getRowId={(order) => order.orderNumber}
             columns={columns}
             pageSize={5}
             rowsPerPageOptions={[5]}

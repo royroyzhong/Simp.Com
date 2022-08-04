@@ -8,15 +8,9 @@ import bomb from "../../assets/bomb.svg";
 import book from "../../assets/book.svg";
 import upload from "../../assets/upload.svg";
 import { loadProduct } from "../../controller/productSlice";
+import { REQUEST_STATE } from "../../controller/utils";
 import { getProductList, getProductListStatus, getProducts } from "../../controller/sellerSlice";
 import { Marginer } from "../../css/CommonStyle";
-
-const imgs = {
-    avatar: avatar,
-    snowman: snowman,
-    book: book,
-    bomb: bomb
-}
 
 export default function ProductBoard(props) {
 
@@ -39,16 +33,16 @@ function CardGrid(props) {
     let dispatch = useDispatch();
 
     useEffect(() => {
-        if (status === 'idle') {
+        if (status === REQUEST_STATE.IDLE) {
             dispatch(getProducts());
         }
     }, [dispatch, status]);
 
     return (
         <Grid container spacing={2} columns={gridStyle}>
-            {status === 'succeed' ? products.map((product, index) => (
+            {status === REQUEST_STATE.FULFILLED ? products.map((product, index) => (
                 <Grid item key={index} xs={1} sm={1} md={3}>
-                    <Card variant="outlined" onClick={(e) => {
+                    <Card variant="outlined" onClick={() => {
                         // Set ProductSlice data
                         let features = {}
                         for (let description of product.descriptions) {
@@ -63,7 +57,7 @@ function CardGrid(props) {
                             storage: product.storage,
                             images: product.images.map(i => JSON.parse(i))
                         }))
-                        navigate("/sellerX/product/" + product.uuid);
+                        navigate("/sellerX/product/" + product._id);
                     }}>
                         <CardActionArea>
                             <CardContent>
