@@ -22,13 +22,13 @@ router.post('/', authJwt.verifyToken, (req, res) => {
 
 router.get('/', authJwt.verifyToken, (req, res) => {
     let id = req.query.id;
-    console.log(">>>"+id);
     Image.findOne({_id: id})
         .exec()
         .then(img => {
             res.json(img);
         })
 })
+
 
 router.delete('/', authJwt.verifyToken, (req, res) => {
     let id = req.params['id'];

@@ -22,14 +22,29 @@ export const postNewProduct = createAsyncThunk('/product/post', async function (
   return fetchAPI('POST', data, {}, 'products').then(response => response.text());
 })
 
-export const updateProduct = createAsyncThunk('/product/patch', async function(data) {
+export const updateProduct = createAsyncThunk('/product/patch', async function (data) {
   let features = data.features;
   let descriptions = Object.entries(features).map(([key, val]) => { return { title: key, content: val } })
   data.descriptions = descriptions;
+
+  let images = data.images;
+  let imagesFetchSigs = [];
+  for (let img of images) {
+    if (img._id === undefined)
+      imagesFetchSigs.push(fetchAPI('POST', img, {}, 'image').then(response => {
+        return response.status === 200 ? response.text() : null;
+      }))
+  }
+
+  data.images = data.images.filter(i => i._id !== undefined) 
+  await Promise.all(imagesFetchSigs)
+    .then(i => {
+      for (let img of i)
+        data.images.push(img);
+    })
+
   return fetchAPI('PATCH', data, {}, 'products').then(response => response.text());
 })
-
-
 
 /**
  * Product Slice is only used for the editing page.

@@ -12,7 +12,9 @@ function DragDropDisplay() {
       prev={(prev, active) => prev}
     >
       {
-        images?.map((img, index) => <IndividualImage key={index} img={img} />)
+        images?.map((img, index) => <IndividualImage key={index} img={
+          img.data === undefined ? img : {src: img.data}
+        } />)
       }
 
     </Carousel>
