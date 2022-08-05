@@ -1,15 +1,11 @@
 import { Card, CardActionArea, CardContent, CardMedia, Container, Grid, Typography } from "@mui/material";
-import { useDispatch, useSelector } from 'react-redux';
-import avatar from "../../assets/avatar.jpg";
-import snowman from "../../assets/snowman.svg";
 import { useEffect } from "react";
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
-import bomb from "../../assets/bomb.svg";
-import book from "../../assets/book.svg";
 import upload from "../../assets/upload.svg";
-import { loadProduct } from "../../controller/productSlice";
-import { REQUEST_STATE } from "../../controller/utils";
+import { loadImages, loadProduct } from "../../controller/productSlice";
 import { getProductList, getProductListStatus, getProducts } from "../../controller/sellerSlice";
+import { REQUEST_STATE } from "../../controller/utils";
 import { Marginer } from "../../css/CommonStyle";
 
 export default function ProductBoard(props) {
@@ -55,7 +51,7 @@ function CardGrid(props) {
                             tags: product.tags,
                             price: product.price,
                             storage: product.storage,
-                            images: product.images.map(i => JSON.parse(i))
+                            images: product.images
                         }))
                         navigate("/sellerX/product/" + product._id);
                     }}>
@@ -63,7 +59,7 @@ function CardGrid(props) {
                             <CardContent>
                                 <Marginer margin="40px" />
                                 <CardMedia
-                                    image={product.images.length > 0 ? JSON.parse(product.images[0]).src : ""}
+                                    image={product.images.length > 0 ? product.images[0].data : ""}
                                     height={100}
                                     sx={{
                                         objectFit: "contain"
