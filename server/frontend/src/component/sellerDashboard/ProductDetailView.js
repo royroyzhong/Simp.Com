@@ -44,7 +44,7 @@ export default function ProductPage(props) {
                 tags: location.state.data.tags,
                 price: location.state.data.price,
                 storage: location.state.data.storage,
-                images: location.state.data.images.map(i => JSON.parse(i))
+                images: location.state.data.images
             }))
         }
     }, [dispatch, location]);

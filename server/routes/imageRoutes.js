@@ -9,10 +9,11 @@ router.post('/', authJwt.verifyToken, (req, res) => {
     let image = new Image({
         data: data.src
     });
+
+
     image.save()
         .then(img => {
-            console.log(">>>" + img);
-            res.send(img._id);
+            res.send(img._id.toString());
         })
         .catch(_err => {
             res.status(503).send("Failed to add image");
@@ -20,11 +21,12 @@ router.post('/', authJwt.verifyToken, (req, res) => {
 })
 
 router.get('/', authJwt.verifyToken, (req, res) => {
-    let id = req.params['id'];
-    Image.findOne({_id: re})
+    let id = req.query.id;
+    console.log(">>>"+id);
+    Image.findOne({_id: id})
         .exec()
         .then(img => {
-            res.body(img);
+            res.json(img);
         })
 })
 
