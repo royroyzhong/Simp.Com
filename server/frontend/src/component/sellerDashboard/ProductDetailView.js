@@ -245,7 +245,7 @@ function TagDisplay(props) {
             <Typography variant="h5" align="left">Tags</Typography>
             <Box sx={{ display: "flex", flexWrap: "wrap" }} >
                 {tags.map((tag, index) => (
-                    <Tag key={index} rmv={handleRmv}>{tag}</Tag>
+                    <Tag isStatic={props.isStatic} key={index} rmv={handleRmv}>{tag}</Tag>
                 ))}
                 {props.isStatic ? null : (<Box display={'flex'} >
                     <AddCircleOutlineIcon onClick={handleToggle} sx={{ margin: 1.5 }} />
@@ -294,12 +294,17 @@ function TextDisplay(props) {
         }
     }
 
+    const handleRmv = (toRmv) => {
+        dispatch(rmvFeature(toRmv));
+    } 
+
     return (
         <Stack>
             <Box >
                 {Object.entries(features).map(([fk, fv], index) => (
                     <Box key={index} sx={textStyle}>
                         <Typography variant="h5">{fk}</Typography>
+                        {props.isStatic ? <div></div> : <Button onClick={e => handleRmv(fk)}>delete</Button>}
                         <Typography paragraph>{fv}</Typography>
                     </Box>
                 ))}
@@ -353,7 +358,7 @@ function Tag(props) {
             <Typography sx={style}>
                 {props.children}
             </Typography>
-            <Button size="small" onClick={e => props.rmv(props.children)}>delete</Button>
+            {props.isStatic ? <div></div> : <Button size="small" onClick={e => props.rmv(props.children)}>delete</Button>}
         </div>
     )
 }
