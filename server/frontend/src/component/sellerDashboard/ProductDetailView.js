@@ -11,6 +11,7 @@ import { restockProductAsync } from "../../controller/productSlice";
 
 import DragDrop from '../common/DragDrop';
 import DragDropDisplay from '../common/DragDropDisplay';
+import { removeProducts } from "../../controller/sellerSlice";
 
 
 export default function ProductPage(props) {
@@ -93,6 +94,15 @@ export default function ProductPage(props) {
                                 }))
                             navigate(-1);
                         }}>Save</Button>
+                    )}
+                    {isStatic || productId === undefined ? <div></div> : (
+                        <Button variant="contained" color="error" onClick={
+                            e => {
+                                dispatch(removeProducts(productId));
+                            }
+                        }>
+                           Delete  
+                        </Button>
                     )}
                 </Stack>
                 {/* <DragDropDisplay> </DragDropDisplay> */}

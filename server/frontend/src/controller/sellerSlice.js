@@ -27,6 +27,10 @@ export const getProducts = createAsyncThunk('/products/get', async function () {
   return res;
 });
 
+export const removeProducts = createAsyncThunk('/products/remove', async function (id) {
+  return fetchAPI('DELETE', {}, {id: id}, 'products').then(response => response.text());
+});
+
 const sellerSlice = createSlice({
   name: "seller",
   initialState: {
@@ -58,6 +62,9 @@ const sellerSlice = createSlice({
       })
       .addCase(getSellerOrderAsync.rejected, function (state, action) {
         state.getSellerOrder = REQUEST_STATE.REJECTED;
+        console.log(action);
+      })
+      .addCase(removeProducts.fulfilled, function (state, action) {
         console.log(action);
       })
       .addCase(getSellerOrderAsync.fulfilled, function (state, action) {

@@ -64,9 +64,21 @@ function handlePatch(req, res) {
         })
 }
 
+function handleRmv(req, res) {
+
+    let id = req.query.id;
+    Product.findOneAndRemove({_id: id})
+        .exec()
+        .then(_x => {
+            res.status(200).send("succeed");
+        })
+}
+
+
 module.exports.productController = {
     getBySellerId: handleGet,
     saveFromJsonString: handlePut,
     updateProduct: handlePatch,
-    getAll: handleBuyerAndGuestGet
+    getAll: handleBuyerAndGuestGet,
+    removeProduct: handleRmv,
 }
