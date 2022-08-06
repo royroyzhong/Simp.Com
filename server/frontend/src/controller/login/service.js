@@ -16,7 +16,6 @@ const login = async (input) => {
     }
     return data;
   } catch (err) {
-    console.log(err);
     return { status: response.status, error: data.errors };
   }
 };

@@ -110,7 +110,6 @@ export default function Header(prop) {
     if (prop.role === "buyer") navigate("/userX/profile");
     if (prop.role === "seller") navigate("/seller/profile");
   };
-  console.log(prop.role);
   return (
     <AppBar position="absolute" open={prop.open}>
       <Toolbar sx={{ pr: "24px" }}>

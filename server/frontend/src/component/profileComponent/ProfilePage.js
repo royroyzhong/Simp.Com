@@ -21,11 +21,9 @@ function ProfilePage() {
         <Grid item lg={6} sx={{ marginTop: "-5vh" }}>
           {Controller === "" && <ProfileContent />}
           {Controller === "personalInformation" && <ProfileContent />}
-          {/* {Controller === "Payment" && <PaymentContent />} */}
           {Controller === "ChangePassword" && <ChangePasswordContent />}
         </Grid>
       </Grid>
-      {/* </Box> */}
     </Container>
   );
 }

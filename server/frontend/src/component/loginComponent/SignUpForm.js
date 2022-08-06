@@ -1,4 +1,7 @@
 import React, { useContext } from "react";
+import { useDispatch } from "react-redux";
+import { signupAsync } from "../../controller/login/thunks";
+import { useNavigate } from "react-router-dom";
 import {
   BoldSpan,
   BoxContainer,
@@ -14,14 +17,13 @@ import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import BusinessIcon from "@mui/icons-material/Business";
 import PersonIcon from "@mui/icons-material/Person";
-import { useDispatch } from "react-redux";
-import { signupAsync } from "../../controller/login/thunks";
-import { useNavigate } from "react-router-dom";
+
 const boxCSS = {
   "@media (max-width:900px)": {
     marginLeft: "30vw",
   },
 };
+
 function SignUpForm() {
   const dispatch = useDispatch();
   const handerSwitch = useContext(SwitcherContext);
