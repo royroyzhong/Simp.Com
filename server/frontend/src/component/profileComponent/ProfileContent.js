@@ -1,24 +1,24 @@
 import * as React from "react";
+import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { getUserAsync } from "../../controller/login/thunks";
+import { Marginer } from "../../css/CommonStyle";
+import { CssBoxStyle, CssBoxStyle_smaller } from "./ChangePasswordContent";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
-import { useState } from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import CheckIcon from "@mui/icons-material/Check";
-import { Marginer } from "../../css/CommonStyle";
 import Typography from "@mui/material/Typography";
-import { CssBoxStyle, CssBoxStyle_smaller } from "./ChangePasswordContent";
 import { Button } from "@mui/material";
-import { useDispatch } from "react-redux";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material";
-import { getUserAsync } from "../../controller/login/thunks";
-import { useEffect } from "react";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
+
 function ProfileContent() {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("md"));
@@ -35,7 +35,7 @@ function ProfileContent() {
   const [userAddress, setUserAddress] = useState();
   const [userEmail, setUserEmail] = useState();
   const [userPhone, setUserPhone] = useState();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -59,28 +59,21 @@ function ProfileContent() {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      let data = {
-        userFirstName,
-        userLastName,
-        userEmail,
-        userAddress,
-        userPhone,
-      };
-      sendData(data).then(() => {
-        setOpen(true);
-      });
-    } catch (err) {
-      console.log(err);
-    }
+    let data = {
+      userFirstName,
+      userLastName,
+      userEmail,
+      userAddress,
+      userPhone,
+    };
+    sendData(data).then(() => {
+      setOpen(true);
+    });
   };
 
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getUserAsync()).then((result, err) => {
-      if (err) {
-        console.log(err);
-      }
       let user = result.payload.data;
       setUserFirstName(user.firstName);
       setUserLastName(user.lastName);

@@ -1,12 +1,10 @@
 import React from "react";
+import { createContext } from "react";
+import { useState } from "react";
 import LoginForm from "./LoginForm";
 import styled from "styled-components";
-import { createContext } from "react";
 import SignUpForm from "./SignUpForm";
-import { useState } from "react";
 import { SmallSpan, Marginer } from "../../css/CommonStyle";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import { useTheme } from "@mui/material";
 export const AppContainer = styled.div`
   width: 100%;
   height: 100%;

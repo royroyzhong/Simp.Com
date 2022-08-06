@@ -2,32 +2,53 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchAPI } from "../api/client";
 import { getBuyerOrderAsync } from "../component/orders/orderThunks";
 
-export const getProducts = createAsyncThunk('/products/get', async function() {
-  return fetchAPI('GET', {}, {}, 'products').then(response => response.json());
+export const getProducts = createAsyncThunk('/products/get', async function () {
+  let res = fetchAPI('GET', {}, {}, 'products').then(response => response.json())
+    .then(products => {
+      let pSigs = [];
+      for (let p of products) {
+        let imagesFetchSigs = [];
+        for (let id of p.images) {
+          imagesFetchSigs.push(fetchAPI('GET', {}, { id: id }, 'image')
+            .then(res => {
+              return res.json()
+            }))
+        }
+        pSigs.push(Promise.all(imagesFetchSigs)
+          .then(sigs => {
+            p.images = sigs;
+            return p;
+          })
+        )
+      }
+      return Promise.all(pSigs);
+    })
+  return res;
+
 });
 
 const INITIAL_STATE = {
   orderHistory: [],
   displayProducts: []
 };
- 
+
 const userSlice = createSlice({
   name: "buyer",
   initialState: INITIAL_STATE,
   extraReducers: (builder) => {
     builder
-    .addCase(getProducts.fulfilled, function(state, action) {
-      state.displayProducts = action.payload;
-    })
-    .addCase(getProducts.rejected, function(state, action) {
-      console.log(action);
-    })
-    .addCase(getBuyerOrderAsync.fulfilled, function(state, action) {
-      state.orderHistory = action.payload;
-    })
-    .addCase(getBuyerOrderAsync.rejected, function(state, action) {
-      console.log(action);
-    })
+      .addCase(getProducts.fulfilled, function (state, action) {
+        state.displayProducts = action.payload;
+      })
+      .addCase(getProducts.rejected, function (state, action) {
+        console.log(action);
+      })
+      .addCase(getBuyerOrderAsync.fulfilled, function (state, action) {
+        state.orderHistory = action.payload;
+      })
+      .addCase(getBuyerOrderAsync.rejected, function (state, action) {
+        console.log(action);
+      })
   }
 });
 

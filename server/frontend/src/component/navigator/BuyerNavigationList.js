@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import { useDispatch } from "react-redux";
-import { getUserAsync, logoutAsync } from "../../controller/login/thunks";
+import { getUserAsync } from "../../controller/login/thunks";
 const categories = [
   { id: "Home", icon: <HomeIcon />, path: "/" },
   { id: "Profile", icon: <PeopleIcon />, path: "/userX/profile" },

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { addFeature, addTag, getBufferProduct, getFeatures, getImages, getName, getPrice, getStorage, getTags, loadProduct, postNewProduct, setName, setPrice, setStorage, updateProduct } from "../../controller/productSlice";
 import { restockProductAsync } from "../../controller/productSlice";
 
@@ -21,6 +21,7 @@ export default function ProductPage(props) {
     let { productId } = useParams()
 
     let location = useLocation();
+    let navigate = useNavigate();
 
     let leftStackStyle = {
         minWidth: 350
@@ -32,7 +33,6 @@ export default function ProductPage(props) {
     useEffect(() => {
         if (location.state !== null && location.state.isStatic) {
             setStatic(true);
-            // dispatch(loadProduct(location.state.data))
             // Set ProductSlice data
             let features = {}
             for (let description of location.state.data.descriptions) {
@@ -45,7 +45,7 @@ export default function ProductPage(props) {
                 tags: location.state.data.tags,
                 price: location.state.data.price,
                 storage: location.state.data.storage,
-                images: location.state.data.images.map(i => JSON.parse(i))
+                images: location.state.data.images
             }))
         }
     }, [dispatch, location]);
@@ -91,6 +91,7 @@ export default function ProductPage(props) {
                                     storage: product.storage,
                                     images: product.images
                                 }))
+                            navigate(-1);
                         }}>Save</Button>
                     )}
                 </Stack>
@@ -125,7 +126,7 @@ function ImagesDisplay(props) {
                         images?.map((img, index) => (
                             <ImageListItem key={index} sx={imgStyle}>
                                 <CardMedia
-                                    image={img.src}
+                                    image={img.data === undefined ? img.src : img.data}
                                     height={100}
                                     width={200}
                                     component={"img"}

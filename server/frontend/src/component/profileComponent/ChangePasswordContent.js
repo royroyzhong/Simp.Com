@@ -1,22 +1,22 @@
 import * as React from "react";
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import { Marginer } from "../../css/CommonStyle";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
-import { useState } from "react";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import Typography from "@mui/material/Typography";
 import ClearIcon from "@mui/icons-material/Clear";
 import CheckIcon from "@mui/icons-material/Check";
 import { Button } from "@mui/material";
-import { Marginer } from "../../css/CommonStyle";
 import { red } from "@mui/material/colors";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material";
-import { useSelector } from "react-redux";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 
@@ -42,7 +42,6 @@ export const CssBoxStyle_smaller = {
   boxShadow: "0 0 2px rgb(20 20 20 / 50%)",
 };
 
-// import { Marginer } from "../loginComponent/CommonStyle";
 function ChangePasswordContent() {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("md"));
@@ -116,13 +115,11 @@ function ChangePasswordContent() {
   );
   const user = useSelector((state) => state.login.user);
   const handleFailure = (err) => {
-    console.log(err);
     setOldPwdErr(err);
   };
   const handleSuccess = () => {
     setOpen(true);
   };
-  const handlePasswordRule = () => {};
   const handleSubmit = (e) => {
     e.preventDefault();
     try {
@@ -141,7 +138,7 @@ function ChangePasswordContent() {
         }
       }
     } catch (err) {
-      console.log(err);
+      handleFailure(err);
     }
   };
 

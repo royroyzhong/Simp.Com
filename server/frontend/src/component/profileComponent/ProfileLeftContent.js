@@ -1,17 +1,18 @@
-import { Box } from "@mui/material";
 import React from "react";
+import { useState, useEffect } from "react";
+import quinnAvatar from "../../assets/avatar.jpg"; // mock avatar
+import { Marginer } from "../../css/CommonStyle";
+import { Box } from "@mui/material";
 import { Avatar } from "@mui/material";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import Button from "@mui/material/Button";
-import { useState, useEffect } from "react";
 import PersonIcon from "@mui/icons-material/Person";
 import Typography from "@mui/material/Typography";
 import PaymentsIcon from "@mui/icons-material/Payments";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import quinnAvatar from "../../assets/avatar.jpg"; // mock avatar
-import { Marginer } from "../../css/CommonStyle";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material";
+
 const containerBoxStyle = {
   flexGrow: 1,
   borderRadius: "19px",
@@ -50,7 +51,6 @@ function ProfileLeftContent(props) {
         onClick={() => {
           setPageName("personalInformation");
         }}
-        // onClick={handleController("personalInformation")}
       >
         <PersonIcon />
         <Typography
@@ -125,24 +125,6 @@ function ProfileLeftContent(props) {
           }}
         >
           Personal Information
-        </Typography>
-      </Button>,
-      <Button
-        sx={CSSButtonStyle}
-        key="Payment"
-        onClick={() => {
-          setPageName("Payment");
-        }}
-      >
-        <PaymentsIcon />
-        <Typography
-          variant="body2"
-          gutterBottom
-          sx={{
-            marginLeft: "3vw",
-          }}
-        >
-          Payment
         </Typography>
       </Button>,
       <Button

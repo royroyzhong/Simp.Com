@@ -14,30 +14,25 @@ const categories = [
   { id: "Home", icon: <HomeIcon />, path: "/sellerX/dashboard" },
   { id: "Products", icon: <InventoryIcon />, path: "/sellerX/products" },
   { id: "Orders", icon: <LightbulbIcon />, path: "/sellerX/order_tracking" },
-  { id: "Analysis", icon: <EqualizerIcon />, path: "/SIP" },
-  { id: "Collabration", icon: <PeopleIcon />, path: "/SIP" },
 ];
 
 export default function SellerNavigationList() {
   let navigate = useNavigate();
   return (
-        <List component="nav">
-          <React.Fragment>
-            {categories.map(({ id, icon, path, active }) => (
-            <ListItemButton sx={{color:'#ffffff'}}
-                selected={active}
-                key={id}
-                onClick={() => navigate(path)}
-              >
-                <ListItemIcon sx={{color:'#ffffff'}}>
-                  {icon}
-                </ListItemIcon>
-                <ListItemText>
-                  {id}
-                </ListItemText>
-              </ListItemButton>
-          ))}
-          </React.Fragment>
-        </List>
+    <List component="nav">
+      <React.Fragment>
+        {categories.map(({ id, icon, path, active }) => (
+          <ListItemButton
+            sx={{ color: "#ffffff" }}
+            selected={active}
+            key={id}
+            onClick={() => navigate(path)}
+          >
+            <ListItemIcon sx={{ color: "#ffffff" }}>{icon}</ListItemIcon>
+            <ListItemText>{id}</ListItemText>
+          </ListItemButton>
+        ))}
+      </React.Fragment>
+    </List>
   );
 }

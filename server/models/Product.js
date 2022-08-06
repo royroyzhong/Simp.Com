@@ -13,22 +13,10 @@ const productSchema = new Schema({
     }],
     tags: [String],
     lastModifiedAt: { type: Date, default: Date.now },
-    soldBy: { type: Schema.Types.ObjectId, ref: 'seller' },
+    soldBy: { type: Schema.Types.ObjectId, ref: 'sellers' },
     price: Number,
     storage: Number,
-    images: [{
-        type: String,
-        get: function (data) {
-            try {
-                return JSON.parse(data);
-            } catch (error) {
-                return data;
-            }
-        },
-        set: function (data) {
-            return JSON.stringify(data);
-        }
-    }],
+    images: [String],
 })
 
 const Product = mongoose.model('product', productSchema);
