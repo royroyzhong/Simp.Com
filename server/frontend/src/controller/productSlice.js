@@ -39,7 +39,7 @@ export const updateProduct = createAsyncThunk('/product/patch', async function (
       }))
   }
 
-  data.images = data.images.filter(i => i._id !== undefined) 
+  data.images = data.images.filter(i => i._id !== undefined).map(i => i._id)
   await Promise.all(imagesFetchSigs)
     .then(i => {
       for (let img of i)
