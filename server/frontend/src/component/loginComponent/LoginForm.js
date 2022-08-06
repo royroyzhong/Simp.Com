@@ -1,4 +1,7 @@
 import React, { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import {
   BoldSpan,
   BoxContainer,
@@ -9,24 +12,16 @@ import {
 } from "../../css/CommonStyle";
 import "../../css/login.css";
 import { CssTextField } from "./CommonMuiStyle";
+import { loginAsync, googleloginAsync } from "../../controller/login/thunks";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import { SwitcherContext } from "./LoginPage";
-import Tooltip from "@mui/material/Tooltip";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import IconButton from "@mui/material/IconButton";
-import Dashboard from "../sellerDashboard/Dashboard";
-import { useNavigate } from "react-router-dom";
-import { Typography } from "@mui/material";
-import { useEffect } from "react";
-import jwt_decode from "jwt-decode";
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { loginAsync, googleloginAsync } from "../../controller/login/thunks";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
@@ -43,13 +38,11 @@ const boxCSS = {
 };
 function LoginForm(prop) {
   const dispatch = useDispatch();
-
   function handleCallBackResponse(res) {
     dispatch(googleloginAsync({ jwt: res.credential })).then((result) => {
       loginSuccess(result);
     });
   }
-  // const [user, setUser] = useState({});
   useEffect(() => {
     // global google
     try {
@@ -67,7 +60,7 @@ function LoginForm(prop) {
         }
       );
     } catch (err) {
-      console.log(err);
+      navigate("/login");
     }
   }, []);
 
