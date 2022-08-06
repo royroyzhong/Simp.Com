@@ -1,5 +1,3 @@
-
-
 export default function ProductInOrderView(props) {
     console.log(props)
     return (

@@ -1,44 +1,58 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { fetchAPI } from "../api/client";
+import { productActionTypes } from '../component/sellerDashboard/productActionTypes';
+import { REQUEST_STATE } from "./utils";
+import { restockProduct } from "../component/sellerDashboard/productService"
 
-export const postNewProduct = createAsyncThunk('/product/post', async function(data) {
+export const postNewProduct = createAsyncThunk('/product/post', async function (data) {
   let features = data.features;
-  let descriptions = Object.entries(features).map(([key, val]) => {return {title: key, content: val}})
+  let descriptions = Object.entries(features).map(([key, val]) => { return { title: key, content: val } })
   data.descriptions = descriptions;
   return fetchAPI('POST', data, {}, 'products').then(response => response.text());
 })
 
-export const updateProduct = createAsyncThunk('/product/patch', async function(data) {
+export const updateProduct = createAsyncThunk('/product/patch', async function (data) {
   let features = data.features;
-  let descriptions = Object.entries(features).map(([key, val]) => {return {title: key, content: val}})
+  let descriptions = Object.entries(features).map(([key, val]) => { return { title: key, content: val } })
   data.descriptions = descriptions;
   return fetchAPI('PATCH', data, {}, 'products').then(response => response.text());
 })
+
+export const restockProductAsync = createAsyncThunk(
+  productActionTypes.RESTOCK_PRODUCT,
+  async (name) => {
+    console.log("async",name);
+    return await restockProduct(name);
+  })
+
 
 /**
  * Product Slice is only used for the editing page.
  */
 
- const INITIAL_STATE = {
+const INITIAL_STATE = {
   name: "",
   title: "",
   price: 0,
   storage: 0,
   tags: [],
   features: {},
-  images:[]
+  images: [],
+
+  // status
+  restockProductStatus: REQUEST_STATE.IDLE,
 }
 
 const productSlice = createSlice({
   name: "product",
   initialState: INITIAL_STATE,
   reducers: {
-    setName: (state, action) => {state.name = action.payload},
-    setTitle: (state, action) => {state.title = action.payload},
-    addTag: (state, action) => {state.tags.push(action.payload)},
-    setPrice: (state, action) => {state.price = action.payload},
-    setStorage: (state, action) => {state.storage = action.payload},
-    addFeature: (state, action) => {state.features[action.payload.title] = action.payload.description},
+    setName: (state, action) => { state.name = action.payload },
+    setTitle: (state, action) => { state.title = action.payload },
+    addTag: (state, action) => { state.tags.push(action.payload) },
+    setPrice: (state, action) => { state.price = action.payload },
+    setStorage: (state, action) => { state.storage = action.payload },
+    addFeature: (state, action) => { state.features[action.payload.title] = action.payload.description },
     loadProduct: (state, action) => {
       let product = action.payload;
       state.name = product.name;
@@ -49,23 +63,27 @@ const productSlice = createSlice({
       state.storage = product.storage;
       state.images = product.images;
     },
-    addImage: (state,action) => {
-      state.images.push({id:state.images.length, src:action.payload});
+    addImage: (state, action) => {
+      state.images.push({ id: state.images.length, src: action.payload });
     }
   },
   extraReducers: (builder) => {
     builder
-    .addCase(postNewProduct.fulfilled, function(state, action) {
-      console.log("save succeeded");
-    })
-    .addCase(updateProduct.fulfilled, function(state, action) {
-      console.log("update succeeded");
-    })
+      .addCase(postNewProduct.fulfilled, function (state, action) {
+        console.log("save succeeded");
+      })
+      .addCase(updateProduct.fulfilled, function (state, action) {
+        console.log("update succeeded");
+      })
+      .addCase(restockProductAsync.fulfilled, function (state, action) {
+        console.log("notification sent sucessfully");
+      })
   }
+
 });
 
 // Export Setters
-export const {setName, setTitle, addTag, addFeature, loadProduct, setStorage, setPrice, addImage} =
+export const { setName, setTitle, addTag, addFeature, loadProduct, setStorage, setPrice, addImage } =
   productSlice.actions;
 
 // ++++++++++++++++ Getters ++++++++++++++++++++ //

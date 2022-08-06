@@ -7,16 +7,13 @@ import ShoppingCartCheckoutOutlinedIcon from "@mui/icons-material/ShoppingCartCh
 
 /* Styling & MUI */
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch} from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getCart, loadFromStorage } from "../../controller/cartSlice";
 import SellingStore from "./SellingStore";
-
-import { useDispatch } from "react-redux";
-import { submitOrderAsync } from "./cartThunks";
+import { useEffect } from "react";
+import { submitOrderAsync } from "../orders/orderThunks";
 import { getUserAsync } from "../../controller/login/thunks";
-
-import { transporter, mailOptions } from "../orders/emailNotification";
 
 function Cart() {
   const dispatch = useDispatch();
@@ -63,16 +60,6 @@ function Cart() {
     });
   };
 
-  const handleSendEmail = (event) => {
-    event.preventDefault();
-    transporter.sendMail(mailOptions, function (error, info) {
-      if (error) {
-          console.log(error);
-      } else {
-          console.log('Email sent' + info.response);
-      }
-  })
-  }
 
   return (
     <Container
@@ -96,7 +83,6 @@ function Cart() {
           {" "}
           <ShoppingCartCheckoutOutlinedIcon> </ShoppingCartCheckoutOutlinedIcon>
         </button>
-        <button onClick={handleSendEmail}> Test </button>
       </Box>
     </Container>
   );

@@ -1,11 +1,7 @@
 import { Card, CardActionArea, CardContent, CardMedia, Container, Grid, Typography } from "@mui/material";
 import { useDispatch, useSelector } from 'react-redux';
-import avatar from "../../assets/avatar.jpg";
-import snowman from "../../assets/snowman.svg";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import bomb from "../../assets/bomb.svg";
-import book from "../../assets/book.svg";
 import upload from "../../assets/upload.svg";
 import { loadProduct } from "../../controller/productSlice";
 import { REQUEST_STATE } from "../../controller/utils";

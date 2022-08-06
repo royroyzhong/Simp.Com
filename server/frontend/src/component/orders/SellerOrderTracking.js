@@ -10,7 +10,7 @@ import React, { useEffect, useState } from 'react';
 import { confirm } from "react-confirm-box";
 import { useDispatch, useSelector } from "react-redux";
 import "../../css/orderTracking.css";
-import { changeStatusAsync, getSellerOrderAsync } from '../cart/cartThunks';
+import { changeStatusAsync, getSellerOrderAsync } from '../orders/orderThunks';
 
 function SellerOrderTracking(props) {
   const [finalClickInfo, setFinalClickInfo] = useState(null);
@@ -72,15 +72,6 @@ function SellerOrderTracking(props) {
 
   return (
     <Container maxWidth="xl" className="dashboard" sx={{ bgcolor: '#F7F8FC' }}>
-{/* 
-      {popUpOpen &&
-        <div>
-          <AlertPopup
-            setOpen={setPopUpOpen}
-            // setConfirm = {setPopUpConfirm}
-          />
-        </div>
-      } */}
 
       <Grid
         container
