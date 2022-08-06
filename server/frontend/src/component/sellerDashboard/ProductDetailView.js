@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { addFeature, addTag, getBufferProduct, getFeatures, getImages, getName, getPrice, getStorage, getTags, loadProduct, postNewProduct, setName, setPrice, setStorage, updateProduct } from "../../controller/productSlice";
+import { addFeature, addTag, getBufferProduct, getFeatures, getImages, getName, getPrice, getStorage, getTags, loadProduct, postNewProduct, rmvFeature, rmvTag, setName, setPrice, setStorage, updateProduct } from "../../controller/productSlice";
 import { restockProductAsync } from "../../controller/productSlice";
 
 import DragDrop from '../common/DragDrop';
@@ -101,7 +101,7 @@ export default function ProductPage(props) {
                                 dispatch(removeProducts(productId));
                             }
                         }>
-                           Delete  
+                            Delete
                         </Button>
                     )}
                 </Stack>
@@ -145,7 +145,7 @@ function ImagesDisplay(props) {
                             </ImageListItem>
                         ))
                     }
-               </ImageList>
+                </ImageList>
             </CardContent>
         </Card>
     )
@@ -181,7 +181,7 @@ function PriceAndQuantity(props) {
     const handleSendEmail = (event) => {
         event.preventDefault();
         dispatch(restockProductAsync(name));
-      }
+    }
 
     return (
         <div>
@@ -226,12 +226,15 @@ function TagDisplay(props) {
 
     }
 
+    const handleRmv = (toRmv) => {
+        dispatch(rmvTag(toRmv));
+    }
+
     let style = {
         height: "30%"
     }
 
     let tagInputStyle = {
-        position: "absolute",
         maxWidth: 164,
         zIndex: 1000,
         backgroundColor: "white"
@@ -242,7 +245,7 @@ function TagDisplay(props) {
             <Typography variant="h5" align="left">Tags</Typography>
             <Box sx={{ display: "flex", flexWrap: "wrap" }} >
                 {tags.map((tag, index) => (
-                    <Tag key={index}>{tag}</Tag>
+                    <Tag key={index} rmv={handleRmv}>{tag}</Tag>
                 ))}
                 {props.isStatic ? null : (<Box display={'flex'} >
                     <AddCircleOutlineIcon onClick={handleToggle} sx={{ margin: 1.5 }} />
@@ -346,9 +349,12 @@ function Tag(props) {
         borderRadius: 1
     }
     return (
-        <Typography sx={style}>
-            {props.children}
-        </Typography>
+        <div>
+            <Typography sx={style}>
+                {props.children}
+            </Typography>
+            <Button size="small" onClick={e => props.rmv(props.children)}>delete</Button>
+        </div>
     )
 }
 
