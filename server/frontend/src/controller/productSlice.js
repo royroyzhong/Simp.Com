@@ -1,5 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { fetchAPI } from "../api/client";
+import { productActionTypes } from '../component/sellerDashboard/productActionTypes';
+import { REQUEST_STATE } from "./utils";
+import { restockProduct } from "../component/sellerDashboard/productService"
 
 export const postNewProduct = createAsyncThunk('/product/post', async function (data) {
   let features = data.features;
@@ -46,6 +49,14 @@ export const updateProduct = createAsyncThunk('/product/patch', async function (
   return fetchAPI('PATCH', data, {}, 'products').then(response => response.text());
 })
 
+export const restockProductAsync = createAsyncThunk(
+  productActionTypes.RESTOCK_PRODUCT,
+  async (name) => {
+    console.log("async",name);
+    return await restockProduct(name);
+  })
+
+
 /**
  * Product Slice is only used for the editing page.
  */
@@ -56,7 +67,9 @@ const INITIAL_STATE = {
   storage: 0,
   tags: [],
   features: {},
-  images: []
+  images: [],
+  // status
+  restockProductStatus: REQUEST_STATE.IDLE,
 }
 
 const productSlice = createSlice({
@@ -91,7 +104,11 @@ const productSlice = createSlice({
       .addCase(updateProduct.fulfilled, function (state, action) {
         console.log("update succeeded");
       })
+      .addCase(restockProductAsync.fulfilled, function (state, action) {
+        console.log("notification sent sucessfully");
+      })
   }
+
 });
 
 // Export Setters

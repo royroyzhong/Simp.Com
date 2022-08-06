@@ -3,7 +3,7 @@ import ItemInCart from './ItemInCart';
 import "../../css/cart.css";
 import ShoppingCartCheckoutOutlinedIcon from '@mui/icons-material/ShoppingCartCheckoutOutlined';
 import { useSelector, useDispatch } from 'react-redux';
-import { submitOrderAsync } from './cartThunks';
+import { submitOrderAsync } from '../orders/orderThunks';
 import { getCart } from "../../controller/cartSlice";
 import { getUserAsync } from "../../controller/login/thunks";
 import { useNavigate } from "react-router-dom";

@@ -38,7 +38,7 @@ export default function Product(props) {
         <CardContent>
           <Marginer margin="40px" />
           <CardMedia
-            image={props.data.images.length > 0 ? props.data.images[0].data : ""}
+           image={props.data.images.length > 0 ? props.data.images[0].data : ""}
             height={100}
             sx={{ objectFit: "contain" }}
             component={"img"}

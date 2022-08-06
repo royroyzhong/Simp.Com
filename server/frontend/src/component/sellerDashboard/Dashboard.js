@@ -21,7 +21,7 @@ import {
   YAxis
 } from "recharts";
 import { getSellerOrder, getStats, getTopProducts, getSellerOrderDetail, getSellerOrderStatus } from "../../controller/sellerSlice";
-import { getSellerOrderAsync } from '../cart/cartThunks';
+import { getSellerOrderAsync } from '../orders/orderThunks';
 import "../../css/dashboard.css";
 import Title from "../common/Title";
 import { REQUEST_STATE } from "../../controller/utils";

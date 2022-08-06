@@ -89,6 +89,7 @@ var authRouter = require("./routes/authRoutes");
 var userProfile = require("./routes/userProfile");
 var productRouter = require("./routes/productRoutes");
 var orderRouter = require("./routes/orderRoutes");
+var emailRouter = require("./routes/emailNotification");
 var imageRouter = require("./routes/imageRoutes");
 
 app.use("/index", (req, res) => {
@@ -98,6 +99,7 @@ app.use(authRouter);
 app.use(userProfile);
 app.use("/products", productRouter);
 app.use("/order", orderRouter);
+app.use("/restock",emailRouter);
 app.use("/image", imageRouter);
 
 app.use("/", express.static(__dirname + "/public/build"));

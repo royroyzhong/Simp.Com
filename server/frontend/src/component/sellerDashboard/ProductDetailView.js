@@ -7,10 +7,11 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { addFeature, addTag, getBufferProduct, getFeatures, getImages, getName, getPrice, getStorage, getTags, loadProduct, postNewProduct, setName, setPrice, setStorage, updateProduct } from "../../controller/productSlice";
+import { restockProductAsync } from "../../controller/productSlice";
 
 import DragDrop from '../common/DragDrop';
-
 import DragDropDisplay from '../common/DragDropDisplay';
+
 
 export default function ProductPage(props) {
 
@@ -164,7 +165,13 @@ function TitleDisplay(props) {
 function PriceAndQuantity(props) {
     let price = useSelector(getPrice);
     let storage = useSelector(getStorage);
+    let name = useSelector(getName);
     let dispatch = useDispatch();
+
+    const handleSendEmail = (event) => {
+        event.preventDefault();
+        dispatch(restockProductAsync(name));
+      }
 
     return (
         <div>
@@ -188,6 +195,7 @@ function PriceAndQuantity(props) {
                         dispatch(setStorage(event.target.value));
                     }} />
             )}
+            <button onClick={handleSendEmail}> Test </button>
         </div>
     )
 }
