@@ -21,7 +21,6 @@ const categories = [
 
 export default function BuyerNavigationList() {
   const dispatch = useDispatch();
-
   let navigate = useNavigate();
   const handeOnClick = (id, path) => {
     return dispatch(getUserAsync()).then((result) => {
