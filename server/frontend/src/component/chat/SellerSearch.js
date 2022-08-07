@@ -108,7 +108,7 @@ function SellerSearch(prop) {
               <CloseIcon />
             </IconButton>
           </DialogTitle>
-          <DialogContent dividers>
+          <DialogContent dividers sx={{ height: "50vh" }}>
             <MessageList
               className="message-list"
               lockable={true}
