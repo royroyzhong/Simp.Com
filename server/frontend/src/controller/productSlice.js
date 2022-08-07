@@ -68,6 +68,7 @@ const INITIAL_STATE = {
   tags: [],
   features: {},
   images: [],
+  wishlistUsers: [],
   // status
   restockProductStatus: REQUEST_STATE.IDLE,
 }

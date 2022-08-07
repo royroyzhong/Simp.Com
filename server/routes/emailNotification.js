@@ -12,18 +12,21 @@ var transporter = nodemailer.createTransport({
     }
 })
 
-var mailOptions = {
-    from: 'simplecommercedoge@gmail.com',
-    to: 'isabellayang@outlook.com',
-    subject: 'Something you want has been stocked',
-    text: "Banana is ready to be purchased! Don't miss out! "
-};
-
+function reformatProductName(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
 
 router.post('/', function (req, res, next) {
-    console.log(req.body);
+    const name = req.query['name']
+
+    var mailOptions = {
+        from: 'simplecommercedoge@gmail.com',
+        to: 'isabellayang@outlook.com',
+        subject: 'Something you want has been stocked',
+        text: reformatProductName(name) + " is ready to be purchased! Don't miss out! "
+    };
+    
     transporter.sendMail(mailOptions, function (error, info) {
-        console.log("before")
         if (error) {
             console.log(error);
             return res.status(400).send(error);

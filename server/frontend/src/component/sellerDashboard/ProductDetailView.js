@@ -4,6 +4,7 @@ import { Box, Container } from "@mui/system";
 import { useDispatch, useSelector } from "react-redux";
 
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { addFeature, addTag, getBufferProduct, getFeatures, getImages, getName, getPrice, getStorage, getTags, loadProduct, postNewProduct, setName, setPrice, setStorage, updateProduct } from "../../controller/productSlice";
@@ -158,6 +159,7 @@ function TitleDisplay(props) {
                 onChange={event => {
                     dispatch(setName(event.target.value))
                 }} />)}
+                <button> <FavoriteBorderIcon></FavoriteBorderIcon> </button>
         </div>
     )
 }

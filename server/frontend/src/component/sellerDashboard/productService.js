@@ -1,11 +1,12 @@
 export const restockProduct = async (name) => {
-  const response = await fetch('/restock', {
+  console.log("service",name)
+  const response = await fetch('/restock?name='+name, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
     // body: JSON.stringify(product)
-    body:name,
+    // body:JSON.stringify(name),
   })
 
   const data = await response.json();
