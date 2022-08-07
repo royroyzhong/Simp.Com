@@ -11,4 +11,6 @@ router.post('/', authJwt.verifyToken, (req, res) => productController.saveFromJs
 
 router.patch('/', authJwt.verifyToken, (req, res) => productController.updateProduct(req, res));
 
+router.delete('/', authJwt.verifyToken, (req, res) => productController.removeProduct(req, res));
+
 module.exports = router;

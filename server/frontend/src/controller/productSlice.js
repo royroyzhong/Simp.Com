@@ -39,7 +39,7 @@ export const updateProduct = createAsyncThunk('/product/patch', async function (
       }))
   }
 
-  data.images = data.images.filter(i => i._id !== undefined) 
+  data.images = data.images.filter(i => i._id !== undefined).map(i => i._id)
   await Promise.all(imagesFetchSigs)
     .then(i => {
       for (let img of i)
@@ -95,6 +95,10 @@ const productSlice = createSlice({
     },
     addImage: (state, action) => {
       state.images.push({ id: state.images.length, src: action.payload });
+    },
+    rmvTag: (state, action) => {state.tags = state.tags.filter(t => t !== action.payload)},
+    rmvFeature: (state, action) => {
+      delete state.features[action.payload]
     }
   },
   extraReducers: (builder) => {
@@ -113,7 +117,7 @@ const productSlice = createSlice({
 });
 
 // Export Setters
-export const { setName, setTitle, addTag, addFeature, loadProduct, setStorage, setPrice, addImage } =
+export const { setName, rmvFeature, rmvTag, setTitle, addTag, addFeature, loadProduct, setStorage, setPrice, addImage } =
   productSlice.actions;
 
 // ++++++++++++++++ Getters ++++++++++++++++++++ //
