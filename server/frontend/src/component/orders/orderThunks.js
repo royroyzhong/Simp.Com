@@ -25,7 +25,7 @@ export const getSellerOrderAsync = createAsyncThunk(
 
 export const changeStatusAsync = createAsyncThunk(
     orderActionTypes.CHANGE_STATUS,
-    async (orderToChange) => {
-        return await orderService.changeStatus(orderToChange);
+    async (object) => {
+        return await orderService.changeStatus(object);
     }
 )

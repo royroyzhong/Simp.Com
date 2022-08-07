@@ -35,7 +35,6 @@ schema.pre("save", async function (next) {
 
 // create static method to login user
 schema.statics.login = async function (email, password) {
-  console.log("I am in seller login ver");
   const user = await this.findOne({ email });
   if (user) {
     const auth = await bcrypt.compare(password, user.password);

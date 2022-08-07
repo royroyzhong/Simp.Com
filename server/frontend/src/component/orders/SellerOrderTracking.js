@@ -1,16 +1,20 @@
-import { getSellerOrderDetail, getSellerOrderStatus } from "../../controller/sellerSlice";
+import {
+  getSellerOrderDetail,
+  getSellerOrderStatus,
+} from "../../controller/sellerSlice";
 import { REQUEST_STATE } from "../../controller/utils";
 
 // MUI Components
 import { Grid } from "@mui/material";
 import { Container } from "@mui/system";
-import { DataGrid } from "@mui/x-data-grid";
-
-import React, { useEffect, useState } from 'react';
+import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
+import DeleteIcon from "@mui/icons-material/Delete";
+import SendIcon from "@mui/icons-material/Send";
+import React, { useEffect, useState } from "react";
 import { confirm } from "react-confirm-box";
 import { useDispatch, useSelector } from "react-redux";
 import "../../css/orderTracking.css";
-import { changeStatusAsync, getSellerOrderAsync } from '../orders/orderThunks';
+import { changeStatusAsync, getSellerOrderAsync } from "../orders/orderThunks";
 
 function SellerOrderTracking(props) {
   const [finalClickInfo, setFinalClickInfo] = useState(null);
@@ -23,20 +27,26 @@ function SellerOrderTracking(props) {
   const options = {
     labels: {
       confirmable: "Confirm",
-      cancellable: "Cancel"
-    }
-  }
-
-  const handleOnCellClick = async (params, event) => {
-    event.preventDefault();
-    setFinalClickInfo(params._id);
-    renderPopUp(options,params)
+      cancellable: "Cancel",
+    },
   };
 
-  const renderPopUp = async (options,params) => {
-    const result = await confirm("Are you sure?", options);
+  // const handleOnCellClick = async (params, event) => {
+  //   event.preventDefault();
+  //   setFinalClickInfo(params._id);
+  //   console.log(params);
+  //   renderPopUp(options, params);
+  // };
+
+  const renderPopUp = async (options, params, text, type) => {
+    const result = await confirm(text, options);
+    console.log(params.id);
     if (result) {
-      dispatch(changeStatusAsync(params._id));
+      if (type === "send") {
+        dispatch(changeStatusAsync({ id: params.id, type }));
+      } else {
+        dispatch(changeStatusAsync({ id: params.id, type }));
+      }
       return;
     }
   };
@@ -47,6 +57,43 @@ function SellerOrderTracking(props) {
     }
   }, [dispatch, getOrderStatus]);
 
+  const columnsForUnprocessed = [
+    { field: "orderNumber", headerName: "Order Number", width: 130 },
+    {
+      field: "products",
+      headerName: "Products",
+      width: 450,
+      renderCell: (products) => (
+        <ul>
+          {products.value.map((product, index) => (
+            <li key={index}>
+              {" "}
+              id: {product._id} name: {product.name}
+            </li>
+          ))}
+        </ul>
+      ),
+    },
+    { field: "status", headerName: "Status", width: 130 },
+    {
+      field: "actions",
+      type: "actions",
+      headerName: "Action",
+      width: 80,
+      getActions: (params) => [
+        <GridActionsCellItem
+          icon={<SendIcon color="primary" />}
+          label="Send"
+          onClick={handleProcessedSingleOrder(params)}
+        />,
+        <GridActionsCellItem
+          icon={<DeleteIcon sx={{ color: "#d32f2f" }} />}
+          label="Delete"
+          onClick={handleRemoveSingleOrder(params)}
+        />,
+      ],
+    },
+  ];
 
   const columns = [
     { field: "orderNumber", headerName: "Order Number", width: 130 },
@@ -59,9 +106,7 @@ function SellerOrderTracking(props) {
           {products.value.map((product, index) => (
             <li key={index}>
               {" "}
-              id: {product._id}
-              {" "}
-              name: {product.name}
+              id: {product._id} name: {product.name}
             </li>
           ))}
         </ul>
@@ -69,10 +114,21 @@ function SellerOrderTracking(props) {
     },
     { field: "status", headerName: "Status", width: 130 },
   ];
-
+  const handleRemoveSingleOrder = (params) => () => {
+    setFinalClickInfo(params._id);
+    renderPopUp(
+      options,
+      params,
+      "Are you sure to remove from order?",
+      "remove"
+    );
+  };
+  const handleProcessedSingleOrder = (params) => () => {
+    setFinalClickInfo(params._id);
+    renderPopUp(options, params, "Are you sure to send?", "send");
+  };
   return (
-    <Container maxWidth="xl" className="dashboard" sx={{ bgcolor: '#F7F8FC' }}>
-
+    <Container maxWidth="xl" className="dashboard" sx={{ bgcolor: "#F7F8FC" }}>
       <Grid
         container
         rowSpacing={5}
@@ -80,18 +136,15 @@ function SellerOrderTracking(props) {
         className="orderTrackingContent"
       >
         <Grid item xs={10} className="orderTrackingHeader">
-          {" "}
           Unprocessed Orders
         </Grid>
         <Grid item xs={10} style={{ height: 400 }}>
           <DataGrid
             rows={orders.Unprocessed}
             getRowId={(order) => order.orderNumber}
-            columns={columns}
+            columns={columnsForUnprocessed}
             pageSize={5}
             rowsPerPageOptions={[5]}
-            checkboxSelection
-            onCellClick={(handleOnCellClick)}
           />
         </Grid>
 
@@ -128,4 +181,3 @@ function SellerOrderTracking(props) {
 }
 
 export default SellerOrderTracking;
-
