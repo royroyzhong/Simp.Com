@@ -141,7 +141,7 @@ module.exports.signup_post = async (req, res) => {
       req.body.isSeller
     );
     res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 24 });
-    return res.status(201).json({});
+    res.status(201).json({ role: req.body.isSeller });
   } catch (err) {
     const errors = handleError(err);
     return res.status(400).json({ errors });

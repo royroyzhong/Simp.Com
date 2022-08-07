@@ -55,7 +55,7 @@ const signup = async (input) => {
     if (!response.ok) {
       return { status: response.status, error: data.errors };
     }
-    return { status: response.status };
+    return { status: response.status, role: data.role };
   } catch (err) {
     return { status: response.status, error: data.errors };
   }

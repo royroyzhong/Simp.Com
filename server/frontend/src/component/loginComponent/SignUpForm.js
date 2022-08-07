@@ -87,12 +87,14 @@ function SignUpForm() {
       };
     }
     dispatch(signupAsync(account)).then((result) => {
-      console.log(result);
       if (result.payload.status !== 201) {
         handleError(result.payload.error);
       } else {
-        console.log("first");
-        navigate("../");
+        if (!result.payload.role) {
+          navigate("../");
+        } else {
+          navigate("/seller/dashboard");
+        }
       }
     });
   };

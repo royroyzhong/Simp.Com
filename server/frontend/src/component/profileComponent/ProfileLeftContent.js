@@ -20,7 +20,7 @@ const containerBoxStyle = {
   width: "50%",
   height: "auto",
   margin: "10vh 5vw",
-  paddingBottom: "20vh",
+  paddingBottom: "26.5vh",
   boxShadow: "0 0 2px rgb(20 20 20 / 50%)",
 };
 const containerBoxStyle_smaller = {

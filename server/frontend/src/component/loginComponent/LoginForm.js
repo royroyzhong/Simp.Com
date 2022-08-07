@@ -108,7 +108,7 @@ function LoginForm(prop) {
         handleFail(result.payload.error);
         throw Error("role undefine");
       } else if (role === true) {
-        path = "../sellerX/dashboard";
+        path = "../seller/dashboard";
       } else {
         path = "/";
       }

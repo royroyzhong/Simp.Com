@@ -24,17 +24,13 @@ function SellerSearch(prop) {
   const [open, setOpen] = React.useState(false);
   const inputReferance = React.createRef();
 
-  // const theme = useTheme();
-  // const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
   const handleClose = () => {
     setOpen(false);
-    // socket.disconnect();
     setMsgUnread(false);
     setMessageReceived([]);
   };
   const handleClickOpen = () => {
     setOpen(true);
-    // socket.connect();
     setMsgUnread(false);
   };
 

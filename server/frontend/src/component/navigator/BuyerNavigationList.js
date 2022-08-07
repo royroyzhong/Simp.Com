@@ -15,9 +15,9 @@ import { useDispatch } from "react-redux";
 import { getUserAsync } from "../../controller/login/thunks";
 const categories = [
   { id: "Home", icon: <HomeIcon />, path: "/" },
-  { id: "Profile", icon: <PeopleIcon />, path: "/userX/profile" },
-  { id: "Orders", icon: <LightbulbIcon />, path: "/userX/order_tracking" },
-  { id: "Cart", icon: <ShoppingCartIcon />, path: "/userX/cart" },
+  { id: "Profile", icon: <PeopleIcon />, path: "/user/profile" },
+  { id: "Orders", icon: <LightbulbIcon />, path: "/user/order_tracking" },
+  { id: "Cart", icon: <ShoppingCartIcon />, path: "/user/cart" },
 ];
 
 export default function BuyerNavigationList() {

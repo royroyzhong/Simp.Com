@@ -53,7 +53,7 @@ function CardGrid(props) {
                             storage: product.storage,
                             images: product.images
                         }))
-                        navigate("/sellerX/product/" + product._id);
+                        navigate("/seller/product/" + product._id);
                     }}>
                         <CardActionArea>
                             <CardContent>
@@ -85,7 +85,7 @@ function CardGrid(props) {
                         storage: 0,
                         images: []
                     }))
-                    navigate("/sellerX/product_page");
+                    navigate("/seller/product_page");
                 }}>
                     <CardActionArea>
                         <CardContent>
