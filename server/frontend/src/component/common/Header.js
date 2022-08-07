@@ -107,7 +107,7 @@ export default function Header(prop) {
     navigate("/login");
   };
   const handleNavProfile = () => {
-    if (prop.role === "buyer") navigate("/userX/profile");
+    if (prop.role === "buyer") navigate("/user/profile");
     if (prop.role === "seller") navigate("/seller/profile");
   };
   return (

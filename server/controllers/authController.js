@@ -7,14 +7,13 @@ const auth = require("../middleware/authJwt");
 
 module.exports.login_post = async (req, res) => {
   const { userEmail, password } = req.body;
-  let user, token;
+  let user;
   try {
     if (req.body.isSeller) {
       user = await Seller.login(userEmail, password);
     } else {
       user = await Buyer.login(userEmail, password);
     }
-    // token = generateAccessToken(userEmail, req.body.isSeller);
     let token;
     if (req.body.isRemember) {
       token = auth.generateAccessTokenWithRememberMe(
@@ -41,7 +40,6 @@ module.exports.login_post = async (req, res) => {
   }
 };
 module.exports.googlelogin_post = async (req, res) => {
-  // let user, token;
   const { email, firstName, lastName } = res.locals.user;
   try {
     let emails = { email: email };
@@ -98,9 +96,6 @@ module.exports.login_get = async (req, res) => {
 
 module.exports.signup_post = async (req, res) => {
   try {
-    //init obj
-    console.log("post sign up");
-    console.log(req.errorsFromMid);
     const { firstName, lastName, email, password, passwordConfirm, company } =
       req.body;
     if (password !== passwordConfirm) {
@@ -110,10 +105,10 @@ module.exports.signup_post = async (req, res) => {
       return res.status(400).json({ errors: req.errorsFromMid });
     }
 
-    let id, user, role;
+    let user;
     if (!req.body.isSeller) {
       const { firstName, lastName, email, password } = req.body;
-      buyer = await Buyer.create({
+      user = await Buyer.create({
         firstName,
         lastName,
         email,
@@ -121,11 +116,9 @@ module.exports.signup_post = async (req, res) => {
         isSeller: req.body.isSeller,
         onlineStatus: true,
       });
-      id = buyer._id;
     } else {
-      console.log("first1");
       const { firstName, lastName, email, password, company } = req.body;
-      seller = await Seller.create({
+      user = await Seller.create({
         firstName,
         lastName,
         email,
@@ -134,7 +127,6 @@ module.exports.signup_post = async (req, res) => {
         isSeller: req.body.isSeller,
         onlineStatus: true,
       });
-      id = seller._id;
     }
     const token = auth.generateAccessTokenWithRememberMe(
       email,
