@@ -140,7 +140,7 @@ function SellerOrderTracking(props) {
         </Grid>
         <Grid item xs={10} style={{ height: 400 }}>
           <DataGrid
-            rows={orders.Unprocessed}
+            rows={Object.keys(orders).length === 0 ? [] : orders.Unprocessed}
             getRowId={(order) => order.orderNumber}
             columns={columnsForUnprocessed}
             pageSize={5}
@@ -154,7 +154,7 @@ function SellerOrderTracking(props) {
         </Grid>
         <Grid item xs={10} style={{ height: 400 }}>
           <DataGrid
-            rows={orders.Shipped}
+            rows={Object.keys(orders).length === 0 ? [] : orders.Shipped}
             getRowId={(order) => order.orderNumber}
             columns={columns}
             pageSize={5}
@@ -168,7 +168,7 @@ function SellerOrderTracking(props) {
         </Grid>
         <Grid item xs={10} style={{ height: 400 }}>
           <DataGrid
-            rows={orders.Delivered}
+            rows={Object.keys(orders).length === 0 ? [] : orders.Delivered}
             getRowId={(order) => order.orderNumber}
             columns={columns}
             pageSize={5}
