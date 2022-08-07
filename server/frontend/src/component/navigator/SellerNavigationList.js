@@ -11,9 +11,9 @@ import PeopleIcon from "@mui/icons-material/People";
 import { useNavigate } from "react-router-dom";
 
 const categories = [
-  { id: "Home", icon: <HomeIcon />, path: "/sellerX/dashboard" },
-  { id: "Products", icon: <InventoryIcon />, path: "/sellerX/products" },
-  { id: "Orders", icon: <LightbulbIcon />, path: "/sellerX/order_tracking" },
+  { id: "Home", icon: <HomeIcon />, path: "/seller/dashboard" },
+  { id: "Products", icon: <InventoryIcon />, path: "/seller/products" },
+  { id: "Orders", icon: <LightbulbIcon />, path: "/seller/order_tracking" },
 ];
 
 export default function SellerNavigationList() {

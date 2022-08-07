@@ -17,61 +17,13 @@ verifyToken = (req, res, next) => {
           message: "Unauthorized!",
         });
       }
-
       res.locals.user = decoded.data;
       next();
     }
   );
 };
 
-sellerCheck = (req, res, next) => {
-  //   User.findByPk(req.userId).then((user) => {
-  //     user.getRoles().then((roles) => {
-  //       for (let i = 0; i < roles.length; i++) {
-  //         if (roles[i].name === "seller") {
-  //           next();
-  //           return;
-  //         }
-  //       }
-  //       res.status(403).send({
-  //         message: "Require Moderator or Admin Role!",
-  //       });
-  //     });
-  //   });
-  if (req.name == "seller") {
-    next();
-    return;
-  }
-  res.status(403).send({
-    message: "Require Seller Role!",
-  });
-};
-buyerCheck = (req, res, next) => {
-  //   User.findByPk(req.userId).then((user) => {
-  //     user.getRoles().then((roles) => {
-  //       for (let i = 0; i < roles.length; i++) {
-  //         if (roles[i].name === "seller") {
-  //           next();
-  //           return;
-  //         }
-  //       }
-  //       res.status(403).send({
-  //         message: "Require Moderator or Admin Role!",
-  //       });
-  //     });
-  //   });
-  if (req.name == "buyer") {
-    next();
-    return;
-  }
-  res.status(403).send({
-    message: "Require Buyer Role!",
-  });
-};
-
 verifyGoogleToken = (req, res, next) => {
-  console.log("google token midware");
-
   try {
     const user = jwt_decode(req.body.jwt);
     let data = {
@@ -88,6 +40,7 @@ verifyGoogleToken = (req, res, next) => {
     });
   }
 };
+
 generateAccessTokenWithRememberMe = (useremail, role) => {
   return jwt.sign(
     { data: { useremail: useremail, role: role } },
@@ -97,6 +50,7 @@ generateAccessTokenWithRememberMe = (useremail, role) => {
     }
   );
 };
+
 generateAccessTokenWithoutRememberMe = (useremail, role) => {
   return jwt.sign(
     { data: { useremail: useremail, role: role } },
@@ -106,12 +60,12 @@ generateAccessTokenWithoutRememberMe = (useremail, role) => {
     }
   );
 };
+
 const authJwt = {
   verifyToken: verifyToken,
-  buyerCheck: buyerCheck,
-  sellerCheck: sellerCheck,
   verifyGoogleToken: verifyGoogleToken,
   generateAccessTokenWithRememberMe: generateAccessTokenWithRememberMe,
   generateAccessTokenWithoutRememberMe: generateAccessTokenWithoutRememberMe,
 };
+
 module.exports = authJwt;

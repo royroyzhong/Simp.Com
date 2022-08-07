@@ -100,21 +100,19 @@ function LoginForm(prop) {
   };
   const loginSuccess = (result) => {
     try {
-      console.log(result);
       let role = result.payload.role;
       let path;
       if (result.payload.status === 400) {
-        console.log(result);
         handleFail(result.payload.error);
         throw Error("role undefine");
       } else if (role === true) {
-        path = "../sellerX/dashboard";
+        path = "../seller/dashboard";
       } else {
         path = "/";
       }
       navigate(path);
     } catch (err) {
-      console.log(err);
+      handleFail(err);
     }
   };
   const handleFail = (err) => {

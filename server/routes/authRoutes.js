@@ -5,7 +5,6 @@ const auth = require("../middleware/authJwt");
 const checkDupUser = require("../middleware/signUpVerification");
 const authControllers = require("../controllers/authController");
 dotenv.config();
-// const token = crypto.randomBytes(48).toString("base64url");
 
 router.post("/signup", checkDupUser.checkDupUser, authControllers.signup_post);
 router.get("/login", auth.verifyToken, authControllers.login_get);
