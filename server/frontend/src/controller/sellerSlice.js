@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { fetchAPI } from "../api/client";
-import { getSellerOrderAsync, changeStatusAsync } from "../component/cart/cartThunks";
+import { getSellerOrderAsync, changeStatusAsync } from "../component/orders/orderThunks";
 import { REQUEST_STATE } from "./utils";
 
 export const getProducts = createAsyncThunk('/products/get', async function () {
@@ -25,6 +25,10 @@ export const getProducts = createAsyncThunk('/products/get', async function () {
       return Promise.all(pSigs);
     })
   return res;
+});
+
+export const removeProducts = createAsyncThunk('/products/remove', async function (id) {
+  return fetchAPI('DELETE', {}, {id: id}, 'products').then(response => response.text());
 });
 
 const sellerSlice = createSlice({
@@ -58,6 +62,9 @@ const sellerSlice = createSlice({
       })
       .addCase(getSellerOrderAsync.rejected, function (state, action) {
         state.getSellerOrder = REQUEST_STATE.REJECTED;
+        console.log(action);
+      })
+      .addCase(removeProducts.fulfilled, function (state, action) {
         console.log(action);
       })
       .addCase(getSellerOrderAsync.fulfilled, function (state, action) {

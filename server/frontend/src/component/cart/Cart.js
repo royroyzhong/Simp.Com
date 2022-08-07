@@ -7,15 +7,13 @@ import ShoppingCartCheckoutOutlinedIcon from "@mui/icons-material/ShoppingCartCh
 
 /* Styling & MUI */
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch} from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getCart, loadFromStorage } from "../../controller/cartSlice";
 import SellingStore from "./SellingStore";
-
-import { useDispatch } from "react-redux";
-import { submitOrderAsync } from "./cartThunks";
-import { getUserAsync } from "../../controller/login/thunks";
 import { useEffect } from "react";
+import { submitOrderAsync } from "../orders/orderThunks";
+import { getUserAsync } from "../../controller/login/thunks";
 
 function Cart() {
   const dispatch = useDispatch();
@@ -61,6 +59,7 @@ function Cart() {
       }
     });
   };
+
 
   return (
     <Container

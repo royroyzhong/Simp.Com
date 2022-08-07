@@ -71,7 +71,6 @@ function App() {
   );
   let buyer = "buyer";
   let seller = "seller";
-  // console.log(token);
   return render();
 }
 

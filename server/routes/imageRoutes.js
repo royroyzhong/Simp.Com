@@ -10,7 +10,6 @@ router.post('/', authJwt.verifyToken, (req, res) => {
         data: data.src
     });
 
-
     image.save()
         .then(img => {
             res.send(img._id.toString());
@@ -20,7 +19,7 @@ router.post('/', authJwt.verifyToken, (req, res) => {
         })
 })
 
-router.get('/', authJwt.verifyToken, (req, res) => {
+router.get('/', (req, res) => {
     let id = req.query.id;
     Image.findOne({_id: id})
         .exec()

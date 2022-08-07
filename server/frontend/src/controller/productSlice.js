@@ -1,5 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { fetchAPI } from "../api/client";
+import { productActionTypes } from '../component/sellerDashboard/productActionTypes';
+import { REQUEST_STATE } from "./utils";
+import { restockProduct } from "../component/sellerDashboard/productService"
 
 export const postNewProduct = createAsyncThunk('/product/post', async function (data) {
   let features = data.features;
@@ -36,7 +39,7 @@ export const updateProduct = createAsyncThunk('/product/patch', async function (
       }))
   }
 
-  data.images = data.images.filter(i => i._id !== undefined) 
+  data.images = data.images.filter(i => i._id !== undefined).map(i => i._id)
   await Promise.all(imagesFetchSigs)
     .then(i => {
       for (let img of i)
@@ -45,6 +48,14 @@ export const updateProduct = createAsyncThunk('/product/patch', async function (
 
   return fetchAPI('PATCH', data, {}, 'products').then(response => response.text());
 })
+
+export const restockProductAsync = createAsyncThunk(
+  productActionTypes.RESTOCK_PRODUCT,
+  async (name) => {
+    console.log("async",name);
+    return await restockProduct(name);
+  })
+
 
 /**
  * Product Slice is only used for the editing page.
@@ -56,7 +67,9 @@ const INITIAL_STATE = {
   storage: 0,
   tags: [],
   features: {},
-  images: []
+  images: [],
+  // status
+  restockProductStatus: REQUEST_STATE.IDLE,
 }
 
 const productSlice = createSlice({
@@ -81,6 +94,10 @@ const productSlice = createSlice({
     },
     addImage: (state, action) => {
       state.images.push({ id: state.images.length, src: action.payload });
+    },
+    rmvTag: (state, action) => {state.tags = state.tags.filter(t => t !== action.payload)},
+    rmvFeature: (state, action) => {
+      delete state.features[action.payload]
     }
   },
   extraReducers: (builder) => {
@@ -91,11 +108,15 @@ const productSlice = createSlice({
       .addCase(updateProduct.fulfilled, function (state, action) {
         console.log("update succeeded");
       })
+      .addCase(restockProductAsync.fulfilled, function (state, action) {
+        console.log("notification sent sucessfully");
+      })
   }
+
 });
 
 // Export Setters
-export const { setName, setTitle, addTag, addFeature, loadProduct, setStorage, setPrice, addImage } =
+export const { setName, rmvFeature, rmvTag, setTitle, addTag, addFeature, loadProduct, setStorage, setPrice, addImage } =
   productSlice.actions;
 
 // ++++++++++++++++ Getters ++++++++++++++++++++ //

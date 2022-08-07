@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchAPI } from "../api/client";
-import { getBuyerOrderAsync } from "../component/cart/cartThunks";
+import { getBuyerOrderAsync } from "../component/orders/orderThunks";
 
 export const getProducts = createAsyncThunk('/products/get', async function () {
   let res = fetchAPI('GET', {}, {}, 'products').then(response => response.json())

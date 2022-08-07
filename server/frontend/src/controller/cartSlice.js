@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { REQUEST_STATE } from './utils';
-import { submitOrderAsync} from '../component/cart/cartThunks';
+import { submitOrderAsync} from '../component/orders/orderThunks';
 
 const INITIAL_STATE = {
   cart: [ 

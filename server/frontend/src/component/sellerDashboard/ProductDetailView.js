@@ -6,11 +6,13 @@ import { useDispatch, useSelector } from "react-redux";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { addFeature, addTag, getBufferProduct, getFeatures, getImages, getName, getPrice, getStorage, getTags, loadProduct, postNewProduct, setName, setPrice, setStorage, updateProduct } from "../../controller/productSlice";
+import { addFeature, addTag, getBufferProduct, getFeatures, getImages, getName, getPrice, getStorage, getTags, loadProduct, postNewProduct, rmvFeature, rmvTag, setName, setPrice, setStorage, updateProduct } from "../../controller/productSlice";
+import { restockProductAsync } from "../../controller/productSlice";
 
 import DragDrop from '../common/DragDrop';
-
 import DragDropDisplay from '../common/DragDropDisplay';
+import { removeProducts } from "../../controller/sellerSlice";
+
 
 export default function ProductPage(props) {
 
@@ -93,6 +95,15 @@ export default function ProductPage(props) {
                             navigate(-1);
                         }}>Save</Button>
                     )}
+                    {isStatic || productId === undefined ? <div></div> : (
+                        <Button variant="contained" color="error" onClick={
+                            e => {
+                                dispatch(removeProducts(productId));
+                            }
+                        }>
+                            Delete
+                        </Button>
+                    )}
                 </Stack>
                 {/* <DragDropDisplay> </DragDropDisplay> */}
             </Stack>
@@ -134,7 +145,7 @@ function ImagesDisplay(props) {
                             </ImageListItem>
                         ))
                     }
-               </ImageList>
+                </ImageList>
             </CardContent>
         </Card>
     )
@@ -164,7 +175,13 @@ function TitleDisplay(props) {
 function PriceAndQuantity(props) {
     let price = useSelector(getPrice);
     let storage = useSelector(getStorage);
+    let name = useSelector(getName);
     let dispatch = useDispatch();
+
+    const handleSendEmail = (event) => {
+        event.preventDefault();
+        dispatch(restockProductAsync(name));
+    }
 
     return (
         <div>
@@ -188,6 +205,7 @@ function PriceAndQuantity(props) {
                         dispatch(setStorage(event.target.value));
                     }} />
             )}
+            <button onClick={handleSendEmail}> Test </button>
         </div>
     )
 }
@@ -208,12 +226,15 @@ function TagDisplay(props) {
 
     }
 
+    const handleRmv = (toRmv) => {
+        dispatch(rmvTag(toRmv));
+    }
+
     let style = {
         height: "30%"
     }
 
     let tagInputStyle = {
-        position: "absolute",
         maxWidth: 164,
         zIndex: 1000,
         backgroundColor: "white"
@@ -224,7 +245,7 @@ function TagDisplay(props) {
             <Typography variant="h5" align="left">Tags</Typography>
             <Box sx={{ display: "flex", flexWrap: "wrap" }} >
                 {tags.map((tag, index) => (
-                    <Tag key={index}>{tag}</Tag>
+                    <Tag isStatic={props.isStatic} key={index} rmv={handleRmv}>{tag}</Tag>
                 ))}
                 {props.isStatic ? null : (<Box display={'flex'} >
                     <AddCircleOutlineIcon onClick={handleToggle} sx={{ margin: 1.5 }} />
@@ -273,12 +294,17 @@ function TextDisplay(props) {
         }
     }
 
+    const handleRmv = (toRmv) => {
+        dispatch(rmvFeature(toRmv));
+    } 
+
     return (
         <Stack>
             <Box >
                 {Object.entries(features).map(([fk, fv], index) => (
                     <Box key={index} sx={textStyle}>
                         <Typography variant="h5">{fk}</Typography>
+                        {props.isStatic ? <div></div> : <Button onClick={e => handleRmv(fk)}>delete</Button>}
                         <Typography paragraph>{fv}</Typography>
                     </Box>
                 ))}
@@ -328,9 +354,12 @@ function Tag(props) {
         borderRadius: 1
     }
     return (
-        <Typography sx={style}>
-            {props.children}
-        </Typography>
+        <div>
+            <Typography sx={style}>
+                {props.children}
+            </Typography>
+            {props.isStatic ? <div></div> : <Button size="small" onClick={e => props.rmv(props.children)}>delete</Button>}
+        </div>
     )
 }
 

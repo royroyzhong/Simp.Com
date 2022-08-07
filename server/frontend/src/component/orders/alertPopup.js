@@ -10,12 +10,10 @@ export default function AlertPopup(setOpen,) {
 
     const handleClose = (event) => {
         event.preventDefault();
-        // setOpen(false);
     };
 
     const handleConfirm = (event) => {
         event.preventDefault();
-        // setPopUpConfirm(true);
         handleClose();
     }
 

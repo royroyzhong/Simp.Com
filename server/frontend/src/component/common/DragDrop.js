@@ -7,6 +7,7 @@ export default function DragDrop() {
   let dispatch = useDispatch();
 
   const onDrop = (files) => {
+    // e.preventDefault();
     files.map((file) => {
       console.log(file);
       const reader = new FileReader();
