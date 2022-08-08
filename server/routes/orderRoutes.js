@@ -70,7 +70,6 @@ router.post("/", authJwt.verifyToken, async function (req, res, next) {
           let product = tempArray[i];
           let productInStock = allProducts.find((p) => p._id == product._id);
           // Decrease product storage
-          console.log(product._id);
           ProductModel.findOneAndUpdate(
             { _id: product._id },
             { storage: productInStock.storage - product.quantity },
@@ -79,7 +78,6 @@ router.post("/", authJwt.verifyToken, async function (req, res, next) {
               if (err) {
                 return res.status(400).send("product update fails: " + doc._id);
               }
-              console.log(doc);
             }
           );
           tempProducts.push({
