@@ -89,7 +89,6 @@ router.post("/", authJwt.verifyToken, async function (req, res, next) {
         }
         let seller = SellerModel.find({ _id: tempSellerId });
         let email = res.locals.user.useremail;
-        console.log(tempSum);
         const orderToAdd = new OrderModel({
           _id: uuid(),
           store: seller.company,
@@ -150,8 +149,6 @@ router.patch("/", async function (req, res) {
     if (err) {
       res.status(400).send("Error fetching listings!");
     } else {
-      console.log(JSON.stringify(result));
-      console.log(result);
       res.json(result);
     }
   });
