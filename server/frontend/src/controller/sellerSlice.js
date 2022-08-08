@@ -123,10 +123,13 @@ const sellerSlice = createSlice({
         console.log(action.payload);
         // dataset for bar chart
         let barChartDataset = [
-          { unprocessed: state.orderDetail.Unprocessed.length },
-          { shipped: state.orderDetail.Shipped.length },
-          { delivered: state.orderDetail.Delivered.length },
-          { Refunded: state.orderDetail.Refunded.length },
+          {
+            name: "Unprocessed",
+            length: state.orderDetail.Unprocessed.length,
+          },
+          { name: "Shipped", length: state.orderDetail.Shipped.length },
+          { name: "Delivered", length: state.orderDetail.Delivered.length },
+          { name: "Refunded", length: state.orderDetail.Refunded.length },
         ];
         //dataset for product item
         let productMap = new Map();
@@ -149,14 +152,13 @@ const sellerSlice = createSlice({
             quantity = 0;
           for (let order of orders) {
             sum += parseFloat(order.price) * parseFloat(order.quantity);
-            console.log(sum);
             quantity += parseFloat(order.quantity);
           }
-          console.log(sum);
+
           productDataset.push({
             name: orders[0].name,
-            quantity: quantity,
-            Income: sum,
+            Quantity: quantity,
+            Incomes: sum,
           });
         }
         state.dataset = { product: productDataset, barChart: barChartDataset };
@@ -204,5 +206,6 @@ export const getStats = (state) => state.seller.stats;
 export const getTopProducts = (state) => state.seller.topProducts;
 export const getSellerOrderStatus = (state) => state.seller.getSellerOrder;
 export const getChangeOrderStatus = (state) => state.seller.changeOrderStatus;
+export const getDatasets = (state) => state.seller.dataset;
 
 export default sellerSlice.reducer;

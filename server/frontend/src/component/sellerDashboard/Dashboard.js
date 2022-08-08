@@ -5,7 +5,7 @@ import {
   List,
   ListItem,
   ListItemText,
-  Stack
+  Stack,
 } from "@mui/material";
 import { Box, Container } from "@mui/system";
 // Other Imports
@@ -13,21 +13,33 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 // Recahrt Components
 import {
+  ResponsiveContainer,
   CartesianGrid,
   Line,
   LineChart,
   Tooltip,
   XAxis,
-  YAxis
+  YAxis,
+  BarChart,
+  Legend,
+  Bar,
 } from "recharts";
-import { getSellerOrder, getStats, getTopProducts, getSellerOrderDetail, getSellerOrderStatus } from "../../controller/sellerSlice";
-import { getSellerOrderAsync } from '../orders/orderThunks';
+import {
+  getSellerOrder,
+  getStats,
+  getTopProducts,
+  getSellerOrderDetail,
+  getSellerOrderStatus,
+  getDatasets,
+} from "../../controller/sellerSlice";
+import { getSellerOrderAsync } from "../orders/orderThunks";
 import "../../css/dashboard.css";
 import Title from "../common/Title";
 import { REQUEST_STATE } from "../../controller/utils";
 
 export default function Dashboard(props) {
   let orderStats = useSelector(getSellerOrder);
+  let datasets = useSelector(getDatasets);
   let topProducts = useSelector(getTopProducts);
   let stats = useSelector(getStats);
   let sellerOrderStatus = useSelector(getSellerOrderStatus);
@@ -55,14 +67,17 @@ export default function Dashboard(props) {
       </Card>
 
       <Box sx={{ marginTop: 4 }}>
-        <ProcessingList orders={orderStats} topProducts={topProducts} />
+        <ProcessingList
+          orders={orderStats}
+          topProducts={topProducts}
+          datasets={datasets}
+        />
       </Box>
     </Container>
   );
 }
 
 function InfoGraph(props) {
-
   let data = [
     {
       day: "Monday",
@@ -133,23 +148,52 @@ function InfoGraph(props) {
 }
 
 function ProcessingList(props) {
+  console.log(props.datasets.barChart);
   return (
     <Stack direction={"row"} spacing={2}>
       <Card variant="outlined" sx={{ width: "50%" }}>
         <Title>Statistics</Title>
-        <List>
-          <ListItem>Unprocessed Items: {props.orders.unprocessed === undefined ? 0 : props.orders.unprocessed}</ListItem>
-          <ListItem>Shipping in Progress: {props.orders.shipped === undefined ? 0 : props.orders.shipped}</ListItem>
-          <ListItem>Delivered Orders: {props.orders.delivered === undefined ? 0 : props.orders.delivered}</ListItem>
-        </List>
+        <BarChart
+          width={500}
+          height={300}
+          data={props.datasets.barChart}
+          margin={{
+            top: 5,
+            right: 30,
+            left: 20,
+            bottom: 5,
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Bar dataKey="length" fill="#8884d8" />
+        </BarChart>
       </Card>
+
       <Card variant="outlined" sx={{ width: "50%" }}>
         <Title>Top Products</Title>
-        <List>
-          {props.topProducts === undefined ? "" : props.topProducts.map((p, i) => (
-            <ListItem key={i}>{p.name}</ListItem>
-          ))}
-        </List>
+        <BarChart
+          width={500}
+          height={300}
+          data={props.datasets.product}
+          margin={{
+            top: 5,
+            right: 30,
+            left: 20,
+            bottom: 5,
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Bar dataKey="Incomes" fill="#8884d8" />
+          <Bar dataKey="Quantity" fill="#82ca9d" />
+        </BarChart>
       </Card>
     </Stack>
   );
