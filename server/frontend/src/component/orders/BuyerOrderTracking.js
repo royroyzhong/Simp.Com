@@ -32,14 +32,14 @@ export default function BuyerOrderTracking() {
         <ul>
           {products.value.map((product, index) => (
             <li key={index}>
-              Name: {product.name} Quantity: {product.quantity}
+              Name: {product.name}, Quantity: {product.quantity}
             </li>
           ))}
         </ul>
       ),
     },
     { field: "status", headerName: "Status", width: 130 },
-    { field: "total", headerName: "Total", width: 130 },
+    { field: "totalPrice", headerName: "Total", width: 130 },
     { field: "date", headerName: "Date of purchase", width: 130 },
   ];
 

@@ -36,25 +36,14 @@ router.get("/seller", authJwt.verifyToken, function (req, res, next) {
 // Only this one for buyer submit order
 router.post("/", authJwt.verifyToken, async function (req, res, next) {
   // Check if any product not exist
-  var allPromise = [];
   for (let i in req.body) {
-    let product = req.body[i];
-    allPromise.push(ProductModel.findOne({ _id: product._id }));
+    let product = await ProductModel.findOne({ _id: req.body[i]._id});
+    if (!product) {
+      return res.status(503).send(`Product with id: ${req.body[i]._id} not found`);
+    } else if (req.body[i].quantity > product.storage) {
+      return res.status(503).send(`Product with id: ${product._id} have only ${product.storage} in stock.`);
+    }
   }
-  Promise.all(allPromise)
-    .then((allProducts) => {
-      // check if any product out of stock
-      for (let i in req.body) {
-        let productInStock = allProducts.find((p) => p._id === req.body[i]._id);
-        if (req.body[i].quantity > productInStock.storage) {
-          return res
-            .status(503)
-            .send(
-              `Product with id: ${productInStock._id} have only ${productInStock.storage} in stock.`
-            );
-        }
-      }
-
       // Create order
       let uniqueSellerIds = [
         ...new Set(req.body.map((product) => product.soldBy)),
@@ -63,22 +52,17 @@ router.post("/", authJwt.verifyToken, async function (req, res, next) {
         let tempSellerId = uniqueSellerIds[i];
         let tempArray = req.body.filter((p) => p.soldBy === tempSellerId);
         let tempSum = tempArray.reduce((accumulator, object) => {
-          return accumulator + object.price;
+          return accumulator + object.price * object.quantity;
         }, 0);
         let tempProducts = [];
         for (let i = 0; i < tempArray.length; i++) {
           let product = tempArray[i];
-          let productInStock = allProducts.find((p) => p._id === product._id);
+          let productInStock = await ProductModel.findOne({ _id: product._id });
           // Decrease product storage
           ProductModel.findOneAndUpdate(
             { _id: product._id },
             { storage: productInStock.storage - product.quantity },
-            { new: true },
-            (err, doc) => {
-              if (err) {
-                return res.status(400).send("product update fails: " + doc._id);
-              }
-            }
+            { new: true }
           );
           tempProducts.push({
             _id: product._id,
@@ -86,25 +70,24 @@ router.post("/", authJwt.verifyToken, async function (req, res, next) {
             quantity: product.quantity,
           });
         }
-        let seller = SellerModel.find({ _id: tempSellerId });
         let email = res.locals.user.useremail;
-        const orderToAdd = new OrderModel({
-          _id: uuid(),
-          store: seller.company,
-          products: tempProducts,
-          sellerEmail: seller.email,
-          buyerEmail: email,
-          status: "Unprocessed",
-          totalPrice: tempSum,
-        });
-        orderToAdd.save();
-      }
-      return res.json(req.body);
-    })
-    .catch((err) => {
-      return res.status(503).send(err);
-    });
-});
+        let seller = await SellerModel.findOne({ _id: tempSellerId });
+        if (!seller) {
+          return res.status(503).send("Seller not found:" + tempSellerId);
+        } else {
+          const orderToAdd = new OrderModel({
+            _id: uuid(),
+            store: seller.company,
+            products: tempProducts,
+            sellerEmail: seller.email,
+            buyerEmail: email,
+            status: "Unprocessed",
+            totalPrice: tempSum,
+          });
+          orderToAdd.save();
+        }}
+        return res.json(req.body);
+      });
 
 // For seller use only
 router.patch("/", async function (req, res) {
