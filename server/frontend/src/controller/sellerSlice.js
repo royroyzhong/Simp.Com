@@ -120,6 +120,47 @@ const sellerSlice = createSlice({
 
         state.topProducts =
           allProducts.length >= 3 ? allProducts.slice(0, 3) : allProducts;
+        console.log(action.payload);
+        // dataset for bar chart
+        let barChartDataset = [
+          { unprocessed: state.orderDetail.Unprocessed.length },
+          { shipped: state.orderDetail.Shipped.length },
+          { delivered: state.orderDetail.Delivered.length },
+          { Refunded: state.orderDetail.Refunded.length },
+        ];
+        //dataset for product item
+        let productMap = new Map();
+        for (let each of action.payload) {
+          for (let product of each.products) {
+            if (productMap.has(product._id)) {
+              productMap.set(product._id, [
+                ...productMap.get(product._id),
+                product,
+              ]);
+            } else {
+              productMap.set(product._id, [product]);
+            }
+          }
+        }
+        let productDataset = [];
+        for (let key of productMap) {
+          let orders = key[1];
+          let sum = 0,
+            quantity = 0;
+          for (let order of orders) {
+            sum += parseFloat(order.price) * parseFloat(order.quantity);
+            console.log(sum);
+            quantity += parseFloat(order.quantity);
+          }
+          console.log(sum);
+          productDataset.push({
+            name: orders[0].name,
+            quantity: quantity,
+            Income: sum,
+          });
+        }
+        state.dataset = { product: productDataset, barChart: barChartDataset };
+
         state.getSellerOrder = REQUEST_STATE.FULFILLED;
       })
       .addCase(changeStatusAsync.pending, (state) => {

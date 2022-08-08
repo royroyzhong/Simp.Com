@@ -73,6 +73,7 @@ router.post("/", authJwt.verifyToken, async function (req, res, next) {
         _id: product._id,
         name: product.name,
         quantity: product.quantity,
+        price: product.price,
       });
     }
     let email = res.locals.user.useremail;
