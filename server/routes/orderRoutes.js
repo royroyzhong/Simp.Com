@@ -34,7 +34,7 @@ router.get("/seller", authJwt.verifyToken, function (req, res, next) {
 });
 
 // Only this one for buyer submit order
-router.post("/", authJwt.verifyToken, function (req, res, next) {
+router.post("/", authJwt.verifyToken, async function (req, res, next) {
   // Check if any product not exist
   var allPromise = [];
   for (let i in req.body) {
@@ -70,9 +70,17 @@ router.post("/", authJwt.verifyToken, function (req, res, next) {
           let product = tempArray[i];
           let productInStock = allProducts.find((p) => p._id == product._id);
           // Decrease product storage
+          console.log(product._id);
           ProductModel.findOneAndUpdate(
             { _id: product._id },
-            { storage: productInStock.storage - product.quantity }
+            { storage: productInStock.storage - product.quantity },
+            { new: true },
+            (err, doc) => {
+              if (err) {
+                return res.status(400).send("product update fails: " + doc._id);
+              }
+              console.log(doc);
+            }
           );
           tempProducts.push({
             _id: product._id,
