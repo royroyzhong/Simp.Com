@@ -28,14 +28,15 @@ function Cart() {
   }, []);
 
   let cart = useSelector(getCart);
-  let uniqueStoreNames = [...new Set(cart?.map((product) => product.soldBy))];
-  let storeNames = Array.from(uniqueStoreNames).sort();
+  let uniqueStoreIds = [...new Set(cart?.map((product) => product.soldBy))];
+  let storeIds = Array.from(uniqueStoreIds).sort();
 
   const renderedSellingStores = []
 
-  for (let i in storeNames) {
-    let storeName = storeNames[i];
-    let tempArray = cart?.filter((p) => p.soldBy === storeName);
+  for (let i in storeIds) {
+    let storeId = storeIds[i];
+    let storeName = cart.find(product => product.soldBy === storeId).storeName;
+    let tempArray = cart?.filter((p) => p.soldBy === storeId);
     renderedSellingStores.push(
       <SellingStore
         key={i}
