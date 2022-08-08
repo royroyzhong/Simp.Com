@@ -57,6 +57,9 @@ const sellerSlice = createSlice({
     //status
     getSellerOrder: REQUEST_STATE.IDLE,
     changeOrderStatus: REQUEST_STATE.IDLE,
+
+    // data vis
+    dataset: {},
   },
   extraReducers: (builder) => {
     builder
