@@ -1,4 +1,5 @@
 var express = require('express');
+const Product = require("../models/Product")
 const { productController } = require('../controllers/productController');
 const authJwt = require('../middleware/authJwt');
 var router = express.Router();
@@ -12,5 +13,57 @@ router.post('/', authJwt.verifyToken, (req, res) => productController.saveFromJs
 router.patch('/', authJwt.verifyToken, (req, res) => productController.updateProduct(req, res));
 
 router.delete('/', authJwt.verifyToken, (req, res) => productController.removeProduct(req, res));
+
+router.post('/addToWishlist',  authJwt.verifyToken, function (req, res) {
+    const productId = req.query['id']
+    let email = res.locals.user.useremail;
+
+    Product.findById(productId, function (err, result) {
+        if (err) {
+            console.log(err)
+            res.status(404).send(err)
+        }
+        else {
+            let emailList = result.wishlistUsers;
+            emailList.push(email);
+            Product.findByIdAndUpdate(productId,{wishlistUsers:emailList},{new:true},function(err,newresult) {
+                if (err) {
+                    console.log(err)
+                    res.status(400).send(err)
+                } else {
+                    res.json(emailList)
+                }
+            })
+        }
+    })
+})
+
+router.delete('/deleteFromWishlist',  authJwt.verifyToken, function (req, res) {
+    const productId = req.query['id']
+    let email = res.locals.user.useremail;
+
+    Product.findById(productId, function (err, result) {
+        if (err) {
+            console.log(err)
+            res.status(404).send(err)
+        }
+        else {
+            let emailList = result.wishlistUsers;
+            const index = emailList.indexOf(email)
+            if (index > -1) {
+                emailList.splice(index,1);
+            }
+            console.log(emailList);
+            Product.findByIdAndUpdate(productId,{wishlistUsers:emailList},{new:true},function(err,newresult) {
+                if (err) {
+                    console.log(err)
+                    res.status(400).send(err)
+                } else {
+                    res.json(emailList)
+                }
+            })
+        }
+    })
+})
 
 module.exports = router;

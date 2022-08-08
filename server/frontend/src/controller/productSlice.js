@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { fetchAPI } from "../api/client";
 import { productActionTypes } from '../component/sellerDashboard/productActionTypes';
 import { REQUEST_STATE } from "./utils";
-import { restockProduct } from "../component/sellerDashboard/productService"
+import { addToWishlist, restockProduct,deleteFromWishlist} from "../component/sellerDashboard/productService"
 
 export const postNewProduct = createAsyncThunk('/product/post', async function (data) {
   let features = data.features;
@@ -51,11 +51,24 @@ export const updateProduct = createAsyncThunk('/product/patch', async function (
 
 export const restockProductAsync = createAsyncThunk(
   productActionTypes.RESTOCK_PRODUCT,
-  async (name) => {
-    console.log("async",name);
-    return await restockProduct(name);
+  async (productId) => {
+    console.log("async",productId);
+    return await restockProduct(productId);
   })
 
+export const addToWishlistAsync = createAsyncThunk(
+  productActionTypes.ADD_TO_WISHLIST,
+  async(productId) => {
+    return await addToWishlist(productId)
+  }
+)
+
+export const deleteFromWishlistAsync = createAsyncThunk(
+  productActionTypes.DELETE_FROM_WISHLIST,
+  async(productId) => {
+    return await deleteFromWishlist(productId)
+  }
+)
 
 /**
  * Product Slice is only used for the editing page.
@@ -70,6 +83,8 @@ const INITIAL_STATE = {
   images: [],
   // status
   restockProductStatus: REQUEST_STATE.IDLE,
+  addToWishlistStatus: REQUEST_STATE.IDLE,
+  deleteFromWishlistStatus: REQUEST_STATE.IDLE,
   imageUploadStatus: "good"
 }
 
@@ -110,7 +125,17 @@ const productSlice = createSlice({
         console.log("update succeeded");
       })
       .addCase(restockProductAsync.fulfilled, function (state, action) {
+        state.restockProductStatus=REQUEST_STATE.FULFILLED;
+        state.wishlistUsers=[];
         console.log("notification sent sucessfully");
+      })
+      .addCase(addToWishlistAsync.fulfilled, function (state, action) {
+        state.addToWishlistStatus=REQUEST_STATE.FULFILLED
+        console.log("email has been added to notification list");
+      })
+      .addCase(deleteFromWishlistAsync.fulfilled,function(state,action) {
+        state.deleteFromWishlistStatus=REQUEST_STATE.FULFILLED
+        console.log("email has been removed from notification list");
       })
   }
 

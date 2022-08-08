@@ -1,7 +1,6 @@
 import React from "react";
 import { useDropzone } from "react-dropzone";
 import "../../css/dropBox.css";
-import FileUploadRoundedIcon from '@mui/icons-material/FileUploadRounded';
 
 /* Citation: https://blog.logrocket.com/drag-and-drop-react-dnd/*/
 
