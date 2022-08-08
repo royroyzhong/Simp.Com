@@ -89,5 +89,6 @@ export const { updateQuantity, deleteProduct, addProduct, loadFromStorage} =
 
 // ------------------ Getters ------------------- // 
 export const getCart = (state) => state.cart.cart;
+export const getSum = (state) => state.cart.sum;
 
 export default cartSlice.reducer;
