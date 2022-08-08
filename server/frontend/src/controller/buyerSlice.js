@@ -47,6 +47,7 @@ const userSlice = createSlice({
       })
       .addCase(getBuyerOrderAsync.fulfilled, function (state, action) {
         state.orderHistory = action.payload;
+        console.log(new Date(state.orderHistory[0].createdAt).getFullYear());
       })
       .addCase(getBuyerOrderAsync.rejected, function (state, action) {
         console.log(action);
