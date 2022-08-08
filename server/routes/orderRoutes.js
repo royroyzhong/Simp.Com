@@ -65,6 +65,7 @@ router.post("/", authJwt.verifyToken, async function (req, res, next) {
         let tempSum = tempArray.reduce((accumulator, object) => {
           return accumulator + object.price;
         }, 0);
+
         let tempProducts = [];
         for (let i = 0; i < tempArray.length; i++) {
           let product = tempArray[i];
@@ -88,6 +89,7 @@ router.post("/", authJwt.verifyToken, async function (req, res, next) {
         }
         let seller = SellerModel.find({ _id: tempSellerId });
         let email = res.locals.user.useremail;
+        console.log(tempSum);
         const orderToAdd = new OrderModel({
           _id: uuid(),
           store: seller.company,
@@ -96,6 +98,8 @@ router.post("/", authJwt.verifyToken, async function (req, res, next) {
           buyerEmail: email,
           status: "Unprocessed",
           totalPrice: tempSum,
+          createdAt: new Date(),
+          lastModifiedAt: new Date(),
         });
         orderToAdd.save();
       }
@@ -119,6 +123,7 @@ router.patch("/", async function (req, res) {
     // process order
     let updatedOrder = await OrderModel.findByIdAndUpdate(filterCondition, {
       status: "Shipped",
+      lastModifiedAt: new Date(),
     });
   } else {
     //remove unprocess order
@@ -135,6 +140,7 @@ router.patch("/", async function (req, res) {
       filterCondition,
       {
         status: "Refunded",
+        lastModifiedAt: new Date(),
       },
       { new: true }
     );
