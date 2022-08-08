@@ -17,6 +17,7 @@ const productSchema = new Schema({
     price: Number,
     storage: Number,
     images: [String],
+    wishlistUsers: [String],
 })
 
 const Product = mongoose.model('product', productSchema);

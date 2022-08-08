@@ -1,12 +1,43 @@
-export const restockProduct = async (name) => {
-  console.log("service",name)
-  const response = await fetch('/restock?name='+name, {
+
+export const restockProduct = async (productId) => {
+  console.log("service",productId)
+  const response = await fetch('/restock?id='+productId, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    // body: JSON.stringify(product)
-    // body:JSON.stringify(name),
+  })
+
+  const data = await response.json();
+  if (!response.ok) {
+    const errorMsg = data?.message;
+    throw new Error(errorMsg)
+  }
+  return data;
+}
+
+export const addToWishlist = async (productId) => {
+  const response = await fetch('/products/addToWishlist?id='+productId, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  })
+
+  const data = await response.json();
+  if (!response.ok) {
+    const errorMsg = data?.message;
+    throw new Error(errorMsg)
+  }
+  return data;
+}
+
+export const deleteFromWishlist = async (productId) => {
+  const response = await fetch('/products/deleteFromWishlist?id='+productId, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json'
+    },
   })
 
   const data = await response.json();
@@ -18,5 +49,7 @@ export const restockProduct = async (name) => {
 }
 
 export default {
-  restockProduct
+  restockProduct,
+  addToWishlist,
+  deleteFromWishlist
 }
