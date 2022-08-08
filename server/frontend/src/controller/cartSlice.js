@@ -9,14 +9,16 @@ const INITIAL_STATE = {
       name: "egg",
       soldBy: "1234",
       price: 0,
-      quantity: 1
+      quantity: 1,
+      storeName: "Gavin"
     }, 
     {
       _id:"9999",
       name:"sandwitch",
       soldBy:"1111",
       price: 0,
-      quantity:1
+      quantity:1,
+      storeName: "Gavin"
     }
 ],
   sum: 0,
@@ -49,12 +51,14 @@ const cartSlice = createSlice({
         ++state.cart[productIdx].quantity;
         state.sum += state.cart[productIdx].price;
       } else {
+        console.log(action.payload);
         state.cart.push({
           _id: action.payload._id,
           name: action.payload.name,
           soldBy: action.payload.soldBy,
           price: action.payload.price,
-          quantity: 1});
+          quantity: 1,
+          storeName: action.payload.storeName });
         state.sum += 0;
       }
     },

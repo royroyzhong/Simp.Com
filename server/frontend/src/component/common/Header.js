@@ -104,12 +104,15 @@ export default function Header(prop) {
 
   const handleLogOut = () => {
     dispatch(logoutAsync());
+    sessionStorage.clear();
     navigate("/login");
   };
+
   const handleNavProfile = () => {
     if (prop.role === "buyer") navigate("/user/profile");
     if (prop.role === "seller") navigate("/seller/profile");
   };
+  
   return (
     <AppBar position="absolute" open={prop.open}>
       <Toolbar sx={{ pr: "24px" }}>

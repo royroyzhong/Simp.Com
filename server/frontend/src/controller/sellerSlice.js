@@ -101,6 +101,7 @@ const sellerSlice = createSlice({
       .addCase(changeStatusAsync.fulfilled, (state, action) => {
         state.changeOrderStatus = REQUEST_STATE.FULFILLED;
         const orderIdx = state.orderDetail.Unprocessed.findIndex(order => order._id === action.payload._id);
+        state.orderDetail.Unprocessed[orderIdx].status = "Shipped";
         state.orderDetail.Shipped.unshift(state.orderDetail.Unprocessed[orderIdx]);
         state.orderDetail.Unprocessed.splice(orderIdx, 1);
         --state.orders.unprocessed;
