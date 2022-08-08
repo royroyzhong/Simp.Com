@@ -1,35 +1,45 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { fetchAPI } from "../api/client";
-import { getSellerOrderAsync, changeStatusAsync } from "../component/orders/orderThunks";
+import {
+  getSellerOrderAsync,
+  changeStatusAsync,
+} from "../component/orders/orderThunks";
 import { REQUEST_STATE } from "./utils";
 
-export const getProducts = createAsyncThunk('/products/get', async function () {
-  let res = fetchAPI('GET', {}, {}, 'products/seller').then(response => response.json())
-    .then(products => {
+export const getProducts = createAsyncThunk("/products/get", async function () {
+  let res = fetchAPI("GET", {}, {}, "products/seller")
+    .then((response) => response.json())
+    .then((products) => {
       let pSigs = [];
       for (let p of products) {
         let imagesFetchSigs = [];
         for (let id of p.images) {
-          imagesFetchSigs.push(fetchAPI('GET', {}, { id: id }, 'image')
-            .then(res => {
-              return res.json()
-            }))
+          imagesFetchSigs.push(
+            fetchAPI("GET", {}, { id: id }, "image").then((res) => {
+              return res.json();
+            })
+          );
         }
-        pSigs.push(Promise.all(imagesFetchSigs)
-          .then(sigs => {
+        pSigs.push(
+          Promise.all(imagesFetchSigs).then((sigs) => {
             p.images = sigs;
             return p;
           })
-        )
+        );
       }
       return Promise.all(pSigs);
-    })
+    });
   return res;
 });
 
-export const removeProducts = createAsyncThunk('/products/remove', async function (id) {
-  return fetchAPI('DELETE', {}, {id: id}, 'products').then(response => response.text());
-});
+export const removeProducts = createAsyncThunk(
+  "/products/remove",
+  async function (id) {
+    return fetchAPI("DELETE", {}, { id: id }, "products").then((response) =>
+      response.text()
+    );
+  }
+);
 
 const sellerSlice = createSlice({
   name: "seller",
@@ -49,9 +59,10 @@ const sellerSlice = createSlice({
     changeOrderStatus: REQUEST_STATE.IDLE,
   },
   extraReducers: (builder) => {
-    builder.addCase(getProducts.pending, function (state, action) {
-      state.inventoryStatus = REQUEST_STATE.PENDING;
-    })
+    builder
+      .addCase(getProducts.pending, function (state, action) {
+        state.inventoryStatus = REQUEST_STATE.PENDING;
+      })
       .addCase(getProducts.fulfilled, function (state, action) {
         state.inventory = action.payload;
         state.inventoryStatus = REQUEST_STATE.FULFILLED;
@@ -68,50 +79,76 @@ const sellerSlice = createSlice({
         console.log(action);
       })
       .addCase(getSellerOrderAsync.fulfilled, function (state, action) {
-        let allOrders = action.payload.map((order) => { return { orderNumber: order._id, products: order.products, status: order.status } });
+        let allOrders = action.payload.map((order) => {
+          return {
+            orderNumber: order._id,
+            products: order.products,
+            status: order.status,
+          };
+        });
         state.orderDetail = {
-          Unprocessed: allOrders.filter(order => order.status === 'Unprocessed'),
-          Shipped: allOrders.filter(order => order.status === 'Shipped'),
-          Delivered: allOrders.filter(order => order.status === 'Delivered')
+          Unprocessed: allOrders.filter(
+            (order) => order.status === "Unprocessed"
+          ),
+          Shipped: allOrders.filter((order) => order.status === "Shipped"),
+          Delivered: allOrders.filter((order) => order.status === "Delivered"),
+          Refunded: allOrders.filter((order) => order.status === "Refunded"),
         };
         state.orders = {
           unprocessed: state.orderDetail.Unprocessed.length,
           shipped: state.orderDetail.Shipped.length,
-          delivered: state.orderDetail.Delivered.length
+          delivered: state.orderDetail.Delivered.length,
+          Refunded: state.orderDetail.Refunded.length,
         };
         let allProducts = [];
-        action.payload.forEach(order => {
-          order.products.forEach(product => {
-            let idx = allProducts.findIndex(p => p._id === product._id);
+        action.payload.forEach((order) => {
+          order.products.forEach((product) => {
+            let idx = allProducts.findIndex((p) => p._id === product._id);
             if (idx !== -1) {
               allProducts[idx].quantity += product.quantity;
             } else {
               allProducts.push(product);
             }
-          })
+          });
         });
-        allProducts.sort((a, b) => { return b.quantity - a.quantity; });
+        allProducts.sort((a, b) => {
+          return b.quantity - a.quantity;
+        });
 
-        state.topProducts = allProducts.length >= 3 ? allProducts.slice(0, 3) : allProducts;
+        state.topProducts =
+          allProducts.length >= 3 ? allProducts.slice(0, 3) : allProducts;
         state.getSellerOrder = REQUEST_STATE.FULFILLED;
       })
       .addCase(changeStatusAsync.pending, (state) => {
         state.changeOrderStatus = REQUEST_STATE.PENDING;
       })
       .addCase(changeStatusAsync.fulfilled, (state, action) => {
+        console.log(action.payload);
+        let status = action.payload[0].status;
         state.changeOrderStatus = REQUEST_STATE.FULFILLED;
-        const orderIdx = state.orderDetail.Unprocessed.findIndex(order => order._id === action.payload._id);
-        state.orderDetail.Unprocessed[orderIdx].status = "Shipped";
-        state.orderDetail.Shipped.unshift(state.orderDetail.Unprocessed[orderIdx]);
+        const orderIdx = state.orderDetail.Unprocessed.findIndex(
+          (order) => order._id === action.payload._id
+        );
+        state.orderDetail.Unprocessed[orderIdx].status = status;
+        if (status === "Shipped") {
+          state.orderDetail.Shipped.unshift(
+            state.orderDetail.Unprocessed[orderIdx]
+          );
+          ++state.orders.shipped;
+        } else {
+          state.orderDetail.Refunded.unshift(
+            state.orderDetail.Unprocessed[orderIdx]
+          );
+          ++state.orders.refunded;
+        }
         state.orderDetail.Unprocessed.splice(orderIdx, 1);
         --state.orders.unprocessed;
-        ++state.orders.shipped;
       })
       .addCase(changeStatusAsync.rejected, (state, action) => {
         state.changeOrderStatus = REQUEST_STATE.REJECTED;
         console.log(action);
-      })
-  }
+      });
+  },
 });
 
 // ------------------ Getters ------------------- //

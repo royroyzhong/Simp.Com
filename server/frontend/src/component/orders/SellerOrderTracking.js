@@ -175,6 +175,18 @@ function SellerOrderTracking(props) {
             rowsPerPageOptions={[5]}
           />
         </Grid>
+        <Grid item xs={10} className="orderTrackingHeader">
+          Refunded Orders
+        </Grid>
+        <Grid item xs={10} style={{ height: 400 }}>
+          <DataGrid
+            rows={Object.keys(orders).length === 0 ? [] : orders.Refunded}
+            getRowId={(order) => order.orderNumber}
+            columns={columns}
+            pageSize={5}
+            rowsPerPageOptions={[5]}
+          />
+        </Grid>
       </Grid>
     </Container>
   );

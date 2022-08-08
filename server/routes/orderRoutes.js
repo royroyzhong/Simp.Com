@@ -104,28 +104,18 @@ router.post("/", authJwt.verifyToken, function (req, res, next) {
 router.patch("/", async function (req, res) {
   const filterCondition = req.query["orderid"];
   const type = req.query["type"];
+  let order = await OrderModel.findById(filterCondition);
+  if (!order) {
+    return res.status(404).send("No such as order!");
+  }
 
   if (type === "send") {
     // process order
-    OrderModel.findByIdAndUpdate(filterCondition, { status: "Shipped" }).then(
-      () => {
-        OrderModel.find({ _id: filterCondition }, function (err, result) {
-          if (err) {
-            res.status(400).send("Error fetching listings!");
-          } else {
-            console.log(JSON.stringify(result));
-            console.log(result);
-            res.json(result);
-          }
-        });
-      }
-    );
+    let updatedOrder = await OrderModel.findByIdAndUpdate(filterCondition, {
+      status: "Shipped",
+    });
   } else {
     //remove unprocess order
-    let order = await OrderModel.findById(filterCondition);
-    if (!order) {
-      return res.status(404).send("No such as order!");
-    }
     let products = order.products;
     for (let each of products) {
       let productID = each._id;
@@ -135,11 +125,24 @@ router.patch("/", async function (req, res) {
         { $inc: { storage: quantity } }
       );
     }
-    let deletedRrder = await OrderModel.findByIdAndUpdate(filterCondition, {
-      status: "Refunded",
-    });
-    res.json({});
+    let updatedOrder = await OrderModel.findByIdAndUpdate(
+      filterCondition,
+      {
+        status: "Refunded",
+      },
+      { new: true }
+    );
   }
+  //find order and return array type result
+  OrderModel.find({ _id: filterCondition }, function (err, result) {
+    if (err) {
+      res.status(400).send("Error fetching listings!");
+    } else {
+      console.log(JSON.stringify(result));
+      console.log(result);
+      res.json(result);
+    }
+  });
 });
 
 module.exports = router;
