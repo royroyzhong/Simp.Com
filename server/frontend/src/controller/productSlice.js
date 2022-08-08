@@ -20,7 +20,7 @@ export const postNewProduct = createAsyncThunk('/product/post', async function (
   await Promise.all(imagesFetchSigs)
     .then(i => {
       for (let img of i)
-        data.images.push(img);
+        if (img !== null) data.images.push(img);
     })
   return fetchAPI('POST', data, {}, 'products').then(response => response.text());
 })
@@ -39,11 +39,11 @@ export const updateProduct = createAsyncThunk('/product/patch', async function (
       }))
   }
 
-  data.images = data.images.filter(i => i._id !== undefined).map(i => i._id)
+  data.images = data.images.filter(i => i._id !== undefined && i._id !== null).map(i => i._id)
   await Promise.all(imagesFetchSigs)
     .then(i => {
       for (let img of i)
-        data.images.push(img);
+        if (img !== null) data.images.push(img);
     })
 
   return fetchAPI('PATCH', data, {}, 'products').then(response => response.text());
@@ -85,6 +85,7 @@ const INITIAL_STATE = {
   restockProductStatus: REQUEST_STATE.IDLE,
   addToWishlistStatus: REQUEST_STATE.IDLE,
   deleteFromWishlistStatus: REQUEST_STATE.IDLE,
+  imageUploadStatus: "good"
 }
 
 const productSlice = createSlice({

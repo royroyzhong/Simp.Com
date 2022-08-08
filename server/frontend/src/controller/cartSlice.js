@@ -9,14 +9,16 @@ const INITIAL_STATE = {
       name: "egg",
       soldBy: "1234",
       price: 0,
-      quantity: 1
+      quantity: 1,
+      storeName: "Gavin"
     }, 
     {
       _id:"9999",
       name:"sandwitch",
       soldBy:"1111",
       price: 0,
-      quantity:1
+      quantity:1,
+      storeName: "Gavin"
     }
 ],
   sum: 0,
@@ -49,12 +51,14 @@ const cartSlice = createSlice({
         ++state.cart[productIdx].quantity;
         state.sum += state.cart[productIdx].price;
       } else {
+        console.log(action.payload);
         state.cart.push({
           _id: action.payload._id,
           name: action.payload.name,
           soldBy: action.payload.soldBy,
           price: action.payload.price,
-          quantity: 1});
+          quantity: 1,
+          storeName: action.payload.storeName });
         state.sum += 0;
       }
     },
@@ -73,6 +77,9 @@ const cartSlice = createSlice({
     .addCase(submitOrderAsync.fulfilled, (state, action) => {
       state.submitOrder = REQUEST_STATE.FULFILLED;
       state.cart = state.cart.filter(product => action.payload.findIndex(p => p._id === product._id) === -1);
+      let price = 0;
+      state.cart.forEach(item => {price += item.price*item.quantity;});
+      state.sum = price;
     })
     .addCase(submitOrderAsync.rejected, (state, action) => {
       state.submitOrder = REQUEST_STATE.REJECTED;
@@ -85,5 +92,6 @@ export const { updateQuantity, deleteProduct, addProduct, loadFromStorage} =
 
 // ------------------ Getters ------------------- // 
 export const getCart = (state) => state.cart.cart;
+export const getSum = (state) => state.cart.sum;
 
 export default cartSlice.reducer;

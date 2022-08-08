@@ -18,8 +18,20 @@ function handleGet(req, res) {
 }
 
 function handleBuyerAndGuestGet(req, res) {
-    Product.find({}).exec().then(products => {res.json(products)}).catch(err => {
-    res.status(503).send(`unexpected Error ${err}`)});
+    Product.find({}).lean().exec().then((products) => { 
+        let allSeller = [];
+        for (let product of products) {
+            let seller = Seller.findOne({_id: product.soldBy});
+            allSeller.push(seller);
+        }
+        Promise.all(allSeller).then((sellers) => {
+            products.forEach(product => {
+                let s = sellers.find(seller => seller._id.equals(product.soldBy));
+                product.storeName = s.company;
+            });
+            res.json(products);
+        }).catch(err => { console.log(err); res.status(503).send(`unexpected Error ${err}`) });
+    }).catch(err => { res.status(503).send(`unexpected Error ${err}`) });
 }
 
 function handlePut(req, res) {

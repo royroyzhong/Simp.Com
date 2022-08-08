@@ -2,16 +2,14 @@ import Grid from "@mui/material/Grid";
 import ItemInCart from './ItemInCart';
 import "../../css/cart.css";
 import ShoppingCartCheckoutOutlinedIcon from '@mui/icons-material/ShoppingCartCheckoutOutlined';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { submitOrderAsync } from '../orders/orderThunks';
-import { getCart } from "../../controller/cartSlice";
 import { getUserAsync } from "../../controller/login/thunks";
 import { useNavigate } from "react-router-dom";
 
 function SellingStore(props) {
     const dispatch = useDispatch();
     let navigate = useNavigate();
-    const cart = useSelector(getCart);
     
     const renderedProducts = props.products?.map((product, index) => {
         return <ItemInCart key={index} item={product} />
@@ -24,8 +22,9 @@ function SellingStore(props) {
             if (statusCode !== 200) {
                 navigate("/login");
             } else {
-                dispatch(submitOrderAsync(props.products))
-                let updatedCart = cart.filter(product => props.products.findIndex(p => p._id === product._id) === -1);
+                dispatch(submitOrderAsync(props.products));
+                let updatedCart = JSON.parse(sessionStorage.getItem('Cart'));
+                updatedCart = updatedCart.filter(product => props.products.findIndex(p => p._id === product._id) === -1);
                 sessionStorage.setItem('Cart', JSON.stringify(updatedCart));
             }
         });

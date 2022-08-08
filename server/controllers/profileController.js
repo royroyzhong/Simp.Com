@@ -1,6 +1,5 @@
 const Buyer = require("../models/Buyer");
 const Seller = require("../models/Seller");
-// const Seller = require("../models/Seller");
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 module.exports.updateProfile_put = async (req, res) => {

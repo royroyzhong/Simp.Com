@@ -1,6 +1,7 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
 import { getOrderHistory } from "../../controller/buyerSlice";
-
+import { getBuyerOrderAsync } from "./orderThunks";
 import {
   DataGrid,
   GridToolbar,
@@ -8,10 +9,16 @@ import {
 } from "@mui/x-data-grid";
 import { Grid } from "@mui/material";
 
-import { Box, Container } from "@mui/system";
+import { Container } from "@mui/system";
 
-export default function BuyerOrderTracking(props) {
+export default function BuyerOrderTracking() {
   let orders = useSelector(getOrderHistory);
+  let dispatch = useDispatch();
+  console.log(orders);
+
+  useEffect(() => {
+      dispatch(getBuyerOrderAsync());
+  }, []);
 
   const columns = [
     { field: "_id", headerName: "Order Number", width: 130 },
@@ -25,7 +32,7 @@ export default function BuyerOrderTracking(props) {
         <ul>
           {products.value.map((product, index) => (
             <li key={index}>
-              Name: {product.productName} Quantity: {product.quantity}
+              Name: {product.name} Quantity: {product.quantity}
             </li>
           ))}
         </ul>

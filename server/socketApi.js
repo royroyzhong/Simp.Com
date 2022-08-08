@@ -11,7 +11,6 @@ module.exports.setup = (server) => {
   var socketApi = {};
   socketApi.io = io;
   io.on("connection", function (socket) {
-    // console.log(`User Connected: ${socket.id}`);
     //join room
     socket.on("join_room", (data) => {
       console.log("enter: " + data);

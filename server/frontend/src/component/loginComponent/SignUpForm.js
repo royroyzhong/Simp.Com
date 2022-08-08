@@ -51,7 +51,6 @@ function SignUpForm() {
   const [passwordConfirmError, setPasswordConfirmError] = React.useState("");
   const [companyError, setCompanyError] = React.useState("");
   const handleError = (err) => {
-    console.log(err);
     if (err !== undefined) {
       if (err.includes("first name")) setFirstNameError(err);
       if (err.includes("last name")) setLastNameError(err);
@@ -87,12 +86,14 @@ function SignUpForm() {
       };
     }
     dispatch(signupAsync(account)).then((result) => {
-      console.log(result);
       if (result.payload.status !== 201) {
         handleError(result.payload.error);
       } else {
-        console.log("first");
-        navigate("../");
+        if (!result.payload.role) {
+          navigate("../");
+        } else {
+          navigate("/seller/dashboard");
+        }
       }
     });
   };

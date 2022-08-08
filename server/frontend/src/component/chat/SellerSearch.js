@@ -24,17 +24,13 @@ function SellerSearch(prop) {
   const [open, setOpen] = React.useState(false);
   const inputReferance = React.createRef();
 
-  // const theme = useTheme();
-  // const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
   const handleClose = () => {
     setOpen(false);
-    // socket.disconnect();
     setMsgUnread(false);
     setMessageReceived([]);
   };
   const handleClickOpen = () => {
     setOpen(true);
-    // socket.connect();
     setMsgUnread(false);
   };
 
@@ -112,7 +108,7 @@ function SellerSearch(prop) {
               <CloseIcon />
             </IconButton>
           </DialogTitle>
-          <DialogContent dividers>
+          <DialogContent dividers sx={{ height: "50vh" }}>
             <MessageList
               className="message-list"
               lockable={true}

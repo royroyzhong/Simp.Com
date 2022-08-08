@@ -14,13 +14,12 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material";
 
 const containerBoxStyle = {
-  flexGrow: 1,
   borderRadius: "19px",
   backgroundColor: "white",
   width: "50%",
   height: "auto",
   margin: "10vh 5vw",
-  paddingBottom: "20vh",
+  paddingBottom: "26.5vh",
   boxShadow: "0 0 2px rgb(20 20 20 / 50%)",
 };
 const containerBoxStyle_smaller = {
@@ -65,25 +64,6 @@ function ProfileLeftContent(props) {
         </Typography>
       </Button>,
       <Marginer key="1" direction="vertical" margin="1vh" />,
-      <Button
-        sx={CSSButtonStyle}
-        key="Payment"
-        onClick={() => {
-          setPageName("Payment");
-        }}
-      >
-        <PaymentsIcon />
-        <Typography
-          variant="body2"
-          gutterBottom
-          sx={{
-            marginLeft: "3vw",
-            padding: "0.5vw",
-          }}
-        >
-          Payment
-        </Typography>
-      </Button>,
       <Marginer key="2" direction="vertical" margin="1vh" />,
       <Button
         sx={CSSButtonStyle}

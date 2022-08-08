@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchAPI } from "../api/client";
 import { getBuyerOrderAsync } from "../component/orders/orderThunks";
+import { REQUEST_STATE } from "./utils";
 
 export const getProducts = createAsyncThunk('/products/get', async function () {
   let res = fetchAPI('GET', {}, {}, 'products').then(response => response.json())
@@ -29,7 +30,8 @@ export const getProducts = createAsyncThunk('/products/get', async function () {
 
 const INITIAL_STATE = {
   orderHistory: [],
-  displayProducts: []
+  displayProducts: [],
+  getOrderHistoryStatus: REQUEST_STATE.IDLE
 };
 
 const userSlice = createSlice({

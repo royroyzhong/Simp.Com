@@ -24,34 +24,34 @@ function App() {
             />
             <Route path="/login" element={<Login />} />
             <Route
-              path="/userX/profile"
+              path="/user/profile"
               element={wrapper(<ProfilePage />, buyer)}
             />
             <Route
-              path="/userX/order_tracking"
+              path="/user/order_tracking"
               element={wrapper(<BuyerOrderTracking />, buyer)}
             />
             <Route
-              path="/sellerX/dashboard"
+              path="/seller/dashboard"
               element={wrapper(<Dashboard />, seller)}
             />
             <Route
-              path="/sellerX/products/"
+              path="/seller/products/"
               element={wrapper(<ProductBoard />, seller)}
             ></Route>
             <Route
-              path="/sellerX/product/:productId"
+              path="/seller/product/:productId"
               element={wrapper(<ProductPage />, seller)}
             />
             <Route
-              path="/sellerX/order_tracking/"
+              path="/seller/order_tracking/"
               element={wrapper(<OrderTracking />, seller)}
             />
             <Route
-              path="/sellerX/product_page/"
+              path="/seller/product_page/"
               element={wrapper(<ProductPage />, seller)}
             />
-            <Route 
+            <Route
               path="/buyer/product/:productId"
               element={wrapper(<ProductPage />, buyer)}
             />
@@ -59,8 +59,7 @@ function App() {
               path="/seller/profile"
               element={wrapper(<ProfilePage />, seller)}
             />
-            <Route path="/userX/cart" element={wrapper(<Cart />, buyer)} />
-            {/* <Route path="/liveChat" element={<TestChat />} /> */}
+            <Route path="/user/cart" element={wrapper(<Cart />, buyer)} />
           </Routes>
         </BrowserRouter>
       </div>

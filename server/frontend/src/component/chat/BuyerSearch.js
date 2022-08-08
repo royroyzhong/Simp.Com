@@ -40,9 +40,6 @@ function BuyerSearch(prop) {
   const inputReferance = React.createRef();
   let navigate = useNavigate();
 
-  // const theme = useTheme();
-  // const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
-
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -65,7 +62,6 @@ function BuyerSearch(prop) {
     if (reason === "clickaway") {
       return;
     }
-
     setOpenAlert(false);
     navigate("./login");
   };
@@ -114,7 +110,6 @@ function BuyerSearch(prop) {
     socket.connect();
     try {
       socket.emit("join_room", data.email);
-      console.log(chatTarget.email);
       socket.emit("send_message", {
         room: data.email,
         message: prop.self.firstName + " just enter the room",
@@ -122,11 +117,11 @@ function BuyerSearch(prop) {
       let tempEle = {
         position: "right",
         type: "text",
-        text: "Join the room ",
+        text: prop.self.firstName + "Join the room ",
       };
       setMessageReceived((oldArray) => [...oldArray, tempEle]);
     } catch (err) {
-      console.log(err);
+      setOpenAlert(true);
     }
   };
   const handleSent = () => {
@@ -147,7 +142,6 @@ function BuyerSearch(prop) {
     inputReferance.current.value = "";
   };
   const handleAutoCompleteSubmit = (event, value) => {
-    console.log(value);
     setWarming(false);
     if (value !== null) {
       if (value.onlineStatus) {
@@ -232,7 +226,7 @@ function BuyerSearch(prop) {
               <CloseIcon />
             </IconButton>
           </DialogTitle>
-          <DialogContent dividers>
+          <DialogContent dividers sx={{ height: "50vh" }}>
             <MessageList
               className="message-list"
               lockable={true}

@@ -75,17 +75,28 @@ export default function Product(props) {
         </Typography>
         <Button variant="contained" size="small" color="primary" onClick={() => {
           dispatch(addProduct(props.data));
-          let updatedCart = [...cart];
-          let productIdx = updatedCart.findIndex(p => p._id === props.data._id);
-          if (productIdx !== -1) {
-            ++updatedCart[productIdx].quantity;
+          let updatedCart = JSON.parse(sessionStorage.getItem('Cart'));
+          if (updatedCart != null ) {
+            let productIdx = updatedCart.findIndex(p => p._id === props.data._id);
+            if (productIdx !== -1) {
+              updatedCart[productIdx].quantity += 1;
+            } else {
+              updatedCart.push({
+                _id: props.data._id,
+                name: props.data.name,
+                soldBy: props.data.soldBy,
+                price: props.data.price,
+                quantity: 1,
+                storeName: props.data.storeName });
+            }
           } else {
-            updatedCart.push({
+            updatedCart = [{
               _id: props.data._id,
               name: props.data.name,
               soldBy: props.data.soldBy,
               price: props.data.price,
-              quantity: 1});
+              quantity: 1,
+              storeName: props.data.storeName }];
           }
           sessionStorage.setItem('Cart', JSON.stringify(updatedCart));
         }}>
