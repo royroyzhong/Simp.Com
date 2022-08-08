@@ -63,7 +63,7 @@ router.post("/", authJwt.verifyToken, async function (req, res, next) {
         let tempSellerId = uniqueSellerIds[i];
         let tempArray = req.body.filter((p) => p.soldBy === tempSellerId);
         let tempSum = tempArray.reduce((accumulator, object) => {
-          return accumulator + object.price;
+          return accumulator + object.price * object.quantity;
         }, 0);
 
         let tempProducts = [];
