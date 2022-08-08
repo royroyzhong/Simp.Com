@@ -2,17 +2,27 @@ import { Button, Card, CardContent, CardMedia, Divider, Fade, ImageList, ImageLi
 import { Box, Container } from "@mui/system";
 
 import { useDispatch, useSelector } from "react-redux";
-
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { addFeature, addTag, getBufferProduct, getFeatures, getImages, getName, getPrice, getStorage, getTags, loadProduct, postNewProduct, rmvFeature, rmvTag, setName, setPrice, setStorage, updateProduct } from "../../controller/productSlice";
-import { restockProductAsync } from "../../controller/productSlice";
+
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import IconButton from '@mui/material/IconButton';
+
+
+import {
+    addFeature, addTag, addToWishlistAsync, getBufferProduct, getFeatures,
+    getImages, getName, getPrice, getStorage, getTags,
+    loadProduct, postNewProduct, rmvFeature, rmvTag,
+    setName, setPrice, setStorage, updateProduct,
+    deleteFromWishlistAsync, restockProductAsync
+} from "../../controller/productSlice";
 
 import DragDrop from '../common/DragDrop';
 import DragDropDisplay from '../common/DragDropDisplay';
 import { removeProducts } from "../../controller/sellerSlice";
 
+import "../../css/product.css";
 
 export default function ProductPage(props) {
 
@@ -29,6 +39,8 @@ export default function ProductPage(props) {
     }
 
     let [isStatic, setStatic] = useState(false);
+    // false not in wishlist, true in wishlist
+    const [toggleStatus, setToggleStatus] = useState(false)
 
     // Set initial data if this is a static page 
     useEffect(() => {
@@ -51,6 +63,18 @@ export default function ProductPage(props) {
         }
     }, [dispatch, location]);
 
+    const handleToggle = (event) => {
+        console.log(toggleStatus);
+        setToggleStatus((toggleStatus) => !toggleStatus);
+        console.log(toggleStatus);
+        if (toggleStatus === true) {
+            dispatch(addToWishlistAsync(productId));
+        } else {
+            dispatch(deleteFromWishlistAsync(productId));
+        }
+    }
+    //{isStatic ? (<button id="wishlist" onClick={handleToggle}> <FavoriteBorderIcon></FavoriteBorderIcon></button>) : (<div></div>)}
+
     return (
         <Container sx={{ md: 4, mt: 4 }}>
             <Stack direction={'row'} spacing={2}>
@@ -65,6 +89,7 @@ export default function ProductPage(props) {
                     spacing={2}
                     sx={leftStackStyle}
                 >
+                    {isStatic ? (<IconButton size='medium' disableRipple='false' id='wishlist' onClick={handleToggle}> <FavoriteBorderIcon></FavoriteBorderIcon></IconButton>) : (<div></div>)}
                     <TitleDisplay isStatic={isStatic} />
                     <PriceAndQuantity isStatic={isStatic} />
                     <TagDisplay isStatic={isStatic} />
@@ -82,7 +107,10 @@ export default function ProductPage(props) {
                                     images: product.images
                                 }))
                             }
-                            else
+                            else {
+                                if (product.storage > 0) {
+                                    dispatch(restockProductAsync(productId));
+                                }
                                 dispatch(updateProduct({
                                     _id: productId,
                                     name: product.name,
@@ -92,6 +120,7 @@ export default function ProductPage(props) {
                                     storage: product.storage,
                                     images: product.images
                                 }))
+                            }
                             navigate(-1);
                         }}>Save</Button>
                     )}
@@ -105,7 +134,6 @@ export default function ProductPage(props) {
                         </Button>
                     )}
                 </Stack>
-                {/* <DragDropDisplay> </DragDropDisplay> */}
             </Stack>
         </Container>
     )
@@ -152,7 +180,6 @@ function ImagesDisplay(props) {
 }
 
 function TitleDisplay(props) {
-
     let name = useSelector(getName);
     let dispatch = useDispatch();
 
@@ -168,6 +195,7 @@ function TitleDisplay(props) {
                 onChange={event => {
                     dispatch(setName(event.target.value))
                 }} />)}
+
         </div>
     )
 }
@@ -175,13 +203,7 @@ function TitleDisplay(props) {
 function PriceAndQuantity(props) {
     let price = useSelector(getPrice);
     let storage = useSelector(getStorage);
-    let name = useSelector(getName);
     let dispatch = useDispatch();
-
-    const handleSendEmail = (event) => {
-        event.preventDefault();
-        dispatch(restockProductAsync(name));
-    }
 
     return (
         <div>
@@ -189,6 +211,8 @@ function PriceAndQuantity(props) {
             {props.isStatic ? (<Typography variant="h5">{price}</Typography>) : (
                 <TextField
                     value={price}
+                    type="number"
+                    inputProps={{min:0}}
                     size="small"
                     variant="outlined"
                     onChange={event => {
@@ -199,13 +223,13 @@ function PriceAndQuantity(props) {
             {props.isStatic ? (<Typography variant="h5">{storage}</Typography>) : (
                 <TextField
                     value={storage}
+                    type="number"
                     size="small"
                     variant="outlined"
                     onChange={event => {
                         dispatch(setStorage(event.target.value));
                     }} />
             )}
-            <button onClick={handleSendEmail}> Test </button>
         </div>
     )
 }
@@ -296,7 +320,7 @@ function TextDisplay(props) {
 
     const handleRmv = (toRmv) => {
         dispatch(rmvFeature(toRmv));
-    } 
+    }
 
     return (
         <Stack>

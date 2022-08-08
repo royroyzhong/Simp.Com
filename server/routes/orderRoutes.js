@@ -54,6 +54,7 @@ router.post("/", authJwt.verifyToken, async function (req, res, next) {
         let tempSum = tempArray.reduce((accumulator, object) => {
           return accumulator + object.price * object.quantity;
         }, 0);
+
         let tempProducts = [];
         for (let i = 0; i < tempArray.length; i++) {
           let product = tempArray[i];
@@ -102,6 +103,7 @@ router.patch("/", async function (req, res) {
     // process order
     let updatedOrder = await OrderModel.findByIdAndUpdate(filterCondition, {
       status: "Shipped",
+      lastModifiedAt: new Date(),
     });
   } else {
     //remove unprocess order
@@ -118,6 +120,7 @@ router.patch("/", async function (req, res) {
       filterCondition,
       {
         status: "Refunded",
+        lastModifiedAt: new Date(),
       },
       { new: true }
     );
@@ -127,8 +130,6 @@ router.patch("/", async function (req, res) {
     if (err) {
       res.status(400).send("Error fetching listings!");
     } else {
-      console.log(JSON.stringify(result));
-      console.log(result);
       res.json(result);
     }
   });

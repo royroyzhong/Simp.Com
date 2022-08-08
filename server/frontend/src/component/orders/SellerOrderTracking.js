@@ -18,8 +18,6 @@ import { changeStatusAsync, getSellerOrderAsync } from "../orders/orderThunks";
 
 function SellerOrderTracking(props) {
   const [finalClickInfo, setFinalClickInfo] = useState(null);
-  const [popUpOpen, setPopUpOpen] = useState(true);
-  const [popUpConfirm, setPopUpConfirm] = useState(false);
   let orders = useSelector(getSellerOrderDetail);
   let getOrderStatus = useSelector(getSellerOrderStatus);
   const dispatch = useDispatch();
