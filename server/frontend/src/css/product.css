@@ -1,0 +1,18 @@
+#wishlist {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: #5F0F40;
+    width: 40px;
+    height:40px;
+    position:relative;
+    right: 114%;
+    bottom: -5%;
+    z-index:10
+}
+
+#wishlist:hover {
+    background-color: rgba(149,141,166, 0.8);
+    transition-duration: 20ms;
+    border-radius: 40px;
+}
