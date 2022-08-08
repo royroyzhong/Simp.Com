@@ -9,7 +9,7 @@ import ShoppingCartCheckoutOutlinedIcon from "@mui/icons-material/ShoppingCartCh
 import React from "react";
 import { useSelector,useDispatch} from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getCart, loadFromStorage } from "../../controller/cartSlice";
+import { getCart, loadFromStorage, getSum} from "../../controller/cartSlice";
 import SellingStore from "./SellingStore";
 import { useEffect } from "react";
 import { submitOrderAsync } from "../orders/orderThunks";
@@ -28,6 +28,7 @@ function Cart() {
   }, []);
 
   let cart = useSelector(getCart);
+  let sum = useSelector(getSum);
   let uniqueStoreIds = [...new Set(cart?.map((product) => product.soldBy))];
   let storeIds = Array.from(uniqueStoreIds).sort();
 
@@ -79,7 +80,7 @@ function Cart() {
             <Box>{renderedSellingStores}</Box>
           </Grid>
         </Grid>
-        <h2 id="Sum"> Sum: {cart.sum}</h2>
+        <h2 id="Sum"> Total Amount: ${sum}</h2>
         <button className="Btn" id="checkoutIcon" onClick={handleCheckout}>
           {" "}
           <ShoppingCartCheckoutOutlinedIcon> </ShoppingCartCheckoutOutlinedIcon>
