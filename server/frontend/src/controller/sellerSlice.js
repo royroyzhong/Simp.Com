@@ -61,6 +61,11 @@ const sellerSlice = createSlice({
     // data vis
     dataset: {},
   },
+  reducers: {
+    resetInventoryStatus: (state, action) => {
+      state.inventoryStatus = REQUEST_STATE.IDLE;
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getProducts.pending, function (state, action) {
@@ -196,6 +201,8 @@ const sellerSlice = createSlice({
       });
   },
 });
+
+export const {resetInventoryStatus} = sellerSlice.actions;
 
 // ------------------ Getters ------------------- //
 export const getProductList = (state) => state.seller.inventory;

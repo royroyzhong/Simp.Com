@@ -165,5 +165,4 @@ export const getBufferProduct = (state) => {
 };
 export const getImages = (state) => state.products.images;
 
-
 export default productSlice.reducer;
