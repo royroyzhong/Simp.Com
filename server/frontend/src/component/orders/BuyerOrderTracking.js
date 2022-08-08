@@ -32,7 +32,7 @@ export default function BuyerOrderTracking() {
         <ul>
           {products.value.map((product, index) => (
             <li key={index}>
-              Name: {product.productName} Quantity: {product.quantity}
+              Name: {product.name} Quantity: {product.quantity}
             </li>
           ))}
         </ul>

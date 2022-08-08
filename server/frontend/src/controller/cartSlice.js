@@ -77,6 +77,9 @@ const cartSlice = createSlice({
     .addCase(submitOrderAsync.fulfilled, (state, action) => {
       state.submitOrder = REQUEST_STATE.FULFILLED;
       state.cart = state.cart.filter(product => action.payload.findIndex(p => p._id === product._id) === -1);
+      let price = 0;
+      state.cart.forEach(item => {price += item.price*item.quantity;});
+      state.sum = price;
     })
     .addCase(submitOrderAsync.rejected, (state, action) => {
       state.submitOrder = REQUEST_STATE.REJECTED;
