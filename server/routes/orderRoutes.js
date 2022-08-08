@@ -45,7 +45,7 @@ router.post("/", authJwt.verifyToken, async function (req, res, next) {
     .then((allProducts) => {
       // check if any product out of stock
       for (let i in req.body) {
-        let productInStock = allProducts.find((p) => p._id == req.body[i]._id);
+        let productInStock = allProducts.find((p) => p._id === req.body[i]._id);
         if (req.body[i].quantity > productInStock.storage) {
           return res
             .status(503)
@@ -69,7 +69,7 @@ router.post("/", authJwt.verifyToken, async function (req, res, next) {
         let tempProducts = [];
         for (let i = 0; i < tempArray.length; i++) {
           let product = tempArray[i];
-          let productInStock = allProducts.find((p) => p._id == product._id);
+          let productInStock = allProducts.find((p) => p._id === product._id);
           // Decrease product storage
           ProductModel.findOneAndUpdate(
             { _id: product._id },
