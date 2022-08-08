@@ -37,58 +37,63 @@ router.get("/seller", authJwt.verifyToken, function (req, res, next) {
 router.post("/", authJwt.verifyToken, async function (req, res, next) {
   // Check if any product not exist
   for (let i in req.body) {
-    let product = await ProductModel.findOne({ _id: req.body[i]._id});
+    let product = await ProductModel.findOne({ _id: req.body[i]._id });
     if (!product) {
-      return res.status(503).send(`Product with id: ${req.body[i]._id} not found`);
+      return res
+        .status(503)
+        .send(`Product with id: ${req.body[i]._id} not found`);
     } else if (req.body[i].quantity > product.storage) {
-      return res.status(503).send(`Product with id: ${product._id} have only ${product.storage} in stock.`);
+      return res
+        .status(503)
+        .send(
+          `Product with id: ${product._id} have only ${product.storage} in stock.`
+        );
     }
   }
-      // Create order
-      let uniqueSellerIds = [
-        ...new Set(req.body.map((product) => product.soldBy)),
-      ];
-      for (let i in uniqueSellerIds) {
-        let tempSellerId = uniqueSellerIds[i];
-        let tempArray = req.body.filter((p) => p.soldBy === tempSellerId);
-        let tempSum = tempArray.reduce((accumulator, object) => {
-          return accumulator + object.price * object.quantity;
-        }, 0);
+  // Create order
+  let uniqueSellerIds = [...new Set(req.body.map((product) => product.soldBy))];
+  for (let i in uniqueSellerIds) {
+    let tempSellerId = uniqueSellerIds[i];
+    let tempArray = req.body.filter((p) => p.soldBy === tempSellerId);
+    let tempSum = tempArray.reduce((accumulator, object) => {
+      return accumulator + object.price * object.quantity;
+    }, 0);
 
-        let tempProducts = [];
-        for (let i = 0; i < tempArray.length; i++) {
-          let product = tempArray[i];
-          let productInStock = await ProductModel.findOne({ _id: product._id });
-          // Decrease product storage
-          ProductModel.findOneAndUpdate(
-            { _id: product._id },
-            { storage: productInStock.storage - product.quantity },
-            { new: true }
-          );
-          tempProducts.push({
-            _id: product._id,
-            name: product.name,
-            quantity: product.quantity,
-          });
-        }
-        let email = res.locals.user.useremail;
-        let seller = await SellerModel.findOne({ _id: tempSellerId });
-        if (!seller) {
-          return res.status(503).send("Seller not found:" + tempSellerId);
-        } else {
-          const orderToAdd = new OrderModel({
-            _id: uuid(),
-            store: seller.company,
-            products: tempProducts,
-            sellerEmail: seller.email,
-            buyerEmail: email,
-            status: "Unprocessed",
-            totalPrice: tempSum,
-          });
-          orderToAdd.save();
-        }}
-        return res.json(req.body);
+    let tempProducts = [];
+    for (let i = 0; i < tempArray.length; i++) {
+      let product = tempArray[i];
+      let productInStock = await ProductModel.findOne({ _id: product._id });
+      // Decrease product storage
+      await ProductModel.findOneAndUpdate(
+        { _id: product._id },
+        { storage: productInStock.storage - product.quantity },
+        { new: true }
+      );
+      tempProducts.push({
+        _id: product._id,
+        name: product.name,
+        quantity: product.quantity,
       });
+    }
+    let email = res.locals.user.useremail;
+    let seller = await SellerModel.findOne({ _id: tempSellerId });
+    if (!seller) {
+      return res.status(503).send("Seller not found:" + tempSellerId);
+    } else {
+      const orderToAdd = new OrderModel({
+        _id: uuid(),
+        store: seller.company,
+        products: tempProducts,
+        sellerEmail: seller.email,
+        buyerEmail: email,
+        status: "Unprocessed",
+        totalPrice: tempSum,
+      });
+      orderToAdd.save();
+    }
+  }
+  return res.json(req.body);
+});
 
 // For seller use only
 router.patch("/", async function (req, res) {
