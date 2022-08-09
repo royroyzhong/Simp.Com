@@ -57,13 +57,14 @@ export default function CartWrapper() {
                 </Stepper>
             </Box>
             {conditionalComponent()}
-            <Button onClick={handleNext}>
-                {page === 0 || page === 3 ? "Next" : "Back to Cart"}
-            </Button>
             {
                 page > 0 &&
-                <Button onClick={handleBack}> Back</Button>
+                <Button onClick={handleBack} > Back</Button>
             }
+            <Button onClick={handleNext} sx={{marginLeft: "20px"}}>
+                {page !== 3 ? "Next" : "Back to Cart"}
+            </Button>
+
 
         </Box>
     )
