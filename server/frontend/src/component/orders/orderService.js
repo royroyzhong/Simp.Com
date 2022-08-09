@@ -1,21 +1,21 @@
 const submitOrder = async (products) => {
-  const response = await fetch("/order", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(products),
-  });
-  if (response.status === 503) {
-    return Promise.reject({res: response,status:response.status});
+  let response, data;
+  try{
+      response = await fetch("/order", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(products),
+    });
+    data = await response.json();
+    if (!response.ok) {
+      return response.status;
+    }
+    return {status: response.status, data: data};
+  } catch(err) {
+    return {res: response, status: response.status};
   }
-  const data = await response.json();
-  if (!response.ok) {
-    const errorMsg = data?.message;
-    throw new Error(errorMsg);
-  }
-
-  return {status:response.status,data:data};
 };
 
 const getBuyerOrder = async () => {

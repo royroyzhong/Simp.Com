@@ -66,6 +66,8 @@ const cartSlice = createSlice({
       })
       .addCase(submitOrderAsync.rejected, (state, action) => {
         state.submitOrder = REQUEST_STATE.REJECTED;
+        console.log("err here");
+        // throw new Error(action.payload);
       })
   }
 });
@@ -76,5 +78,6 @@ export const { updateQuantity, deleteProduct, addProduct, loadFromStorage } =
 // ------------------ Getters ------------------- // 
 export const getCart = (state) => state.cart.cart;
 export const getSum = (state) => state.cart.sum;
+export const getSubmitOrderStatus = (state) => state.cart.submitOrder;
 
 export default cartSlice.reducer;
