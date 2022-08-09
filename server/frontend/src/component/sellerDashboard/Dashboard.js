@@ -1,10 +1,6 @@
 // MUI Components
 import {
   Card,
-  Divider,
-  List,
-  ListItem,
-  ListItemText,
   Stack,
 } from "@mui/material";
 import { Box, Container } from "@mui/system";
@@ -13,7 +9,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 // Recahrt Components
 import {
-  ResponsiveContainer,
   CartesianGrid,
   Line,
   LineChart,
@@ -23,12 +18,11 @@ import {
   BarChart,
   Legend,
   Bar,
+  Label
 } from "recharts";
 import {
   getSellerOrder,
-  getStats,
   getTopProducts,
-  getSellerOrderDetail,
   getSellerOrderStatus,
   getDatasets,
 } from "../../controller/sellerSlice";
@@ -38,10 +32,7 @@ import Title from "../common/Title";
 import { REQUEST_STATE } from "../../controller/utils";
 
 export default function Dashboard(props) {
-  let orderStats = useSelector(getSellerOrder);
   let datasets = useSelector(getDatasets);
-  let topProducts = useSelector(getTopProducts);
-  let stats = useSelector(getStats);
   let sellerOrderStatus = useSelector(getSellerOrderStatus);
 
   const dispatch = useDispatch();
@@ -63,13 +54,11 @@ export default function Dashboard(props) {
         variant="outlined"
         sx={infographStyle}
       >
-        <InfoGraph stats={stats} />
+        <InfoGraph lineChartSet={datasets.lineChart} />
       </Card>
 
-      <Box sx={{ marginTop: 4 }}>
+      <Box sx={{ marginTop: 2 }}>
         <ProcessingList
-          orders={orderStats}
-          topProducts={topProducts}
           datasets={datasets}
         />
       </Box>
@@ -78,81 +67,35 @@ export default function Dashboard(props) {
 }
 
 function InfoGraph(props) {
-  let data = [
-    {
-      day: "Monday",
-      numorders: 1000,
-    },
-    {
-      day: "Tuesday",
-      numorders: 1299,
-    },
-    {
-      day: "Wednesday",
-      numorders: 1023,
-    },
-    {
-      day: "Thursday",
-      numorders: 889,
-    },
-    {
-      day: "Friday",
-      numorders: 1120,
-    },
-    {
-      day: "Saturday",
-      numorders: 996,
-    },
-    {
-      day: "Sunday",
-      numorders: 667,
-    },
-  ];
   return (
-    <Stack
-      direction={"row"}
-      spacing={2}
-      divider={<Divider orientation="vertical" flexItem></Divider>}
-    >
       <Box>
-        <Title>Weekly Overview</Title>
+        <Title>Monthly Overview</Title>
         <LineChart
-          width={600}
+          width={1000}
           height={300}
-          data={data}
-          margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
+          data={props.lineChartSet}
+          margin={{ top: 4, right: 20, left: 10, bottom: 5 }}
         >
-          <XAxis dataKey="day" />
-          <YAxis></YAxis>
+          <XAxis dataKey="month" />
+          <YAxis><Label value='Dollar($)' angle={-90} position='insideLeft'/></YAxis>
           <Tooltip />
           <CartesianGrid stroke="#f5f5f5" />
           <Line
             type="monotone"
-            dataKey="numorders"
+            dataKey="totalSale"
             stroke="#3751FF"
             yAxisId={0}
           />
         </LineChart>
       </Box>
-      <Box sx={{ width: "100%" }}>
-        <List>
-          <ListItem>Best Seller</ListItem>
-          <ListItem>
-            <ListItemText primary={props.stats.bestSeller} />
-          </ListItem>
-          <Divider />
-        </List>
-      </Box>
-    </Stack>
   );
 }
 
 function ProcessingList(props) {
-  console.log(props.datasets.barChart);
   return (
     <Stack direction={"row"} spacing={2}>
       <Card variant="outlined" sx={{ width: "50%" }}>
-        <Title>Statistics</Title>
+        <Title>Order Stat</Title>
         <BarChart
           width={500}
           height={300}
@@ -166,7 +109,7 @@ function ProcessingList(props) {
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" />
-          <YAxis />
+          <YAxis><Label value='# of Order' angle={-90} position='insideLeft'/></YAxis>
           <Tooltip />
           <Legend />
           <Bar dataKey="length" fill="#8884d8" />
@@ -174,7 +117,7 @@ function ProcessingList(props) {
       </Card>
 
       <Card variant="outlined" sx={{ width: "50%" }}>
-        <Title>Top Products</Title>
+        <Title>Product Stat</Title>
         <BarChart
           width={500}
           height={300}
@@ -188,7 +131,7 @@ function ProcessingList(props) {
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" />
-          <YAxis />
+          <YAxis><Label value='Dollar($)' angle={-90} position='insideLeft'/></YAxis>
           <Tooltip />
           <Legend />
           <Bar dataKey="Incomes" fill="#8884d8" />

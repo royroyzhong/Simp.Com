@@ -125,7 +125,7 @@ const sellerSlice = createSlice({
 
         state.topProducts =
           allProducts.length >= 3 ? allProducts.slice(0, 3) : allProducts;
-        console.log(action.payload);
+
         // dataset for bar chart
         let barChartDataset = [
           {
@@ -136,37 +136,36 @@ const sellerSlice = createSlice({
           { name: "Delivered", length: state.orderDetail.Delivered.length },
           { name: "Refunded", length: state.orderDetail.Refunded.length },
         ];
+        
         //dataset for product item
-        let productMap = new Map();
-        for (let each of action.payload) {
-          for (let product of each.products) {
-            if (productMap.has(product._id)) {
-              productMap.set(product._id, [
-                ...productMap.get(product._id),
-                product,
-              ]);
-            } else {
-              productMap.set(product._id, [product]);
-            }
-          }
-        }
         let productDataset = [];
-        for (let key of productMap) {
-          let orders = key[1];
-          let sum = 0,
-            quantity = 0;
-          for (let order of orders) {
-            sum += parseFloat(order.price) * parseFloat(order.quantity);
-            quantity += parseFloat(order.quantity);
-          }
-
+        for (let product of allProducts) {
+          let sum = parseFloat(product.price) * parseFloat(product.quantity);
+          let quantity = parseFloat(product.quantity);
           productDataset.push({
-            name: orders[0].name,
+            name: product.name,
             Quantity: quantity,
             Incomes: sum,
           });
         }
-        state.dataset = { product: productDataset, barChart: barChartDataset };
+        console.log(productDataset);
+
+        let monthMap = { 1:"Jan.", 2:"Feb.", 3:"Mar.", 4:"Apr.", 5:"May", 6:"June", 7:"July", 8:"Aug.", 9:"Sep.", 10:"Oct.", 11:"Nov.", 12:"Dec."};
+        let currentYearMonthlySale = [];
+        let today = new Date();
+        let thisYear = today.getFullYear();
+        let thisYearOrders = action.payload.filter(order => new Date(order.createdAt).getFullYear() === thisYear); 
+        for (let i = 0; i < 12; ++i) {
+          let thisMonthOrders = thisYearOrders.filter(order => new Date(order.createdAt).getMonth() === i);
+          let total = 0;
+          thisMonthOrders.forEach(orders => total+=orders.totalPrice);
+          currentYearMonthlySale.push({
+            month: monthMap[i+1],
+            totalSale: total
+          });
+        }
+        console.log(currentYearMonthlySale);
+        state.dataset = { product: productDataset, barChart: barChartDataset, lineChart: currentYearMonthlySale};
 
         state.getSellerOrder = REQUEST_STATE.FULFILLED;
       })
