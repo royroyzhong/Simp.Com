@@ -6,9 +6,8 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import IconButton from '@mui/material/IconButton';
-
+import WishlistIcon from "../cart/WishlistIcon";
 
 import {
     addFeature, addTag, addToWishlistAsync, getBufferProduct, getFeatures,
@@ -71,7 +70,6 @@ export default function ProductPage(props) {
             dispatch(deleteFromWishlistAsync(productId));
         }
     }
-    //{isStatic ? (<button id="wishlist" onClick={handleToggle}> <FavoriteBorderIcon></FavoriteBorderIcon></button>) : (<div></div>)}
 
     return (
         <Container sx={{ md: 4, mt: 4 }}>
@@ -87,7 +85,13 @@ export default function ProductPage(props) {
                     spacing={2}
                     sx={leftStackStyle}
                 >
-                    {isStatic ? (<IconButton size='medium' disableRipple='false' id='wishlist' onClick={handleToggle}> <FavoriteBorderIcon></FavoriteBorderIcon></IconButton>) : (<div></div>)}
+                    {console.log(toggleStatus)};
+                    {isStatic ? 
+                    (<IconButton size='medium' disableRipple='false' id='wishlist' onClick={handleToggle}> 
+                    <WishlistIcon props={toggleStatus} ></WishlistIcon>
+                    </IconButton>) 
+                    : (<div></div>)}
+                    {console.log("end")};
                     <TitleDisplay isStatic={isStatic} />
                     <PriceAndQuantity isStatic={isStatic} />
                     <TagDisplay isStatic={isStatic} />

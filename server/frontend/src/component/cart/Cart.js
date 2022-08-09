@@ -4,6 +4,7 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import "../../css/cart.css";
 import ShoppingCartCheckoutOutlinedIcon from "@mui/icons-material/ShoppingCartCheckoutOutlined";
+import CheckoutStepper from "./checkoutStepper";
 
 /* Styling & MUI */
 import React from "react";
@@ -69,6 +70,7 @@ function Cart() {
       className="dashboard"
       sx={{ bgcolor: "#F7F8FC", marginTop: "-1vw" }}
     >
+      <CheckoutStepper> </CheckoutStepper>
       <Box className="cart">
         <h1> Cart</h1>
         <Grid
