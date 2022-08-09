@@ -4,4 +4,7 @@ export default function ComingSoon() {
         <h1> Coming Soon</h1>
 
     )
+
 }
+
+
