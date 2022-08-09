@@ -87,6 +87,7 @@ const sellerSlice = createSlice({
         console.log(action);
       })
       .addCase(getSellerOrderAsync.fulfilled, function (state, action) {
+        console.log(action.payload);
         let allOrders = action.payload.map((order) => {
           return {
             orderNumber: order._id,
@@ -94,6 +95,14 @@ const sellerSlice = createSlice({
             status: order.status,
           };
         });
+        // console.log(allOrders);
+
+        // for (let order of allOrders) {
+        //   for (let product of order.products) {
+        //     delete product._id;
+        //   }
+        // }
+        // console.log(allOrders);
         state.orderDetail = {
           Unprocessed: allOrders.filter(
             (order) => order.status === "Unprocessed"
@@ -102,6 +111,7 @@ const sellerSlice = createSlice({
           Delivered: allOrders.filter((order) => order.status === "Delivered"),
           Refunded: allOrders.filter((order) => order.status === "Refunded"),
         };
+        console.log(state.orderDetail);
         state.orders = {
           unprocessed: state.orderDetail.Unprocessed.length,
           shipped: state.orderDetail.Shipped.length,
