@@ -66,4 +66,22 @@ router.delete('/deleteFromWishlist',  authJwt.verifyToken, function (req, res) {
     })
 })
 
+router.get('/getWishlistStatus', authJwt.verifyToken,function(req,res) {
+    const productId = req.query['id']
+    let email = res.locals.user.useremail;
+
+    Product.findById(productId, function (err, result) {
+        if (err) {
+            console.log(err)
+            res.status(404).send(err)
+        }
+        else {
+            let emailList = result.wishlistUsers;
+            let searchResult = emailList.includes(email);
+            console.log(searchResult);
+            res.send(searchResult);
+        }
+    })
+})
+
 module.exports = router;
