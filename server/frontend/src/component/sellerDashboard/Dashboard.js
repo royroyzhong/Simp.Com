@@ -112,14 +112,14 @@ function ProcessingList(props) {
           <YAxis><Label value='# of Order' angle={-90} position='insideLeft'/></YAxis>
           <Tooltip />
           <Legend />
-          <Bar dataKey="length" fill="#8884d8" />
+          <Bar dataKey="Quantity" fill="#8884d8" />
         </BarChart>
       </Card>
 
       <Card variant="outlined" sx={{ width: "50%" }}>
-        <Title>Product Stat</Title>
+        <Title>Top 5 Product Stat</Title>
         <BarChart
-          width={500}
+          width={550}
           height={300}
           data={props.datasets.product}
           margin={{
@@ -134,7 +134,7 @@ function ProcessingList(props) {
           <YAxis><Label value='Dollar($)' angle={-90} position='insideLeft'/></YAxis>
           <Tooltip />
           <Legend />
-          <Bar dataKey="Incomes" fill="#8884d8" />
+          {/* <Bar dataKey="Incomes" fill="#8884d8" /> */}
           <Bar dataKey="Quantity" fill="#82ca9d" />
         </BarChart>
       </Card>

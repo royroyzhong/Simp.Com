@@ -112,7 +112,7 @@ export default function Header(prop) {
     if (prop.role === "buyer") navigate("/user/profile");
     if (prop.role === "seller") navigate("/seller/profile");
   };
-  
+
   return (
     <AppBar position="absolute" open={prop.open}>
       <Toolbar sx={{ pr: "24px" }}>
@@ -173,7 +173,7 @@ export default function Header(prop) {
           transformOrigin={{ horizontal: "right", vertical: "top" }}
           anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
         >
-          {userInfo != null && (
+          {userInfo != null && prop.role === "buyer" && (
             <MenuItem onClick={handleNavProfile}>
               <ListItemIcon>
                 <PeopleIcon fontSize="small" />
@@ -181,7 +181,7 @@ export default function Header(prop) {
               Profile
             </MenuItem>
           )}
-          {userInfo != null && <Divider />}
+          {userInfo != null && prop.role === "buyer" && <Divider />}
           {userInfo != null && (
             <MenuItem onClick={handleLogOut}>
               <ListItemIcon>

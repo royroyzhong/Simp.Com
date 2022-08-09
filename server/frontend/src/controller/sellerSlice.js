@@ -64,7 +64,7 @@ const sellerSlice = createSlice({
   reducers: {
     resetInventoryStatus: (state, action) => {
       state.inventoryStatus = REQUEST_STATE.IDLE;
-    }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -87,6 +87,7 @@ const sellerSlice = createSlice({
         console.log(action);
       })
       .addCase(getSellerOrderAsync.fulfilled, function (state, action) {
+        console.log(action.payload);
         let allOrders = action.payload.map((order) => {
           return {
             orderNumber: order._id,
@@ -94,6 +95,14 @@ const sellerSlice = createSlice({
             status: order.status,
           };
         });
+        // console.log(allOrders);
+
+        // for (let order of allOrders) {
+        //   for (let product of order.products) {
+        //     delete product._id;
+        //   }
+        // }
+        // console.log(allOrders);
         state.orderDetail = {
           Unprocessed: allOrders.filter(
             (order) => order.status === "Unprocessed"
@@ -102,6 +111,7 @@ const sellerSlice = createSlice({
           Delivered: allOrders.filter((order) => order.status === "Delivered"),
           Refunded: allOrders.filter((order) => order.status === "Refunded"),
         };
+        console.log(state.orderDetail);
         state.orders = {
           unprocessed: state.orderDetail.Unprocessed.length,
           shipped: state.orderDetail.Shipped.length,
@@ -130,13 +140,13 @@ const sellerSlice = createSlice({
         let barChartDataset = [
           {
             name: "Unprocessed",
-            length: state.orderDetail.Unprocessed.length,
+            Quantity: state.orderDetail.Unprocessed.length,
           },
-          { name: "Shipped", length: state.orderDetail.Shipped.length },
-          { name: "Delivered", length: state.orderDetail.Delivered.length },
-          { name: "Refunded", length: state.orderDetail.Refunded.length },
+          { name: "Shipped", Quantity: state.orderDetail.Shipped.length },
+          { name: "Delivered", Quantity: state.orderDetail.Delivered.length },
+          { name: "Refunded", Quantity: state.orderDetail.Refunded.length },
         ];
-        
+
         //dataset for product item
         let productDataset = [];
         for (let product of allProducts) {
@@ -148,24 +158,46 @@ const sellerSlice = createSlice({
             Incomes: sum,
           });
         }
-        console.log(productDataset);
-
-        let monthMap = { 1:"Jan.", 2:"Feb.", 3:"Mar.", 4:"Apr.", 5:"May", 6:"June", 7:"July", 8:"Aug.", 9:"Sep.", 10:"Oct.", 11:"Nov.", 12:"Dec."};
+        productDataset.sort((a, b) => {
+          return a.Quantity > b.Quantity;
+        });
+        productDataset = productDataset.slice(0, 5);
+        let monthMap = {
+          1: "Jan.",
+          2: "Feb.",
+          3: "Mar.",
+          4: "Apr.",
+          5: "May",
+          6: "June",
+          7: "July",
+          8: "Aug.",
+          9: "Sep.",
+          10: "Oct.",
+          11: "Nov.",
+          12: "Dec.",
+        };
         let currentYearMonthlySale = [];
         let today = new Date();
         let thisYear = today.getFullYear();
-        let thisYearOrders = action.payload.filter(order => new Date(order.createdAt).getFullYear() === thisYear); 
+        let thisYearOrders = action.payload.filter(
+          (order) => new Date(order.createdAt).getFullYear() === thisYear
+        );
         for (let i = 0; i < 12; ++i) {
-          let thisMonthOrders = thisYearOrders.filter(order => new Date(order.createdAt).getMonth() === i);
+          let thisMonthOrders = thisYearOrders.filter(
+            (order) => new Date(order.createdAt).getMonth() === i
+          );
           let total = 0;
-          thisMonthOrders.forEach(orders => total+=orders.totalPrice);
+          thisMonthOrders.forEach((orders) => (total += orders.totalPrice));
           currentYearMonthlySale.push({
-            month: monthMap[i+1],
-            totalSale: total
+            month: monthMap[i + 1],
+            totalSale: total,
           });
         }
-        console.log(currentYearMonthlySale);
-        state.dataset = { product: productDataset, barChart: barChartDataset, lineChart: currentYearMonthlySale};
+        state.dataset = {
+          product: productDataset,
+          barChart: barChartDataset,
+          lineChart: currentYearMonthlySale,
+        };
 
         state.getSellerOrder = REQUEST_STATE.FULFILLED;
       })
@@ -201,7 +233,7 @@ const sellerSlice = createSlice({
   },
 });
 
-export const {resetInventoryStatus} = sellerSlice.actions;
+export const { resetInventoryStatus } = sellerSlice.actions;
 
 // ------------------ Getters ------------------- //
 export const getProductList = (state) => state.seller.inventory;

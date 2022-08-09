@@ -16,21 +16,21 @@ export default function BuyerOrderTracking() {
   console.log(orders);
 
   useEffect(() => {
-      dispatch(getBuyerOrderAsync());
+    dispatch(getBuyerOrderAsync());
   }, []);
 
   const columns = [
-    { field: "_id", headerName: "Order Number", width: 130 },
-    { field: "store", headerName: "Store", width: 130 },
+    { field: "_id", headerName: "Order Number", minWidth: 50 },
+    { field: "store", headerName: "Store", minWidth: 100 },
     {
       field: "products",
       headerName: "Products",
-      width: 350,
+      width: 450,
       getApplyQuickFilterFn: getApplyFilterFnProducts,
       renderCell: (products) => (
-        <ul>
+        <ul style={{ textAlign: "left" }}>
           {products.value.map((product, index) => (
-            <li key={index}>
+            <li key={index} style={{ textAlign: "left" }}>
               Name: {product.name}, Quantity: {product.quantity}
             </li>
           ))}
@@ -38,18 +38,29 @@ export default function BuyerOrderTracking() {
       ),
     },
     { field: "status", headerName: "Status", width: 130 },
-    { field: "totalPrice", headerName: "Total", width: 130, 
+    {
+      field: "totalPrice",
+      headerName: "Total",
+
+      width: 130,
+      renderCell: (params) => <p>${params.value}</p>,
+    },
+    {
+      field: "createdAt",
+      headerName: "Date of purchase",
+      width: 130,
+
       renderCell: (params) => (
         <p>
-          ${params.value}
+          {"" +
+            new Date(params.value).getFullYear() +
+            "-" +
+            (new Date(params.value).getMonth() + 1) +
+            "-" +
+            new Date(params.value).getDate()}
         </p>
-      )},
-    { field: "createdAt", headerName: "Date of purchase", width: 130,
-    renderCell: (params) => (
-      <p>
-        {"" + new Date(params.value).getFullYear() + "-" + (new Date(params.value).getMonth()+1) + "-" + new Date(params.value).getDate()}
-      </p>
-    ) },
+      ),
+    },
   ];
 
   return (
@@ -75,6 +86,7 @@ export default function BuyerOrderTracking() {
             disableColumnSelector
             disableDensitySelector
             disableSelectionOnClick
+            getRowHeight={() => "auto"}
             components={{ Toolbar: GridToolbar }}
             componentsProps={{
               toolbar: {

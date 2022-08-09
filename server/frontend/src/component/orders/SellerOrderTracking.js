@@ -56,28 +56,29 @@ function SellerOrderTracking(props) {
   }, [dispatch, getOrderStatus]);
 
   const columnsForUnprocessed = [
-    { field: "orderNumber", headerName: "Order Number", width: 130 },
+    { field: "orderNumber", headerName: "Order Number", width: 130, flex: 1 },
     {
       field: "products",
       headerName: "Products",
       width: 450,
+      flex: 3,
       renderCell: (products) => (
-        <ul>
+        <ul style={{ textAlign: "left" }}>
           {products.value.map((product, index) => (
-            <li key={index}>
-              {" "}
-              id: {product._id} name: {product.name}
+            <li key={index} style={{ textAlign: "left" }}>
+              Name: {product.name}, Price: {product.price}
             </li>
           ))}
         </ul>
       ),
     },
-    { field: "status", headerName: "Status", width: 130 },
+    { field: "status", headerName: "Status", width: 130, flex: 1 },
     {
       field: "actions",
       type: "actions",
       headerName: "Action",
       width: 80,
+      flex: 1,
       getActions: (params) => [
         <GridActionsCellItem
           icon={<SendIcon color="primary" />}
@@ -94,23 +95,23 @@ function SellerOrderTracking(props) {
   ];
 
   const columns = [
-    { field: "orderNumber", headerName: "Order Number", width: 130 },
+    { field: "orderNumber", headerName: "Order Number", width: 130, flex: 1 },
     {
       field: "products",
       headerName: "Products",
       width: 450,
+      flex: 3,
       renderCell: (products) => (
-        <ul>
+        <ul style={{ textAlign: "left" }}>
           {products.value.map((product, index) => (
-            <li key={index}>
-              {" "}
-              id: {product._id} name: {product.name}
+            <li key={index} style={{ textAlign: "left" }}>
+              Name: {product.name}, Price: {product.price}
             </li>
           ))}
         </ul>
       ),
     },
-    { field: "status", headerName: "Status", width: 130 },
+    { field: "status", headerName: "Status", width: 130, flex: 1 },
   ];
   const handleRemoveSingleOrder = (params) => () => {
     setFinalClickInfo(params._id);
@@ -142,7 +143,9 @@ function SellerOrderTracking(props) {
             getRowId={(order) => order.orderNumber}
             columns={columnsForUnprocessed}
             pageSize={5}
+            getRowHeight={() => "auto"}
             rowsPerPageOptions={[5]}
+            sx={{ m: 1 }}
           />
         </Grid>
 
@@ -157,6 +160,7 @@ function SellerOrderTracking(props) {
             columns={columns}
             pageSize={5}
             rowsPerPageOptions={[5]}
+            getRowHeight={() => "auto"}
           />
         </Grid>
 
@@ -171,6 +175,7 @@ function SellerOrderTracking(props) {
             columns={columns}
             pageSize={5}
             rowsPerPageOptions={[5]}
+            getRowHeight={() => "auto"}
           />
         </Grid>
         <Grid item xs={10} className="orderTrackingHeader">
@@ -183,6 +188,7 @@ function SellerOrderTracking(props) {
             columns={columns}
             pageSize={5}
             rowsPerPageOptions={[5]}
+            getRowHeight={() => "auto"}
           />
         </Grid>
       </Grid>
