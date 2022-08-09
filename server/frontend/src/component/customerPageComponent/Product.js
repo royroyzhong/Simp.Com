@@ -7,17 +7,43 @@ import {
   CardActions,
   Button,
 } from "@mui/material";
-import picture from "../../assets/picture.svg";
+import Snackbar from '@mui/material/Snackbar';
 import { Marginer } from "../../css/CommonStyle";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { addProduct, getCart } from "../../controller/cartSlice";
 import Divider from "@mui/material/Divider";
+import { useState } from "react";
+import * as React from 'react';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 
 export default function Product(props) {
   let navigate = useNavigate();
   let dispatch = useDispatch();
   let cart = useSelector(getCart);
+  const [popUp, setPopup] = useState(false);
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setPopup(false);
+  };
+
+  const action = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
 
   return (
     <Card
@@ -98,10 +124,19 @@ export default function Product(props) {
               quantity: 1,
               storeName: props.data.storeName }];
           }
+          setPopup(true);
           sessionStorage.setItem('Cart', JSON.stringify(updatedCart));
         }}>
           Add to Cart
         </Button>
+        <Snackbar 
+        open={popUp}
+        autoHideDuration={1000}
+        // anchorOrigin={ {vertical: 'top', horizontal: 'center' }}
+        onClose={handleClose}
+        message="Added to cart sucessfully"
+        action = {action}
+        />
       </CardActions>
     </Card>
   );

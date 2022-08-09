@@ -5,20 +5,29 @@ import Box from "@mui/material/Box";
 import "../../css/cart.css";
 import ShoppingCartCheckoutOutlinedIcon from "@mui/icons-material/ShoppingCartCheckoutOutlined";
 import CheckoutStepper from "./checkoutStepper";
+import Snackbar from '@mui/material/Snackbar';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 
-/* Styling & MUI */
-import React from "react";
-import { useSelector,useDispatch} from "react-redux";
+import * as React from 'react';
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getCart, loadFromStorage, getSum} from "../../controller/cartSlice";
+import { getCart, loadFromStorage, getSum } from "../../controller/cartSlice";
 import SellingStore from "./SellingStore";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { submitOrderAsync } from "../orders/orderThunks";
 import { getUserAsync } from "../../controller/login/thunks";
+
 
 function Cart() {
   const dispatch = useDispatch();
   let navigate = useNavigate();
+
+  const [sucess, setSucess] = useState(false);
+  const [failure, setFailure] = useState(false);
+
 
   useEffect(() => {
     //sessionStorage.clear();
@@ -49,20 +58,68 @@ function Cart() {
     i++;
   }
 
+  const handleSucessClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setSucess(false);
+  };
+
+  const handleFailureClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setFailure(false);
+  };
+
   const handleCheckout = (event) => {
     event.preventDefault();
     dispatch(getUserAsync()).then((result) => {
       let statusCode = result.payload.statusCode;
+      console.log(statusCode);
       if (statusCode !== 200) {
         navigate("/login");
       } else {
-        dispatch(submitOrderAsync(cart)).then(() => {
+        dispatch(submitOrderAsync(cart)).then((orderResult) => {
           sessionStorage.clear();
-        }).catch(err => {console.log(err)});
+          console.log("err reached here")
+          setSucess(true);
+        }).catch((err) => {
+          console.log("here");
+          setFailure(true);
+          console.log(err)
+        });
       }
     });
   };
 
+  const successAction = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleSucessClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
+
+  const failureAction = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleFailureClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
 
   return (
     <Container
@@ -88,6 +145,31 @@ function Cart() {
           <ShoppingCartCheckoutOutlinedIcon> </ShoppingCartCheckoutOutlinedIcon>
         </button>
       </Box>
+      <Snackbar
+        open={sucess}
+        autoHideDuration={1000}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        onClose={handleSucessClose}
+        message="Order Submitted Sucessfully"
+        action={successAction}
+      >
+        <Alert severity="success">
+          <AlertTitle> Order Submitted Sucessfully </AlertTitle>
+        </Alert>
+      </Snackbar>
+      <Snackbar
+        open={failure}
+        autoHideDuration={1000}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        onClose={handleFailureClose}
+        message="Sorry, some of the product "
+        action={failureAction}
+      >
+        <Alert severity="error">
+          <AlertTitle> Order Submition Failure </AlertTitle>
+          Sorry, some of the products your requested don't have enough quantity in stock. Please check again. Thanks!
+        </Alert>
+      </Snackbar>
     </Container>
   );
 }

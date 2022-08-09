@@ -5,7 +5,9 @@ import orderService from './orderService';
 export const submitOrderAsync = createAsyncThunk(
     orderActionTypes.SUBMIT_ORDER,
     async (products) => {
-        return await orderService.submitOrder(products);
+        let result = await orderService.submitOrder(products);
+        console.log("async", result)
+        return result;
     }
 )
 
