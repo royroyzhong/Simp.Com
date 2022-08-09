@@ -6,25 +6,21 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import IconButton from '@mui/material/IconButton';
 import WishlistIcon from "../cart/WishlistIcon";
 
 import {
-    addFeature, addTag, addToWishlistAsync, getBufferProduct, getFeatures,
+    addFeature, addTag, getBufferProduct, getFeatures,
     getImages, getName, getPrice, getStorage, getTags,
     loadProduct, postNewProduct, rmvFeature, rmvTag,
-    setName, setPrice, setStorage, updateProduct,
-    deleteFromWishlistAsync, restockProductAsync
+    setName, setPrice, setStorage, updateProduct,restockProductAsync
 } from "../../controller/productSlice";
 
 import DragDrop from '../common/DragDrop';
 import DragDropDisplay from '../common/DragDropDisplay';
 import { removeProducts, resetInventoryStatus } from "../../controller/sellerSlice";
 
-import "../../css/product.css";
 
 export default function ProductPage(props) {
-
     let dispatch = useDispatch();
     let product = useSelector(getBufferProduct);
 
@@ -39,7 +35,6 @@ export default function ProductPage(props) {
 
     let [isStatic, setStatic] = useState(false);
     // false not in wishlist, true in wishlist
-    const [toggleStatus, setToggleStatus] = useState(false)
 
     // Set initial data if this is a static page 
     useEffect(() => {
@@ -62,15 +57,6 @@ export default function ProductPage(props) {
         }
     }, [dispatch, location]);
 
-    const handleToggle = (event) => {
-        setToggleStatus((toggleStatus) => !toggleStatus);
-        if (toggleStatus === true) {
-            dispatch(addToWishlistAsync(productId));
-        } else {
-            dispatch(deleteFromWishlistAsync(productId));
-        }
-        dispatch(resetInventoryStatus())
-    }
 
     return (
         <Container sx={{ md: 4, mt: 4 }}>
@@ -87,9 +73,10 @@ export default function ProductPage(props) {
                     sx={leftStackStyle}
                 >
                     {isStatic ? 
-                    (<IconButton size='medium' disableRipple='false' id='wishlist' onClick={handleToggle}> 
-                    <WishlistIcon props={toggleStatus} ></WishlistIcon>
-                    </IconButton>) 
+                    // (<IconButton size='large' disableRipple='false' id='wishlist' onClick={handleToggle}> 
+                    // <WishlistIcon props={toggleStatus} ></WishlistIcon> 
+                    // </IconButton>) 
+                    (<WishlistIcon props={productId}></WishlistIcon>)
                     : (<div></div>)}
                     <TitleDisplay isStatic={isStatic} />
                     <PriceAndQuantity isStatic={isStatic} />
@@ -97,7 +84,6 @@ export default function ProductPage(props) {
                     <TextDisplay isStatic={isStatic} />
                     {isStatic ? (<div></div>) : (
                         <Button onClick={(e) => {
-
                             if (productId === undefined || productId === null) {
                                 dispatch(postNewProduct({
                                     name: product.name,

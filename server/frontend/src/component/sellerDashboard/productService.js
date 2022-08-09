@@ -48,6 +48,24 @@ export const deleteFromWishlist = async (productId) => {
   return data;
 }
 
+export const getWishlistStatus = async (productId) => {
+  console.log("service",productId)
+  const response = await fetch('/products/getWishlistStatus?id='+productId, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  })
+
+  const data = await response.json();
+  console.log("Service",data)
+  if (!response.ok) {
+    const errorMsg = data?.message;
+    throw new Error(errorMsg)
+  }
+  return data;
+}
+
 export default {
   restockProduct,
   addToWishlist,

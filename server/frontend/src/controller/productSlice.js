@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { fetchAPI } from "../api/client";
 import { productActionTypes } from '../component/sellerDashboard/productActionTypes';
 import { REQUEST_STATE } from "./utils";
-import { addToWishlist, restockProduct,deleteFromWishlist} from "../component/sellerDashboard/productService"
+import { addToWishlist, restockProduct,deleteFromWishlist, getWishlistStatus} from "../component/sellerDashboard/productService"
 
 export const postNewProduct = createAsyncThunk('/product/post', async function (data) {
   let features = data.features;
@@ -52,7 +52,6 @@ export const updateProduct = createAsyncThunk('/product/patch', async function (
 export const restockProductAsync = createAsyncThunk(
   productActionTypes.RESTOCK_PRODUCT,
   async (productId) => {
-    console.log("async",productId);
     return await restockProduct(productId);
   })
 
@@ -70,6 +69,16 @@ export const deleteFromWishlistAsync = createAsyncThunk(
   }
 )
 
+export const getWishlistStatusAsync = createAsyncThunk (
+  productActionTypes.GET_WISHTLIST_STATUS,
+  async(productId) => {
+    const result = await getWishlistStatus(productId)
+    console.log("async",result);
+    return result;
+  }
+)
+
+
 /**
  * Product Slice is only used for the editing page.
  */
@@ -81,10 +90,12 @@ const INITIAL_STATE = {
   tags: [],
   features: {},
   images: [],
+  wishlistFlag: false,
   // status
   restockProductStatus: REQUEST_STATE.IDLE,
   addToWishlistStatus: REQUEST_STATE.IDLE,
   deleteFromWishlistStatus: REQUEST_STATE.IDLE,
+  wishlistStatus:REQUEST_STATE.IDLE,
   imageUploadStatus: "good"
 }
 
@@ -114,6 +125,9 @@ const productSlice = createSlice({
     rmvTag: (state, action) => {state.tags = state.tags.filter(t => t !== action.payload)},
     rmvFeature: (state, action) => {
       delete state.features[action.payload]
+    },
+    setWishlistFlag: (state,action) => {
+      state.wishlistFlag = action.payload;
     }
   },
   extraReducers: (builder) => {
@@ -137,12 +151,17 @@ const productSlice = createSlice({
         state.deleteFromWishlistStatus=REQUEST_STATE.FULFILLED
         console.log("email has been removed from notification list");
       })
+      .addCase(getWishlistStatusAsync.fulfilled,function(state,action) {
+        state.wishlistStatus = REQUEST_STATE.FULFILLED
+        state.wishlistFlag = action.payload
+        console.log("wishlist status retrieved sucessfully")
+      })
   }
 
 });
 
 // Export Setters
-export const { setName, rmvFeature, rmvTag, setTitle, addTag, addFeature, loadProduct, setStorage, setPrice, addImage } =
+export const { setName, rmvFeature, rmvTag, setTitle, addTag, addFeature, loadProduct, setStorage, setPrice, addImage, setWishlistFlag} =
   productSlice.actions;
 
 // ++++++++++++++++ Getters ++++++++++++++++++++ //
