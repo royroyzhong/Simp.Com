@@ -56,11 +56,12 @@ function SellerOrderTracking(props) {
   }, [dispatch, getOrderStatus]);
 
   const columnsForUnprocessed = [
-    { field: "orderNumber", headerName: "Order Number", width: 130 },
+    { field: "orderNumber", headerName: "Order Number", width: 130, flex: 1 },
     {
       field: "products",
       headerName: "Products",
       width: 450,
+      flex: 3,
       renderCell: (products) => (
         <ul>
           {products.value.map((product, index) => (
@@ -72,12 +73,13 @@ function SellerOrderTracking(props) {
         </ul>
       ),
     },
-    { field: "status", headerName: "Status", width: 130 },
+    { field: "status", headerName: "Status", width: 130, flex: 1 },
     {
       field: "actions",
       type: "actions",
       headerName: "Action",
       width: 80,
+      flex: 1,
       getActions: (params) => [
         <GridActionsCellItem
           icon={<SendIcon color="primary" />}
