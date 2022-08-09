@@ -69,6 +69,7 @@ export default function ProductPage(props) {
         } else {
             dispatch(deleteFromWishlistAsync(productId));
         }
+        dispatch(resetInventoryStatus())
     }
 
     return (
@@ -85,13 +86,11 @@ export default function ProductPage(props) {
                     spacing={2}
                     sx={leftStackStyle}
                 >
-                    {console.log(toggleStatus)};
                     {isStatic ? 
                     (<IconButton size='medium' disableRipple='false' id='wishlist' onClick={handleToggle}> 
                     <WishlistIcon props={toggleStatus} ></WishlistIcon>
                     </IconButton>) 
                     : (<div></div>)}
-                    {console.log("end")};
                     <TitleDisplay isStatic={isStatic} />
                     <PriceAndQuantity isStatic={isStatic} />
                     <TagDisplay isStatic={isStatic} />
