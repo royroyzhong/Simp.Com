@@ -28,6 +28,11 @@ function Cart() {
   const [sucess, setSucess] = useState(false);
   const [failure, setFailure] = useState(false);
 
+  let cart = useSelector(getCart);
+  let sum = useSelector(getSum);
+  let uniqueStoreIds = [...new Set(cart?.map((product) => product.soldBy))];
+  let storeIds = Array.from(uniqueStoreIds).sort();
+  const renderedSellingStores = []
 
   useEffect(() => {
     //sessionStorage.clear();
@@ -36,13 +41,6 @@ function Cart() {
       dispatch(loadFromStorage(JSON.parse(localStorage)));
     }
   }, []);
-
-  let cart = useSelector(getCart);
-  let sum = useSelector(getSum);
-  let uniqueStoreIds = [...new Set(cart?.map((product) => product.soldBy))];
-  let storeIds = Array.from(uniqueStoreIds).sort();
-
-  const renderedSellingStores = []
 
   for (let i in storeIds) {
     let storeId = storeIds[i];
@@ -127,7 +125,6 @@ function Cart() {
       className="dashboard"
       sx={{ bgcolor: "#F7F8FC", marginTop: "-1vw" }}
     >
-      <CheckoutStepper> </CheckoutStepper>
       <Box className="cart">
         <h1> Cart</h1>
         <Grid
@@ -139,7 +136,7 @@ function Cart() {
             <Box>{renderedSellingStores}</Box>
           </Grid>
         </Grid>
-        <h2 id="Sum"> Total Amount: ${sum}</h2>
+        <h2 id="Sum"> Total Amount: ${sum.toFixed()}</h2>
         <button className="Btn" id="checkoutIcon" onClick={handleCheckout}>
           {" "}
           <ShoppingCartCheckoutOutlinedIcon> </ShoppingCartCheckoutOutlinedIcon>
