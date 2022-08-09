@@ -133,7 +133,7 @@ function Cart() {
             <Box>{renderedSellingStores}</Box>
           </Grid>
         </Grid>
-        <h2 id="Sum"> Total Amount: ${sum.toFixed()}</h2>
+        <h2 id="Sum"> Total Amount: ${sum.toFixed(2)}</h2>
         <button className="Btn" id="checkoutIcon" onClick={handleCheckout}>
           {" "}
           <ShoppingCartCheckoutOutlinedIcon> </ShoppingCartCheckoutOutlinedIcon>
