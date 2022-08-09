@@ -11,6 +11,7 @@ import ProductPage from "./component/sellerDashboard/ProductDetailView";
 import BuyerOrderTracking from "./component/orders/BuyerOrderTracking";
 import CustomerPageRightContent from "./component/customerPageComponent/CustomerPageRightContent";
 import Dashboard from "./component/sellerDashboard/Dashboard";
+import CartWrapper from "./component/cart/CartWrapper";
 
 function App() {
   const render = () => {
@@ -59,7 +60,9 @@ function App() {
               path="/seller/profile"
               element={wrapper(<ProfilePage />, seller)}
             />
-            <Route path="/user/cart" element={wrapper(<Cart />, buyer)} />
+            <Route 
+            path="/user/cart" 
+            element={wrapper(<CartWrapper />, buyer)} />
           </Routes>
         </BrowserRouter>
       </div>
