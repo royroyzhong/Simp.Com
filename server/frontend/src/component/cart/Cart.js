@@ -14,7 +14,7 @@ import AlertTitle from '@mui/material/AlertTitle';
 import * as React from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getCart, loadFromStorage, getSum } from "../../controller/cartSlice";
+import { getCart, loadFromStorage, getSum, getSubmitOrderStatus } from "../../controller/cartSlice";
 import SellingStore from "./SellingStore";
 import { useEffect, useState } from "react";
 import { submitOrderAsync } from "../orders/orderThunks";
@@ -76,18 +76,15 @@ function Cart() {
     event.preventDefault();
     dispatch(getUserAsync()).then((result) => {
       let statusCode = result.payload.statusCode;
-      console.log(statusCode);
       if (statusCode !== 200) {
         navigate("/login");
       } else {
-        dispatch(submitOrderAsync(cart)).then((orderResult) => {
+        dispatch(submitOrderAsync(cart)).then(orderResult => {
           sessionStorage.clear();
-          console.log("err reached here")
           setSucess(true);
-        }).catch((err) => {
-          console.log("here");
+        }).catch(err => {
           setFailure(true);
-          console.log(err)
+          console.log(err);
         });
       }
     });
