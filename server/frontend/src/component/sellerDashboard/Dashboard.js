@@ -112,7 +112,7 @@ function ProcessingList(props) {
           <YAxis><Label value='# of Order' angle={-90} position='insideLeft'/></YAxis>
           <Tooltip />
           <Legend />
-          <Bar dataKey="length" fill="#8884d8" />
+          <Bar dataKey="Quantity" fill="#8884d8" />
         </BarChart>
       </Card>
 
