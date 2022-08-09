@@ -151,6 +151,7 @@ const sellerSlice = createSlice({
         productDataset.sort((a, b) => {
           return a.Quantity > b.Quantity;
         });
+        productDataset = productDataset.slice(0, 5);
         let monthMap = {
           1: "Jan.",
           2: "Feb.",
