@@ -57,6 +57,14 @@ const sellerSlice = createSlice({
     //status
     getSellerOrder: REQUEST_STATE.IDLE,
     changeOrderStatus: REQUEST_STATE.IDLE,
+
+    // data vis
+    dataset: {},
+  },
+  reducers: {
+    resetInventoryStatus: (state, action) => {
+      state.inventoryStatus = REQUEST_STATE.IDLE;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -117,6 +125,48 @@ const sellerSlice = createSlice({
 
         state.topProducts =
           allProducts.length >= 3 ? allProducts.slice(0, 3) : allProducts;
+
+        // dataset for bar chart
+        let barChartDataset = [
+          {
+            name: "Unprocessed",
+            length: state.orderDetail.Unprocessed.length,
+          },
+          { name: "Shipped", length: state.orderDetail.Shipped.length },
+          { name: "Delivered", length: state.orderDetail.Delivered.length },
+          { name: "Refunded", length: state.orderDetail.Refunded.length },
+        ];
+        
+        //dataset for product item
+        let productDataset = [];
+        for (let product of allProducts) {
+          let sum = parseFloat(product.price) * parseFloat(product.quantity);
+          let quantity = parseFloat(product.quantity);
+          productDataset.push({
+            name: product.name,
+            Quantity: quantity,
+            Incomes: sum,
+          });
+        }
+        console.log(productDataset);
+
+        let monthMap = { 1:"Jan.", 2:"Feb.", 3:"Mar.", 4:"Apr.", 5:"May", 6:"June", 7:"July", 8:"Aug.", 9:"Sep.", 10:"Oct.", 11:"Nov.", 12:"Dec."};
+        let currentYearMonthlySale = [];
+        let today = new Date();
+        let thisYear = today.getFullYear();
+        let thisYearOrders = action.payload.filter(order => new Date(order.createdAt).getFullYear() === thisYear); 
+        for (let i = 0; i < 12; ++i) {
+          let thisMonthOrders = thisYearOrders.filter(order => new Date(order.createdAt).getMonth() === i);
+          let total = 0;
+          thisMonthOrders.forEach(orders => total+=orders.totalPrice);
+          currentYearMonthlySale.push({
+            month: monthMap[i+1],
+            totalSale: total
+          });
+        }
+        console.log(currentYearMonthlySale);
+        state.dataset = { product: productDataset, barChart: barChartDataset, lineChart: currentYearMonthlySale};
+
         state.getSellerOrder = REQUEST_STATE.FULFILLED;
       })
       .addCase(changeStatusAsync.pending, (state) => {
@@ -151,6 +201,8 @@ const sellerSlice = createSlice({
   },
 });
 
+export const {resetInventoryStatus} = sellerSlice.actions;
+
 // ------------------ Getters ------------------- //
 export const getProductList = (state) => state.seller.inventory;
 export const getProductListStatus = (state) => state.seller.inventoryStatus;
@@ -160,5 +212,6 @@ export const getStats = (state) => state.seller.stats;
 export const getTopProducts = (state) => state.seller.topProducts;
 export const getSellerOrderStatus = (state) => state.seller.getSellerOrder;
 export const getChangeOrderStatus = (state) => state.seller.changeOrderStatus;
+export const getDatasets = (state) => state.seller.dataset;
 
 export default sellerSlice.reducer;

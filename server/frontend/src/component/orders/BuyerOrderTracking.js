@@ -8,7 +8,6 @@ import {
   GridToolbarQuickFilter,
 } from "@mui/x-data-grid";
 import { Grid } from "@mui/material";
-
 import { Container } from "@mui/system";
 
 export default function BuyerOrderTracking() {
@@ -32,15 +31,25 @@ export default function BuyerOrderTracking() {
         <ul>
           {products.value.map((product, index) => (
             <li key={index}>
-              Name: {product.name} Quantity: {product.quantity}
+              Name: {product.name}, Quantity: {product.quantity}
             </li>
           ))}
         </ul>
       ),
     },
     { field: "status", headerName: "Status", width: 130 },
-    { field: "total", headerName: "Total", width: 130 },
-    { field: "date", headerName: "Date of purchase", width: 130 },
+    { field: "totalPrice", headerName: "Total", width: 130, 
+      renderCell: (params) => (
+        <p>
+          ${params.value}
+        </p>
+      )},
+    { field: "createdAt", headerName: "Date of purchase", width: 130,
+    renderCell: (params) => (
+      <p>
+        {"" + new Date(params.value).getFullYear() + "-" + (new Date(params.value).getMonth()+1) + "-" + new Date(params.value).getDate()}
+      </p>
+    ) },
   ];
 
   return (

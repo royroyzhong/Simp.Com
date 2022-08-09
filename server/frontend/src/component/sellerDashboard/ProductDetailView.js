@@ -19,7 +19,7 @@ import {
 
 import DragDrop from '../common/DragDrop';
 import DragDropDisplay from '../common/DragDropDisplay';
-import { removeProducts } from "../../controller/sellerSlice";
+import { removeProducts, resetInventoryStatus } from "../../controller/sellerSlice";
 
 import "../../css/product.css";
 
@@ -63,9 +63,7 @@ export default function ProductPage(props) {
     }, [dispatch, location]);
 
     const handleToggle = (event) => {
-        console.log(toggleStatus);
         setToggleStatus((toggleStatus) => !toggleStatus);
-        console.log(toggleStatus);
         if (toggleStatus === true) {
             dispatch(addToWishlistAsync(productId));
         } else {
@@ -125,6 +123,7 @@ export default function ProductPage(props) {
                                     images: product.images
                                 }))
                             }
+                            dispatch(resetInventoryStatus())
                             navigate(-1);
                         }}>Save</Button>
                     )}
