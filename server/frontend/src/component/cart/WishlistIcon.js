@@ -18,15 +18,15 @@ export default function WishlistIcon(props) {
   let dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getWishlistStatusAsync(props.props));
+    dispatch(getWishlistStatusAsync(props.productId));
   }, []);
 
   const handleToggle = () => {
     dispatch(setWishlistFlag(!toggleStatus));
     if (!toggleStatus === true) {
-      dispatch(addToWishlistAsync(props.props));
+      dispatch(addToWishlistAsync(props.productId));
     } else {
-      dispatch(deleteFromWishlistAsync(props.props));
+      dispatch(deleteFromWishlistAsync(props.productId));
     }
   };
 

@@ -3,18 +3,28 @@ import React from "react";
 import Carousel from "react-material-ui-carousel";
 import { useSelector } from "react-redux";
 import { getImages } from "../../controller/productSlice";
+import WishlistIcon from "../cart/WishlistIcon";
+import { Container } from "@mui/system";
 
-function DragDropDisplay() {
+
+function DragDropDisplay(props) {
   const images = useSelector(getImages);
   return (
-    <Carousel next={(next, active) => next} prev={(prev, active) => prev}>
-      {images?.map((img, index) => (
-        <IndividualImage
-          key={index}
-          img={img.data === undefined ? img : { src: img.data }}
-        />
-      ))}
-    </Carousel>
+    <Container>
+          {props.isStatic ? (
+            <WishlistIcon productId={props.productId}></WishlistIcon>
+          ) : (
+            <br></br>
+          )}
+      <Carousel next={(next, active) => next} prev={(prev, active) => prev}>
+        {images?.map((img, index) => (
+          <IndividualImage
+            key={index}
+            img={img.data === undefined ? img : { src: img.data }}
+          />
+        ))}
+      </Carousel>
+    </Container>
   );
 }
 
