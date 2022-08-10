@@ -9,6 +9,8 @@ import * as React from 'react';
 import ConfirmationPage from "./ConfirmationPage";
 import { Stack } from "@mui/material";
 
+// Reference: https://mui.com/material-ui/react-stepper/
+
 export default function CartWrapper() {
     const [page, setPage] = useState(0);
     const steps = ['Cart', 'Payment', 'Confirmation']
