@@ -17,25 +17,17 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import {
-  getDatasets,
-  getSellerOrderStatus,
-} from "../../controller/sellerSlice";
-import { REQUEST_STATE } from "../../controller/utils";
+import { getDatasets } from "../../controller/sellerSlice";
 import "../../css/dashboard.css";
 import Title from "../common/Title";
 import { getSellerOrderAsync } from "../orders/orderThunks";
 
 export default function Dashboard(props) {
   let datasets = useSelector(getDatasets);
-  let sellerOrderStatus = useSelector(getSellerOrderStatus);
-
   const dispatch = useDispatch();
   useEffect(() => {
-    if (sellerOrderStatus !== REQUEST_STATE.FULFILLED) {
-      dispatch(getSellerOrderAsync());
-    }
-  }, [dispatch, sellerOrderStatus]);
+    dispatch(getSellerOrderAsync());
+  }, [dispatch]);
 
   let infographStyle = {
     padding: 2,
