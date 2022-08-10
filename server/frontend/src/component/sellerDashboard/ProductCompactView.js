@@ -148,44 +148,6 @@ function CardGrid(props) {
           </CardActionArea>
         </Card>
       </Grid>
-      {/* )) : null} */}
-      <Grid item key={-1} xs={1} sm={1} md={3}>
-        <Card
-          variant="outlined"
-          onClick={(e) => {
-            dispatch(
-              loadProduct({
-                name: "",
-                title: "",
-                features: {},
-                tags: [],
-                price: 0,
-                storage: 0,
-                images: [],
-              })
-            );
-            navigate("/seller/product_page");
-          }}
-        >
-          <CardActionArea>
-            <CardContent>
-              <Marginer margin="40px" />
-              <CardMedia
-                image={upload}
-                height={100}
-                sx={{
-                  objectFit: "contain",
-                }}
-                component={"img"}
-              />
-              <Marginer margin="40px" />
-              <Typography gutterBottom variant="h5">
-                New Product
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-        </Card>
-      </Grid>
     </Grid>
   );
 }
