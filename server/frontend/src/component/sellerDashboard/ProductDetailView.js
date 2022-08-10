@@ -18,7 +18,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import WishlistIcon from "../cart/WishlistIcon";
 
 import {
   addFeature,
@@ -91,7 +90,7 @@ export default function ProductPage(props) {
     <Container sx={{ md: 4, mt: 4 }}>
       <Stack direction={"row"} spacing={2}>
         <Stack>
-          <ImagesDisplay></ImagesDisplay>
+          <ImagesDisplay isStatic={isStatic} productId={productId}></ImagesDisplay>
           {isStatic ? (
             <div></div>
           ) : (
@@ -103,14 +102,7 @@ export default function ProductPage(props) {
           spacing={2}
           sx={leftStackStyle}
         >
-          {isStatic ? (
-            // (<IconButton size='large' disableRipple='false' id='wishlist' onClick={handleToggle}>
-            // <WishlistIcon props={toggleStatus} ></WishlistIcon>
-            // </IconButton>)
-            <WishlistIcon props={productId}></WishlistIcon>
-          ) : (
-            <div></div>
-          )}
+
           <TitleDisplay isStatic={isStatic} />
           <PriceAndQuantity isStatic={isStatic} />
           <TagDisplay isStatic={isStatic} />
@@ -187,11 +179,12 @@ function ImagesDisplay(props) {
     objectFit: "contain",
   };
 
+  let { productId } = useParams();
   const images = useSelector(getImages);
   return (
     <Card variant="outlined" sx={cardstyle}>
       <CardContent>
-        <DragDropDisplay></DragDropDisplay>
+        <DragDropDisplay isStatic={props.isStatic} productId={productId}></DragDropDisplay>
         <ImageList cols={5} rowHeight={100} sx={{ margin: 0 }}>
           {images?.map((img, index) => (
             <ImageListItem key={index} sx={imgStyle}>
