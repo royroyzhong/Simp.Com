@@ -7,14 +7,14 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import * as React from 'react';
-
+import ConfirmationPage from "./ConfirmationPage";
 
 export default function CartWrapper() {
     const [page, setPage] = useState(0);
-    const steps = ['Cart','Address', 'Payment','Confirmation']
+    const steps = ['Cart', 'Payment','Confirmation']
 
     const handleNext = () => {
-        if (page === 3) {
+        if (page === 2) {
             setPage(0);
         } else {
             setPage(page + 1);
@@ -31,8 +31,7 @@ export default function CartWrapper() {
                 return <Cart> </Cart>
             case 1:
                 return <ComingSoon></ComingSoon>
-            case 2: <ComingSoon></ComingSoon>
-            case 3: <ComingSoon></ComingSoon>
+            case 2: <ConfirmationPage> </ConfirmationPage>
             default: <Cart> </Cart>
         }
     }
@@ -61,10 +60,9 @@ export default function CartWrapper() {
                 page > 0 &&
                 <Button onClick={handleBack} > Back</Button>
             }
-            <Button onClick={handleNext} sx={{marginLeft: "20px"}}>
-                {page !== 3 ? "Next" : "Back to Cart"}
+            <Button onClick={handleNext} sx={{marginLeft: "500px"}}>
+                {page !== 2 ? "Next" : "Back to Cart"}
             </Button>
-
 
         </Box>
     )
