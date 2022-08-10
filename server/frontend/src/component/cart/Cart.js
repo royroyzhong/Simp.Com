@@ -75,7 +75,6 @@ function Cart() {
       className="dashboard"
       sx={{ bgcolor: "#F7F8FC", marginTop: "-1vw" }}
     >
-      <CheckoutStepper> </CheckoutStepper>
       <Box className="cart">
         <h1> Cart</h1>
         <Grid
