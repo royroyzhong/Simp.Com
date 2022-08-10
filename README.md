@@ -29,8 +29,8 @@ User login information including address and encrypted password will be saved as
 
 **Standard Requirements**:
 - [x] Encrypted password 
-- [ ] Data visualization
-- [ ] Email notification for restocking of wanted item
+- [x] Data visualization
+- [x] Email notification for restocking of wanted item
 - [x] Login with Google
 - [x] Drag and drop pictures (jpeg,gif and most image and video format)
 
@@ -61,7 +61,11 @@ User login information including address and encrypted password will be saved as
 ...
 ## Contributions
 - Ruming(Roy) Zhong 
-> ...
+> - Designed and implemented the login/sign-up and profile page.
+> - Used Middleware in application to authorize user with JWT, check users permission in backend and perform password encryption.
+> - Used Google Identity in the application to quickly and easily manage user authentication and sign-in to the website.
+> - Used Socket.IO in application to enable real-time, bi-directional communication between buyer and seller supporting customer support feature.
+> - Improved UI to be more responsive and user-friendly.
 - Guanghua(Gavin) Yang
 > ...
 - Lichuan(Isabella) Yang
