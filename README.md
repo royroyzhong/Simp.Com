@@ -12,7 +12,7 @@
 - [Sketch](#sketch)
 
 ## Introduction: 
-We designed an e-commerce platform supporting roles from guests to buyers to sellers. We included a variety of features from upload products, drag & drop files and cart operations to more advanced integration such as live chat and data visualization.
+We designed a lightweight e-commerce platform supporting various roles from guests to buyers to sellers. We incorporated a wide range of features from add/edit products, drag & drop files and cart operations to more advanced integrations such as live chat and data visualization.
 
 ## Project Description
 We designed a business startup framework which supports various role-based activities through our interactive dashboard UI for small businesses and their corresponding targeted customers. Seller activity spans from designing a presentation page to tracking order status where logged-in users can browse the page, add/delete items to/from carts/wishlist, receive email notifications for the restocking of the wanted item, and guests are limited to only browsing.
@@ -73,7 +73,7 @@ Our envision includes further integration with payment services like Paypal and 
 - Guanghua(Gavin) Yang
 > I designed and implemented the NavWrapper component which consist of navigator and header. As well, I designed the data visualization dashboard for seller, who is able to see monthly sale overview, order statistics, and most popular products in charts. Furthermore, I re-designed the cartSlice, buyerSlice, sellerSlice, and their corresponding schemas at backend when optimizing the user actions and REST API.
 - Lichuan(Isabella) Yang
-> I designed and build the user interface for instant email notification once wishlisted items has been restocked using NodeMailer. In addition, I implemented Drag & Drop to allow image uploads. Furthermore, I created the UI for cart and order tracking as well as sending requests to backend based on user actions.
+> I designed and built the wishlist feature which enables users to receive instant email notification once wishlisted items have been restocked using NodeMailer. In addition, I implemented Drag & Drop to allow image uploads. Furthermore, I created the UI for cart and order tracking as well as sending/handling requests to backend based on user actions.
 - Qintu(Quinn) Tao
 > ...
 
