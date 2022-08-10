@@ -1,5 +1,5 @@
-# Doge-Commerce
-https://dogecom.herokuapp.com
+# [Doge-Commerce](https://dogecom.herokuapp.com)
+
 
 # Menu
 - [Introduction](#introduction)
