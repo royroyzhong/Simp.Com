@@ -40,25 +40,26 @@ User login information including address and encrypted password will be saved as
 - ❌ Recommondation system 
 ## Tech Stack
   ### Unit 1 - HTML, CSS, JS
-  ...
+As we’re taking a dashboard approach for our frontend, HTML sets the foundation for the content displayed on the webpage where CSS helps with styling and responsiveness. Javascript is used for frontend logic.
+
   ### Unit 2 - React & Redux
-  ...
+React allows our application webpages to create reusable components and dynamic page rendering. It also comes in with seamless ready-to-use integration to an unlimited open-source community and third-party like Material UI which is heavily used in our project to create a visually appealing UI. We also used Redux.js for calling backend API asynchronously and managing application states. 
   ### Unit 3 - Node & Express
-  ...
+Our backend is constructed on Express.js with REST API and JWT authentication using middleware. Since our application handles plenty of user and frontend rendering requests, Express’s fast processing not only elevates user’s and developer’s experience by taking care of request/response formatting, but also boosts the performance of our application. 
+
   ### Unit 4 - NoSQL with MongoDB
-  ...
+We went through multiple editions of our data model and structure thus NoSQL databases like MongoDB became essential to our production.  As we store various data types ranging from encrypted passwords to images in our database with frequent GET requests, MongoDB’s powerful query feature simplified the process as we can update/delete/create multiple information at once. In addition, MongoDB provides better query performance than DynamoDB, and MySQL which contributes to smooth user interaction.
   ### Unit 5 - Release Engineering
-  ...
+We deployed our application through Heroku since its service is simpler than other platforms like AWS. As we can change settings to automatic deployment, we saved time as Heroku takes care of configuration. For Version Control Management, we utilized Git to integrate code across multiple developers. Furthermore, for building our full-stack JavaScript, we choose npm for build management. 
   
 ## Above and Beyond Features
-  ### Drag & Drop
-  ...
-  ### Live Chat
-  ...
-  ### Data Visualization 
-  ...
+One of our highlights is the Live Chat feature which enables real-time communication between seller and buyer. This can be exceptionally useful when customers want to request a refund or get more info about a product. If buyers attempt to chat with an offline seller, an error message will be popped up at the bottom left corner of the webpage. Once a buyer has joined a seller’s chatting room, the conversation will be initialized with an automatic message stating the user has joined the room. Then,  sellers will see a notification dot on the chat icon which suggests incoming messages to promt seller joining chatting room. Afterward, both parties can send message to each other within our minimalist and lightweight frontend.
+We implemented our Live Chat using Socket. IO. Chat engine was another alternative, but since it only offer paid service, we decided  to build our own Live Chat.  React-chat-element was utilized in our creation of chat UI. 
+
+Another two highlights are Drag & Drop and Data Visualization. Drag & Drop is backed up by React DnD and the Carousel component for auto-playing of the uploaded images. Our Drag&Drop accepts a wide range of image types and supports simultaneous uploading of multiple images.  Once uploaded, such change will be reflected immediately in the carousel. We designed three interactive graphs displaying periodic performance to the sellers through Recharts. We first fetch raw data from our MongoDB, then we clean up the data and transform the timestamp from date object to month. Then, we plot graphs based on the transformed data to yield human-interpretable graphs. More information on each column/point will be displayed while users hover on them.
+
 ## Next Steps
-...
+Our envision includes further integration with payment services like Paypal and VISA and delivery companies so we can update order status to delivered. In addition, we would like to support the uploading of bigger images since our current limitation for each image is around 75 kb. Alternatively, we can synthesize external service provided by sites like tinypng.com to reduce the size of images while transferring them into our database. We could have more attributes to a product, so data visualization could been more interesting. Furthermore, we would like to improve the responsiveness of our application since a small portion of our webpages would distort after shrinking. 
 ## Contributions
 - Ruming(Roy) Zhong 
 > - Designed and implemented the login/sign-up and profile page.
