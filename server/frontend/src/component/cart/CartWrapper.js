@@ -42,27 +42,29 @@ export default function CartWrapper() {
 
     return (
         <Stack spacing={2}>
-            <Stepper activeStep={page} sx={{mt:"30px"}}>
+            <Stepper activeStep={page} sx={{ mt: "30px" }}>
                 {steps.map((label, index) => {
                     const stepProps = {};
                     const labelProps = {};
                     return (
-                        <Step key={label} sx={{color:"#5F0F40"}} {...stepProps}>
+                        <Step key={label} sx={{ color: "#5F0F40" }} {...stepProps}>
                             <StepLabel {...labelProps}>{label}</StepLabel>
                         </Step>
                     )
                 })}
             </Stepper>
-            {conditionalComponent()}
+            <div>
             {
                 page > 0 &&
-                <Button  color={'#310E68'}
-                 onClick={handleBack} sx={{width:"20%"}} > Back</Button>
+                <Button color={'#310E68'}
+                    onClick={handleBack} sx={{ width: "20%" }} > Back</Button>
             }
-            <Button color={"#310E68"}
-            onClick={handleNext} sx={{left:"80%" ,width:"20%"}}>
-                {page !== 2 ? "Next" : "Back to Cart"}
-            </Button>
+                <Button color={"#310E68"}
+                    onClick={handleNext} sx={{ marginLeft:"40%" , width: "20%" }}>
+                    {page !== 2 ? "Next" : "Back to Cart"}
+                </Button>
+            </div>
+            {conditionalComponent()}
         </Stack>
     )
 }
