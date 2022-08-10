@@ -12,7 +12,7 @@
 - [Sketch](#sketch)
 
 ## Introduction: 
-We designed an e-commerce platform supporting roles from guests to buyers to sellers. We included a variety of features from upload products, drag & drop files and cart operations to more advanced integration such as live chat and data visualization.
+We designed a lightweight e-commerce platform supporting various roles from guests to buyers to sellers. We incorporated a wide range of features from add/edit products, drag & drop files and cart operations to more advanced integrations such as live chat and data visualization.
 
 ## Project Description
 We designed a business startup framework which supports various role-based activities through our interactive dashboard UI for small businesses and their corresponding targeted customers. Seller activity spans from designing a presentation page to tracking order status where logged-in users can browse the page, add/delete items to/from carts/wishlist, receive email notifications for the restocking of the wanted item, and guests are limited to only browsing.
