@@ -16,6 +16,9 @@ import {
   Tooltip,
   XAxis,
   YAxis,
+  Pie,
+  PieChart,
+  Cell
 } from "recharts";
 import { getDatasets } from "../../controller/sellerSlice";
 import "../../css/dashboard.css";
@@ -78,6 +81,8 @@ function InfoGraph(props) {
   );
 }
 
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', "#8884d8"];
+
 function ProcessingList(props) {
   return (
     <Stack direction={"row"} spacing={2}>
@@ -107,26 +112,23 @@ function ProcessingList(props) {
 
       <Card variant="outlined" sx={{ width: "50%" }}>
         <Title>Top 5 Product Stat</Title>
-        <BarChart
-          width={550}
-          height={300}
-          data={props.datasets.product}
-          margin={{
-            top: 5,
-            right: 30,
-            left: 20,
-            bottom: 5,
-          }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis>
-            <Label value="Dollar($)" angle={-90} position="insideLeft" />
-          </YAxis>
+        <PieChart width={500} height={300} >
+          <Pie
+            dataKey="Quantity"
+            data={props.datasets.product}
+            isAnimationActive={false}
+            cx="50%"
+            cy="50%"
+            label
+            outerRadius={100}
+            fill="#8884d8"
+          >
+          {props.datasets.product?.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+            ))}
+          </Pie>
           <Tooltip />
-          <Legend />
-          <Bar dataKey="Quantity" fill="#82ca9d" />
-        </BarChart>
+        </PieChart>
       </Card>
     </Stack>
   );
