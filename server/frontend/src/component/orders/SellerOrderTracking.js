@@ -7,7 +7,7 @@ import { REQUEST_STATE } from "../../controller/utils";
 // MUI Components
 import { Grid } from "@mui/material";
 import { Container } from "@mui/system";
-import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
+import { DataGrid, GridActionsCellItem, GridToolbar } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SendIcon from "@mui/icons-material/Send";
 import React, { useEffect, useState } from "react";
@@ -146,6 +146,16 @@ function SellerOrderTracking(props) {
             getRowHeight={() => "auto"}
             rowsPerPageOptions={[5]}
             sx={{ m: 1 }}
+            components={{ Toolbar: GridToolbar }}
+            disableColumnFilter
+            disableColumnSelector
+            disableDensitySelector
+            componentsProps={{
+              toolbar: {
+                showQuickFilter: true,
+                quickFilterProps: { debounceMs: 500 },
+              },
+            }}
           />
         </Grid>
 
@@ -161,6 +171,16 @@ function SellerOrderTracking(props) {
             pageSize={5}
             rowsPerPageOptions={[5]}
             getRowHeight={() => "auto"}
+            components={{ Toolbar: GridToolbar }}
+            disableColumnFilter
+            disableColumnSelector
+            disableDensitySelector
+            componentsProps={{
+              toolbar: {
+                showQuickFilter: true,
+                quickFilterProps: { debounceMs: 500 },
+              },
+            }}
           />
         </Grid>
 
@@ -176,6 +196,16 @@ function SellerOrderTracking(props) {
             pageSize={5}
             rowsPerPageOptions={[5]}
             getRowHeight={() => "auto"}
+            components={{ Toolbar: GridToolbar }}
+            disableColumnFilter
+            disableColumnSelector
+            disableDensitySelector
+            componentsProps={{
+              toolbar: {
+                showQuickFilter: true,
+                quickFilterProps: { debounceMs: 500 },
+              },
+            }}
           />
         </Grid>
         <Grid item xs={10} className="orderTrackingHeader">
@@ -189,6 +219,16 @@ function SellerOrderTracking(props) {
             pageSize={5}
             rowsPerPageOptions={[5]}
             getRowHeight={() => "auto"}
+            disableColumnFilter
+            disableColumnSelector
+            disableDensitySelector
+            components={{ Toolbar: GridToolbar }}
+            componentsProps={{
+              toolbar: {
+                showQuickFilter: true,
+                quickFilterProps: { debounceMs: 500 },
+              },
+            }}
           />
         </Grid>
       </Grid>
