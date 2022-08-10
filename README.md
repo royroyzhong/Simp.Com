@@ -1,5 +1,5 @@
-# Doge-Commerce
-https://dogecom.herokuapp.com
+# [Doge-Commerce](https://dogecom.herokuapp.com)
+
 
 # Menu
 - [Introduction](#introduction)
@@ -21,23 +21,23 @@ User login information including address and encrypted password will be saved as
 
 ## Project Requirements
 **Minimal Requirements**:
-- [x] Login
-- [x] Basic CRUD operation on user profile includes remove/update/add to cart/wishlist 
-- [x] Editable and expandable product presentation page 
-- [x] Track order status for shipped items
-- [x] View product page 
+- ✅ Login
+- ✅ Basic CRUD operation on user profile includes remove/update/add to cart/wishlist 
+- ✅ Editable and expandable product presentation page 
+- ✅ Track order status for shipped items
+- ✅ View product page 
 
 **Standard Requirements**:
-- [x] Encrypted password 
-- [x] Data visualization
-- [x] Email notification for restocking of wanted item
-- [x] Login with Google
-- [x] Drag and drop pictures (jpeg,gif and most image and video format)
+- ✅ Encrypted password 
+- ✅ Data visualization
+- ✅ Email notification for restocking of wanted item
+- ✅ Login with Google
+- ✅ Drag and drop pictures (jpeg,gif and most image and video format)
 
 **Stretch Requirements**:
-- [ ] Payment (support paypal, mastercard, visa credit cards etc) 
-- [x] Livechat for customer support 
-- [ ] Recommondation system 
+- ❌ Payment (support paypal, mastercard, visa credit cards etc) 
+- ✅ Livechat for customer support 
+- ❌ Recommondation system 
 ## Tech Stack
   ### Unit 1 - HTML, CSS, JS
   ...
@@ -69,7 +69,7 @@ User login information including address and encrypted password will be saved as
 - Guanghua(Gavin) Yang
 > ...
 - Lichuan(Isabella) Yang
-> ...
+> I worked on building instant email notification once wanted items has been restocked using NodeMailer to users who added a product with insufficient storage to their wishlist. In addition, I implemented Drag & Drop to allow image uploads. Furthermore, I created the UI for cart and order tracking as well as sending requests to backend based on user actions.
 - Qintu(Quinn) Tao
 > ...
 
