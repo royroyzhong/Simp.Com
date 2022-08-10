@@ -21,23 +21,23 @@ User login information including address and encrypted password will be saved as
 
 ## Project Requirements
 **Minimal Requirements**:
-- [x] Login
-- [x] Basic CRUD operation on user profile includes remove/update/add to cart/wishlist 
-- [x] Editable and expandable product presentation page 
-- [x] Track order status for shipped items
-- [x] View product page 
+- ✅ Login
+- ✅ Basic CRUD operation on user profile includes remove/update/add to cart/wishlist 
+- ✅ Editable and expandable product presentation page 
+- ✅ Track order status for shipped items
+- ✅ View product page 
 
 **Standard Requirements**:
-- [x] Encrypted password 
-- [x] Data visualization
-- [x] Email notification for restocking of wanted item
-- [x] Login with Google
-- [x] Drag and drop pictures (jpeg,gif and most image and video format)
+- ✅ Encrypted password 
+- ✅ Data visualization
+- ✅ Email notification for restocking of wanted item
+- ✅ Login with Google
+- ✅ Drag and drop pictures (jpeg,gif and most image and video format)
 
 **Stretch Requirements**:
-- [ ] Payment (support paypal, mastercard, visa credit cards etc) 
-- [x] Livechat for customer support 
-- [ ] Recommondation system 
+- ❌ Payment (support paypal, mastercard, visa credit cards etc) 
+- ✅ Livechat for customer support 
+- ❌ Recommondation system 
 ## Tech Stack
   ### Unit 1 - HTML, CSS, JS
   ...
