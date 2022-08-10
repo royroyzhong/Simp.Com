@@ -73,7 +73,7 @@ Our envision includes further integration with payment services like Paypal and 
 - Guanghua(Gavin) Yang
 > I designed and implemented the NavWrapper component which consist of navigator and header. As well, I designed the data visualization dashboard for seller, who is able to see monthly sale overview, order statistics, and most popular products in charts. Furthermore, I re-designed the cartSlice, buyerSlice, sellerSlice, and their corresponding schemas at backend when optimizing the user actions and REST API.
 - Lichuan(Isabella) Yang
-> I worked on building instant email notification once wanted items has been restocked using NodeMailer to users who added a product with insufficient storage to their wishlist. In addition, I implemented Drag & Drop to allow image uploads. Furthermore, I created the UI for cart and order tracking as well as sending requests to backend based on user actions.
+> I designed and build the user interface for instant email notification once wishlisted items has been restocked using NodeMailer. In addition, I implemented Drag & Drop to allow image uploads. Furthermore, I created the UI for cart and order tracking as well as sending requests to backend based on user actions.
 - Qintu(Quinn) Tao
 > ...
 
