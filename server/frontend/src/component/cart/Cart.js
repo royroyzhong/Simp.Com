@@ -8,9 +8,9 @@ import CheckoutStepper from "./checkoutStepper";
 
 /* Styling & MUI */
 import React from "react";
-import { useSelector,useDispatch} from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getCart, loadFromStorage, getSum} from "../../controller/cartSlice";
+import { getCart, loadFromStorage, getSum } from "../../controller/cartSlice";
 import SellingStore from "./SellingStore";
 import { useEffect } from "react";
 import { submitOrderAsync } from "../orders/orderThunks";
@@ -22,7 +22,7 @@ function Cart() {
 
   useEffect(() => {
     //sessionStorage.clear();
-    let localStorage = sessionStorage.getItem('Cart');
+    let localStorage = sessionStorage.getItem("Cart");
     if (localStorage != null) {
       dispatch(loadFromStorage(JSON.parse(localStorage)));
     }
@@ -33,11 +33,13 @@ function Cart() {
   let uniqueStoreIds = [...new Set(cart?.map((product) => product.soldBy))];
   let storeIds = Array.from(uniqueStoreIds).sort();
 
-  const renderedSellingStores = []
+  const renderedSellingStores = [];
 
   for (let i in storeIds) {
     let storeId = storeIds[i];
-    let storeName = cart.find(product => product.soldBy === storeId).storeName;
+    let storeName = cart.find(
+      (product) => product.soldBy === storeId
+    ).storeName;
     let tempArray = cart?.filter((p) => p.soldBy === storeId);
     renderedSellingStores.push(
       <SellingStore
@@ -56,13 +58,16 @@ function Cart() {
       if (statusCode !== 200) {
         navigate("/login");
       } else {
-        dispatch(submitOrderAsync(cart)).then(() => {
-          sessionStorage.clear();
-        }).catch(err => {console.log(err)});
+        dispatch(submitOrderAsync(cart))
+          .then(() => {
+            sessionStorage.clear();
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
     });
   };
-
 
   return (
     <Container
@@ -82,7 +87,7 @@ function Cart() {
             <Box>{renderedSellingStores}</Box>
           </Grid>
         </Grid>
-        <h2 id="Sum"> Total Amount: ${sum}</h2>
+        <h2 id="Sum"> Total Amount: ${sum.toFixed(2)}</h2>
         <button className="Btn" id="checkoutIcon" onClick={handleCheckout}>
           {" "}
           <ShoppingCartCheckoutOutlinedIcon> </ShoppingCartCheckoutOutlinedIcon>
