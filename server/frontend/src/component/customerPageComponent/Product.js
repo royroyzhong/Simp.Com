@@ -143,7 +143,7 @@ export default function Product(props) {
         </Button>
         <Snackbar
           open={popUp}
-          autoHideDuration={1000}
+          autoHideDuration={600}
           onClose={handleClose}
           message="Added to cart sucessfully"
           action={action}
