@@ -16,6 +16,9 @@ import { useDispatch, useSelector } from "react-redux";
 import "../../css/orderTracking.css";
 import { changeStatusAsync, getSellerOrderAsync } from "../orders/orderThunks";
 
+// Reference: https://mui.com/material-ui/react-alert/
+// https://mui.com/material-ui/react-snackbar/
+
 function SellerOrderTracking(props) {
   const [finalClickInfo, setFinalClickInfo] = useState(null);
   let orders = useSelector(getSellerOrderDetail);

@@ -2,16 +2,19 @@ import Cart from "./Cart";
 import { Button } from "@mantine/core"
 import ComingSoon from "./ComingSoon";
 import { useState } from "react";
-import Box from "@mui/material/Box";
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import * as React from 'react';
 import ConfirmationPage from "./ConfirmationPage";
+import { Stack } from "@mui/material";
+
+// Reference: https://mui.com/material-ui/react-stepper/
 
 export default function CartWrapper() {
     const [page, setPage] = useState(0);
-    const steps = ['Cart', 'Payment','Confirmation']
+    const steps = ['Cart', 'Payment', 'Confirmation']
+
 
     const handleNext = () => {
         if (page === 2) {
@@ -31,39 +34,35 @@ export default function CartWrapper() {
                 return <Cart> </Cart>
             case 1:
                 return <ComingSoon></ComingSoon>
-            case 2: <ConfirmationPage> </ConfirmationPage>
+            case 2:
+                return <ConfirmationPage> </ConfirmationPage>
             default: <Cart> </Cart>
         }
     }
 
     return (
-        <Box>
-            < Box sx={{
-                width: '100%',
-                mt: 8,
-                mb: 5,
-            }} >
-                <Stepper activeStep={page}>
-                    {steps.map((label, index) => {
-                        const stepProps = {};
-                        const labelProps = {};
-                        return (
-                            <Step key={label} {...stepProps}>
-                                <StepLabel {...labelProps}>{label}</StepLabel>
-                            </Step>
-                        )
-                    })}
-                </Stepper>
-            </Box>
+        <Stack spacing={2}>
+            <Stepper activeStep={page} sx={{mt:"30px"}}>
+                {steps.map((label, index) => {
+                    const stepProps = {};
+                    const labelProps = {};
+                    return (
+                        <Step key={label} sx={{color:"#5F0F40"}} {...stepProps}>
+                            <StepLabel {...labelProps}>{label}</StepLabel>
+                        </Step>
+                    )
+                })}
+            </Stepper>
             {conditionalComponent()}
             {
                 page > 0 &&
-                <Button onClick={handleBack} > Back</Button>
+                <Button  color={'#310E68'}
+                 onClick={handleBack} sx={{width:"20%"}} > Back</Button>
             }
-            <Button onClick={handleNext} sx={{marginLeft: "500px"}}>
+            <Button color={"#310E68"}
+            onClick={handleNext} sx={{left:"80%" ,width:"20%"}}>
                 {page !== 2 ? "Next" : "Back to Cart"}
             </Button>
-
-        </Box>
+        </Stack>
     )
 }
