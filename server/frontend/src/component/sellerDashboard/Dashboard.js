@@ -120,7 +120,7 @@ function ProcessingList(props) {
             cx="50%"
             cy="50%"
             label
-            outerRadius={100}
+            outerRadius={110}
             fill="#8884d8"
           >
           {props.datasets.product?.map((entry, index) => (
