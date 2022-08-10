@@ -1,16 +1,16 @@
-import * as React from "react";
+import HomeIcon from "@mui/icons-material/Home";
+import LightbulbIcon from "@mui/icons-material/Lightbulb";
+import PeopleIcon from "@mui/icons-material/People";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import Alert from "@mui/material/Alert";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import HomeIcon from "@mui/icons-material/Home";
-import PeopleIcon from "@mui/icons-material/People";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import LightbulbIcon from "@mui/icons-material/Lightbulb";
-import { useNavigate } from "react-router-dom";
 import Snackbar from "@mui/material/Snackbar";
-import Alert from "@mui/material/Alert";
+import * as React from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { getUserAsync } from "../../controller/login/thunks";
 const categories = [
   { id: "Home", icon: <HomeIcon />, path: "/" },

@@ -3,14 +3,14 @@ import { Grid } from "@mui/material";
 import { Container } from "@mui/system";
 
 // Other Imports
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Product from "./Product";
-import "../../css/dashboard.css";
 import {
   getDisplayProductList,
   getProducts,
 } from "../../controller/buyerSlice";
-import { useEffect } from "react";
+import "../../css/dashboard.css";
+import Product from "./Product";
 
 export default function CustomerPageRightContent() {
   let products = useSelector(getDisplayProductList);

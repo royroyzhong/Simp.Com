@@ -13,15 +13,11 @@ module.exports.setup = (server) => {
   io.on("connection", function (socket) {
     //join room
     socket.on("join_room", (data) => {
-      console.log("enter: " + data);
       socket.join(data);
     });
 
     //send msg
     socket.on("send_message", (data) => {
-      console.log(socket);
-      console.log("room number:" + data.room);
-      console.log(socket);
       socket.to(data.room).emit("receive_message", {
         userName: data.user,
         message: data.message,

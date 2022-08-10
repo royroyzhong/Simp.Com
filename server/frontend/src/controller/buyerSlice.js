@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { fetchAPI } from "../api/client";
 import { getBuyerOrderAsync } from "../component/orders/orderThunks";
 import { REQUEST_STATE } from "./utils";
@@ -43,17 +43,11 @@ const userSlice = createSlice({
       .addCase(getProducts.fulfilled, function (state, action) {
         state.displayProducts = action.payload;
       })
-      .addCase(getProducts.rejected, function (state, action) {
-        console.log(action);
-      })
       .addCase(getBuyerOrderAsync.fulfilled, function (state, action) {
         for (let each of action.payload) {
           each.totalPrice = each.totalPrice.toFixed(2);
         }
         state.orderHistory = action.payload;
-      })
-      .addCase(getBuyerOrderAsync.rejected, function (state, action) {
-        console.log(action);
       });
   },
 });

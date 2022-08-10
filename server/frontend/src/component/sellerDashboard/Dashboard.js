@@ -1,35 +1,30 @@
 // MUI Components
-import {
-  Card,
-  Stack,
-} from "@mui/material";
+import { Card, Stack } from "@mui/material";
 import { Box, Container } from "@mui/system";
 // Other Imports
-import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 // Recahrt Components
 import {
+  Bar,
+  BarChart,
   CartesianGrid,
+  Label,
+  Legend,
   Line,
   LineChart,
   Tooltip,
   XAxis,
   YAxis,
-  BarChart,
-  Legend,
-  Bar,
-  Label
 } from "recharts";
 import {
-  getSellerOrder,
-  getTopProducts,
-  getSellerOrderStatus,
   getDatasets,
+  getSellerOrderStatus,
 } from "../../controller/sellerSlice";
-import { getSellerOrderAsync } from "../orders/orderThunks";
+import { REQUEST_STATE } from "../../controller/utils";
 import "../../css/dashboard.css";
 import Title from "../common/Title";
-import { REQUEST_STATE } from "../../controller/utils";
+import { getSellerOrderAsync } from "../orders/orderThunks";
 
 export default function Dashboard(props) {
   let datasets = useSelector(getDatasets);
@@ -58,9 +53,7 @@ export default function Dashboard(props) {
       </Card>
 
       <Box sx={{ marginTop: 2 }}>
-        <ProcessingList
-          datasets={datasets}
-        />
+        <ProcessingList datasets={datasets} />
       </Box>
     </Container>
   );
@@ -68,26 +61,28 @@ export default function Dashboard(props) {
 
 function InfoGraph(props) {
   return (
-      <Box>
-        <Title>Monthly Overview</Title>
-        <LineChart
-          width={1000}
-          height={300}
-          data={props.lineChartSet}
-          margin={{ top: 4, right: 20, left: 10, bottom: 5 }}
-        >
-          <XAxis dataKey="month" />
-          <YAxis><Label value='Dollar($)' angle={-90} position='insideLeft'/></YAxis>
-          <Tooltip />
-          <CartesianGrid stroke="#f5f5f5" />
-          <Line
-            type="monotone"
-            dataKey="totalSale"
-            stroke="#3751FF"
-            yAxisId={0}
-          />
-        </LineChart>
-      </Box>
+    <Box>
+      <Title>Monthly Overview</Title>
+      <LineChart
+        width={1000}
+        height={300}
+        data={props.lineChartSet}
+        margin={{ top: 4, right: 20, left: 10, bottom: 5 }}
+      >
+        <XAxis dataKey="month" />
+        <YAxis>
+          <Label value="Dollar($)" angle={-90} position="insideLeft" />
+        </YAxis>
+        <Tooltip />
+        <CartesianGrid stroke="#f5f5f5" />
+        <Line
+          type="monotone"
+          dataKey="totalSale"
+          stroke="#3751FF"
+          yAxisId={0}
+        />
+      </LineChart>
+    </Box>
   );
 }
 
@@ -109,7 +104,9 @@ function ProcessingList(props) {
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" />
-          <YAxis><Label value='# of Order' angle={-90} position='insideLeft'/></YAxis>
+          <YAxis>
+            <Label value="# of Order" angle={-90} position="insideLeft" />
+          </YAxis>
           <Tooltip />
           <Legend />
           <Bar dataKey="Quantity" fill="#8884d8" />
@@ -131,10 +128,11 @@ function ProcessingList(props) {
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" />
-          <YAxis><Label value='Dollar($)' angle={-90} position='insideLeft'/></YAxis>
+          <YAxis>
+            <Label value="Dollar($)" angle={-90} position="insideLeft" />
+          </YAxis>
           <Tooltip />
           <Legend />
-          {/* <Bar dataKey="Incomes" fill="#8884d8" /> */}
           <Bar dataKey="Quantity" fill="#82ca9d" />
         </BarChart>
       </Card>

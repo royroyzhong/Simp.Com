@@ -1,15 +1,15 @@
 import {
   getSellerOrderDetail,
-  getSellerOrderStatus,
+  getSellerOrderStatus
 } from "../../controller/sellerSlice";
 import { REQUEST_STATE } from "../../controller/utils";
 
 // MUI Components
+import DeleteIcon from "@mui/icons-material/Delete";
+import SendIcon from "@mui/icons-material/Send";
 import { Grid } from "@mui/material";
 import { Container } from "@mui/system";
 import { DataGrid, GridActionsCellItem, GridToolbar } from "@mui/x-data-grid";
-import DeleteIcon from "@mui/icons-material/Delete";
-import SendIcon from "@mui/icons-material/Send";
 import React, { useEffect, useState } from "react";
 import { confirm } from "react-confirm-box";
 import { useDispatch, useSelector } from "react-redux";
@@ -29,16 +29,8 @@ function SellerOrderTracking(props) {
     },
   };
 
-  // const handleOnCellClick = async (params, event) => {
-  //   event.preventDefault();
-  //   setFinalClickInfo(params._id);
-  //   console.log(params);
-  //   renderPopUp(options, params);
-  // };
-
   const renderPopUp = async (options, params, text, type) => {
     const result = await confirm(text, options);
-    console.log(params.id);
     if (result) {
       if (type === "send") {
         dispatch(changeStatusAsync({ id: params.id, type }));

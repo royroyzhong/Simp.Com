@@ -1,30 +1,29 @@
-import React, { useContext } from "react";
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import Box from "@mui/material/Box";
+import Checkbox from "@mui/material/Checkbox";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormGroup from "@mui/material/FormGroup";
+import Grid from "@mui/material/Grid";
+import IconButton from "@mui/material/IconButton";
+import Paper from "@mui/material/Paper";
+import { styled } from "@mui/material/styles";
+import React, { useContext, useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { googleloginAsync, loginAsync } from "../../controller/login/thunks";
 import {
   BoldSpan,
   BoxContainer,
+  BreakLine,
+  Marginer,
   SmallSpan,
   SubmitButton,
-  Marginer,
-  BreakLine,
 } from "../../css/CommonStyle";
 import "../../css/login.css";
 import { CssTextField } from "./CommonMuiStyle";
-import { loginAsync, googleloginAsync } from "../../controller/login/thunks";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { styled } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
-import Grid from "@mui/material/Grid";
 import { SwitcherContext } from "./LoginPage";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import IconButton from "@mui/material/IconButton";
-import FormGroup from "@mui/material/FormGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.h7,

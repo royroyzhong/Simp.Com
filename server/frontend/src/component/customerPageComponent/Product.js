@@ -1,31 +1,30 @@
+import CloseIcon from "@mui/icons-material/Close";
 import {
+  Button,
   Card,
   CardActionArea,
+  CardActions,
   CardContent,
   CardMedia,
   Typography,
-  CardActions,
-  Button,
 } from "@mui/material";
-import Snackbar from '@mui/material/Snackbar';
-import { Marginer } from "../../css/CommonStyle";
-import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { addProduct, getCart } from "../../controller/cartSlice";
 import Divider from "@mui/material/Divider";
+import IconButton from "@mui/material/IconButton";
+import Snackbar from "@mui/material/Snackbar";
+import * as React from "react";
 import { useState } from "react";
-import * as React from 'react';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { addProduct } from "../../controller/cartSlice";
+import { Marginer } from "../../css/CommonStyle";
 
 export default function Product(props) {
   let navigate = useNavigate();
   let dispatch = useDispatch();
-  let cart = useSelector(getCart);
   const [popUp, setPopup] = useState(false);
 
   const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
 
@@ -64,7 +63,9 @@ export default function Product(props) {
         <CardContent>
           <Marginer margin="40px" />
           <CardMedia
-           image={props.data.images.length > 0 ? props.data.images[0].data : ""}
+            image={
+              props.data.images.length > 0 ? props.data.images[0].data : ""
+            }
             height={100}
             sx={{ objectFit: "contain" }}
             component={"img"}
@@ -88,54 +89,64 @@ export default function Product(props) {
           variant="body1"
           sx={{ flex: 1, paddingLeft: "20px" }}
         >
-          {props.data.storage + ' in stock'}
+          {props.data.storage + " in stock"}
         </Typography>
-      </ CardContent>
+      </CardContent>
       <CardActions>
         <Typography
           align="left"
           variant="body1"
           sx={{ flex: 1, paddingLeft: "20px" }}
         >
-          {'$' + props.data.price}
+          {"$" + props.data.price}
         </Typography>
-        <Button variant="contained" size="small" color="primary" onClick={() => {
-          dispatch(addProduct(props.data));
-          let updatedCart = JSON.parse(sessionStorage.getItem('Cart'));
-          if (updatedCart != null ) {
-            let productIdx = updatedCart.findIndex(p => p._id === props.data._id);
-            if (productIdx !== -1) {
-              updatedCart[productIdx].quantity += 1;
+        <Button
+          variant="contained"
+          size="small"
+          color="primary"
+          onClick={() => {
+            dispatch(addProduct(props.data));
+            let updatedCart = JSON.parse(sessionStorage.getItem("Cart"));
+            if (updatedCart != null) {
+              let productIdx = updatedCart.findIndex(
+                (p) => p._id === props.data._id
+              );
+              if (productIdx !== -1) {
+                updatedCart[productIdx].quantity += 1;
+              } else {
+                updatedCart.push({
+                  _id: props.data._id,
+                  name: props.data.name,
+                  soldBy: props.data.soldBy,
+                  price: props.data.price,
+                  quantity: 1,
+                  storeName: props.data.storeName,
+                });
+              }
             } else {
-              updatedCart.push({
-                _id: props.data._id,
-                name: props.data.name,
-                soldBy: props.data.soldBy,
-                price: props.data.price,
-                quantity: 1,
-                storeName: props.data.storeName });
+              updatedCart = [
+                {
+                  _id: props.data._id,
+                  name: props.data.name,
+                  soldBy: props.data.soldBy,
+                  price: props.data.price,
+                  quantity: 1,
+                  storeName: props.data.storeName,
+                },
+              ];
             }
-          } else {
-            updatedCart = [{
-              _id: props.data._id,
-              name: props.data.name,
-              soldBy: props.data.soldBy,
-              price: props.data.price,
-              quantity: 1,
-              storeName: props.data.storeName }];
-          }
-          setPopup(true);
-          sessionStorage.setItem('Cart', JSON.stringify(updatedCart));
-        }}>
+            setPopup(true);
+            sessionStorage.setItem("Cart", JSON.stringify(updatedCart));
+          }}
+        >
           Add to Cart
         </Button>
-        <Snackbar 
-        open={popUp}
-        autoHideDuration={1000}
-        // anchorOrigin={ {vertical: 'top', horizontal: 'center' }}
-        onClose={handleClose}
-        message="Added to cart sucessfully"
-        action = {action}
+        <Snackbar
+          open={popUp}
+          autoHideDuration={1000}
+          onClose={handleClose}
+          message="Added to cart sucessfully"
+          action={action}
         />
       </CardActions>
     </Card>

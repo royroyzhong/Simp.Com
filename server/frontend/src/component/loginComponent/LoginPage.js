@@ -1,10 +1,8 @@
-import React from "react";
-import { createContext } from "react";
-import { useState } from "react";
-import LoginForm from "./LoginForm";
+import React, { createContext, useState } from "react";
 import styled from "styled-components";
+import { Marginer, SmallSpan } from "../../css/CommonStyle";
+import LoginForm from "./LoginForm";
 import SignUpForm from "./SignUpForm";
-import { SmallSpan, Marginer } from "../../css/CommonStyle";
 export const AppContainer = styled.div`
   width: 100%;
   height: 100%;

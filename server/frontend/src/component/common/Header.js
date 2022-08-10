@@ -1,29 +1,26 @@
 // MUI Components
-import { Avatar, TextField } from "@mui/material";
+import { Avatar } from "@mui/material";
 
-import MenuItem from "@mui/material/MenuItem";
+import LoginIcon from "@mui/icons-material/Login";
+import Logout from "@mui/icons-material/Logout";
+import MenuIcon from "@mui/icons-material/Menu";
+import PeopleIcon from "@mui/icons-material/People";
+import MuiAppBar from "@mui/material/AppBar";
 import Divider from "@mui/material/Divider";
-import * as React from "react";
+import IconButton from "@mui/material/IconButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Menu from "@mui/material/Menu";
-import Logout from "@mui/icons-material/Logout";
-import { quinn } from "../../utils/mockFetch"; // mock user
-import quinnAvatar from "../../assets/avatar.jpg"; // mock avatar
-import IconButton from "@mui/material/IconButton";
-import PeopleIcon from "@mui/icons-material/People";
-import SwitchAccountIcon from "@mui/icons-material/SwitchAccount";
-import { useNavigate } from "react-router-dom";
-import Typography from "@mui/material/Typography";
+import MenuItem from "@mui/material/MenuItem";
 import { styled } from "@mui/material/styles";
-import MuiAppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import MenuIcon from "@mui/icons-material/Menu";
+import Typography from "@mui/material/Typography";
+import * as React from "react";
 import { useDispatch } from "react-redux";
-import { logoutAsync } from "../../controller/login/thunks";
+import { useNavigate } from "react-router-dom";
+import quinnAvatar from "../../assets/avatar.jpg"; // mock avatar
+import { getUserAsync, logoutAsync } from "../../controller/login/thunks";
 import BuyerSearch from "../chat/BuyerSearch";
 import SellerSearch from "../chat/SellerSearch";
-import { getUserAsync } from "../../controller/login/thunks";
-import LoginIcon from "@mui/icons-material/Login";
 const drawerWidth = 240;
 
 const PaperCssStyle = {

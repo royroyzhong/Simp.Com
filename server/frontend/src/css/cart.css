@@ -1,5 +1,5 @@
 .sellingStore {
-    color:#404373;
+    color: #404373;
     background-color: white;
     border: 1px solid #310E68;
     border-radius: 25px;
@@ -9,13 +9,13 @@
     background-color: #FFFFFF;
     border-radius: 10px;
     border: 1px solid #9498A6;
-    /* #7A8CBF; */
-    color:#58595B;
+
+    color: #58595B;
 }
 
 
-.cart{
-    color:#310E68;
+.cart {
+    color: #310E68;
 }
 
 
@@ -24,17 +24,17 @@
     left: 40%;
     background-color: white;
     border-radius: 10px;
-    color:#404373;
+    color: #404373;
 }
 
 #subCheckoutIcon {
     position: relative;
     left: 10%;
-    top:20%;
+    top: 20%;
     background-color: white;
     border-radius: 10px;
     height: 30px;
-    color:#404373;
+    color: #404373;
 }
 
 #storeName {
@@ -58,10 +58,7 @@
 
 #clearProductIcon {
     position: relative;
-    left:10%;
+    left: 10%;
     border: none;
-    background:none;
+    background: none;
 }
-
-
-

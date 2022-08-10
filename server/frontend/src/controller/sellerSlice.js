@@ -77,17 +77,12 @@ const sellerSlice = createSlice({
       })
       .addCase(getProducts.rejected, function (state, action) {
         state.inventoryStatus = REQUEST_STATE.REJECTED;
-        console.log(action);
       })
       .addCase(getSellerOrderAsync.rejected, function (state, action) {
         state.getSellerOrder = REQUEST_STATE.REJECTED;
-        console.log(action);
       })
-      .addCase(removeProducts.fulfilled, function (state, action) {
-        console.log(action);
-      })
+
       .addCase(getSellerOrderAsync.fulfilled, function (state, action) {
-        console.log(action.payload);
         let allOrders = action.payload.map((order) => {
           return {
             orderNumber: order._id,
@@ -95,14 +90,7 @@ const sellerSlice = createSlice({
             status: order.status,
           };
         });
-        // console.log(allOrders);
 
-        // for (let order of allOrders) {
-        //   for (let product of order.products) {
-        //     delete product._id;
-        //   }
-        // }
-        // console.log(allOrders);
         state.orderDetail = {
           Unprocessed: allOrders.filter(
             (order) => order.status === "Unprocessed"
@@ -111,7 +99,7 @@ const sellerSlice = createSlice({
           Delivered: allOrders.filter((order) => order.status === "Delivered"),
           Refunded: allOrders.filter((order) => order.status === "Refunded"),
         };
-        console.log(state.orderDetail);
+
         state.orders = {
           unprocessed: state.orderDetail.Unprocessed.length,
           shipped: state.orderDetail.Shipped.length,
@@ -205,7 +193,6 @@ const sellerSlice = createSlice({
         state.changeOrderStatus = REQUEST_STATE.PENDING;
       })
       .addCase(changeStatusAsync.fulfilled, (state, action) => {
-        console.log(action.payload);
         let status = action.payload[0].status;
         state.changeOrderStatus = REQUEST_STATE.FULFILLED;
         const orderIdx = state.orderDetail.Unprocessed.findIndex(
@@ -228,7 +215,6 @@ const sellerSlice = createSlice({
       })
       .addCase(changeStatusAsync.rejected, (state, action) => {
         state.changeOrderStatus = REQUEST_STATE.REJECTED;
-        console.log(action);
       });
   },
 });
