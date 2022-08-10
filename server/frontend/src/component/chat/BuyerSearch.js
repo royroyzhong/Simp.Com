@@ -117,7 +117,7 @@ function BuyerSearch(prop) {
       let tempEle = {
         position: "right",
         type: "text",
-        text: prop.self.firstName + "Join the room ",
+        text: prop.self.firstName + " Join the room ",
       };
       setMessageReceived((oldArray) => [...oldArray, tempEle]);
     } catch (err) {
