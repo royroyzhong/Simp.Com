@@ -9,6 +9,7 @@
     "tstart": "cd ../frontend && npm run build && cd ../server && node ./bin/www"
   },
   "dependencies": {
+    "@mantine/core": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",

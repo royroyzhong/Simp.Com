@@ -5,46 +5,41 @@ import Box from "@mui/material/Box";
 import "../../css/cart.css";
 import ShoppingCartCheckoutOutlinedIcon from "@mui/icons-material/ShoppingCartCheckoutOutlined";
 import CheckoutStepper from "./checkoutStepper";
-import Snackbar from '@mui/material/Snackbar';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
-import Alert from '@mui/material/Alert';
-import AlertTitle from '@mui/material/AlertTitle';
 
-import * as React from 'react';
+/* Styling & MUI */
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getCart, loadFromStorage, getSum, getSubmitOrderStatus } from "../../controller/cartSlice";
+import { getCart, loadFromStorage, getSum } from "../../controller/cartSlice";
 import SellingStore from "./SellingStore";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { submitOrderAsync } from "../orders/orderThunks";
 import { getUserAsync } from "../../controller/login/thunks";
-
 
 function Cart() {
   const dispatch = useDispatch();
   let navigate = useNavigate();
 
-  const [sucess, setSucess] = useState(false);
-  const [failure, setFailure] = useState(false);
-
-  let cart = useSelector(getCart);
-  let sum = useSelector(getSum);
-  let uniqueStoreIds = [...new Set(cart?.map((product) => product.soldBy))];
-  let storeIds = Array.from(uniqueStoreIds).sort();
-  const renderedSellingStores = []
-
   useEffect(() => {
     //sessionStorage.clear();
-    let localStorage = sessionStorage.getItem('Cart');
+    let localStorage = sessionStorage.getItem("Cart");
     if (localStorage != null) {
       dispatch(loadFromStorage(JSON.parse(localStorage)));
     }
   }, []);
 
+  let cart = useSelector(getCart);
+  let sum = useSelector(getSum);
+  let uniqueStoreIds = [...new Set(cart?.map((product) => product.soldBy))];
+  let storeIds = Array.from(uniqueStoreIds).sort();
+
+  const renderedSellingStores = [];
+
   for (let i in storeIds) {
     let storeId = storeIds[i];
-    let storeName = cart.find(product => product.soldBy === storeId).storeName;
+    let storeName = cart.find(
+      (product) => product.soldBy === storeId
+    ).storeName;
     let tempArray = cart?.filter((p) => p.soldBy === storeId);
     renderedSellingStores.push(
       <SellingStore
@@ -56,22 +51,6 @@ function Cart() {
     i++;
   }
 
-  const handleSucessClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
-    setSucess(false);
-  };
-
-  const handleFailureClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
-    setFailure(false);
-  };
-
   const handleCheckout = (event) => {
     event.preventDefault();
     dispatch(getUserAsync()).then((result) => {
@@ -79,42 +58,16 @@ function Cart() {
       if (statusCode !== 200) {
         navigate("/login");
       } else {
-        dispatch(submitOrderAsync(cart)).then(orderResult => {
-          sessionStorage.clear();
-          setSucess(true);
-        }).catch(err => {
-          setFailure(true);
-          console.log(err);
-        });
+        dispatch(submitOrderAsync(cart))
+          .then(() => {
+            sessionStorage.clear();
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
     });
   };
-
-  const successAction = (
-    <React.Fragment>
-      <IconButton
-        size="small"
-        aria-label="close"
-        color="inherit"
-        onClick={handleSucessClose}
-      >
-        <CloseIcon fontSize="small" />
-      </IconButton>
-    </React.Fragment>
-  );
-
-  const failureAction = (
-    <React.Fragment>
-      <IconButton
-        size="small"
-        aria-label="close"
-        color="inherit"
-        onClick={handleFailureClose}
-      >
-        <CloseIcon fontSize="small" />
-      </IconButton>
-    </React.Fragment>
-  );
 
   return (
     <Container
@@ -122,6 +75,7 @@ function Cart() {
       className="dashboard"
       sx={{ bgcolor: "#F7F8FC", marginTop: "-1vw" }}
     >
+      <CheckoutStepper> </CheckoutStepper>
       <Box className="cart">
         <h1> Cart</h1>
         <Grid
@@ -139,31 +93,6 @@ function Cart() {
           <ShoppingCartCheckoutOutlinedIcon> </ShoppingCartCheckoutOutlinedIcon>
         </button>
       </Box>
-      <Snackbar
-        open={sucess}
-        autoHideDuration={1000}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-        onClose={handleSucessClose}
-        message="Order Submitted Sucessfully"
-        action={successAction}
-      >
-        <Alert severity="success">
-          <AlertTitle> Order Submitted Sucessfully </AlertTitle>
-        </Alert>
-      </Snackbar>
-      <Snackbar
-        open={failure}
-        autoHideDuration={1000}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-        onClose={handleFailureClose}
-        message="Sorry, some of the product "
-        action={failureAction}
-      >
-        <Alert severity="error">
-          <AlertTitle> Order Submition Failure </AlertTitle>
-          Sorry, some of the products your requested don't have enough quantity in stock. Please check again. Thanks!
-        </Alert>
-      </Snackbar>
     </Container>
   );
 }
