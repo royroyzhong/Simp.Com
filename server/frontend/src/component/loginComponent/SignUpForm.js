@@ -1,22 +1,21 @@
-import React, { useContext } from "react";
+import BusinessIcon from "@mui/icons-material/Business";
+import PersonIcon from "@mui/icons-material/Person";
+import BottomNavigation from "@mui/material/BottomNavigation";
+import BottomNavigationAction from "@mui/material/BottomNavigationAction";
+import Box from "@mui/material/Box";
+import React, { useContext, useState } from "react";
 import { useDispatch } from "react-redux";
-import { signupAsync } from "../../controller/login/thunks";
 import { useNavigate } from "react-router-dom";
+import { signupAsync } from "../../controller/login/thunks";
 import {
   BoldSpan,
   BoxContainer,
+  Marginer,
   SmallSpan,
   SubmitButton,
-  Marginer,
 } from "../../css/CommonStyle";
 import { CssTextField } from "./CommonMuiStyle";
-import { useState } from "react";
 import { SwitcherContext } from "./LoginPage";
-import Box from "@mui/material/Box";
-import BottomNavigation from "@mui/material/BottomNavigation";
-import BottomNavigationAction from "@mui/material/BottomNavigationAction";
-import BusinessIcon from "@mui/icons-material/Business";
-import PersonIcon from "@mui/icons-material/Person";
 
 const boxCSS = {
   "@media (max-width:900px)": {

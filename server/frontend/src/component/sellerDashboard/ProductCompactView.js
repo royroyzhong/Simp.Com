@@ -1,18 +1,28 @@
-import { Card, CardActionArea, CardContent, CardMedia, Container, Grid, TextField, Typography } from "@mui/material";
-import { Box } from "@mui/system";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from 'react-redux';
+import {
+  Card,
+  CardActionArea,
+  CardContent,
+  CardMedia,
+  Container,
+  Grid,
+  Typography,
+} from "@mui/material";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import upload from "../../assets/upload.svg";
-import { loadImages, loadProduct } from "../../controller/productSlice";
-import { getProductList, getProductListStatus, getProducts } from "../../controller/sellerSlice";
+import { loadProduct } from "../../controller/productSlice";
+import {
+  getProductList,
+  getProductListStatus,
+  getProducts,
+} from "../../controller/sellerSlice";
 import { REQUEST_STATE } from "../../controller/utils";
 import { Marginer } from "../../css/CommonStyle";
 
 export default function ProductBoard(props) {
 
     let [regex, setRegex] = useState('');
-
     return (
         <Container maxWidth={"lg"} >
             <Box sx={{textAlign: 'left', margin: 2}}>
@@ -24,22 +34,28 @@ export default function ProductBoard(props) {
 }
 
 function CardGrid(props) {
+  let products = useSelector(getProductList);
+  let status = useSelector(getProductListStatus);
+  let gridStyle = {
+    xs: 1,
+    sm: 2,
+    md: 12,
+  };
+
 
     let products = useSelector(getProductList);
     let status = useSelector(getProductListStatus);
     let gridStyle = {
         xs: 1, sm: 2, md: 12
     };
-
     let navigate = useNavigate();
     let dispatch = useDispatch();
-    console.log(props.regex);
 
-    useEffect(() => {
-        if (status === REQUEST_STATE.IDLE) {
-            dispatch(getProducts());
-        }
-    }, [dispatch, status]);
+  useEffect(() => {
+    if (status === REQUEST_STATE.IDLE) {
+      dispatch(getProducts());
+    }
+  }, [dispatch, status]);
 
     return (
         <Grid container spacing={2} columns={gridStyle}>
@@ -115,6 +131,45 @@ function CardGrid(props) {
                     </CardActionArea>
                 </Card>
             </Grid>
-        </Grid>
-    )
+          ))
+        : null}
+      <Grid item key={-1} xs={1} sm={1} md={3}>
+        <Card
+          variant="outlined"
+          onClick={(e) => {
+            dispatch(
+              loadProduct({
+                name: "",
+                title: "",
+                features: {},
+                tags: [],
+                price: 0,
+                storage: 0,
+                images: [],
+              })
+            );
+            navigate("/seller/product_page");
+          }}
+        >
+          <CardActionArea>
+            <CardContent>
+              <Marginer margin="40px" />
+              <CardMedia
+                image={upload}
+                height={100}
+                sx={{
+                  objectFit: "contain",
+                }}
+                component={"img"}
+              />
+              <Marginer margin="40px" />
+              <Typography gutterBottom variant="h5">
+                New Product
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+        </Card>
+      </Grid>
+    </Grid>
+  );
 }

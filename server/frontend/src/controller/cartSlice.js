@@ -1,13 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { REQUEST_STATE } from './utils';
-import { submitOrderAsync } from '../component/orders/orderThunks';
+import { REQUEST_STATE } from "./utils";
+import { submitOrderAsync } from "../component/orders/orderThunks";
 
 const INITIAL_STATE = {
   cart: [],
   sum: 0,
   submitOrder: REQUEST_STATE.IDLE,
-  addProductToCart: REQUEST_STATE.IDLE
-}
+  addProductToCart: REQUEST_STATE.IDLE,
+};
 
 const cartSlice = createSlice({
   name: "cart",
@@ -16,7 +16,9 @@ const cartSlice = createSlice({
     updateQuantity(state, action) {
       let newValue = parseInt(action.payload.quantity);
       if (newValue >= 0) {
-        let productIdx = state.cart.findIndex(p => p._id === action.payload._id);
+        let productIdx = state.cart.findIndex(
+          (p) => p._id === action.payload._id
+        );
         let diff = newValue - state.cart[productIdx].quantity;
         state.cart[productIdx].quantity = newValue;
         state.sum += state.cart[productIdx].price * diff;
@@ -24,12 +26,16 @@ const cartSlice = createSlice({
       }
     },
     deleteProduct(state, action) {
-      let productToChange = state.cart.find(p => p._id === action.payload._id);
+      let productToChange = state.cart.find(
+        (p) => p._id === action.payload._id
+      );
       state.sum -= productToChange.price * productToChange.quantity;
-      state.cart = state.cart.filter(p => p._id !== action.payload._id);
+      state.cart = state.cart.filter((p) => p._id !== action.payload._id);
     },
     addProduct(state, action) {
-      let productIdx = state.cart.findIndex(p => p._id === action.payload._id);
+      let productIdx = state.cart.findIndex(
+        (p) => p._id === action.payload._id
+      );
       if (productIdx !== -1) {
         ++state.cart[productIdx].quantity;
         state.sum += state.cart[productIdx].price;
@@ -40,7 +46,7 @@ const cartSlice = createSlice({
           soldBy: action.payload.soldBy,
           price: action.payload.price,
           quantity: 1,
-          storeName: action.payload.storeName
+          storeName: action.payload.storeName,
         });
         state.sum += 0;
       }
@@ -48,9 +54,11 @@ const cartSlice = createSlice({
     loadFromStorage(state, action) {
       state.cart = action.payload;
       let price = 0;
-      state.cart.forEach(item => { price += item.price * item.quantity; });
+      state.cart.forEach((item) => {
+        price += item.price * item.quantity;
+      });
       state.sum = price;
-    }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -59,23 +67,26 @@ const cartSlice = createSlice({
       })
       .addCase(submitOrderAsync.fulfilled, (state, action) => {
         state.submitOrder = REQUEST_STATE.FULFILLED;
-        state.cart = state.cart.filter(product => action.payload.data.findIndex(p => p._id === product._id) === -1);
+        state.cart = state.cart.filter(
+          (product) =>
+            action.payload.data.findIndex((p) => p._id === product._id) === -1
+        );
         let price = 0;
-        state.cart.forEach(item => { price += item.price * item.quantity; });
+        state.cart.forEach((item) => {
+          price += item.price * item.quantity;
+        });
         state.sum = price;
       })
       .addCase(submitOrderAsync.rejected, (state, action) => {
         state.submitOrder = REQUEST_STATE.REJECTED;
-        console.log("err here");
-        // throw new Error(action.payload);
-      })
-  }
+      });
+  },
 });
 
 export const { updateQuantity, deleteProduct, addProduct, loadFromStorage } =
   cartSlice.actions;
 
-// ------------------ Getters ------------------- // 
+// ------------------ Getters ------------------- //
 export const getCart = (state) => state.cart.cart;
 export const getSum = (state) => state.cart.sum;
 export const getSubmitOrderStatus = (state) => state.cart.submitOrder;

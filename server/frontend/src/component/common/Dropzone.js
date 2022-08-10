@@ -9,12 +9,12 @@ import { Box } from "@mui/system";
 const Dropzone = ({ onDrop, accept }) => {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    accept
+    accept,
   });
 
   return (
     <div {...getRootProps()}>
-      <input  {...getInputProps()} />
+      <input {...getInputProps()} />
       <div className="dropBox">
         {isDragActive ? (
           <p>Release to drop the files here</p>
@@ -26,9 +26,9 @@ const Dropzone = ({ onDrop, accept }) => {
             </h1>
           </Box>
         )}
-            </div>
-          </div>
-        );
+      </div>
+    </div>
+  );
 };
 
 export default Dropzone;

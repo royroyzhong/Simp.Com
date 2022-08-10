@@ -1,7 +1,7 @@
 const submitOrder = async (products) => {
   let response, data;
-  try{
-      response = await fetch("/order", {
+  try {
+    response = await fetch("/order", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -12,9 +12,9 @@ const submitOrder = async (products) => {
     if (!response.ok) {
       return response.status;
     }
-    return {status: response.status, data: data};
-  } catch(err) {
-    return {res: response, status: response.status};
+    return { status: response.status, data: data };
+  } catch (err) {
+    return { res: response, status: response.status };
   }
 };
 

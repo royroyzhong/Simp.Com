@@ -1,19 +1,18 @@
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { getOrderHistory } from "../../controller/buyerSlice";
-import { getBuyerOrderAsync } from "./orderThunks";
-import {
-  DataGrid,
-  GridToolbar,
-  GridToolbarQuickFilter,
-} from "@mui/x-data-grid";
 import { Grid } from "@mui/material";
 import { Container } from "@mui/system";
+import {
+  DataGrid,
+  GridToolbar
+} from "@mui/x-data-grid";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getOrderHistory } from "../../controller/buyerSlice";
+import { getBuyerOrderAsync } from "./orderThunks";
 
 export default function BuyerOrderTracking() {
   let orders = useSelector(getOrderHistory);
   let dispatch = useDispatch();
-  console.log(orders);
+
 
   useEffect(() => {
     dispatch(getBuyerOrderAsync());

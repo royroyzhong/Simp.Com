@@ -9,7 +9,6 @@ import {
   getDisplayProductList,
   getProducts
 } from "../../controller/buyerSlice";
-import { Marginer } from "../../css/CommonStyle";
 import "../../css/dashboard.css";
 import Product from "./Product";
 

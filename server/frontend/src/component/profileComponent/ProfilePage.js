@@ -1,10 +1,9 @@
-import React from "react";
-import ProfileContent from "./ProfileContent";
 import Grid from "@mui/material/Grid";
 import { Container } from "@mui/system";
-import ProfileLeftContent from "./ProfileLeftContent";
-import { useState } from "react";
+import React, { useState } from "react";
 import ChangePasswordContent from "./ChangePasswordContent";
+import ProfileContent from "./ProfileContent";
+import ProfileLeftContent from "./ProfileLeftContent";
 
 function ProfilePage() {
   const [Controller, setController] = useState("personalInformation");

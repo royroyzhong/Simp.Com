@@ -27,16 +27,12 @@ router.get("/seller", authJwt.verifyToken, function (req, res, next) {
       if (err) {
         res.status(400).send("Error fetching listings!");
       } else {
-        // console.log(result[0]);
         let obj = result;
         for (let each of obj) {
           for (let product of each.products) {
-            console.log(product["_id"]);
             delete product["_id"];
-            console.log(product._id);
           }
         }
-        console.log(result[0]);
         res.json(result);
       }
     }

@@ -1,17 +1,13 @@
-import React from "react";
-import { useState, useEffect } from "react";
-import quinnAvatar from "../../assets/avatar.jpg"; // mock avatar
-import { Marginer } from "../../css/CommonStyle";
-import { Box } from "@mui/material";
-import { Avatar } from "@mui/material";
-import ButtonGroup from "@mui/material/ButtonGroup";
-import Button from "@mui/material/Button";
-import PersonIcon from "@mui/icons-material/Person";
-import Typography from "@mui/material/Typography";
-import PaymentsIcon from "@mui/icons-material/Payments";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import PersonIcon from "@mui/icons-material/Person";
+import { Avatar, Box, useTheme } from "@mui/material";
+import Button from "@mui/material/Button";
+import ButtonGroup from "@mui/material/ButtonGroup";
+import Typography from "@mui/material/Typography";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { useTheme } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import quinnAvatar from "../../assets/avatar.jpg";
+import { Marginer } from "../../css/CommonStyle";
 
 const containerBoxStyle = {
   borderRadius: "19px",
