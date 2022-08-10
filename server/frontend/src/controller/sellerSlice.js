@@ -143,7 +143,7 @@ const sellerSlice = createSlice({
           productDataset.push({
             name: product.name,
             Quantity: quantity,
-            Incomes: sum,
+            // Incomes: sum,
           });
         }
         productDataset.sort((a, b) => {
